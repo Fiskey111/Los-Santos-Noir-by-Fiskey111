@@ -1,0 +1,131 @@
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\L.S. Noire.csprojResolveAssemblyReference.cache
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\L.S. Noire.dll.config
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\Fiskey111Common.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\LSPD First Response.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\LtFlash.Common.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\RagePluginHookSDK.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\LSPD First Response.pdb
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\RagePluginHookSDK.xml
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\bin\x64\Debug\Gwen.dll
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\LSNoire.evidence_form.resources
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\Notsolethalpolicing.MDT.main_form.resources
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\L.S. Noire.csproj.GenerateResource.Cache
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\LSNoire.witness_form.resources
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\LSNoire.reports_form.resources
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\LSNoire.lab_form.resources
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\LSNoire.warrant_form.resources
+C:\Users\cfisk_000\Downloads\la_noire (1)\la_noire\source\L.S.-Noire-master\LSNoire\obj\x64\Debug\LSNoire.warrant_request_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\bin\x64\Debug\L.S. Noire.dll.config
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\bin\x64\Debug\L.S. Noire.dll
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\bin\x64\Debug\L.S. Noire.pdb
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\bin\x64\Debug\LSPD First Response.pdb
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\bin\x64\Debug\RagePluginHookSDK.xml
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\L.S. Noire.csprojResolveAssemblyReference.cache
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\LSNoire.warrant_request_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\LSNoire.reports_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\LSNoire.lab_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\LSNoire.warrant_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\LSNoire.witness_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\LSNoire.evidence_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\Notsolethalpolicing.MDT.main_form.resources
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\L.S. Noire.csproj.GenerateResource.Cache
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\L.S. Noire.dll
+F:\GTA Mod Development\Repos\L.S.Noire\LSNoire\obj\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\L.S. Noire.dll.config
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\Fiskey111Common.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\Gwen.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\LSPD First Response.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\LtFlash.Common.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\RagePluginHookSDK.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\LSPD First Response.pdb
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\RagePluginHookSDK.xml
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.csprojResolveAssemblyReference.cache
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.warrant_request_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.reports_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.lab_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.warrant_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.witness_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.evidence_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\Notsolethalpolicing.MDT.main_form.resources
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.csproj.GenerateResource.Cache
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\BetterEMS.dll
+C:\Users\cfisk_000\Source\Repos\L.S.Noire_final\LSNoire\bin\x64\Debug\RAGENativeUI.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\L.S. Noire.dll.config
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\Fiskey111Common.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\LSPD First Response.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\LtFlash.Common.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\RAGENativeUI.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\LSPD First Response.pdb
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\RagePluginHookSDK.xml
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.csprojResolveAssemblyReference.cache
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.warrant_request_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.reports_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.lab_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.warrant_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.witness_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\LSNoire.evidence_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\Notsolethalpolicing.MDT.main_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.csproj.GenerateResource.Cache
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\obj\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\Gwen.dll
+C:\Users\cfisk\Desktop\L.S.Noire_final\LSNoire\bin\x64\Debug\RagePluginHookSDK.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\L.S. Noire.dll.config
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\Fiskey111Common.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\Gwen.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\LSPD First Response.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\LtFlash.Common.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\RAGENativeUI.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\RagePluginHookSDK.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\LSPD First Response.pdb
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\bin\x64\Debug\RagePluginHookSDK.xml
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.csprojResolveAssemblyReference.cache
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoire.warrant_request_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoire.reports_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoire.lab_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoire.warrant_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoire.witness_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoire.evidence_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\Notsolethalpolicing.MDT.main_form.resources
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.csproj.GenerateResource.Cache
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk\Desktop\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.csprojResolveAssemblyReference.cache
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.csproj.GenerateResource.Cache
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\L.S. Noire.dll.config
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\L.S. Noire.dll
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\L.S. Noire.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\Fiskey111Common.dll
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\Fiskey111Common.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\LSPD First Response.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\RagePluginHookSDK.xml
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\BetterEMS.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\BetterEMS.xml
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\Notsolethalpolicing.MDT.MainForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\LtFlash.Common.pdb
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\BetterEMS.dll
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\LtFlash.Common.dll
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.MessageBoxForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.VictimForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.WarrantRequestForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.ReportsForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.LabForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.WarrantForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.WitnessForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Debug\LSNoir.EvidenceForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\RagePROletariat.dll
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\bin\x64\Debug\RagePROletariat.pdb

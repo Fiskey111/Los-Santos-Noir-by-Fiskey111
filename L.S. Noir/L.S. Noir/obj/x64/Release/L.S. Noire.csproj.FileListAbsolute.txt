@@ -1,0 +1,10 @@
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.MessageBoxForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.VictimForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.WarrantRequestForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.ReportsForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.LabForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.WarrantForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.WitnessForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\LSNoire.EvidenceForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\Notsolethalpolicing.MDT.MainForm.resources
+C:\Users\cfisk\Desktop\Coding\Callouts\L.S.Noire final\LSNoire\obj\x64\Release\L.S. Noire.csproj.GenerateResource.Cache

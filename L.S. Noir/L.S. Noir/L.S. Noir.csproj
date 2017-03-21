@@ -1,0 +1,281 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{40290DE5-3024-417F-8B27-3B4348B47015}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>LSNoir</RootNamespace>
+    <AssemblyName>L.S. Noir</AssemblyName>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BetterEMS">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\BetterEMS.dll</HintPath>
+    </Reference>
+    <Reference Include="Fiskey111Common, Version=1.12.27.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Fiskey111Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Gwen">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Gwen.dll</HintPath>
+    </Reference>
+    <Reference Include="LSPD First Response, Version=0.3.38.5436, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPD First Response.dll</HintPath>
+    </Reference>
+    <Reference Include="LtFlash.Common">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\LtFlash.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="RAGENativeUI">
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\RAGENativeUI.dll</HintPath>
+    </Reference>
+    <Reference Include="RagePluginHookSDK, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\SDK\RagePluginHookSDK.dll</HintPath>
+    </Reference>
+    <Reference Include="RagePROletariat, Version=0.1.6255.4456, Culture=neutral, processorArchitecture=AMD64">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\RagePROletariat.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="APIWrapper.cs" />
+    <Compile Include="Callouts\GameScript.cs" />
+    <Compile Include="Callouts\SA\Commons\ScenarioHelper.cs" />
+    <Compile Include="Callouts\SA\Commons\TestWait.cs" />
+    <Compile Include="Callouts\SA\Commons\WarrantRequestor.cs" />
+    <Compile Include="Callouts\SA\Computer\Background.cs" />
+    <Compile Include="Callouts\SA\Computer\evidence_code.cs" />
+    <Compile Include="Callouts\SA\Computer\evidence_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\evidence_form.Designer.cs">
+      <DependentUpon>evidence_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\lab_code.cs" />
+    <Compile Include="Callouts\SA\Computer\lab_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\lab_form.Designer.cs">
+      <DependentUpon>lab_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\main_code.cs" />
+    <Compile Include="Callouts\SA\Computer\main_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\main_form.Designer.cs">
+      <DependentUpon>main_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\MessageBoxCode.cs" />
+    <Compile Include="Callouts\SA\Computer\MessageBoxForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\MessageBoxForm.Designer.cs">
+      <DependentUpon>MessageBoxForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\reports_code.cs" />
+    <Compile Include="Callouts\SA\Computer\reports_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\reports_form.Designer.cs">
+      <DependentUpon>reports_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\victim_code.cs" />
+    <Compile Include="Callouts\SA\Computer\victim_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\victim_form.Designer.cs">
+      <DependentUpon>victim_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\warrant_code.cs" />
+    <Compile Include="Callouts\SA\Computer\warrant_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\warrant_form.Designer.cs">
+      <DependentUpon>warrant_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\warrant_request_code.cs" />
+    <Compile Include="Callouts\SA\Computer\warrant_request_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\warrant_request_form.Designer.cs">
+      <DependentUpon>warrant_request_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\witness_code.cs" />
+    <Compile Include="Callouts\SA\Computer\witness_form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Callouts\SA\Computer\witness_form.Designer.cs">
+      <DependentUpon>witness_form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Callouts\SA\Creators\ConversationCreator.cs" />
+    <Compile Include="Callouts\SA\Creators\Interrogation_Creator.cs" />
+    <Compile Include="Callouts\SA\Data\CaseData.cs" />
+    <Compile Include="Callouts\SA\Data\EvidenceData.cs" />
+    <Compile Include="Callouts\SA\Data\PedData.cs" />
+    <Compile Include="Callouts\SA\Data\ReportData.cs" />
+    <Compile Include="Callouts\SA\Data\WitnessData.cs" />
+    <Compile Include="Callouts\SA\Interaction\HelpMenu.cs" />
+    <Compile Include="Callouts\SA\Interaction\SecurityCamera.cs" />
+    <Compile Include="Callouts\SA\Interaction\TimerBar.cs" />
+    <Compile Include="Callouts\SA\Objects\Cop.cs" />
+    <Compile Include="Callouts\SA\Objects\StageData.cs" />
+    <Compile Include="Callouts\SA\Objects\StageObject.cs" />
+    <Compile Include="Callouts\SA\RegisterSAStages.cs" />
+    <Compile Include="Callouts\SA\Services\Camera.cs" />
+    <Compile Include="Callouts\SA\Services\Coroner.cs" />
+    <Compile Include="Callouts\SA\Services\EMS.cs" />
+    <Compile Include="Callouts\SA\Services\EvidencePed.cs" />
+    <Compile Include="Callouts\SA\Services\Hospitals.cs" />
+    <Compile Include="Callouts\SA\Services\Interfaces.cs" />
+    <Compile Include="Callouts\SA\Services\PoliceStations.cs" />
+    <Compile Include="Callouts\SA\Services\ServiceBase.cs" />
+    <Compile Include="Callouts\SA\Services\SpawnPoint.cs" />
+    <Compile Include="Callouts\SA\Services\Transport.cs" />
+    <Compile Include="Callouts\SA\Services\Witness.cs" />
+    <Compile Include="Callouts\SA\SocialMediaDrawer.cs" />
+    <Compile Include="Callouts\SA\Stages\CSI\CsiCreator.cs" />
+    <Compile Include="Callouts\SA\Stages\CSI\Sa1Csi.cs" />
+    <Compile Include="Callouts\SA\Stages\ME\ME_Creator.cs" />
+    <Compile Include="Callouts\SA\Stages\ME\Sa_2BMedicalExaminer.cs" />
+    <Compile Include="Callouts\SA\Stages\Sa_2aHospital.cs" />
+    <Compile Include="Callouts\SA\Stages\Sa_2CStation.cs" />
+    <Compile Include="Callouts\SA\Stages\Sa_3b_Wait.cs" />
+    <Compile Include="Callouts\SA\Stages\SA_3_VictimFamily.cs" />
+    <Compile Include="Callouts\SA\Stages\Sa_4ASuspectHome.cs" />
+    <Compile Include="Callouts\SA\Stages\Sa_4BWait.cs" />
+    <Compile Include="Callouts\SA\Stages\Sa_4CSuspectWork.cs" />
+    <Compile Include="Callouts\Universal\AnimationData.cs" />
+    <Compile Include="Callouts\Universal\BigMessage.cs" />
+    <Compile Include="Callouts\Universal\Computer.cs" />
+    <Compile Include="Callouts\Universal\ComputerController.cs" />
+    <Compile Include="Callouts\Universal\Interrogation.cs" />
+    <Compile Include="Callouts\Universal\InterrogationData.cs" />
+    <Compile Include="Callouts\Universal\InterrogationLines.cs" />
+    <Compile Include="Callouts\Universal\MissionFailed.cs" />
+    <Compile Include="Callouts\Universal\MissionPassed.cs" />
+    <Compile Include="Callouts\Universal\MissionPassedHandler.cs" />
+    <Compile Include="Callouts\Universal\UpdatedDialog.cs" />
+    <Compile Include="Extensions\ExtensionMethods.cs" />
+    <Compile Include="Extensions\NotificationExtensionMethods.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="PoliceStationCheck.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RagePro\Licensing.cs" />
+    <Compile Include="Settings\OfficerDataCommon_Darkmyre.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Startup\DependencyCheck.cs" />
+    <Compile Include="Startup\INIChecker.cs" />
+    <Compile Include="Startup\PluginCheck.cs" />
+    <Compile Include="Startup\RageCheck.cs" />
+    <Compile Include="Startup\RegisterStage.cs" />
+    <Compile Include="Startup\VersionCheck.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Callouts\SA\XMLs\CaseData.xml" />
+    <Content Include="Callouts\SA\XMLs\EvidenceData.xml" />
+    <Content Include="Callouts\SA\XMLs\PedData.xml" />
+    <Content Include="Callouts\SA\XMLs\ReportData.xml" />
+    <Content Include="Callouts\SA\XMLs\SA_Data.xml" />
+    <Content Include="Callouts\SA\XMLs\SceneData.xml" />
+    <Content Include="Callouts\SA\XMLs\ServiceCoordinates.xml" />
+    <EmbeddedResource Include="RagePro\PublicKey.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Callouts\Murder\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Callouts\SA\Computer\evidence_form.resx">
+      <DependentUpon>evidence_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\lab_form.resx">
+      <DependentUpon>lab_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\main_form.resx">
+      <DependentUpon>main_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\MessageBoxForm.resx">
+      <DependentUpon>MessageBoxForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\reports_form.resx">
+      <DependentUpon>reports_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\victim_form.resx">
+      <DependentUpon>victim_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\warrant_form.resx">
+      <DependentUpon>warrant_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\warrant_request_form.resx">
+      <DependentUpon>warrant_request_form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Callouts\SA\Computer\witness_form.resx">
+      <DependentUpon>witness_form.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetFileName)"
+copy /Y "$(TargetDir)\$(TargetName).pdb" "C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetName).pdb"</PostBuildEvent>
+  </PropertyGroup>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
