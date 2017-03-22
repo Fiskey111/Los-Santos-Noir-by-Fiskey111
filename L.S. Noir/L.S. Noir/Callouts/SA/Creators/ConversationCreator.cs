@@ -4,6 +4,7 @@ using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using System.Collections.Generic;
+using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 
 namespace LSNoir.Callouts.SA.Creators

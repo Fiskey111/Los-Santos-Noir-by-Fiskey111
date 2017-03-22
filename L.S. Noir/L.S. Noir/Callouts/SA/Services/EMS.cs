@@ -1,4 +1,5 @@
 ﻿using LSNoir.Callouts.SA.Data;
+using LSNoir.Callouts.Universal;
 using Rage;
 using Rage.Native;
 

@@ -418,12 +418,13 @@ namespace LSNoir.Callouts
                 _meDialog = new Dialog(ConversationCreator.DialogLineCreator(ConversationCreator.ConversationType.MedicalExaminer, MeCreator.MedicalExaminer.Ped, 0, false, vicData, susData), MeCreator.MedicalExaminer.Ped.Position);
                 _meDialog.AddPed(0, Game.LocalPlayer.Character);
                 _meDialog.AddPed(1, MeCreator.MedicalExaminer.Ped);
+                _meDialog.DisableFirstKeypress = false;
 
                 _meDialog.DistanceToStop = 6f;
 
                 Vector3 markerPos = new Vector3(MeCreator.MedicalExaminer.Ped.Position.X, MeCreator.MedicalExaminer.Ped.Position.Y, MeCreator.MedicalExaminer.Ped.AbovePosition.Z);
 
-                Fiskey111Common.Marker.StartMarker(MeCreator.MedicalExaminer.Ped.Position, System.Drawing.Color.Green, true);
+                Fiskey111Common.Marker.StartMarker(new Vector3(237.67f, -1367.89f, 39.53f), System.Drawing.Color.Green, true, false, true);
                 "Notified to go speak to ME".AddLog();
                 Game.DisplayHelp("Go talk to the ~g~Medical Examiner~w~ in the office");
                 Vector3 p7Pos = new Vector3(MeCreator.MedicalExaminer.Ped.Position.X, MeCreator.MedicalExaminer.Ped.Position.Y, MeCreator.MedicalExaminer.Ped.AbovePosition.Z + 1.5f);

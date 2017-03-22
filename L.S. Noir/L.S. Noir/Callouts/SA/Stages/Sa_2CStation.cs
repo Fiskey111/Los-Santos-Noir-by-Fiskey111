@@ -84,7 +84,7 @@ namespace LSNoir.Callouts
                             }
                         case 2:
                         {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_one) < 1f)
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_one) < 2f)
                                 {
                                     Marker.CreateMarker.Abort();
                                     _marker = 3;
@@ -100,7 +100,7 @@ namespace LSNoir.Callouts
                             }
                         case 4:
                         {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_two) < 1f)
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_two) < 2f)
                                 {
                                     Marker.CreateMarker.Abort();
                                     _marker = 5;
@@ -116,7 +116,7 @@ namespace LSNoir.Callouts
                             }
                         case 6:
                         {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_three) < 1f)
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_three) < 2f)
                                 {
                                     Marker.CreateMarker.Abort();
                                     _marker = 7;
@@ -132,7 +132,7 @@ namespace LSNoir.Callouts
                             }
                         case 8:
                         {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_four) < 1f)
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_four) < 2f)
                                 {
                                     Marker.CreateMarker.Abort();
                                     _marker = 9;
@@ -230,17 +230,5 @@ namespace LSNoir.Callouts
             SetScriptFinished(true);
         }
 
-        private static void RunComputer()
-        {
-            Game.IsPaused = true;
-            Computer.StartComputerHandler();
-            Computer.Controller.StartFiber(ComputerController.Fibers.MainFiber);
-            Background.EnableBackground("form_background.jpg");
-            while (Computer.Controller.IsRunning)
-                GameFiber.Yield();
-            Game.IsPaused = false;
-            _startedComp = false;
-            Game.DisplayHelp("When finished, leave the station to complete the stage.");
-        }
     }
 }

@@ -1,11 +1,11 @@
-﻿using AnimationDatabase;
-using Rage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using AnimationDatabase;
 using LSNoir.Extensions;
+using Rage;
 using Rage.Native;
 
-namespace LSNoir.Callouts.SA.Data
+namespace LSNoir.Callouts.Universal
 {
     public class DialogLine
     {

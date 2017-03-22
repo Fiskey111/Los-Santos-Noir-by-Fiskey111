@@ -95,6 +95,8 @@ namespace LSNoir.Callouts.SA.Stages
 
             UpdateandSaveCaseData();
 
+            _caseData = LoadItemFromXML<CaseData>(Main.CDataPath);
+
             DisplayCallout();
 
             _dispEmsTo = new Services.SpawnPoint(CsiCreator.EmsLast.Heading, CsiCreator.EmsLast.Position);
@@ -116,6 +118,7 @@ namespace LSNoir.Callouts.SA.Stages
             _caseData.SecCamSpawn = CsiCreator.SecCamSpawnPoint;
             _caseData.SusSpawnPoint = CsiCreator.SusSpawnPoint;
             _caseData.SusTarget = CsiCreator.SusTargetPoint;
+            SaveItemToXML<CaseData>(_caseData, Main.CDataPath);
         }
 
         private void DisplayCallout()
@@ -253,7 +256,7 @@ namespace LSNoir.Callouts.SA.Stages
                         Wit1Dialog.DisableFirstKeypress = false;
 
                         _wit1Data.Conversation = Wit1Dialog.Dialogue;
-                        _wDataIDs.Add(1);
+                        _caseData.WitnessIDs.Add(1);
                         _wDataList.Add(_wit1Data);
                         _witList.Add(_wit1, Wit1Dialog);
                         GameFiber.Sleep(0500);
@@ -290,7 +293,7 @@ namespace LSNoir.Callouts.SA.Stages
                         _wit2.Dialog = Wit2Dialog;
 
                         _wit2Data.Conversation = Wit2Dialog.Dialogue;
-                        _wDataIDs.Add(2);
+                        _caseData.WitnessIDs.Add(2);
                         _wDataList.Add(_wit2Data);
                         _witList.Add(_wit2, Wit2Dialog);
                         GameFiber.Sleep(0500);
@@ -444,12 +447,10 @@ namespace LSNoir.Callouts.SA.Stages
             {
                 if (!obj.Exists()) continue;
 
-                if (_witList[obj].IsRunning) continue;
+                if (_witList[obj].IsRunning || obj.IsCollected) continue;
 
                 if (Game.LocalPlayer.Character.Position.DistanceTo(obj.Ped.Position) < 2f)
-                {
                     _witList[obj].StartDialog();
-                }
             }
         }
         float heading;
@@ -502,6 +503,7 @@ namespace LSNoir.Callouts.SA.Stages
             if (Game.IsKeyDown(Keys.Y) && !FoDialog.IsRunning)
             {
                 _missionValue = _missionValue + 5;
+                $"Mission value changed to: {_missionValue}".AddLog();
                 FoDialog.StartDialog();
                 _caseData.SajrsUpdates.Add("Obtained report from First Officer");
             }
@@ -543,9 +545,10 @@ namespace LSNoir.Callouts.SA.Stages
 
             if (_emscollect && !_emstransport)
             {
-                _missionValue = _missionValue + 5;
                 if (!_informed)
                 {
+                    _missionValue = _missionValue + 5;
+                    $"Mission value changed to: {_missionValue}".AddLog();
                     InformCoroner();
                 }
 
@@ -595,6 +598,7 @@ namespace LSNoir.Callouts.SA.Stages
             if (!CsiCreator.Victim.Checked) return;
 
             _missionValue = _missionValue + 5;
+            $"Mission value changed to: {_missionValue}".AddLog();
 
             _vicCheck = true;
             "Victim Checked".AddLog();
@@ -619,7 +623,6 @@ namespace LSNoir.Callouts.SA.Stages
         {
             if (_emscollect) return true;
             
-                _missionValue = _missionValue + 5;
             if (_betteremsSupport)
             {
                 if (ApiWrapper.WasPedRevived(CsiCreator.Victim.Ped) != false) return false;
@@ -628,6 +631,8 @@ namespace LSNoir.Callouts.SA.Stages
                 "BetterEMS Collected".AddLog();
                 "Sexual Assault Case Update".DisplayNotification("EMS Report \nAdded to ~b~SAJRS");
                 _caseData.SajrsUpdates.Add("Obtained report from Paramedic");
+                _missionValue = _missionValue + 5;
+                $"Mission value changed to: {_missionValue}".AddLog();
                 return true;
             }
             else if (_ems.IsCollected)
@@ -636,6 +641,8 @@ namespace LSNoir.Callouts.SA.Stages
                 "LtFlashEMS Collected".AddLog();
                 "Sexual Assault Case Update".DisplayNotification("EMS Report \nAdded to ~b~SAJRS");
                 _caseData.SajrsUpdates.Add("Obtained report from Paramedic");
+                _missionValue = _missionValue + 5;
+                $"Mission value changed to: {_missionValue}".AddLog();
                 return true;
             }
             else
@@ -720,7 +727,6 @@ namespace LSNoir.Callouts.SA.Stages
             foreach (var obj in _evidenceObjData.Keys.ToList())
             {
                 if (!obj.Checked || !obj.@object.Exists() || !_evidenceObjData.ContainsKey(obj)) continue;
-                _missionValue = _missionValue + 5;
                 _evidenceObjData[obj].Collected = true;
                 _evidenceObjData.Remove(obj);
             }
@@ -734,7 +740,15 @@ namespace LSNoir.Callouts.SA.Stages
             if (!(Vector3.Distance(Game.LocalPlayer.Character.Position, CsiCreator.Victim.Position) > 80f)) return;
 
             _missionValue = _missionValue + 15;
+            $"Mission value changed to: {_missionValue}".AddLog();
             SaveEndingData();
+
+            foreach (var obj in _evidenceObjData.Keys.ToList())
+            {
+                if (!obj.@object.Exists() || !obj.IsCollected) continue;
+                _missionValue = _missionValue + 5;
+                $"Mission value changed to: {_missionValue}".AddLog();
+            }
 
             var medal = MissionPassedScreen.Medal.Bronze;
             if (_missionValue > 60 && _missionValue < 85) medal = MissionPassedScreen.Medal.Silver;
@@ -747,22 +761,22 @@ namespace LSNoir.Callouts.SA.Stages
             handler.AddItem("Updated by EMS", "Completed", MissionPassedScreen.TickboxState.Tick);
             handler.AddItem("Body taken to ME", "Completed", MissionPassedScreen.TickboxState.Tick);
 
-            foreach (var obj in _eDataList)
+            foreach (var evid in _eDataList)
             {
-                if (obj.Collected) handler.AddItem(obj.Name, "Collected", MissionPassedScreen.TickboxState.Tick);
-                else handler.AddItem(obj.Name, "Missed", MissionPassedScreen.TickboxState.Empty);
+                if (evid.Collected) handler.AddItem(evid.Name, "Collected", MissionPassedScreen.TickboxState.Tick);
+                else handler.AddItem(evid.Name, "Missed", MissionPassedScreen.TickboxState.Empty);
             }
 
-            foreach (var obj in _evidenceObjData.Keys.ToList())
+            var witnessNum = 0;
+            foreach (var wit in _witList.Keys.ToList())
             {
-                if (!obj.@object.Exists()) continue;
-                if (obj.IsCollected) handler.AddItem(obj.Description, "Collected", MissionPassedScreen.TickboxState.Tick);
-                else handler.AddItem(obj.Description, "Missed", MissionPassedScreen.TickboxState.Empty);
+                witnessNum++;
+                var tick = wit.IsCollected
+                    ? MissionPassedScreen.TickboxState.Tick
+                    : MissionPassedScreen.TickboxState.Empty;
+                handler.AddItem($"Witness {witnessNum} Statement Taken", "", tick);
             }
-
-            for (int i = 1; i < _wDataList.Count; i++)
-                handler.AddItem($"Witness {i} Statement Taken", "Accepted", MissionPassedScreen.TickboxState.Tick);
-
+            
             handler.AddItem("Scene Cleared", "Completed", MissionPassedScreen.TickboxState.Tick);
             
             handler.Show();
@@ -790,6 +804,7 @@ namespace LSNoir.Callouts.SA.Stages
             SaveItemToXML<List<ReportData>>(_rDataList, Main.RDataPath);
             _eController.Dispose();
             _missionValue = _missionValue + 5;
+            $"Mission value changed to: {_missionValue}".AddLog();
         }
 
         protected override void End()

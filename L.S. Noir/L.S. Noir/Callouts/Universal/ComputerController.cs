@@ -28,7 +28,6 @@ namespace LSNoir.Callouts.Universal
 
         internal void StartFiber(Fibers fiber, CaseData data = null)
         {
-            Background.EnableBackground("form_background.jpg");
             if (data != null) CData = data;
             $"Starting {fiber}".AddLog(true);
             switch (fiber)
@@ -155,6 +154,7 @@ namespace LSNoir.Callouts.Universal
             {
                 if (CData == null) return;
 
+                Background.DisableBackground(Background.Type.Computer);
                 SecurityCamera.SecurityCameraStart(CData);
 
                 while (SecurityCamera.IsRunning)
