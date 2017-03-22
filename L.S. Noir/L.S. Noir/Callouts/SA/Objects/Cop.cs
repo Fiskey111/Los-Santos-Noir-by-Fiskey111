@@ -37,7 +37,7 @@ namespace LSNoir.Callouts.SA.Commons
             Ped.MakeMissionPed();
             Veh.MakeMissionVehicle();
             Ped.BlockPermanentEvents = true;
-            Ped.Tasks.Clear();
+            Ped.Tasks.StandStill(-1);
             copList?.Add(this);
         }
         //Secondary
@@ -58,13 +58,14 @@ namespace LSNoir.Callouts.SA.Commons
             IsSecondCop = true;
             Ped.MakeMissionPed();
             Ped.BlockPermanentEvents = true;
-            Ped.Tasks.Clear();
+            Ped.Tasks.StandStill(-1);
             copList?.Add(this);
         }
 
         public void EnterVehicle()
         {
             if (!Ped.Exists() || !Veh.Exists()) return;
+            Ped.Tasks.ClearImmediately();
             if (!IsSecondCop)
                 Ped.Tasks.EnterVehicle(Veh, -1);
             else
@@ -80,10 +81,7 @@ namespace LSNoir.Callouts.SA.Commons
         public void DriveToTargetPosition()
         {
             if (IsSecondCop) return;
-            Ped.Tasks.DriveToPosition(TargetPosition.Spawn, 16f,
-                VehicleDrivingFlags.YieldToCrossingPedestrians | VehicleDrivingFlags.AllowWrongWay |
-                VehicleDrivingFlags.DriveAroundObjects | VehicleDrivingFlags.DriveAroundVehicles |
-                VehicleDrivingFlags.FollowTraffic, 2f);
+            Ped.Tasks.FollowNavigationMeshToPosition(TargetPosition.Spawn, TargetPosition.Heading, 16f, 5f);
         }
 
         public void TurnOnSiren()

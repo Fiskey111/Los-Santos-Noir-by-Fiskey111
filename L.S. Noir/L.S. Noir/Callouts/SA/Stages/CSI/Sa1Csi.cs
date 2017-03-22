@@ -743,9 +743,9 @@ namespace LSNoir.Callouts.SA.Stages
             $"Mission value changed to: {_missionValue}".AddLog();
             SaveEndingData();
 
-            foreach (var obj in _evidenceObjData.Keys.ToList())
+            foreach (var obj in _evidenceObjData.Values.ToList())
             {
-                if (!obj.@object.Exists() || !obj.IsCollected) continue;
+                if (!obj.Collected) continue;
                 _missionValue = _missionValue + 5;
                 $"Mission value changed to: {_missionValue}".AddLog();
             }

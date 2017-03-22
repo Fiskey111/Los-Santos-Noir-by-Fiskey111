@@ -194,10 +194,12 @@ namespace LSNoir.Callouts.SA.Stages
 
         private void AwaitingArriveAtScene()
         {
-            if (!(Game.LocalPlayer.Character.Position.DistanceTo(_areaBlip.Position) < 25f)) return;
+            if (!(Game.LocalPlayer.Character.Position.DistanceTo(_areaBlip.Position) < 30f)) return;
             Functions.PlayScannerAudio("OFFICERS_AT_SCENE PROCEED_CAUTION");
             if (_areaBlip.Exists()) _areaBlip.Delete();
             
+            ContinueDrivingTask();
+
             SwapStages(AwaitingArriveAtScene, OnScene);
         }
 
