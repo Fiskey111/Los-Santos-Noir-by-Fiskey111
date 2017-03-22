@@ -114,6 +114,7 @@ namespace LSNoir.Callouts.Universal
                     }
 
                     if (!Game.IsKeyDown(InteractKey)) continue;
+                    Game.HideHelp();
                 }
 
                 Game.HideHelp();

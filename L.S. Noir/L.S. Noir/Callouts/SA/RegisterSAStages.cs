@@ -39,10 +39,14 @@ namespace LSNoir.Callouts.SA
                     ("Starting script from stage: " + cData.StartingStage).AddLog();
                     Asm.StartScript(cData.StartingStage);
                 }
-                
+
+                var stage = CaseData.LastStage.None;
+
+                if (cData.CompletedStages.Count > 0) stage = cData.CompletedStages.LastOrDefault();
+
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "L.S. Noir",
                     "Created by Fiskey111 and LtFlash",
-                    "Loading L.S. Noir...\n\nLast completed stage: ~y~" + ConvertEnumToReadableString(cData.CompletedStages.Last(), cData));
+                    "Loading L.S. Noir...\n\nLast completed stage: ~y~" + ConvertEnumToReadableString(stage, cData));
             });
         }
 

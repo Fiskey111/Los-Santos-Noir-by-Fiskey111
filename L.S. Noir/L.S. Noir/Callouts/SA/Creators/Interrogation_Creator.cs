@@ -243,7 +243,7 @@ namespace LSNoir.Callouts.SA.Creators
                                     "[~p~" + player +
                                     "~w~] Look, you have to know where they went. You weren't snooping on them or anything?",
                                     "[~y~" + pedName +
-                                    "~w~] You really think I would easedrop on them?! How dare you! I hope you catch the person, but I can't believe you'd say that."),
+                                    "~w~] You really think I would eavesdrop on them?! How dare you! I hope you catch the person, but I can't believe you'd say that."),
                             };
                             break;
                         case QuestionType.AnythingStrange:

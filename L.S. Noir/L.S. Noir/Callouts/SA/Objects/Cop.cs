@@ -36,6 +36,8 @@ namespace LSNoir.Callouts.SA.Commons
             TargetPosition = targetPos;
             Ped.MakeMissionPed();
             Veh.MakeMissionVehicle();
+            Ped.BlockPermanentEvents = true;
+            Ped.Tasks.Clear();
             copList?.Add(this);
         }
         //Secondary
@@ -55,6 +57,8 @@ namespace LSNoir.Callouts.SA.Commons
             Functions.SetCopAsBusy(Ped, true);
             IsSecondCop = true;
             Ped.MakeMissionPed();
+            Ped.BlockPermanentEvents = true;
+            Ped.Tasks.Clear();
             copList?.Add(this);
         }
 

@@ -92,13 +92,23 @@ namespace LSNoir.Callouts.SA.Stages
             SwapStages(AwaitingArrival, AwaitingExitVehicle);
         }
 
-        private bool _timePicked = false, _notified = false;
+        private bool _timePicked, _notified;
         private static uint _notification;
         private void AwaitingExitVehicle()
         {
             if (Game.LocalPlayer.Character.IsInAnyVehicle(false)) return;
-            
-            if (!_notified) DisplayNotification();
+
+            if (!_notified)
+            {
+                _notified = true;
+                var hr = World.DateTime.Hour.ToString();
+                Game.DisplayHelp("Decide when you would like the raid to occur" +
+                                                         "\nMorning (0600) ~y~1~w~" +
+                                                         "\nMidday (1200) ~y~2~q~" +
+                                                         "\nEvening (1800) ~y~3~w~" +
+                                                         "\nNight (2300) ~y~4~w~" +
+                                                         $"\nCurrent Time {hr}00 ~y~5~w~", true);
+            }
 
             var time = 0;
 
@@ -116,6 +126,7 @@ namespace LSNoir.Callouts.SA.Stages
             if (time == 0) return;
 
             _timePicked = true;
+            Game.HideHelp();
 
             if (time != 1)
                 TimeWarp(time);
@@ -125,27 +136,6 @@ namespace LSNoir.Callouts.SA.Stages
 
                 SwapStages(AwaitingExitVehicle, AwaitingAcceptance);
             }
-        }
-
-        private void DisplayNotification()
-        {
-            GameFiber.StartNew(delegate
-            {
-                while (!_timePicked)
-                {
-                    var hr = World.DateTime.Hour.ToString();
-                    var min = World.DateTime.Minute.ToString();
-                    Game.RemoveNotification(_notification);
-                    _notification = Game.DisplayNotification("Decide when you would like the raid to occur" +
-                                                             "\nMorning (0600) ~y~1~w~" +
-                                                             "\nMidday (1200) ~y~2~q~" +
-                                                             "\nEvening (1800) ~y~3~w~" +
-                                                             "\nNight (2300) ~y~4~w~" +
-                                                             $"\nCurrent Time {hr}00 ~y~5~w~");
-                    GameFiber.Sleep(3000);
-                    GameFiber.Yield();
-                }
-            });
         }
 
         private void TimeWarp(int time)

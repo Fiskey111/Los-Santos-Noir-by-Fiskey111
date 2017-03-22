@@ -154,8 +154,7 @@ namespace LSNoir.Callouts
             foreach (var q in _interrogation.QuestionList)
             {
                 var correct = q.Value ? "Correct" : "Incorrect";
-                var tick = q.Value ? MissionPassedScreen.TickboxState.Tick : MissionPassedScreen.TickboxState.None;
-                handler.AddItem($"Question {_interrogation.QuestionList[q.Key]}", correct, tick);
+                handler.AddItem($"Question {_interrogation.QuestionList[q.Key]}", correct, MissionPassedScreen.TickboxState.None);
             }
 
             handler.Show();

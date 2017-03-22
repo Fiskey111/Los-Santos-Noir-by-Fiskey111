@@ -16,7 +16,7 @@ namespace LSNoir.Callouts
     {
         private Vector3 _position;
         private Blip _StationBlip;
-        public static bool OpenedForm, _startedComp;
+        public static bool OpenedForm, _startedComp, notified;
         private static CaseData _cData;
 
         protected override bool Initialize()
@@ -157,28 +157,30 @@ namespace LSNoir.Callouts
                 Marker.StartMarker(_position, Color.Yellow);
             }
 
-            if (Game.LocalPlayer.Character.Position.DistanceTo(_position) < 1.5f && !OpenedForm)
+            if (Game.LocalPlayer.Character.Position.DistanceTo(_position) < 1.5f)
             {
-                Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer", true);
+                if (!notified)
+                {
+                    notified = true;
+                    Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer", true);
+                }
                 if (Game.IsKeyDown(Settings.ComputerKey()) && !_startedComp)
                 {
+                    OpenedForm = true;
                     _startedComp = true;
-
                     Game.IsPaused = true;
                     Computer.StartComputerHandler();
-                    Computer.Controller.StartFiber(ComputerController.Fibers.MainFiber);
 
-                    while (Computer.Controller.IsRunning)
+                    while (Computer.IsRunning)
                         GameFiber.Yield();
-
-                    Background.DisableBackground(Background.Type.Computer);
-                    Computer.Controller.AbortFiber(Computer.Controller.MainFiber);
+                    "IsRunning = false".AddLog();
                     Game.IsPaused = false;
                     _startedComp = false;
                 }
             }
             if (OpenedForm && Game.LocalPlayer.Character.Position.DistanceTo(_position) >= 30f)
             {
+                Game.HideHelp();
                 var susAcq = false;
                 _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
                 if (!string.IsNullOrWhiteSpace(_cData.CurrentSuspect))

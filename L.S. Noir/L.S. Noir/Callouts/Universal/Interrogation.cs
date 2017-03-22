@@ -127,6 +127,7 @@ namespace LSNoir.Callouts.Universal
                     if (Game.IsKeyDown(InteractKey))
                     {
                         "Interact Key Pressed".AddLog();
+                        Game.HideHelp();
                         break;
                     }
                 }

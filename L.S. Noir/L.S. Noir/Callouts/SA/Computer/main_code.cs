@@ -242,7 +242,7 @@ namespace LSNoir
         {
             Background.DisableBackground(Background.Type.Computer);
             Window.Close();
-            Computer.Controller.AbortFiber(Computer.Controller.MainFiber);
+            Computer.AbortController();
         }
         #endregion     
     }

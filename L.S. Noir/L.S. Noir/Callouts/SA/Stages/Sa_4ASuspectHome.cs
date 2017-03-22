@@ -5,11 +5,13 @@ using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Forms;
 using LSNoir.Extensions;
 using System.Drawing;
 using LSNoir.Callouts.Universal;
+using RAGENativeUI.Elements;
 using static LtFlash.Common.Serialization.Serializer;
 
 namespace LSNoir.Callouts
@@ -88,6 +90,9 @@ namespace LSNoir.Callouts
             {
                 _notified = true;
                 Game.DisplayHelp("While you don't have enough information to arrest the ~r~suspect~w~ nothing is stopping you from have a conversation!");
+                _one.Tasks.Clear();
+                GameFiber.Sleep(1000);
+                _one.Face(Game.LocalPlayer.Character);
             }
 
             if (Game.LocalPlayer.Character.Position.DistanceTo(_oneSpawn.Spawn) < 3f && !_beginDialogue)
@@ -109,6 +114,7 @@ namespace LSNoir.Callouts
                 _sReportData = new ReportData(ReportData.Service.SusFamily, _one, _interrogation.InterrgoationText);
                 _leaveNotified = true;
                 Game.DisplayHelp("It looks like the ~r~suspect~w~ is done talking, leave the scene before you lose the case");
+                StartTimer();
             }
 
             if (_interrStarted && Game.LocalPlayer.Character.DistanceTo(_one) > 20f)
@@ -116,7 +122,7 @@ namespace LSNoir.Callouts
                 if (!_interrogation.HasEnded) return;
 
                 var value = _interrogation.QuestionList.Where(q => q.Value == false)
-                    .Aggregate(100, (current, q) => current - 10);
+                    .Aggregate(100, (current, q) => current - 15);
 
                 var medal = MissionPassedScreen.Medal.Gold;
                 if (value >= 80 && value < 100) medal = MissionPassedScreen.Medal.Silver;
@@ -128,8 +134,7 @@ namespace LSNoir.Callouts
                 foreach (var q in _interrogation.QuestionList)
                 {
                     var correct = q.Value ? "Correct" : "Incorrect";
-                    var tick = q.Value ? MissionPassedScreen.TickboxState.Tick : MissionPassedScreen.TickboxState.None;
-                    handler.AddItem($"Question {_interrogation.QuestionList[q.Key]}", correct, tick);
+                    handler.AddItem($"Question {_interrogation.QuestionList[q.Key]}", correct, MissionPassedScreen.TickboxState.None);
                 }
 
                 handler.Show();
@@ -157,6 +162,37 @@ namespace LSNoir.Callouts
             if (_areaBlip.Exists()) _areaBlip.Delete();
             if (_one) _one.Dismiss();
             SetScriptFinished(true);
+        }
+
+        private void StartTimer()
+        {
+            GameFiber.StartNew(delegate
+            {
+                var sw = new Stopwatch();
+                sw.Start();
+                while (Game.LocalPlayer.Character.Position.DistanceTo(_one) < 20f)
+                {
+                    if (sw.Elapsed.Seconds > 30)
+                    {
+                        CaseLost();
+                        sw.Stop();
+                    }
+                    GameFiber.Yield();
+                }
+                sw.Stop();
+            });
+        }
+
+        private void CaseLost()
+        {
+            MissionFailedScreen failed = new MissionFailedScreen("Violated suspect rights");
+            failed.Show();
+            while (!Game.IsKeyDown(Keys.Enter))
+            {
+                failed.Draw();
+                GameFiber.Yield();
+            }
+            this.Attributes.NextScripts.Clear();
         }
     }
 }

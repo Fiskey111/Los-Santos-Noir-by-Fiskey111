@@ -94,7 +94,7 @@ namespace LSNoir.Callouts.SA.Stages
             _caseData = LoadItemFromXML<CaseData>(Main.CDataPath);
 
             UpdateandSaveCaseData();
-
+            GameFiber.Sleep(1000);
             _caseData = LoadItemFromXML<CaseData>(Main.CDataPath);
 
             DisplayCallout();
