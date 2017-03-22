@@ -42,7 +42,7 @@ namespace LSNoir.Callouts.SA
                 
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "L.S. Noir",
                     "Created by Fiskey111 and LtFlash",
-                    "Loading L.S. Noir...\n\nLast completed stage: ~y~" + ConvertEnumToReadableString(cData.CompletedStages.LastOrDefault(), cData));
+                    "Loading L.S. Noir...\n\nLast completed stage: ~y~" + ConvertEnumToReadableString(cData.CompletedStages.Last(), cData));
             });
         }
 
