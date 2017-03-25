@@ -18,6 +18,7 @@ namespace LSNoir.Callouts
         private Blip _StationBlip;
         public static bool OpenedForm, _startedComp, notified;
         private static CaseData _cData;
+        private Marker _marker;
 
         protected override bool Initialize()
         {
@@ -59,7 +60,7 @@ namespace LSNoir.Callouts
             }
             return station;
         }
-        int _marker = 1;
+        int markNum = 1;
         Vector3 _one = new Vector3(434, -982, 31);
         Vector3 _two = new Vector3(445, -988, 31);
         Vector3 _three = new Vector3(447, -994, 31);
@@ -68,93 +69,48 @@ namespace LSNoir.Callouts
 
         protected override void Process()
         {
-            if (Game.LocalPlayer.Character.Position.DistanceTo(_position) < 35f && _position == new Vector3(460, -989, 25) && !_onscene)
-            {
-                _onscene = true;
-                if (_StationBlip) _StationBlip.Delete();
-                while (true)
-                {
-                    switch (_marker)
-                    {
-                        case 1:
-                            {
-                                Marker.StartMarker(_one, Color.Yellow, true);
-                                _marker = 2;
-                                goto case 2;
-                            }
-                        case 2:
-                        {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_one) < 2f)
-                                {
-                                    Marker.CreateMarker.Abort();
-                                    _marker = 3;
-                                    goto case 3;
-                                }
-                            break;
-                        }
-                        case 3:
-                            {
-                                Marker.StartMarker(_two, Color.Yellow, true);
-                                _marker = 4;
-                                goto case 4;
-                            }
-                        case 4:
-                        {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_two) < 2f)
-                                {
-                                    Marker.CreateMarker.Abort();
-                                    _marker = 5;
-                                    goto case 5;
-                                }
-                            break;
-                        }
-                        case 5:
-                            {
-                                Marker.StartMarker(_three, Color.Yellow, true);
-                                _marker = 6;
-                                goto case 6;
-                            }
-                        case 6:
-                        {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_three) < 2f)
-                                {
-                                    Marker.CreateMarker.Abort();
-                                    _marker = 7;
-                                    goto case 7;
-                                }
-                            break;
-                        }
-                        case 7:
-                            {
-                                Marker.StartMarker(_four, Color.Yellow, true);
-                                _marker = 8;
-                                goto case 8;
-                            }
-                        case 8:
-                        {
-                            if (Game.LocalPlayer.Character.Position.DistanceTo(_four) < 2f)
-                                {
-                                    Marker.CreateMarker.Abort();
-                                    _marker = 9;
-                                    _breakit = true;
-                                }
-                            break;
-                        }
-                    }
-                    if (_breakit)
-                    {
-                        Marker.StartMarker(_position, Color.Yellow, true);
-                        break;
-                    }
-                    GameFiber.Yield();
-                }
-            }
 
             if (Game.LocalPlayer.Character.Position.DistanceTo(_position) <= 25 && !_onscene && _position != new Vector3(460, -989, 25))
             {
                 _onscene = true;
                 if (_StationBlip) _StationBlip.Scale = 0.75f;
-                Marker.StartMarker(_position, Color.Yellow);
+                _marker = new Marker(_position, Color.Yellow);
+                _marker.Start();
+            }
+
+            if (Game.LocalPlayer.Character.Position.DistanceTo(_position) < 35f && _position == new Vector3(460, -989, 25) && !_onscene)
+            {
+                _onscene = true;
+                _marker = new Marker(_one, Color.Yellow);
+                _marker.Start();
+                if (_StationBlip) _StationBlip.Delete();
+                while (true)
+                {
+                    switch (markNum)
+                    {
+                        case 1:
+                            goto case 2;
+                        case 2:
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_one) < 2f) return;
+                                _marker.Position = _two;
+                            goto case 3;
+                        case 3:
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_two) < 2f) return;
+                            _marker.Position = _three;
+                            goto case 4;
+                        case 4:
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_three) < 2f) return;
+                            _marker.Position = _four;
+                            goto case 5;
+                        case 5:
+                            if (Game.LocalPlayer.Character.Position.DistanceTo(_four) < 2f) return;
+                            goto default;
+                        default:
+                            _marker.Position = _position;
+                            break;
+                    }
+                    GameFiber.Yield();
+                }
             }
 
             if (Game.LocalPlayer.Character.Position.DistanceTo(_position) < 1.5f)
@@ -163,6 +119,7 @@ namespace LSNoir.Callouts
                 {
                     notified = true;
                     Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer", true);
+                    _marker.Stop();
                 }
                 if (Game.IsKeyDown(Settings.ComputerKey()) && !_startedComp)
                 {

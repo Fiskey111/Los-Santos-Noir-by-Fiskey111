@@ -49,7 +49,7 @@ namespace LSNoir.Callouts.SA.Stages
             "Sexual Assault Case Update".DisplayNotification("Suspect ~g~confirmed~w~\nGPS coordinates downloading...");
 
             this.Attributes.NextScripts.Clear();
-            this.Attributes.NextScripts = new List<string>() { "Sa_4ASuspectHome" };
+            this.Attributes.NextScripts.Add("Sa_4ASuspectHome");
 
             SetScriptFinished();
         }

@@ -11,6 +11,7 @@ using Rage.Native;
 using AnimationDatabase;
 using LSNoir.Extensions;
 using LtFlash.Common;
+using Fiskey111Common;
 
 namespace StageCreator
 {
@@ -118,7 +119,7 @@ namespace StageCreator
                         Zvalue);
             if (MathHelper.GetRandomInteger(2) == 1 || force)
             {
-                string model = (string)PedList[Fiskey111Common.RandomNumberGenerator.RandomNumber().Next(1, PedList.Count)];
+                string model = (string)PedList[Rand.RandomNumber(1, PedList.Count)];
 
                 obj.Ped = new Ped(model, spawn.Position, spawn.Heading);
                 obj.Ped.RandomizeVariation();

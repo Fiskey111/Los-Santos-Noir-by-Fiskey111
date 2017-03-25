@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
+using Fiskey111Common;
 
 namespace LSNoir.Callouts.SA.Commons
 {
@@ -32,7 +33,7 @@ namespace LSNoir.Callouts.SA.Commons
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void VictimData(Ped ped, string injury, string cause, float survivability)
         {
-            int l = Fiskey111Common.RandomNumberGenerator.RandomNumber().Next(0100, 2400);
+            int l = Rand.RandomNumber(0100, 2400);
             BetterEMS.API.EMSFunctions.OverridePedDeathDetails(ped, injury, cause, Convert.ToUInt32(l), survivability);
         }
 

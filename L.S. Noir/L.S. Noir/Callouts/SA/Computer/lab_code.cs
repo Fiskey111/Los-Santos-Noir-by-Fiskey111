@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using Gwen.Control;
 using System.Diagnostics;
+using Fiskey111Common;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using static LtFlash.Common.Serialization.Serializer;
@@ -60,7 +61,7 @@ namespace LSNoir
                 if (!data.Collected) continue;
 
                 lab_item_box.AddRow(String.Format("{0}{1}",
-                    Fiskey111Common.RandomNumberGenerator.RandomNumber().Next(300, 333333).ToString().PadRight(15),
+                    Rand.RandomNumber(300, 333333).ToString().PadRight(15),
                     data.Name));
             }
         }

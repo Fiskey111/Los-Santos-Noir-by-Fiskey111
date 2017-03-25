@@ -27,7 +27,7 @@ namespace LSNoir.Callouts.SA.Stages
         private List<Cop> _copList = new List<Cop>();
 
         // Positions
-        private SpawnPoint _susSpawn;
+        private SpawnPt _susSpawn;
         private Vector3 _position;
 
         // Entities
@@ -102,9 +102,9 @@ namespace LSNoir.Callouts.SA.Stages
             {
                 _notified = true;
                 var hr = World.DateTime.Hour.ToString();
-                Game.DisplayHelp("Decide when you would like the raid to occur" +
+                Game.DisplayHelp("~w~Decide when you would like the raid to occur" +
                                                          "\nMorning (0600) ~y~1~w~" +
-                                                         "\nMidday (1200) ~y~2~q~" +
+                                                         "\nMidday (1200) ~y~2~w~" +
                                                          "\nEvening (1800) ~y~3~w~" +
                                                          "\nNight (2300) ~y~4~w~" +
                                                          $"\nCurrent Time {hr}00 ~y~5~w~", true);
@@ -146,7 +146,6 @@ namespace LSNoir.Callouts.SA.Stages
                 var checkTime = time;
                 while (World.DateTime.Hour != checkTime)
                 {
-                    World.DateTime.Minute.ToString().AddLog();
                     var finalDate = World.DateTime.AddMinutes(1d);
                     World.DateTime = finalDate;
                     GameFiber.Yield();
@@ -216,8 +215,10 @@ namespace LSNoir.Callouts.SA.Stages
                 {
                     foreach (var cop in _copList.Where(c => c.Position.DistanceTo(c.TargetPosition.Spawn) <= 7f && c.Ped.IsInAnyVehicle(false)))
                     {
+                        if (!cop.Ped) return;
                         if (MathHelper.GetRandomInteger(3) == 1 && !cop.IsSecondCop) cop.TurnOnSiren();
                         cop.ExitVehicle();
+                        cop.SetNotBusy();
                         if (cop.IsSecondCop) cop.Ped.Tasks.GoToOffsetFromEntity(Game.LocalPlayer.Character, MathHelper.GetRandomSingle(0, 4f),
                             MathHelper.GetRandomSingle(0, 4f), 8f);
                     }             
@@ -386,19 +387,19 @@ namespace LSNoir.Callouts.SA.Stages
         /// <param name="location">e.g. Mortuary, etc</param>
         /// <param name="type">Location/Meeting/Suspect</param>
         /// <param name="name">P1/T1 or Wall/Clip/Clip2/Tool/Phone</param>
-        private SpawnPoint GetLocation(string location, string type, string name)
+        private SpawnPt GetLocation(string location, string type, string name)
         {
             try
             {
                 var loc = "SusWork/" + location + "/" + type + "/" + name;
 
-                return new SpawnPoint(float.Parse(Xml.Root.XPathSelectElement(loc + "/h").Value, CultureInfo.InvariantCulture), float.Parse(Xml.Root.XPathSelectElement(loc + "/x").Value, CultureInfo.InvariantCulture),
+                return new SpawnPt(float.Parse(Xml.Root.XPathSelectElement(loc + "/h").Value, CultureInfo.InvariantCulture), float.Parse(Xml.Root.XPathSelectElement(loc + "/x").Value, CultureInfo.InvariantCulture),
                     float.Parse(Xml.Root.XPathSelectElement(loc + "/y").Value, CultureInfo.InvariantCulture), float.Parse(Xml.Root.XPathSelectElement(loc + "/z").Value, CultureInfo.InvariantCulture));
             }
             catch (Exception e)
             {
                 Game.LogTrivial("[L.S. Noir ERROR: " + e);
-                return new SpawnPoint(0, Vector3.Zero);
+                return new SpawnPt(0, Vector3.Zero);
             }
         }
 

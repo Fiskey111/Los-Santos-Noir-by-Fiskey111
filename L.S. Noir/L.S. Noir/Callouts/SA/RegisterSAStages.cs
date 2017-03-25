@@ -47,6 +47,8 @@ namespace LSNoir.Callouts.SA
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "L.S. Noir",
                     "Created by Fiskey111 and LtFlash",
                     "Loading L.S. Noir...\n\nLast completed stage: ~y~" + ConvertEnumToReadableString(stage, cData));
+
+                Game.DisplayHelp("You have loaded L.S. Noir!\nI would recommend disabling callouts for now if you're planning on working on the case.\n\nThis is a temporary fix, hopefully a permanent one will be available soon.");
             });
         }
 

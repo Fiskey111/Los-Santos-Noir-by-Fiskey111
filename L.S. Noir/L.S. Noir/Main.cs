@@ -46,6 +46,8 @@ namespace LSNoir
 
                     if (!RageProRegistration.RegisterRagePro()) return;
 
+                    if (!VersionCheck.OldLSNCheck()) return;
+
                     //VersionCheck.CheckVersion();
 
                     Settings.IniUpdateCheck();

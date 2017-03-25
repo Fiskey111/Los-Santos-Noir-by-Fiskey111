@@ -126,13 +126,13 @@ namespace LSNoir.Callouts.SA.Creators
                     Root = "CSI/Location/Storage";
                 }
                 var sp = GetSpawn("/Victim/");
-                Victim = new DeadBody("Vic", "Victim", sp, Vmodel[RandomNumberGenerator.RandomNumber().Next(Vmodel.Length)]);
+                Victim = new DeadBody("Vic", "Victim", sp, Vmodel[Rand.RandomNumber(Vmodel.Length)]);
                 "Victim created".AddLog();
 
-                OfficerNum = RandomNumberGenerator.RandomNumber().Next(1, 5);
-                VehicleNum = RandomNumberGenerator.RandomNumber().Next(0, 4);
-                FbiNum = RandomNumberGenerator.RandomNumber().Next(0, 3);
-                PedNum = RandomNumberGenerator.RandomNumber().Next(0, 6);
+                OfficerNum = Rand.RandomNumber(1, 5);
+                VehicleNum = Rand.RandomNumber(0, 4);
+                FbiNum = Rand.RandomNumber(0, 3);
+                PedNum = Rand.RandomNumber(0, 6);
 
                 ("Victim Model: " + Victim.Ped.Model.Name).AddLog();
 
@@ -170,9 +170,9 @@ namespace LSNoir.Callouts.SA.Creators
 
                 CreateStage_Object(PoliceCar3, "/Vehicles/Vehicle3/", ObjectType.Vehicle);
 
-                CreateStage_Object(Fbi1, "/Ambient/FBI1/", ObjectType.Fbi);
+                CreateStage_Object(Fbi1, "/Ambient/FBI1/", ObjectType.Cop);
 
-                CreateStage_Object(Fbi2, "/Ambient/FBI2/", ObjectType.Fbi);
+                CreateStage_Object(Fbi2, "/Ambient/FBI2/", ObjectType.Cop);
 
                 CreateStage_Object(Ped1, "/Ambient/Ped1/", ObjectType.Ped);
 
@@ -229,29 +229,25 @@ namespace LSNoir.Callouts.SA.Creators
                 {
                     case ObjectType.Ped:
                     case ObjectType.Cop:
-                    case ObjectType.Fbi:
                     case ObjectType.Witness:
                         obj.ObjectType = StageObject.Type.Ped;
                         switch (type)
                         {
                             case ObjectType.Cop:
-                                obj.Ped = new Ped(Copmodel[RandomNumberGenerator.RandomNumber().Next(1, Copmodel.Length)], obj.Spawn, obj.Heading);
-                                break;
-                            case ObjectType.Fbi:
-                                obj.Ped = new Ped(Fbimodel[RandomNumberGenerator.RandomNumber().Next(1, Fbimodel.Length)], obj.Spawn, obj.Heading);
+                                obj.Ped = new Ped(Copmodel[Rand.RandomNumber(1, Copmodel.Length)], obj.Spawn, obj.Heading);
                                 break;
                             case ObjectType.Witness:
                                 new Services.LtFlash.Common.EvidenceLibrary.Evidence.Witness(
                                     "Witness", "Witness", new Services.SpawnPoint(obj.Heading, obj.Spawn),
                                     Model.PedModels.ToList()[MathHelper.GetRandomInteger(Model.PedModels.ToList().Count)],
                                     new Dialog(Wit1Dialog.Lines, obj.Spawn), EmsLast.Position);
-                                obj.Ped = new Ped(Pedmodel[RandomNumberGenerator.RandomNumber().Next(1, Pedmodel.Length)], obj.Spawn, obj.Heading);
+                                obj.Ped = new Ped(Pedmodel[Rand.RandomNumber(1, Pedmodel.Length)], obj.Spawn, obj.Heading);
 
                                 var helpful = MathHelper.GetRandomInteger(5) == 1;
                                 obj.IsImportant = helpful;
                                 break;
                             case ObjectType.Ped:
-                                obj.Ped = new Ped(Pedmodel[RandomNumberGenerator.RandomNumber().Next(1, Pedmodel.Length)], obj.Spawn, obj.Heading);
+                                obj.Ped = new Ped(Pedmodel[Rand.RandomNumber(1, Pedmodel.Length)], obj.Spawn, obj.Heading);
                                 break;
                         }
                         NativeFunction.Natives.CLEAR_AREA_OF_OBJECTS(obj.Spawn.X, obj.Spawn.Y, obj.Spawn.Z, 0.50f, 0);
@@ -262,9 +258,9 @@ namespace LSNoir.Callouts.SA.Creators
                         break;
                     case ObjectType.Vehicle:
                         obj.ObjectType = StageObject.Type.Vehicle;
-                        obj.Vehicle = new Vehicle(Pcarmodel[RandomNumberGenerator.RandomNumber().Next(Pcarmodel.Length)], obj.Spawn, obj.Heading);
+                        obj.Vehicle = new Vehicle(Pcarmodel[Rand.RandomNumber(Pcarmodel.Length)], obj.Spawn, obj.Heading);
                         obj.Vehicle.MakeMissionVehicle();
-                        if (RandomNumberGenerator.RandomNumber().Next(1, 3) == 1)
+                        if (Rand.RandomNumber(1, 3) == 1)
                         {
                             obj.Vehicle.IsSirenOn = true;
                             obj.Vehicle.IsSirenSilent = true;
@@ -346,7 +342,7 @@ namespace LSNoir.Callouts.SA.Creators
 
         private static void CopRun()
         {
-            StartScenario(Fbi1.Ped, PedType.Fbi);
+            StartScenario(Fbi1.Ped, PedType.Cop);
 
             StartWander(Fbi2.Ped);
 
@@ -409,15 +405,12 @@ namespace LSNoir.Callouts.SA.Creators
                                         break;
                                 }
                                 break;
-                            case PedType.Fbi:
-                                scenario = "CODE_HUMAN_POLICE_INVESTIGATE";
-                                break;
                             case PedType.Ambient:
                                 var p1 = PanimationList[MathHelper.GetRandomInteger(PanimationList.Count() - 1)];
                                 ("Animation assigned: " + p1.FirstAnimation).AddLog();
 
                                 if (p1.Name == "mobile")
-                                    scenario = RandomNumberGenerator.RandomNumber().Next(1, 3) == 1
+                                    scenario = Rand.RandomNumber(1, 3) == 1
                                         ? "WORLD_HUMAN_MOBILE_FILM_SHOCKING"
                                         : "WORLD_HUMAN_STAND_MOBILE";
                                 else
@@ -523,8 +516,8 @@ namespace LSNoir.Callouts.SA.Creators
             if (Victim.Exists()) Victim.Ped.Delete();
         }
 
-        public enum ObjectType { Cop, Fbi, Witness, Ped, Vehicle, Barrier }
+        public enum ObjectType { Cop, Witness, Ped, Vehicle, Barrier }
 
-        public enum PedType { Cop, Fbi, Ambient }
+        public enum PedType { Cop, Ambient }
     }
 }

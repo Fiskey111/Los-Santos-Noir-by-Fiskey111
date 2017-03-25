@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using Fiskey111Common;
 using LSPD_First_Response.Mod.API;
 using LSNoir.Callouts.SA.Creators;
 using LSNoir.Callouts.SA.Data;
@@ -29,7 +30,7 @@ namespace LSNoir.Callouts
             _mainMe = new Vector3(236, -1390, 31),
             _blaineMe = new Vector3(1840, 3673, 34),
             _paletoMe = new Vector3(-452, 6038, 32);
-        private Fiskey111Common.SpawnPoint CarSpawn, MainSpawn;
+        private Fiskey111Common.SpawnPt CarSpawn, MainSpawn;
 
         // Data
         private CaseData _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
@@ -46,6 +47,7 @@ namespace LSNoir.Callouts
         private Blip _MEBlip;
         private ELocation _state;
         private EDialog _dialogstate;
+        private Marker _meMarker, _meDriverMarker;
 
 
         // todo -- fix all this crap below
@@ -57,7 +59,7 @@ namespace LSNoir.Callouts
 
             if (GetNearestMe(Game.LocalPlayer.Character.Position) == _blaineMe)
             {
-                CarSpawn = new Fiskey111Common.SpawnPoint(31, 1839, 3666, 34);
+                CarSpawn = new Fiskey111Common.SpawnPt(31, 1839, 3666, 34);
                 _meCar = new Vehicle("FBI", CarSpawn.Spawn);
                 _meCar.Heading = CarSpawn.Heading;
                 _me = new Ped("s_m_m_highsec_01", _position, 233f);
@@ -67,7 +69,7 @@ namespace LSNoir.Callouts
             }
             if (GetNearestMe(Game.LocalPlayer.Character.Position) == _paletoMe)
             {
-                CarSpawn = new Fiskey111Common.SpawnPoint(313, -453, 6034, 31);
+                CarSpawn = new Fiskey111Common.SpawnPt(313, -453, 6034, 31);
                 _meCar = new Vehicle("FBI", CarSpawn.Spawn);
                 _meCar.Heading = CarSpawn.Heading;
                 _meCar.IsInvincible = true;
@@ -364,12 +366,13 @@ namespace LSNoir.Callouts
 
                 "Notified to go to marker".AddLog();
                 Game.DisplayHelp("Head to the ~y~marker~w~ to enter the Medical Examiner's office");
-                Fiskey111Common.Marker.StartMarker(_markerLoc, System.Drawing.Color.Yellow, true);
+                _meMarker = new Marker(_markerLoc, Color.Yellow);
+                _meMarker.Start();
             }
             if (Game.LocalPlayer.Character.Position.DistanceTo(_markerLoc) <= 1f && _startingswap == false)
             {
                 _startingswap = true;
-                Fiskey111Common.Marker.CreateMarker.Abort();
+                _meMarker.Stop();
                 GameFiber.StartNew(delegate
                 {
                     "Entering ME's office".AddLog();
@@ -424,7 +427,9 @@ namespace LSNoir.Callouts
 
                 Vector3 markerPos = new Vector3(MeCreator.MedicalExaminer.Ped.Position.X, MeCreator.MedicalExaminer.Ped.Position.Y, MeCreator.MedicalExaminer.Ped.AbovePosition.Z);
 
-                Fiskey111Common.Marker.StartMarker(new Vector3(237.67f, -1367.89f, 39.53f), System.Drawing.Color.Green, true, false, true);
+                _meMarker = new Marker(new Vector3(237.67f, -1367.89f, 39.53f), Color.Green);
+                _meMarker.Start();
+
                 "Notified to go speak to ME".AddLog();
                 Game.DisplayHelp("Go talk to the ~g~Medical Examiner~w~ in the office");
                 Vector3 p7Pos = new Vector3(MeCreator.MedicalExaminer.Ped.Position.X, MeCreator.MedicalExaminer.Ped.Position.Y, MeCreator.MedicalExaminer.Ped.AbovePosition.Z + 1.5f);
@@ -433,7 +438,8 @@ namespace LSNoir.Callouts
             {
                 Game.DisplayHelp("Press ~y~Y~w~ to talk to the ~g~Medical Examiner~w~.");
                 _meDialog.StartDialog();
-                Fiskey111Common.Marker.CreateMarker.Abort();
+
+                _meMarker.Stop();
 
                 while (!_meDialog.HasEnded)
                 {
@@ -445,9 +451,10 @@ namespace LSNoir.Callouts
                 var rList = LoadItemFromXML<List<ReportData>>(Main.RDataPath);
                 _meData = new ReportData(ReportData.Service.ME, MeCreator.MedicalExaminer.Ped, _meDialog.Dialogue, true);
                 rList.Add(_meData);
-                SaveItemToXML<List<ReportData>>(rList, Main.RDataPath); 
-                
-                Fiskey111Common.Marker.StartMarker(MeCreator.PPos, System.Drawing.Color.Yellow, true);
+                SaveItemToXML<List<ReportData>>(rList, Main.RDataPath);
+
+                _meMarker = new Marker(MeCreator.PPos, Color.Yellow);
+                _meMarker.Start();
                 SwapStages(InMe, ExitingMe);
             }
 
@@ -458,7 +465,7 @@ namespace LSNoir.Callouts
             if (Game.LocalPlayer.Character.Position.DistanceTo(MeCreator.PPos) < 1f && _startingswap == false)
             {
                 _startingswap = true;
-                Fiskey111Common.Marker.CreateMarker.Abort();
+                _meMarker.Stop();
                 Game.LocalPlayer.Character.IsPositionFrozen = true;
                 GameFiber.StartNew(delegate
                 {
@@ -468,7 +475,7 @@ namespace LSNoir.Callouts
                     Game.LocalPlayer.Character.Position = _markerLoc;
                     if (_nearestMe == "PB" || _nearestMe == "SS")
                     {
-                        MainSpawn = new Fiskey111Common.SpawnPoint(50, -233, -1390, 30);
+                        MainSpawn = new Fiskey111Common.SpawnPt(50, -233, -1390, 30);
                         _meCar = new Vehicle("FBI", MainSpawn.Spawn);
                         _meCar.Heading = MainSpawn.Heading;
                         _meCar.IsInvincible = true;

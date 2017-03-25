@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 using System.Net;
 using LSNoir.Extensions;
 using Rage;
@@ -61,6 +62,30 @@ namespace LSNoir.Startup
             {
                 e.ToString().AddLog();
                 return false;
+            }
+        }
+
+        internal static bool OldLSNCheck()
+        {
+            try
+            {
+                if (File.Exists(@"Plugins/LSPDFR/L.S. Noire.exe"))
+                {
+                    "Old LSN version found".AddLog(true);
+                    Game.DisplayNotification(
+                        "Old version of L.S. Noir found \nPlease remove all LSN versions and reinstall");
+                    return false;
+                }
+                else
+                {
+                    "Old LSN check passed".AddLog(true);
+                    return true;
+                }
+            }
+            catch (Exception ex)
+            {
+                $"Error with file check: {ex.ToString()}".AddLog(true);
+                return true;
             }
         }
     }

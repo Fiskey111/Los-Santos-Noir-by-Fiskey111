@@ -1,4 +1,5 @@
-﻿using LSNoir.Callouts.SA.Data;
+﻿using System.Drawing;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using Rage;
 using Rage.Native;
@@ -90,10 +91,12 @@ namespace LSNoir.Callouts.SA.Services
 
             if (_takeToHospital) MovePatientToAmbulance(_patient);
 
-            _blipEmt = new Blip(PedWorker);
-            _blipEmt.Color = System.Drawing.Color.Green;
-            _blipEmt.Sprite = BlipSprite.Health;
-            _blipEmt.Scale = 0.25f;
+            _blipEmt = new Blip(PedWorker)
+            {
+                Color = System.Drawing.Color.Green,
+                Sprite = BlipSprite.Health,
+                Scale = 0.25f
+            };
 
             Game.DisplayHelp("Talk to EMS to receive a medical report.");
             Proc.SwapProcesses(PerformProcedures, WaitForDialogueActivation);
@@ -101,18 +104,14 @@ namespace LSNoir.Callouts.SA.Services
 
         private void WaitForDialogueActivation()
         {
-            if (Vector3.Distance(Game.LocalPlayer.Character.Position, PedWorker.Position) <= 3f)
-            {
-                Game.DisplayHelp($"Press ~y~{KeyStartDialogue}~s~ to talk to the paramedic.");
+            if (!(Vector3.Distance(Game.LocalPlayer.Character.Position, PedWorker.Position) <= 3f)) return;
+            Game.DisplayHelp($"Press ~y~{KeyStartDialogue}~s~ to talk to the paramedic.");
 
-                if (Game.IsKeyDown(KeyStartDialogue))
-                {
-                    if (_blipEmt) _blipEmt.Delete();
+            if (!Game.IsKeyDown(KeyStartDialogue)) return;
+            if (_blipEmt) _blipEmt.Delete();
 
-                    Dialogue.StartDialog();
-                    Proc.SwapProcesses(WaitForDialogueActivation, CheckForDialogueFinished);
-                }
-            }
+            Dialogue.StartDialog();
+            Proc.SwapProcesses(WaitForDialogueActivation, CheckForDialogueFinished);
         }
 
         private void CheckForDialogueFinished()

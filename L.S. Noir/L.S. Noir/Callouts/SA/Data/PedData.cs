@@ -2,8 +2,11 @@
 using Rage;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using Fiskey111Common;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSNoir.Callouts.SA.Commons;
+using LtFlash.Common.ScriptManager.Scripts;
 
 namespace LSNoir
 {
@@ -29,6 +32,7 @@ namespace LSNoir
         public List<string> Conversation { get; set; }
         public string Relationship { get; set; }
         public bool SocialMedia { get; set; }
+        public string VehModel { get; set; }
 
         public PedData() { }
 
@@ -54,6 +58,8 @@ namespace LSNoir
             {
                 IsPerp = isPerp;
                 Model = ped.Model.Name;
+                var models = Rage.Model.VehicleModels.Where(c => c.IsCar && !c.IsBigVehicle && !c.IsBike && !c.IsEmergencyVehicle).ToList();
+                VehModel = models[Rand.RandomNumber(models.Count)].Name;
             }
             else if (type == PedType.Victim)
             {

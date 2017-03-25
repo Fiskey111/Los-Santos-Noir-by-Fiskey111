@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using Rage;
 using Rage.Native;
@@ -87,13 +88,7 @@ namespace LSNoir.Callouts.SA.Commons
             var _vData = GetSelectedListElementFromXml<PedData>(Main.PDataPath,
                 c => c.FirstOrDefault(v => v.Type == PedType.Victim));
 
-            var modelList =
-                Model.VehicleModels.Where(
-                    v =>
-                        v.IsCar && !v.IsBus && !v.IsBigVehicle && !v.IsBicycle && !v.IsBlimp && !v.IsBoat &&
-                        !v.IsEmergencyVehicle && !v.IsHelicopter && !v.IsPlane).ToList();
-
-            var model = modelList[MathHelper.GetRandomInteger(modelList.Count)];
+            var model = String.IsNullOrEmpty(_sData.VehModel) ? "FUTO" : _sData.VehModel; 
 
             _veh = new Vehicle(model, data.SusSpawnPoint.Position) { Heading = data.SusSpawnPoint.Heading };
 
@@ -210,7 +205,7 @@ namespace LSNoir.Callouts.SA.Commons
 
             NativeFunction.Natives.CLEAR_TIMECYCLE_MODIFIER();
 
-            MainCode.PlateNumber = _veh.LicensePlate;
+            ComputerController.PlateNumber = _veh.LicensePlate;
 
             if (_secCam.Exists()) _secCam.Delete();
             if (_gameCam.Exists()) _gameCam.Delete();

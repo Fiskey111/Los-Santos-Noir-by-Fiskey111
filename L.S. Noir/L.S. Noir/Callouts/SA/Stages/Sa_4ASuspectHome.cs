@@ -22,7 +22,7 @@ namespace LSNoir.Callouts
         private bool _beginDialogue;
 
         // Positions
-        private SpawnPoint _oneSpawn;
+        private SpawnPt _oneSpawn;
 
         // Entities
         private Ped _one;
@@ -75,11 +75,11 @@ namespace LSNoir.Callouts
         }
 
         // todo -- get positions and put them in xml
-        private static Dictionary<SpawnPoint, string> GetRandomSpawn()
+        private static Dictionary<SpawnPt, string> GetRandomSpawn()
         {
-            var spawnlist = new Dictionary<SpawnPoint, string>();
+            var spawnlist = new Dictionary<SpawnPt, string>();
 
-            spawnlist.Add(new SpawnPoint(208.22f, 1059.81f, -446.85f, 66.02f), "WORLD_HUMAN_GARDENER_PLANT");
+            spawnlist.Add(new SpawnPt(208.22f, 1059.81f, -446.85f, 66.02f), "WORLD_HUMAN_GARDENER_PLANT");
             
             return spawnlist;
         }

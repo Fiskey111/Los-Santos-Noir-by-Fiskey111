@@ -12,6 +12,7 @@ namespace LSNoir
     class PoliceStationCheck
     {
         private static bool _shown, _startedComp;
+        private static Marker _marker;
 
         internal static void PoliceCheck()
         {
@@ -36,23 +37,24 @@ namespace LSNoir
             if (_shown == false)
             {
                 _shown = true;
-                Marker.StartMarker(closestLoc, Color.Yellow, true);
+                _marker = new Marker(closestLoc, Color.Yellow);
+                _marker.Start();
             }
             if (!(Game.LocalPlayer.Character.Position.DistanceTo(closestLoc) < 1.75f)) return;
 
             Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer");
             if (Game.IsKeyDown(Settings.ComputerKey()) && !_startedComp)
             {
+                _marker.Stop();
                 _startedComp = true;
                 Game.IsPaused = true;
                 Computer.StartComputerHandler();
-                Computer.Controller.StartFiber(ComputerController.Fibers.MainFiber);
 
                 while (Computer.Controller.IsRunning)
                     GameFiber.Yield();
 
                 Background.DisableBackground(Background.Type.Computer);
-                Computer.Controller.AbortFiber(Computer.Controller.MainFiber);
+                Computer.AbortController();
                 Game.IsPaused = false;
                 _startedComp = false;
             }

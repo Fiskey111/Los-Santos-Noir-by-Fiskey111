@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using Fiskey111Common;
+using LSNoir.Extensions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
@@ -14,12 +15,12 @@ namespace LSNoir.Callouts.SA.Commons
             get { return Ped.Position; }
             set { Ped.Position = value; }
         }
-        public SpawnPoint TargetPosition { get; protected set; }
+        public SpawnPt TargetPosition { get; protected set; }
         public Vehicle Veh { get; set; }
         public bool IsSecondCop { get; protected set; }
 
         //Primary
-        public Cop(string vehmodel, SpawnPoint pos, SpawnPoint targetPos, bool isSwat = false, ICollection<Cop> copList = null)
+        public Cop(string vehmodel, SpawnPt pos, SpawnPt targetPos, bool isSwat = false, ICollection<Cop> copList = null)
         {
             string copModel = isSwat ? "s_m_y_swat_01" : "s_m_y_cop_01";
             Veh = new Vehicle(vehmodel, pos.Spawn, pos.Heading);
@@ -28,7 +29,7 @@ namespace LSNoir.Callouts.SA.Commons
             if (isSwat)
             {
                 var w = new Weapon(new WeaponAsset("WEAPON_CARBINERIFLE"), Ped.Position, 120);
-                w.GiveTo(Ped);
+                if (w.Exists()) w.GiveTo(Ped);
                 NativeFunction.Natives.SetPedPropIndex(Ped, 0, 0, 0, true);
             }
             Functions.SetPedAsCop(Ped);
@@ -80,8 +81,16 @@ namespace LSNoir.Callouts.SA.Commons
 
         public void DriveToTargetPosition()
         {
-            if (IsSecondCop) return;
-            Ped.Tasks.FollowNavigationMeshToPosition(TargetPosition.Spawn, TargetPosition.Heading, 16f, 5f);
+            if (IsSecondCop || !this.Ped) return;
+            "Driving to position".AddLog();
+            Ped.Tasks.DriveToPosition(TargetPosition.Spawn, 16f,
+                VehicleDrivingFlags.YieldToCrossingPedestrians | VehicleDrivingFlags.DriveAroundObjects, 6f);
+        }
+
+        public void SetNotBusy()
+        {
+            if (!this.Ped) return;
+            Functions.SetCopAsBusy(this.Ped, false);
         }
 
         public void TurnOnSiren()

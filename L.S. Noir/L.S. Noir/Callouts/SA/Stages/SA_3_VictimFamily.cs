@@ -21,7 +21,7 @@ namespace LSNoir.Callouts
         private bool _beginDialogue, _interrStarted;
 
         // Locations
-        private SpawnPoint _oneSpawn;
+        private SpawnPt _oneSpawn;
 
         // Entities
         private Ped _one;
@@ -55,6 +55,7 @@ namespace LSNoir.Callouts
                 p => p.FirstOrDefault(f => f.Type == PedType.VictimFamily));
 
             _one = new Ped(_pData.Model, _oneSpawn.Spawn, _oneSpawn.Heading);
+            _one.MakeMissionPed();
             
             "Sexual Assault Case Update".DisplayNotification("Speak to family of the victim");
 
@@ -93,11 +94,11 @@ namespace LSNoir.Callouts
         }
 
         // todo -- get positions and put them in xml
-        private static SpawnPoint GetRandomSpawn()
+        private static SpawnPt GetRandomSpawn()
         {
-            List<SpawnPoint> spawnlist = new List<SpawnPoint>
+            List<SpawnPt> spawnlist = new List<SpawnPt>
             {
-                new SpawnPoint(95.29f, -278.10f, 386.18f, 110.83f)
+                new SpawnPt(95.29f, -278.10f, 386.18f, 110.83f)
             };
 
             return spawnlist[MathHelper.GetRandomInteger(spawnlist.Count)];
@@ -113,13 +114,13 @@ namespace LSNoir.Callouts
                 _one.Tasks.Clear();
                 GameFiber.Sleep(0500);
                 var player = Game.LocalPlayer.Character;
-                NativeFunction.Natives.TASK_TURN_PED_TO_FACE_ENTITY(_one, player, -1);
+                _one.Face(Game.LocalPlayer.Character);
                 Game.DisplayHelp("Press ~y~Y~w~ to start the interrogation");  
             }
             if (Game.IsKeyDown(Keys.Y) && !_interrStarted)
             {
                 if (_areaBlip.Exists()) _areaBlip.Delete();
-                NativeFunction.Natives.TASK_TURN_PED_TO_FACE_ENTITY(Game.LocalPlayer.Character, _one, -1);
+                _one.Face(Game.LocalPlayer.Character);
                 GameFiber.Sleep(0500);
                 if (Vector3.Distance2D(Game.LocalPlayer.Character.Position, _one.Position) < 1.5f) Game.LocalPlayer.Character.Position = Game.LocalPlayer.Character.RearPosition;
                 _interrogation = new Interrogation(InterrogationCreator.InterrogationLineCreator(InterrogationCreator.Type.VictimFamily, _one), _one);

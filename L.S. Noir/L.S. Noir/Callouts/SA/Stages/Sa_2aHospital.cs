@@ -128,7 +128,7 @@
             {
                 "Dialog Ending".AddLog();
                 _dialogstate = EDialog.Post;
-                int l = Fiskey111Common.RandomNumberGenerator.RandomNumber().Next(1, 10);
+                int l = Rand.RandomNumber(1, 10);
                 if (l == 1)
                 {
                     _doc.Tasks.PlayAnimation("amb@world_human_smoking@male@male_a@idle_a", "idle_b", 4, AnimationFlags.Loop);

@@ -55,6 +55,30 @@ Initializes a new instance of the <see cref="T:HeuristicsScannerAttribute" /> cl
 Undocumented.
 </summary>
         </member>
+        <member name="M:Rage.Debug.AttachAndBreak">
+            <summary>
+Prompts the user to attach a debugger to this instance of the game, then breaks.
+</summary>
+            <remarks>Calls to this method are only compiled when your plugin is compiled in DEBUG mode.</remarks>
+        </member>
+        <member name="P:Rage.Debug.IsAttached">
+            <summary>
+Gets a value indicating whether a debugger is attached to this instance of the game.
+</summary>
+            <remarks>Calls to this method are only compiled when your plugin is compiled in DEBUG mode.</remarks>
+        </member>
+        <member name="P:Rage.Debug.IsDrawingEnabled">
+            <summary>
+Gets a value indicating whether calls made to the drawing methods of this class shouldn't be ignored.
+</summary>
+            <value>
+                <c>true</c> if calls to the drawing methods in this class should not be ignored; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="T:Rage.Debug">
+            <summary>
+A collection of methods for debugging.
+</summary>
+        </member>
         <member name="T:GamePropertyAttribute">
             <summary>
 Undocumented.
@@ -1260,6 +1284,12 @@ Defines a 4x4 matrix.
 </summary>
             <unmanaged>D3DXMATRIX</unmanaged>
         </member>
+        <member name="M:Rage.Fire.IsValid">
+            <summary>
+Determines whether this instance still represents an existing fire within the game world. Calls to an invalid instance is illegal and will result in an exception.
+</summary>
+            <returns>If this instance still represents an existing fire within the game world, returns <c>true</c>; otherwise, returns <c>false</c>.</returns>
+        </member>
         <member name="M:Rage.Fire.Delete">
             <inheritdoc />
         </member>
@@ -1280,6 +1310,24 @@ Defines a 4x4 matrix.
         </member>
         <member name="M:Rage.Fire.DistanceTo(Rage.ISpatial)">
             <inheritdoc />
+        </member>
+        <member name="P:Rage.Fire.SpreadRadius">
+            <summary>
+Gets or sets how far the fire spreads.
+</summary>
+            <value>How far the fire spreads, in meters.</value>
+        </member>
+        <member name="P:Rage.Fire.ElapsedBurnDuration">
+            <summary>
+Gets or sets how long this fire has been burning for.
+</summary>
+            <value>The duration in seconds, that this fire has been burning for.</value>
+        </member>
+        <member name="P:Rage.Fire.DesiredBurnDuration">
+            <summary>
+Gets or sets the desired burn duration.
+</summary>
+            <value>The duration in seconds, that this fire should burn.</value>
         </member>
         <member name="P:Rage.Fire.Offset">
             <summary>
@@ -1304,6 +1352,13 @@ Gets or sets the position of this instance.
 Gets the entity this fire is attached to.
 </summary>
             <value>The entity this fire is attached to.</value>
+        </member>
+        <member name="T:Rage.Fire">
+            <summary>
+Represents a fire.
+</summary>
+            <seealso cref="T:Rage.ISpatial" />
+            <seealso cref="T:Rage.IDeletable" />
         </member>
         <member name="M:Rage.HandlingData.IsValid">
             <inheritdocs />
@@ -1444,6 +1499,22 @@ Gets or sets the number of gears (excluding reverse).
         </member>
         <member name="P:Rage.HandlingData.Handle">
             <inheritdocs />
+        </member>
+        <member name="M:Rage.CryptographyHelper.DecryptRijndael(System.Byte[],System.String)">
+            <summary>
+Decrypts the specified byte array using AES (Advanced Encryption Standard).
+</summary>
+            <param name="valueBytes">The data to decrypt.</param>
+            <param name="password">The password that was used to encrypt the data with.</param>
+            <returns>A byte array representing the decrypted data.</returns>
+        </member>
+        <member name="M:Rage.CryptographyHelper.EncryptRijndael(System.Byte[],System.String)">
+            <summary>
+Encrypts the specified byte array using AES (Advanced Encryption Standard).
+</summary>
+            <param name="valueBytes">The data to encrypt.</param>
+            <param name="password">The password to encrypt the data with.</param>
+            <returns>A byte array representing the encrypted data.</returns>
         </member>
         <member name="M:Rage.CryptographyHelper.GenerateSHA512Hash(System.String,System.Text.Encoding)">
             <summary>
@@ -1738,6 +1809,12 @@ Represents an animation task. This class cannot be inherited.
         </member>
         <member name="P:Rage.AnimationDictionary.Name">
             <inheritdoc />
+        </member>
+        <member name="T:Rage.AnimationDictionary">
+            <summary>
+Represents an animation dictionary.
+</summary>
+            <seealso cref="T:Rage.INamedAsset" />
         </member>
         <member name="M:Rage.Task.WaitForStatus(Rage.TaskStatus,System.Int32)">
             <summary>
@@ -2759,6 +2836,29 @@ Gets the owning <see cref="P:Rage.PedInventory.Ped" /> of this inventory.
 </summary>
             <value>The owning <see cref="P:Rage.PedInventory.Ped" /> of this inventory.</value>
         </member>
+        <member name="M:Rage.GroupFormation.ResetSpacing">
+            <summary>
+Resets spacing properties to their default values.
+</summary>
+        </member>
+        <member name="P:Rage.GroupFormation.SprintDistance">
+            <summary>
+Sets the distance from the leader at which members will start sprinting.
+</summary>
+            <value>The distance from the leader at which members will start sprinting.</value>
+        </member>
+        <member name="P:Rage.GroupFormation.DistanceToLeader">
+            <summary>
+Sets the distance that members should keep to the leader.
+</summary>
+            <value>The distance members should keep to the leader.</value>
+        </member>
+        <member name="P:Rage.GroupFormation.Type">
+            <summary>
+Sets the type of the formation.
+</summary>
+            <value>The type of the formation.</value>
+        </member>
         <member name="M:Rage.Group.IsValid">
             <inheritdoc />
         </member>
@@ -2830,9 +2930,19 @@ Determines whether the specified <see cref="T:Rage.Ped" /> is a member of this g
         </member>
         <member name="P:Rage.Group.DissolveDistance">
             <summary>
-Sets the distance at which members will automatically be removed from the group.
+Sets the distance, in meters, at which members will automatically be removed from the group.
 </summary>
-            <value>The distance at which members will automatically be removed from the group.</value>
+            <value>The distance, in meters, at which members will automatically be removed from the group.</value>
+            <remarks>The default value is 30 meters.</remarks>
+        </member>
+        <member name="T:Rage.GroupFormation">
+            <summary>
+Gets the formation info about this group.
+</summary>
+            <value>The formation info about this group.</value>
+            <summary>
+Represents the formation of a group.
+</summary>
         </member>
         <member name="P:Rage.Group.Count">
             <summary>
@@ -3327,11 +3437,13 @@ Attribute to let argument parsers specify which types they support.
                 <para>Waits this instance the specified duration. Note that only the active <see cref="T:Rage.GameFiber" /> can be set to wait.</para>
                 <para>Unlike sleep, wait is scaled based on game time dilation.</para>
             </summary>
+            <param name="duration">The duration, in milliseconds, to wait the fiber for.</param>
         </member>
         <member name="M:Rage.GameFiber.SleepThis(System.Int32)">
             <summary>
 Sleeps this instance the specified duration. Note that only the active <see cref="T:Rage.GameFiber" /> can be set to sleep.
 </summary>
+            <param name="duration">The duration, in milliseconds, to sleep the fiber for.</param>
         </member>
         <member name="M:Rage.GameFiber.HibernateThis">
             <summary>
@@ -3366,14 +3478,167 @@ Starts a new <see cref="T:Rage.GameFiber" /> instance.
 </summary>
             <param name="start">The method to execute on the <see cref="T:Rage.GameFiber" />.</param>
             <param name="name">The name of the <see cref="T:Rage.GameFiber" />.</param>
-            <returns>An instance of <see cref="!:Rage.GameFiber" />.</returns>
+            <returns>An instance of <see cref="T:Rage.GameFiber" />.</returns>
         </member>
         <member name="M:Rage.GameFiber.StartNew(System.Threading.ThreadStart)">
             <summary>
 Starts a new <see cref="T:Rage.GameFiber" /> instance.
 </summary>
             <param name="start">The method to execute on the <see cref="T:Rage.GameFiber" />.</param>
-            <returns>An instance of <see cref="!:Rage.GameFiber" />.</returns>
+            <returns>An instance of <see cref="T:Rage.GameFiber" />.</returns>
+        </member>
+        <member name="M:Rage.GameFiber.WaitWhile(System.Func`1{System.Boolean},System.Int32)">
+            <summary>
+Yields the executing fiber while the specified condition is met. The condition is not checked while the game is paused.
+</summary>
+            <param name="condition">The condition.</param>
+            <param name="name">The name of the fiber.</param>
+            <param name="timeOut">The maximum time to wait. If set to 0, the call will not time out.</param>
+            <example>See <see cref="M:Rage.GameFiber.SleepWhile(System.Func`1{System.Boolean},System.Int32)" /> for examples.</example>
+        </member>
+        <member name="M:Rage.GameFiber.WaitWhile(System.Func`1{System.Boolean})">
+            <summary>
+Yields the executing fiber while the specified condition is met. The condition is not checked while the game is paused.
+</summary>
+            <param name="condition">The condition.</param>
+            <param name="name">The name of the fiber.</param>
+            <example>See <see cref="M:Rage.GameFiber.SleepWhile(System.Func`1{System.Boolean},System.Int32)" /> for examples.</example>
+        </member>
+        <member name="M:Rage.GameFiber.WaitUntil(System.Func`1{System.Boolean},System.Int32)">
+            <summary>
+Yields the executing fiber until the specified condition is met. The condition is not checked while the game is paused.
+</summary>
+            <param name="condition">The condition.</param>
+            <param name="timeOut">The maximum time to wait. If set to 0, the call will not time out.</param>
+            <example>See <see cref="M:Rage.GameFiber.SleepUntil(System.Func`1{System.Boolean},System.Int32)" /> for examples.</example>
+        </member>
+        <member name="M:Rage.GameFiber.WaitUntil(System.Func`1{System.Boolean})">
+            <summary>
+Yields the executing fiber until the specified condition is met. The condition is not checked while the game is paused.
+</summary>
+            <param name="condition">The condition.</param>
+            <example>See <see cref="M:Rage.GameFiber.SleepUntil(System.Func`1{System.Boolean},System.Int32)" /> for examples.</example>
+        </member>
+        <member name="M:Rage.GameFiber.SleepWhile(System.Func`1{System.Boolean},System.Int32)">
+            <summary>
+Yields the executing fiber while the specified condition is met.
+</summary>
+            <param name="condition">The condition.</param>
+            <param name="name">The name of the fiber.</param>
+            <param name="timeOut">The maximum time to sleep. If set to 0, the call will not time out.</param>
+            <example>
+                <para>The following statement:</para>
+                <code lang="C#">GameFiber.SleepWhile(() =&gt; vehicle &amp;&amp; vehicle.Speed &lt; FiftyKilometersPerHour, 30000);</code>
+                <para>Is equivalent to the following piece of code:</para>
+                <code lang="C#">
+ulong startTime = Game.TickCount;
+while (vehicle &amp;&amp; vehicle.Speed &lt; FiftyKilometersPerHour)
+{
+    if (Game.TickCount &gt; startTime + 5000)
+    {
+        break;
+    }
+
+    GameFiber.Yield();
+}
+</code>
+            </example>
+            <example>
+                <para>The following statement:</para>
+                <code lang="C#">GameFiber.SleepWhile(() =&gt; vehicle &amp;&amp; vehicle.Speed &lt; FiftyKilometersPerHour, 0);</code>
+                <para>Is equivalent to the following piece of code:</para>
+                <code lang="C#">
+while (vehicle &amp;&amp; vehicle.Speed &lt; FiftyKilometersPerHour)
+{
+    GameFiber.Yield();
+}
+</code>
+            </example>
+        </member>
+        <member name="M:Rage.GameFiber.SleepUntil(System.Func`1{System.Boolean},System.Int32)">
+            <summary>
+Yields the executing fiber until the specified condition is met.
+</summary>
+            <param name="condition">The condition.</param>
+            <param name="timeOut">The maximum time to sleep. If set to 0, the call will not time out.</param>
+            <example>
+                <para>The following statement:</para>
+                <code lang="C#">GameFiber.SleepUntil(() =&gt; !vehicle || vehicle.Speed &gt;= FiftyKilometersPerHour, 30000);</code>
+                <para>Is equivalent to the following piece of code:</para>
+                <code lang="C#">
+ulong startTime = Game.TickCount;
+while (vehicle &amp;&amp; vehicle.Speed &lt; FiftyKilometersPerHour)
+{
+    if (Game.TickCount &gt; startTime + 30000)
+    {
+        break;
+    }
+
+    GameFiber.Yield();
+}
+</code>
+            </example>
+            <example>
+                <para>The following statement:</para>
+                <code lang="C#">GameFiber.SleepUntil(() =&gt; !vehicle || vehicle.Speed &gt;= FiftyKilometersPerHour, 0);</code>
+                <para>Is equivalent to the following piece of code:</para>
+                <code lang="C#">
+while (vehicle &amp;&amp; vehicle.Speed &lt; FiftyKilometersPerHour)
+{
+    GameFiber.Yield();
+}
+</code>
+            </example>
+        </member>
+        <member name="M:Rage.GameFiber.ExecuteNewWhile(System.Threading.ThreadStart,System.String,System.Func`1{System.Boolean})">
+            <summary>
+Calls the specified method once every tick on a new <see cref="T:Rage.GameFiber" />, while the specified condition is true.
+</summary>
+            <param name="start">The method to call every tick.</param>
+            <param name="name">The name of the <see cref="T:Rage.GameFiber" />.</param>
+            <param name="duration">The method that returns the condition. If it returns <c>false</c> execution is ceased.</param>
+            <returns>An instance of <see cref="T:Rage.GameFiber" /> representing the created fiber.</returns>
+        </member>
+        <member name="M:Rage.GameFiber.ExecuteNewWhile(System.Threading.ThreadStart,System.Func`1{System.Boolean})">
+            <summary>
+Calls the specified method once every tick on a new <see cref="T:Rage.GameFiber" />, while the specified condition is true.
+</summary>
+            <param name="start">The method to call every tick.</param>
+            <param name="duration">The method that returns the condition. If it returns <c>false</c> execution is ceased.</param>
+            <returns>An instance of <see cref="T:Rage.GameFiber" /> representing the created fiber.</returns>
+        </member>
+        <member name="M:Rage.GameFiber.ExecuteNewFor(System.Threading.ThreadStart,System.String,System.Int32)">
+            <summary>
+Calls the specified method once every tick on a new <see cref="T:Rage.GameFiber" />, for the specified duration.
+</summary>
+            <param name="start">The method to call every tick.</param>
+            <param name="name">The name of the <see cref="T:Rage.GameFiber" />.</param>
+            <param name="duration">The duration to keep calling the method for.</param>
+            <returns>An instance of <see cref="T:Rage.GameFiber" /> representing the created fiber.</returns>
+        </member>
+        <member name="M:Rage.GameFiber.ExecuteNewFor(System.Threading.ThreadStart,System.Int32)">
+            <summary>
+Calls the specified method once every tick on a new <see cref="T:Rage.GameFiber" />, for the specified duration.
+</summary>
+            <param name="start">The method to call every tick.</param>
+            <param name="duration">The duration to keep calling the method for.</param>
+            <returns>An instance of <see cref="T:Rage.GameFiber" /> representing the created fiber.</returns>
+        </member>
+        <member name="M:Rage.GameFiber.ExecuteWhile(System.Threading.ThreadStart,System.Func`1{System.Boolean})">
+            <summary>
+Calls the specified method once every tick on the calling <see cref="T:Rage.GameFiber" />, while the specified condition is true.
+</summary>
+            <param name="start">The method to call every tick.</param>
+            <param name="duration">The method that returns the condition. If it returns <c>false</c> execution is ceased.</param>
+            <returns>An instance of <see cref="T:Rage.GameFiber" /> representing the created fiber.</returns>
+        </member>
+        <member name="M:Rage.GameFiber.ExecuteFor(System.Threading.ThreadStart,System.Int32)">
+            <summary>
+Calls the specified method once every tick on the calling <see cref="T:Rage.GameFiber" />, for the specified duration.
+</summary>
+            <param name="start">The method to call every tick.</param>
+            <param name="duration">The duration to keep calling the method for.</param>
+            <returns>An instance of <see cref="T:Rage.GameFiber" /> representing the created fiber.</returns>
         </member>
         <member name="M:Rage.GameFiber.Yield">
             <summary>
@@ -3511,6 +3776,11 @@ Dim vehicle As Rage.Vehicle = Rage.Native.NativeFunction.Natives.GetVehiclePedIs
  } LOCK_END;
 
 <summary><para>Helper class for entering/leaving critical sections.</para><para>Don't make it a reference (Lock^) as that'll make the finalization non-deterministic.</para></summary></member>
+        <member name="T:Rage.Native.NativeArgument">
+            <summary>
+Represents an argument for a call to a native.
+</summary>
+        </member>
         <member name="M:Rage.Camera.Shake(System.String,System.Single)">
             <summary>
 Shakes this instance with the specified shake type, for the specified duration.
@@ -4091,6 +4361,16 @@ Checks that a range to be read are within the boundaries of a source.
 	 * requests a localized string. If this function returns NULL, the original function is executed.
 	*
 </member>
+        <member name="T:Rage.Exceptions.UnsupportedGameException">
+            <summary>
+The exception that is thrown when a method that doesn't support the current game is called.
+</summary>
+        </member>
+        <member name="T:Rage.Exceptions.InvalidHandleableException">
+            <summary>
+The exception that is thrown when an invalid handleable (Ped, Vehicle, Object, etc.) is passed to a method that expects a valid handleable.
+</summary>
+        </member>
         <member name="M:FW1CreateFactory(System.UInt32,IFW1Factory**)">
             <summary>The FW1CreateFactory method creates an IFWFactory object, that can subsequently be used to create any and all FW1 objects.</summary>
             <remarks />
@@ -5237,6 +5517,66 @@ Initializes a new instance of the <see cref="T:Rage.Attributes.ConsoleCommandAtt
 Initializes a new instance of the <see cref="T:Rage.Attributes.ConsoleCommandAttribute" /> class.
 </summary>
         </member>
+        <member name="M:Rage.Native.NativeFunction.CallByAddress(System.IntPtr,System.Type,Rage.Native.NativeArgument[])">
+            <summary>
+Calls a native by its address. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
+</summary>
+            <param name="address">The hash of the native to call.</param>
+            <param name="returnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</param>
+            <param name="arguments">The arguments to pass to the native.</param>
+            <returns>An instance of the specified return type representing the return value of the native.</returns>
+            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
+        </member>
+        <member name="M:Rage.Native.NativeFunction.CallByAddress``1(System.IntPtr,Rage.Native.NativeArgument[])">
+            <summary>
+Calls a native by its address. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
+</summary>
+            <typeparam name="ReturnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</typeparam>
+            <param name="address">The address of the native to call.</param>
+            <param name="arguments">The arguments to pass to the native.</param>
+            <returns>An instance of <see cref="!:ReturnType" /> representing the return value of the native.</returns>
+            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
+        </member>
+        <member name="M:Rage.Native.NativeFunction.CallByHash(System.UInt64,System.Type,Rage.Native.NativeArgument[])">
+            <summary>
+Calls a native by its hash. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
+</summary>
+            <param name="nativeHash">The hash of the native to call.</param>
+            <param name="returnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</param>
+            <param name="arguments">The arguments to pass to the native.</param>
+            <returns>An instance of the specified return type representing the return value of the native.</returns>
+            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
+        </member>
+        <member name="M:Rage.Native.NativeFunction.CallByHash``1(System.UInt64,Rage.Native.NativeArgument[])">
+            <summary>
+Calls a native by its hash. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
+</summary>
+            <typeparam name="ReturnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</typeparam>
+            <param name="nativeHash">The hash of the native to call.</param>
+            <param name="arguments">The arguments to pass to the native.</param>
+            <returns>An instance of <see cref="!:ReturnType" /> representing the return value of the native.</returns>
+            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
+        </member>
+        <member name="M:Rage.Native.NativeFunction.CallByName(System.String,System.Type,Rage.Native.NativeArgument[])">
+            <summary>
+Calls a native by its name. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
+</summary>
+            <param name="nativeName">The name of the native to call.</param>
+            <param name="returnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</param>
+            <param name="arguments">The arguments to pass to the native.</param>
+            <returns>An instance of the specified return type representing the return value of the native.</returns>
+            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
+        </member>
+        <member name="M:Rage.Native.NativeFunction.CallByName``1(System.String,Rage.Native.NativeArgument[])">
+            <summary>
+Calls a native by its name. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
+</summary>
+            <typeparam name="ReturnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</typeparam>
+            <param name="nativeName">The name of the native to call.</param>
+            <param name="arguments">The arguments to pass to the native.</param>
+            <returns>An instance of <see cref="!:ReturnType" /> representing the return value of the native.</returns>
+            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
+        </member>
         <member name="M:Rage.Native.NativeFunction.GetOriginalNativeName(System.String)">
             <summary>
 Converts the specified name into its native naming style counter part.
@@ -5253,6 +5593,11 @@ Will return "GET_GROUND_Z_FOR_3D_COORD".
 Gets an object that can be used to invoke natives. See <see cref="T:Rage.Native.DynamicNativeFunction" /> for more information.
 </summary>
             <value>An instance of <see cref="T:Rage.Native.DynamicNativeFunction" />.</value>
+        </member>
+        <member name="T:Rage.Native.NativeFunction">
+            <summary>
+A collection of methods for invoking natives.
+</summary>
         </member>
         <member name="P:Rage.Attributes.PluginAttribute.ShouldTickInPauseMenu">
             <summary>
@@ -5297,8 +5642,8 @@ Gets or sets the full name of the default type that will be used to represent pe
             <summary>
 Gets or sets the full name of the method to serve as exit point of the plugin (Eg. "EntryPoint.OnUnload". If <c>null</c>, the first found method that's static, returns void, takes a bool and is named "OnUnload" will be used.
 </summary>
-            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
             <value>The full name (type and method) of the method to call when the plugin is unloaded (either gracefully or forcefully).</value>
+            <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
             <remarks>
                 <para>The exit point must have the following signature (access modifier and name can be anything):
 <code lang="C#">
@@ -5319,30 +5664,34 @@ End Sub
 Gets or sets the full name of the method to serve as entry point of the plugin (Eg. "EntryPoint.Main". If <c>null</c>, the first found method that's static, returns void and is named "Main" will be used.
 </summary>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
+            <value>The full name (type and method) of the method to call when the plugin is loaded.</value>
         </member>
         <member name="P:Rage.Attributes.PluginAttribute.Author">
             <summary>
 Gets or sets the author of the plugin.
 </summary>
+            <value>The nick or name of the person or team that created the plugin.</value>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
         </member>
         <member name="P:Rage.Attributes.PluginAttribute.Description">
             <summary>
 Gets or sets the description of the plugin.
 </summary>
+            <value>The purpose of this plugin.</value>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
         </member>
         <member name="P:Rage.Attributes.PluginAttribute.Name">
             <summary>
 Gets or sets the name of the plugin.
 </summary>
+            <value>The human readable name of the plugin displayed to the end user.</value>
             <exception cref="T:System.ArgumentNullException">Thrown if <paramref name="value" /> is <c>null</c>.</exception>
         </member>
         <member name="M:Rage.Attributes.PluginAttribute.#ctor(System.String)">
             <summary>
 Initializes a new instance of the <see cref="T:Rage.Attributes.PluginAttribute" /> class.
 </summary>
-            <param name="name">The name.</param>
+            <param name="name">The human readable name of the plugin displayed to the end user.</param>
             <exception cref="T:System.ArgumentNullException">Thrown if the <paramref name="name" /> parameter is <c>null</c>.</exception>
         </member>
         <member name="T:Rage.Attributes.PluginAttribute">
@@ -6783,75 +7132,84 @@ Gets the waypoint blip set by the player.
 Gets all currently existing <see cref="T:Rage.Building" />s.
 </summary>
             <returns>An array of all currently existing <see cref="T:Rage.Building" />s.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllGroups">
             <summary>
 Gets all currently existing <see cref="T:Rage.Group" />s.
 </summary>
             <returns>An array of all currently existing <see cref="T:Rage.Group" />s.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllBlips">
             <summary>
 Gets all <see cref="T:Rage.Blip" />s currently in the game world.
 </summary>
             <returns>An array of all <see cref="T:Rage.Blip" />s currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllWeapons">
             <summary>
 Gets all <see cref="T:Rage.Weapon" />s currently in the game world.
 </summary>
             <returns>An array of all <see cref="T:Rage.Ped" />s currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllPickupObjects">
             <summary>
 Gets all pickup <see cref="T:Rage.Object" />s currently in the game world.
 </summary>
             <returns>An array of all pickup <see cref="T:Rage.Object" />s currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllObjects">
             <summary>
 Gets all <see cref="T:Rage.Object" />s currently in the game world.
 </summary>
             <returns>An array of all <see cref="T:Rage.Object" />s currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllVehicles">
             <summary>
 Gets all <see cref="T:Rage.Vehicle" />s currently in the game world.
 </summary>
             <returns>An array of all <see cref="T:Rage.Vehicle" />s currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllPeds">
             <summary>
 Gets all <see cref="T:Rage.Ped" />s currently in the game world.
 </summary>
             <returns>An array of all <see cref="T:Rage.Ped" />s currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.EnumerateObjects">
             <summary>
 Gets an enumerable collection of the <see cref="T:Rage.Object" />s currently in the game world.
 </summary>
             <returns>An enumerable collection of the <see cref="T:Rage.Object" />s currently in the game world.</returns>
-            <remarks>Using this over <see cref="M:Rage.World.GetAllObjects" /> can be faster because the iteration can be interrupted without retrieving all objects; however, if the collection is changed, enumeration may not continue.</remarks>
+            <remarks>Using this over <see cref="M:Rage.World.GetAllObjects" /> can be faster because the iteration can be interrupted without retrieving all objects; however, if the collection is changed, enumeration may not continue.<para />This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.EnumerateVehicles">
             <summary>
 Gets an enumerable collection of the <see cref="T:Rage.Vehicle" />s currently in the game world.
 </summary>
             <returns>An enumerable collection of the <see cref="T:Rage.Vehicle" />s currently in the game world.</returns>
-            <remarks>Using this over <see cref="M:Rage.World.GetAllVehicles" /> can be faster because the iteration can be interrupted without retrieving all vehicles; however, if the collection is changed, enumeration may not continue.</remarks>
+            <remarks>Using this over <see cref="M:Rage.World.GetAllVehicles" /> can be faster because the iteration can be interrupted without retrieving all vehicles; however, if the collection is changed, enumeration may not continue.<para />This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.EnumeratePeds">
             <summary>
 Gets an enumerable collection of the <see cref="T:Rage.Ped" />s currently in the game world.
 </summary>
             <returns>An enumerable collection of the <see cref="T:Rage.Ped" />s currently in the game world.</returns>
-            <remarks>Using this over <see cref="M:Rage.World.GetAllPeds" /> can be faster because the iteration can be interrupted without retrieving all peds; however, if the collection is changed, enumeration may not continue.</remarks>
+            <remarks>Using this over <see cref="M:Rage.World.GetAllPeds" /> can be faster because the iteration can be interrupted without retrieving all peds; however, if the collection is changed, enumeration may not continue.<para />This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetAllEntities">
             <summary>
 Gets all entities currently in the game world.
 </summary>
             <returns>An array of all entities currently in the game world.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetEntities(Rage.Vector3,System.Single,&lt;unknown type&gt;)">
             <summary>
@@ -6861,6 +7219,7 @@ Gets all entities that match the specified parameters.
             <param name="radius">The radius to include entities within. Entities farther from the position than the radius, will not be considered.</param>
             <param name="flags">The flags indicating which entities to include or ignore.</param>
             <returns>Returns an array of type <see cref="T:Rage.Entity" /> representing the entities matching the specified parameters.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetEntities(&lt;unknown type&gt;)">
             <summary>
@@ -6868,6 +7227,7 @@ Gets all entities that match the specified flags.
 </summary>
             <param name="flags">The flags indicating which entities to include or ignore.</param>
             <returns>Returns an array of type <see cref="T:Rage.Entity" /> representing the entities matching the specified flags.</returns>
+            <remarks>This method only returns valid instances, so it is not necessary to validate the peds before calling their members, unless the fiber it was called on has yielded since the call.</remarks>
         </member>
         <member name="M:Rage.World.GetClosestEntity(Rage.Entity[],Rage.Vector3)">
             <summary>
@@ -7343,6 +7703,27 @@ Gets a value indicating whether this vehicle has a trailer hitch.
             <value>
                 <c>true</c> if this vehicle has a trailer hitch; otherwise, false.</value>
         </member>
+        <member name="P:Rage.Vehicle.IsAmphibiousQuadBike">
+            <summary>
+Gets a value indicating whether this vehicle is an amphibious quad bike.
+</summary>
+            <value>
+                <c>true</c> if this vehicle is an amphibious quad bike; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Rage.Vehicle.IsAmphibiousCar">
+            <summary>
+Gets a value indicating whether this vehicle is an amphibious car.
+</summary>
+            <value>
+                <c>true</c> if this vehicle is an amphibious car; otherwise, <c>false</c>.</value>
+        </member>
+        <member name="P:Rage.Vehicle.IsAmphibious">
+            <summary>
+Gets a value indicating whether this vehicle is amphibious.
+</summary>
+            <value>
+                <c>true</c> if this vehicle is amphibious; otherwise, <c>false</c>.</value>
+        </member>
         <member name="P:Rage.Vehicle.IsSubmarine">
             <summary>
 Gets a value indicating whether this vehicle is a submarine.
@@ -7790,6 +8171,33 @@ Initializes a new instance of the <see cref="T:Rage.Vehicle" /> class.
 </summary>
             <param name="position">The position to spawn at.</param>
         </member>
+        <member name="M:Rage.Vehicle.#ctor">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Vehicle" /> class.
+</summary>
+        </member>
+        <member name="M:Rage.Vehicle.#ctor(System.Predicate`1{Rage.Model},Rage.Vector3,System.Single)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Vehicle" /> class.
+</summary>
+            <param name="modelPredicate">A method that determines whether a model should be considered when choosing a random model for this <see cref="T:Rage.Vehicle" />. Only vehicle models will be passed to this method. Cannot be <c>null</c>.</param>
+            <param name="position">The position to spawn at.</param>
+            <param name="heading">The heading to spawn in.</param>
+        </member>
+        <member name="M:Rage.Vehicle.#ctor(System.Predicate`1{Rage.Model},Rage.Vector3)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Vehicle" /> class.
+</summary>
+            <param name="modelPredicate">A method that determines whether a model should be considered when choosing a random model for this <see cref="T:Rage.Vehicle" />. Only vehicle models will be passed to this method. Cannot be <c>null</c>.</param>
+            <param name="position">The position to spawn at.</param>
+        </member>
+        <member name="M:Rage.Vehicle.#ctor(System.Predicate`1{Rage.Model})">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Vehicle" /> class.
+</summary>
+            <param name="modelPredicate">A method that determines whether a model should be considered when choosing a random model for this <see cref="T:Rage.Vehicle" />. Only vehicle models will be passed to this method. Cannot be <c>null</c>.</param>
+            <param name="position">The position to spawn at.</param>
+        </member>
         <member name="M:Rage.Vehicle.#ctor(Rage.PoolHandle)">
             <summary>
 Initializes a new instance of the <see cref="T:Rage.Vehicle" /> class.
@@ -8021,6 +8429,20 @@ Gets the index of a bone of this <see cref="T:Rage.Ped" />, given the bone's id.
         </member>
         <member name="M:Rage.Ped.Delete">
             <inheritdoc />
+        </member>
+        <member name="P:Rage.Ped.FiringPattern">
+            <summary>
+Sets the firing pattern used by this <see cref="T:Rage.Ped" /> in fire fights.
+</summary>
+            <value>The firing pattern.</value>
+        </member>
+        <member name="P:Rage.Ped.StaysInGroups">
+            <summary>
+                <para>Sets a value indicating whether this <see cref="T:Rage.Ped" /> will stay in its group unless explicitly removed.</para>
+                <para>If the value of this property is <c>false</c>, this <see cref="T:Rage.Ped" /> will be removed from its group if it gets farther away from its leader than the <see cref="T:Rage.Group" />'s <see cref="!:Rage::Group::DissolveDistance" />.</para>
+            </summary>
+            <value>
+                <c>true</c> if this <see cref="T:Rage.Ped" /> will stay in its group; otherwise, <c>false</c>.</value>
         </member>
         <member name="P:Rage.Ped.IsPainAudioEnabled">
             <summary>
@@ -8594,12 +9016,6 @@ Occurs when this <see cref="T:Rage.Ped" /> has been shot.
 Occurs when this <see cref="T:Rage.Ped" /> has been run over by a vehicle.
 </summary>
         </member>
-        <member name="M:Rage.Ped.#ctor(Rage.Vector3)">
-            <summary>
-Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
-</summary>
-            <param name="position">The position to spawn at.</param>
-        </member>
         <member name="M:Rage.Ped.#ctor(Rage.Model,Rage.Vector3,System.Single)">
             <summary>
 Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
@@ -8607,6 +9023,45 @@ Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
             <param name="model">The model to use.</param>
             <param name="position">The position to spawn at.</param>
             <param name="heading">The heading to spawn in.</param>
+        </member>
+        <member name="M:Rage.Ped.#ctor(Rage.Vector3,System.Single)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
+</summary>
+            <param name="position">The position to spawn at.</param>
+            <param name="heading">The heading to spawn in.</param>
+        </member>
+        <member name="M:Rage.Ped.#ctor(Rage.Vector3)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
+</summary>
+            <param name="position">The position to spawn at.</param>
+        </member>
+        <member name="M:Rage.Ped.#ctor">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
+</summary>
+        </member>
+        <member name="M:Rage.Ped.#ctor(System.Predicate`1{Rage.Model},Rage.Vector3,System.Single)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
+</summary>
+            <param name="modelPredicate">A method that determines whether a model should be considered when choosing a random model for this <see cref="T:Rage.Ped" />. Only Ped models will be passed to this method. Cannot be <c>null</c>.</param>
+            <param name="position">The position to spawn at.</param>
+            <param name="heading">The heading to spawn in.</param>
+        </member>
+        <member name="M:Rage.Ped.#ctor(System.Predicate`1{Rage.Model},Rage.Vector3)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
+</summary>
+            <param name="modelPredicate">A method that determines whether a model should be considered when choosing a random model for this <see cref="T:Rage.Ped" />. Only Ped models will be passed to this method. Cannot be <c>null</c>.</param>
+            <param name="position">The position to spawn at.</param>
+        </member>
+        <member name="M:Rage.Ped.#ctor(System.Predicate`1{Rage.Model})">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Ped" /> class.
+</summary>
+            <param name="modelPredicate">A method that determines whether a model should be considered when choosing a random model for this <see cref="T:Rage.Ped" />. Only Ped models will be passed to this method. Cannot be <c>null</c>.</param>
         </member>
         <member name="M:Rage.Ped.#ctor(Rage.PoolHandle)">
             <summary>
@@ -8916,6 +9371,13 @@ Clears the <see cref="T:Rage.Ped" />'s tasks immediately.
 Clears the <see cref="T:Rage.Ped" />'s tasks.
 </summary>
         </member>
+        <member name="P:Rage.TaskInvoker.CurrentTaskStatus">
+            <summary>
+Gets the status of the current task. If no task is running, returns <see cref="F:Rage.TaskStatus.NoTask" />.
+</summary>
+            <value>The status of the current task.</value>
+            <remarks>This property will only return the status of tasks invoked by the methods in this class (or tasks invoked through natives).</remarks>
+        </member>
         <member name="M:Rage.AnimationSet.Dismiss">
             <inheritdoc />
         </member>
@@ -9030,13 +9492,6 @@ Initializes a new instance of the <see cref="T:Rage.Weapon" /> class.
 </summary>
             <param name="handle">The handle.</param>
         </member>
-        <member name="M:Rage.Object.#ctor(Rage.Model,Rage.Vector3)">
-            <summary>
-Initializes a new instance of the <see cref="T:Rage.Object" /> class.
-</summary>
-            <param name="model">The model to use.</param>
-            <param name="position">The position to spawn at.</param>
-        </member>
         <member name="M:Rage.Object.#ctor(Rage.Model,Rage.Vector3,System.Single)">
             <summary>
 Initializes a new instance of the <see cref="T:Rage.Object" /> class.
@@ -9044,6 +9499,13 @@ Initializes a new instance of the <see cref="T:Rage.Object" /> class.
             <param name="model">The model to use.</param>
             <param name="position">The position to spawn at.</param>
             <param name="position">The heading of the object.</param>
+        </member>
+        <member name="M:Rage.Object.#ctor(Rage.Model,Rage.Vector3)">
+            <summary>
+Initializes a new instance of the <see cref="T:Rage.Object" /> class.
+</summary>
+            <param name="model">The model to use.</param>
+            <param name="position">The position to spawn at.</param>
         </member>
         <member name="M:Rage.Object.#ctor(Rage.PoolHandle)">
             <summary>
@@ -9144,6 +9606,21 @@ Gets a value indicating whether this model represents a ped.
         <member name="P:Rage.Model.IsVehicle">
             <summary>
 Gets a value indicating whether this model represents a vehicle.
+</summary>
+        </member>
+        <member name="P:Rage.Model.IsAmphibiousQuadBike">
+            <summary>
+Gets a value indicating whether this model represents an amphibious quad bike.
+</summary>
+        </member>
+        <member name="P:Rage.Model.IsAmphibiousCar">
+            <summary>
+Gets a value indicating whether this model represents an amphibious car.
+</summary>
+        </member>
+        <member name="P:Rage.Model.IsAmphibious">
+            <summary>
+Gets a value indicating whether this model represents an amphibious vehicle.
 </summary>
         </member>
         <member name="P:Rage.Model.IsBlimp">
@@ -9254,6 +9731,11 @@ The task was temporarily interrupted, eg. if the <see cref="T:Rage.Ped" /> is wa
         <member name="F:Rage.TaskStatus.None">
             <summary>
 The task has not been performed yet, or has been done.
+</summary>
+        </member>
+        <member name="F:Rage.TaskStatus.NoTask">
+            <summary>
+The status returned by <see cref="!:Rage::TaskInvoker::CurrentTaskStatus" /> when the current task hasn't been invoked by a plugin or game script.
 </summary>
         </member>
         <member name="F:Rage.TaskStatus.Preparing">
@@ -9372,14 +9854,19 @@ Indicates that the <see cref="T:Rage.Ped" /> should warp out of the vehicle.
         </member>
         <member name="T:Rage.EnterVehicleFlags">
             <summary>
-Flags for the <see cref="!:Rage::TaskInvoker::EnterVehicle" /> task.
+Flags for the <see cref="!:TaskInvoker::EnterVehicle" /> task.
 </summary>
+        </member>
+        <member name="F:&lt;unknown type&gt;.DoNotEnter">
+            <summary>
+                <para>Indicates that the <see cref="T:Rage.Ped" /> should not get in.</para>
+                <para>If this flag is specified, the <see cref="T:Rage.Ped" /> will only open the door and pull the occupant out (granted that the <see cref="F:&lt;unknown type&gt;.AllowJacking" /> flag is specified), but not get in.</para>
+            </summary>
         </member>
         <member name="F:&lt;unknown type&gt;.AbortAfterOpeningDoor">
             <summary>
 Indicates that the task should be aborted after the <see cref="T:Rage.Ped" /> has opened the vehicle door.
 </summary>
-            <remarks>Note that if the door on the specified seat is already open, the <see cref="T:Rage.Ped" /> will still get in.</remarks>
         </member>
         <member name="F:&lt;unknown type&gt;.EnterFromOppositeSide">
             <summary>
@@ -9393,8 +9880,9 @@ Indicates that the <see cref="T:Rage.Ped" /> should warp into the vehicle.
         </member>
         <member name="F:&lt;unknown type&gt;.AllowJacking">
             <summary>
-Indicates that the <see cref="T:Rage.Ped" /> should jack the vehicle if it has a driver. If not specified, the <see cref="T:Rage.Ped" /> will not get in if the vehicle has a driver.
-</summary>
+                <para>Indicates that the <see cref="T:Rage.Ped" /> should jack the vehicle if it has a driver.</para>
+                <para>If not specified, and there is a <see cref="T:Rage.Ped" /> on the specified seat, the task will end immediately and the <see cref="T:Rage.Ped" /> will not get in.</para>
+            </summary>
         </member>
         <member name="F:&lt;unknown type&gt;.WarpTo">
             <summary>
@@ -9674,6 +10162,21 @@ Represents the possible driving maneuvers for <see cref="!:Rage::TaskInvoker::Pe
                 <para>Steering angle will not be touched, and can be set manually.</para>
             </summary>
         </member>
+        <member name="T:Rage.Achievement">
+            <summary>
+Represents the game's achievements.
+</summary>
+        </member>
+        <member name="T:Rage.ParachuteLandingType">
+            <summary>
+Represents the various landing types.
+</summary>
+        </member>
+        <member name="T:Rage.ParachuteState">
+            <summary>
+Represents the various parachute states.
+</summary>
+        </member>
         <member name="F:Rage.LicensePlateStyle.NorthYankton">
             <summary>
 Black text on rusty white plate with "YANKTON" written above in all capitals.
@@ -9704,6 +10207,11 @@ Yellow text on black plate with "San Andreas" written above in all capitals.
 Blue text on white plate with "San Andreas" written above in cursive.
 </summary>
         </member>
+        <member name="T:Rage.ExitCoverTaskFlags">
+            <summary>
+Flags for the <see cref="!:TaskInvoker::ExitCover" /> task.
+</summary>
+        </member>
         <member name="F:Rage.ExitCoverTaskFlags.TowardsTarget">
             <summary>
 If this flag is specified, the ped will take a few running steps towards the target it was taking cover from.
@@ -9717,6 +10225,11 @@ If this flag is specified, the ped will transition from cover to aiming at the s
         <member name="F:Rage.ExitCoverTaskFlags.Simple">
             <summary>
 If this flag is specified, the ped will simply transition to standing.
+</summary>
+        </member>
+        <member name="T:Rage.GroupFormationType">
+            <summary>
+Represents the various group formation types.
 </summary>
         </member>
         <member name="M:Rage.Entity.Delete">
@@ -13920,6 +14433,22 @@ Attribute to let parameter auto completers specify which types they support.
         <!-- Discarding badly formed XML document comment for member 'P:Rage.Entity.IsInAir'. -->
         <!-- Discarding badly formed XML document comment for member 'P:Rage.Ped.IsInStealthMode'. -->
         <!-- Discarding badly formed XML document comment for member 'P:Rage.Ped.IsHangingOnToVehicle'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawLineDebug(Rage.Vector3,Rage.Vector3,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawArrowDebug(Rage.Vector3,Rage.Vector3,Rage.Rotator,System.Single,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawSphereDebug(Rage.Vector3,System.Single,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawWireBoxDebug(Rage.Vector3,Rage.Quaternion,Rage.Vector3,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawLine(Rage.Vector3,Rage.Vector3,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawArrow(Rage.Vector3,Rage.Vector3,Rage.Rotator,System.Single,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawSphere(Rage.Vector3,System.Single,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawWireBox(Rage.Vector3,Rage.Quaternion,Rage.Vector3,System.Drawing.Color)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawLineTraceDebug(Rage.Vector3,Rage.Vector3,Rage.HitResult)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawLineTrace(Rage.Vector3,Rage.Vector3,Rage.HitResult)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawBoxTraceDebug(Rage.Vector3,Rage.Quaternion,Rage.Vector3,Rage.HitResult)'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.Debug.DrawBoxTrace(Rage.Vector3,Rage.Quaternion,Rage.Vector3,Rage.HitResult)'. -->
+        <!-- Discarding badly formed XML document comment for member 'P:Rage.Entity.IsInAir'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.MathHelper.Max``1(``0[])'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.MathHelper.Min``1(``0[])'. -->
+        <!-- Discarding badly formed XML document comment for member 'M:Rage.MathHelper.Average``1(``0[])'. -->
         <!-- Discarding badly formed XML document comment for member 'T:Rage.Attributes.ConsoleCommandAttribute'. -->
         <!-- Discarding badly formed XML document comment for member 'T:Rage.Attributes.ConsoleVariableAttribute'. -->
         <!-- Discarding badly formed XML document comment for member 'P:Rage.RelationshipGroup.Name'. -->
