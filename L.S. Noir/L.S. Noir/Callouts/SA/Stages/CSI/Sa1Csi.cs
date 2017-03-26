@@ -8,6 +8,7 @@ using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Creators;
 using LSNoir.Callouts.SA.Data;
+using LSNoir.Callouts.SA.Objects;
 using LSNoir.Callouts.SA.Services;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
@@ -49,9 +50,7 @@ namespace LSNoir.Callouts.SA.Stages
         private List<int> _wDataIDs = new List<int>();
 
         // Evidence
-        internal Evid.Object ObjectDrink, ObjectElectronic, ObjectFood;
         private EvidenceController _eController = new EvidenceController();
-        private Model _fooditem, _drink, _electronic;
         private Dictionary<Evid.Object, EvidenceData> _evidenceObjData = new Dictionary<Evid.Object, EvidenceData>();
 
         // Dialog
@@ -62,6 +61,7 @@ namespace LSNoir.Callouts.SA.Stages
         private EnumState _state;
         private CheckState _availablestate;
         private Stopwatch _sw = new Stopwatch();
+        private Marker _foMarker;
 
 
         // todo -- get all spawnpoints from xml
@@ -112,7 +112,7 @@ namespace LSNoir.Callouts.SA.Stages
         private void UpdateandSaveCaseData()
         {
             "Updating case data".AddLog();
-            _caseData.Number = RandomNumberGenerator.RandomNumber(800, 3000);
+            _caseData.Number = Fiskey111Common.Rand.RandomNumber(800, 3000);
             _caseData.CurrentStatus = "Unsolved";
             _caseData.CrimeTime = World.DateTime;
             _caseData.SecCamSpawn = CsiCreator.SecCamSpawnPoint;
@@ -162,10 +162,6 @@ namespace LSNoir.Callouts.SA.Stages
 
                 AddNextScripts(_emstransport);
 
-                _eController.AddEvidence(ObjectDrink);
-                _eController.AddEvidence(ObjectElectronic);
-                _eController.AddEvidence(ObjectFood);
-
                 ("***TIME_LOGGER: " + _sw.Elapsed.Seconds.ToString() + " to run Accepted()").AddLog();
                 _sw.Reset();
 
@@ -198,7 +194,7 @@ namespace LSNoir.Callouts.SA.Stages
                     };
 
                     Array traces = Enum.GetValues(typeof(EvidenceData.Traces));
-                    Traces trace = (Traces)traces.GetValue(Fiskey111Common.RandomNumberGenerator.RandomNumber().Next(traces.Length));
+                    Traces trace = (Traces)traces.GetValue(Fiskey111Common.Rand.RandomNumber(traces.Length));
 
                     _vicData = new PedData(CsiCreator.Victim.Ped, PedType.Victim, true, false, boneIDs[MathHelper.GetRandomInteger(1, boneIDs.Count - 1)].ToString(),
                         boneIDs[MathHelper.GetRandomInteger(1, boneIDs.Count - 1)].ToString(),
@@ -213,7 +209,7 @@ namespace LSNoir.Callouts.SA.Stages
                     break;
                 case EntityType.Fo:
                     $"FO exists: {CsiCreator.FirstOfficer.Exists}".AddLog();
-                    FoDialog = new Dialog(ConversationCreator.DialogLineCreator(ConversationCreator.ConversationType.Fo, CsiCreator.FirstOfficer.Ped, _wDataIDs.Count), CsiCreator.FirstOfficer.Ped.Position);
+                    FoDialog = new Dialog(ConversationCreator.DialogLineCreator(ConversationCreator.ConversationType.Fo, CsiCreator.FirstOfficer.Ped, _wDataList.Count), CsiCreator.FirstOfficer.Ped.Position);
                     FoDialog.AddPed(0, Game.LocalPlayer.Character);
                     FoDialog.AddPed(1, CsiCreator.FirstOfficer.Ped);
 
@@ -245,7 +241,7 @@ namespace LSNoir.Callouts.SA.Stages
                         if (_wit1Data.IsImportant)
                         {
                             var keys = new List<int>(WitnessData.WhatSeen().Keys);
-                            var random = Fiskey111Common.RandomNumberGenerator.RandomNumber(0, 8);
+                            var random = Fiskey111Common.Rand.RandomNumber(0, 8);
                             _wit1Data.WhatSeenInt = keys[random];
                             _wit1Data.WhatSeenString = WitnessData.WhatSeen()[_wit1Data.WhatSeenInt];
                         }
@@ -280,7 +276,7 @@ namespace LSNoir.Callouts.SA.Stages
                         if (_wit2Data.IsImportant)
                         {
                             var keys = new List<int>(WitnessData.WhatSeen().Keys);
-                            var random = Fiskey111Common.RandomNumberGenerator.RandomNumber(0, 8);
+                            var random = Fiskey111Common.Rand.RandomNumber(0, 8);
                             _wit2Data.WhatSeenInt = keys[random];
                             _wit2Data.WhatSeenString = WitnessData.WhatSeen()[_wit2Data.WhatSeenInt];
                         }
@@ -331,45 +327,46 @@ namespace LSNoir.Callouts.SA.Stages
         #region EvidenceStuff
         private void CreateEvidence()
         {
-            var evidenceDictionary = new Dictionary<string, string>
+            var eList = new List<Evidence>
             {
-                {"drink", "prop_cs_bs_cup"},
-                {"electronic", "prop_cs_tablet"},
-                {"food", "prop_food_bs_chips"}
+                new Evidence("drink", "prop_cs_bs_cup", "Burget Shot Cup"),
+                new Evidence("electronic", "prop_cs_tablet", "iFruit Tablet"),
+                new Evidence("electronic", "prop_ing_camera_01", "Sonsung Camera"),
+                new Evidence("electronic", "prop_ld_lap_top", "iFruit McBook"),
+                new Evidence("food", "prop_food_bs_chips", "Burger Shot Fries"),
+                new Evidence("bag", "prop_big_bag_01", "Duffel Bag"),
+                new Evidence("bag", "prop_poly_bag_money", "Bag of Money"),
+                new Evidence("id", "prop_ld_wallet_01", "Wallet"),
+                new Evidence("id", "prop_ld_suitcase_01", "Suitcase"),
+                new Evidence("panties", "prop_cs_panties", "Panties"),
+                new Evidence("panties", "prop_cs_panties_02", "Panties"),
+                new Evidence("panties", "prop_cs_panties_03", "Panties"),
+                new Evidence("stuffed", "prop_mr_raspberry_01", "Destroyed Stuffed Bear"),
+                new Evidence("stuffed2", "prop_defiled_ragdoll_01", "Interesting Ragdoll")
             };
 
-            foreach (var evidType in evidenceDictionary.Keys)
-            {
-                ("Creating evidence: " + evidType).AddLog();
-                switch (evidType)
-                {
-                    case "drink":
-                        ObjectDrink = new Evid.Object(evidType, evidType, evidenceDictionary[evidType], CsiCreator.Victim.Position.Around(2f, 4f));
-                        CompleteEvidCreation(ObjectDrink);
-                        _dData = new EvidenceData(EvidenceData.DataType.Drink, "Drink", ObjectDrink.@object.Model, ObjectDrink.IsImportant);
-                        GetTraces(_dData);
-                        _evidenceObjData.Add(ObjectDrink, _dData);
-                        _eDataList.Add(_dData);
-                        break;
-                    case "electronic":
-                        ObjectElectronic = new Evid.Object(evidType, evidType, evidenceDictionary[evidType], CsiCreator.Victim.Position.Around2D(3f, 5f));
-                        CompleteEvidCreation(ObjectElectronic);
-                        _eData = new EvidenceData(EvidenceData.DataType.Electronic, "Electronic", ObjectElectronic.@object.Model, ObjectElectronic.IsImportant);
-                        GetTraces(_eData);
-                        _evidenceObjData.Add(ObjectElectronic, _eData);
-                        _eDataList.Add(_eData);
-                        break;
-                    case "food":
-                        ObjectFood = new Evid.Object(evidType, evidType, evidenceDictionary[evidType], CsiCreator.Victim.Position.Around2D(3f, 5f));
-                        CompleteEvidCreation(ObjectFood);
-                        _fData = new EvidenceData(EvidenceData.DataType.Food, "Food", ObjectFood.@object.Model, ObjectFood.IsImportant);
-                        GetTraces(_fData);
-                        _evidenceObjData.Add(ObjectFood, _fData);
-                        _eDataList.Add(_fData);
-                        break;
-                }
+            var ints = new List<int>();
+            for (var e = 0; e < eList.Count; e++)
+                ints.Add(e);
 
-                ("Evidence: " + evidType + " created successfully").AddLog();
+            ints.Shuffle();
+
+            var randomEvidenceNumber = Rand.RandomNumber(3, eList.Count);
+
+            $"Total evidence created: {randomEvidenceNumber}".AddLog();
+
+            for (int i = 0; i < randomEvidenceNumber; i++)
+            {
+                var evidType = eList[ints[i]];
+                var obj = new Evid.Object(evidType.Description, evidType.Description, evidType.Model, CsiCreator.Victim.Position.Around2D(3f, 9f));
+                CompleteEvidCreation(obj);
+                _dData = new EvidenceData(EvidenceData.DataType.Drink, evidType.PublicName, obj.@object.Model, obj.IsImportant);
+                GetTraces(_dData);
+                _evidenceObjData.Add(obj, _dData);
+                _eDataList.Add(_dData);
+                _eController.AddEvidence(obj);
+
+                ("Evidence: " + evidType.Description + " created successfully").AddLog();
             }
         }
 
@@ -380,14 +377,14 @@ namespace LSNoir.Callouts.SA.Stages
                 obj.IsImportant = true;
                 obj.PlaySoundImportantEvidenceCollected = true;
             }
-
+            obj.DistanceEvidenceClose = 1.25f;
             UpdateEvidence(obj);
         }
 
         private void GetTraces(EvidenceData data)
         {
             Array values = Enum.GetValues(typeof(EvidenceData.Traces));
-            data.Trace = (EvidenceData.Traces)values.GetValue(RandomNumberGenerator.RandomNumber().Next(values.Length));
+            data.Trace = (EvidenceData.Traces)values.GetValue(Fiskey111Common.Rand.RandomNumber(values.Length));
         }
 
         private void UpdateEvidence(Evid.Object obj)
@@ -438,6 +435,8 @@ namespace LSNoir.Callouts.SA.Stages
                 CsiCreator.Victim.Ped.IsPositionFrozen = true;
             }
 
+            EvidenceCollected();
+
             CheckForWitness();
         }
         
@@ -447,7 +446,7 @@ namespace LSNoir.Callouts.SA.Stages
             {
                 if (!obj.Exists()) continue;
 
-                if (_witList[obj].IsRunning || obj.IsCollected) continue;
+                if (_witList[obj].IsRunning || obj.IsCollected || _witList[obj].HasEnded) continue;
 
                 if (Game.LocalPlayer.Character.Position.DistanceTo(obj.Ped.Position) < 2f)
                     _witList[obj].StartDialog();
@@ -462,8 +461,10 @@ namespace LSNoir.Callouts.SA.Stages
             if (!_rancheck && Game.LocalPlayer.Character.Position.DistanceTo(CsiCreator.FirstOfficer.Ped.Position) < 25f)
             {
                 _rancheck = true;
-                Vector3 markerPos = new Vector3(CsiCreator.FirstOfficer.Spawn.X, CsiCreator.FirstOfficer.Spawn.Y, (CsiCreator.FirstOfficer.Spawn.Z + 1.6f));
-                Marker.StartMarker(markerPos, Color.LightBlue);
+                var markerPos = new Vector3(CsiCreator.FirstOfficer.Spawn.X, CsiCreator.FirstOfficer.Spawn.Y, (CsiCreator.FirstOfficer.Spawn.Z + 1.6f));
+                _foMarker = new Marker(markerPos, Color.LightBlue);
+
+                _foMarker.Start();
                 FoDialog.Position = CsiCreator.FirstOfficer.Ped.Position;
                 "Arrived at scene".AddLog();
 
@@ -498,7 +499,7 @@ namespace LSNoir.Callouts.SA.Stages
                 _foNotified = true;
                 heading = CsiCreator.FirstOfficer.Heading;
                 Game.DisplayHelp("Press ~y~Y~w~ to speak to the First Officer");
-                Marker.CreateMarker.Abort();
+                _foMarker.Stop();
             }
             if (Game.IsKeyDown(Keys.Y) && !FoDialog.IsRunning)
             {
@@ -526,10 +527,6 @@ namespace LSNoir.Callouts.SA.Stages
         {
             CsiCreator.Victim.CanBeInspected = true;
             CsiCreator.Victim.PlaySoundPlayerNearby = true;
-
-            UpdateEvidence(ObjectDrink);
-            UpdateEvidence(ObjectElectronic);
-            UpdateEvidence(ObjectFood);
 
             _informed = false;
 
@@ -581,8 +578,6 @@ namespace LSNoir.Callouts.SA.Stages
                 _sw.Restart();
                 Game.DisplayHelp("Once the scene has been thoroughly investigated, leave the scene to complete this stage");
             }
-
-            EvidenceCollected();
 
             if (!(Game.LocalPlayer.Character.Position.DistanceTo(CsiCreator.FirstOfficer.Spawn) >= 80f)) return;
             
@@ -672,7 +667,7 @@ namespace LSNoir.Callouts.SA.Stages
             {
                 case ServiceType.Ems:
                     "Creating EMS".AddLog();
-                    if (RandomNumberGenerator.RandomNumber().Next(2, 3) == 1)
+                    if (Fiskey111Common.Rand.RandomNumber(2, 3) == 1)
                         _emstransport = true;
 
                     _ems = new Ems(CsiCreator.Victim.Ped, _dispEmsTo, null, _emstransport);
@@ -802,7 +797,7 @@ namespace LSNoir.Callouts.SA.Stages
             SaveItemToXML<List<PedData>>(_pDataList, Main.PDataPath);
             SaveItemToXML<List<EvidenceData>>(_eDataList, Main.EDataPath);
             SaveItemToXML<List<ReportData>>(_rDataList, Main.RDataPath);
-            _eController.Dispose();
+            _eController?.Dispose();
             _missionValue = _missionValue + 5;
             $"Mission value changed to: {_missionValue}".AddLog();
         }
@@ -813,9 +808,6 @@ namespace LSNoir.Callouts.SA.Stages
         protected void SetScriptFinished()
         {
             CsiCreator.End();
-            if (ObjectElectronic.Exists()) ObjectElectronic.@object.Delete();
-            if (ObjectDrink.Exists()) ObjectDrink.@object.Delete();
-            if (ObjectFood.Exists()) ObjectFood.@object.Delete();
 
             _ems?.Dispose();
             _coroner?.Dispose();

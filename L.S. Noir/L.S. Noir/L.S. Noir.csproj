@@ -172,6 +172,7 @@
     <Compile Include="Callouts\SA\Interaction\SecurityCamera.cs" />
     <Compile Include="Callouts\SA\Interaction\TimerBar.cs" />
     <Compile Include="Callouts\SA\Objects\Cop.cs" />
+    <Compile Include="Callouts\SA\Objects\Evidence.cs" />
     <Compile Include="Callouts\SA\Objects\StageData.cs" />
     <Compile Include="Callouts\SA\Objects\StageObject.cs" />
     <Compile Include="Callouts\SA\RegisterSAStages.cs" />

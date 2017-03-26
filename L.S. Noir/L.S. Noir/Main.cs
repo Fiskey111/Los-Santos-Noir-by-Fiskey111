@@ -29,7 +29,7 @@ namespace LSNoir
         internal static bool CompAccess = false, MenuViewed = false, Warrantissued = false, BetterEmsFound = false, AcceptedUser = false;
         internal static CaseData _cData;
         internal static GameFiber StartFiber = new GameFiber(LoadLsn);
-        internal const string CDataPath = @"Plugins\LSPDFR\LSNoir\SA\Data\CaseData.xml";
+        internal const string CDataPath = @".\Plugins\LSPDFR\LSNoir\SA\Data\CaseData.xml";
         internal const string PDataPath = @"Plugins\LSPDFR\LSNoir\SA\Data\PedData.xml";
         internal const string EDataPath = @"Plugins\LSPDFR\LSNoir\SA\Data\EvidenceData.xml";
         internal const string RDataPath = @"Plugins\LSPDFR\LSNoir\SA\Data\ReportData.xml";
