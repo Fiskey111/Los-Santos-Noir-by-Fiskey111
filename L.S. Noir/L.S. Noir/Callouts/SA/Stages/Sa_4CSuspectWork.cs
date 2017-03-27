@@ -140,6 +140,7 @@ namespace LSNoir.Callouts.SA.Stages
 
         private void TimeWarp(int time)
         {
+            if (World.IsTimeOfDayFrozen) World.IsTimeOfDayFrozen = false;
             GameFiber.StartNew(delegate
             {
                 CamClass.FocusCamOnObjectWithInterpolation(Game.LocalPlayer.Character.AbovePosition, 0f);

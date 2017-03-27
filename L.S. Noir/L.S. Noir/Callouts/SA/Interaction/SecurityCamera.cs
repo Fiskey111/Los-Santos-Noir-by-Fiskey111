@@ -240,12 +240,12 @@ namespace LSNoir.Callouts.SA.Commons
             if (_play)
             {
                 e.Graphics.DrawTexture(_playTexture, (Game.Resolution.Width / 2), 50, 75f, 75f);
-                e.Graphics.DrawText(World.TimeOfDay.ToString(), "Arial", 18f, new PointF(5f, 5f), Color.White);
+                if (!World.IsTimeOfDayFrozen) e.Graphics.DrawText(World.TimeOfDay.ToString(), "Arial", 18f, new PointF(5f, 5f), Color.White);
             }
             else
             {
                 e.Graphics.DrawTexture(_pauseTexture, (Game.Resolution.Width / 2), 50, 75f, 75f);
-                e.Graphics.DrawText(_pauseTime.ToString(), "Arial", 18f, new PointF(5f, 5f), Color.White);
+                if (!World.IsTimeOfDayFrozen) e.Graphics.DrawText(_pauseTime.ToString(), "Arial", 18f, new PointF(5f, 5f), Color.White);
             }
         }
 
