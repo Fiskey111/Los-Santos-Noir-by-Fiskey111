@@ -40,20 +40,40 @@ namespace LSNoir
         {
             GameFiber.StartNew(delegate
             {
-                if (onDuty)
-                {
-                    if (!RageCheck.RPHCheck(0.46f)) return;
+                if (!onDuty) return;
 
-                    if (!RageProRegistration.RegisterRagePro()) return;
+                if (!RageCheck.RPHCheck(0.46f)) return;
 
-                    if (!VersionCheck.OldLSNCheck()) return;
+                if (!RageProRegistration.RegisterRagePro()) return;
 
-                    //VersionCheck.CheckVersion();
+                if (!VersionCheck.OldLSNCheck()) return;
+                /*
+                var readme = new FileChecker(@"Plugins\LSPDFR\LSNoir\Readme.txt", FileChecker.FileType.readme);
+                readme.StartFileCheck();
+                while (readme.IsRunning)
+                    GameFiber.Yield();
 
-                    Settings.IniUpdateCheck();
+                if (!readme.IsSuccessful) return;
+
+                var license = new FileChecker(@"Plugins\LSPDFR\LSNoir\License.txt", FileChecker.FileType.license);
+                license.StartFileCheck();
+                while (license.IsRunning)
+                    GameFiber.Yield();
+
+                if (!license.IsSuccessful) return;
+
+                var ini = new FileChecker(@"Plugins\LSPDFR\LSNoir\Settings.ini", FileChecker.FileType.ini);
+                ini.StartFileCheck();
+                while (ini.IsRunning)
+                    GameFiber.Yield();
+
+                if (!ini.IsSuccessful) return;
+                */
+                //VersionCheck.CheckVersion();
+
+                Settings.IniUpdateCheck();
                     
-                    LoadLsn();
-                }
+                LoadLsn();
             });
         }
         
@@ -63,10 +83,6 @@ namespace LSNoir
             {
                 try
                 {
-                    //"Checking INIs".AddLog();
-                    //while (!INIChecker.INICheck())
-                    //    GameFiber.Yield();
-
                     AppDomain.CurrentDomain.AssemblyResolve += LSPDFRResolveEventHandler;
 
                     if (!CheckFiles())
@@ -76,12 +92,16 @@ namespace LSNoir
                         return;
                     }
 
+                    GameFiber.Sleep(1000);
+
                     "Starting to load L.S. Noir!".AddLog(true);
                     _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
 
                     PoliceStationCheck.PoliceCheck();
 
                     RegisterSAStages.RegisterStages(_cData);
+
+                    Evid_War_TimeChecker.StartChecker();
 
                     PrintBanner();
 

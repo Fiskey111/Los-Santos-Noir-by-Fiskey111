@@ -366,8 +366,9 @@ namespace LSNoir.Callouts
 
                 "Notified to go to marker".AddLog();
                 Game.DisplayHelp("Head to the ~y~marker~w~ to enter the Medical Examiner's office");
-                _meMarker = new Marker(_markerLoc, Color.Yellow);
-                _meMarker.Start();
+                _meMarker = new Marker(_markerLoc, Color.Yellow, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, true,
+                    true);
+
             }
             if (Game.LocalPlayer.Character.Position.DistanceTo(_markerLoc) <= 1f && _startingswap == false)
             {
@@ -427,8 +428,8 @@ namespace LSNoir.Callouts
 
                 Vector3 markerPos = new Vector3(MeCreator.MedicalExaminer.Ped.Position.X, MeCreator.MedicalExaminer.Ped.Position.Y, MeCreator.MedicalExaminer.Ped.AbovePosition.Z);
 
-                _meMarker = new Marker(new Vector3(237.67f, -1367.89f, 39.53f), Color.Green);
-                _meMarker.Start();
+                _meMarker = new Marker(new Vector3(237.67f, -1367.89f, 39.53f), Color.Green, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, true,
+                    true);
 
                 "Notified to go speak to ME".AddLog();
                 Game.DisplayHelp("Go talk to the ~g~Medical Examiner~w~ in the office");
@@ -453,8 +454,8 @@ namespace LSNoir.Callouts
                 rList.Add(_meData);
                 SaveItemToXML<List<ReportData>>(rList, Main.RDataPath);
 
-                _meMarker = new Marker(MeCreator.PPos, Color.Yellow);
-                _meMarker.Start();
+                _meMarker = new Marker(MeCreator.PPos, Color.Yellow, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, true,
+                    true);
                 SwapStages(InMe, ExitingMe);
             }
 

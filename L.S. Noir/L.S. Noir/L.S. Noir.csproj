@@ -76,7 +76,7 @@
     </Reference>
     <Reference Include="RagePROletariat, Version=0.1.6255.4456, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\RagePROletariat.dll</HintPath>
+      <HintPath>..\..\..\..\..\Downloads\ragepro_dev_tools_0.2\RagePROletariat.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -95,7 +95,6 @@
     <Compile Include="APIWrapper.cs" />
     <Compile Include="Callouts\GameScript.cs" />
     <Compile Include="Callouts\SA\Commons\ScenarioHelper.cs" />
-    <Compile Include="Callouts\SA\Commons\TestWait.cs" />
     <Compile Include="Callouts\SA\Commons\WarrantRequestor.cs" />
     <Compile Include="Callouts\SA\Computer\Background.cs" />
     <Compile Include="Callouts\SA\Computer\evidence_code.cs" />
@@ -168,6 +167,7 @@
     <Compile Include="Callouts\SA\Data\PedData.cs" />
     <Compile Include="Callouts\SA\Data\ReportData.cs" />
     <Compile Include="Callouts\SA\Data\WitnessData.cs" />
+    <Compile Include="Startup\Evid_War_TimeChecker.cs" />
     <Compile Include="Callouts\SA\Interaction\HelpMenu.cs" />
     <Compile Include="Callouts\SA\Interaction\SecurityCamera.cs" />
     <Compile Include="Callouts\SA\Interaction\TimerBar.cs" />
@@ -216,10 +216,9 @@
     <Compile Include="PoliceStationCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RagePro\Licensing.cs" />
-    <Compile Include="Settings\OfficerDataCommon_Darkmyre.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Startup\DependencyCheck.cs" />
-    <Compile Include="Startup\INIChecker.cs" />
+    <Compile Include="Startup\FileChecker.cs" />
     <Compile Include="Startup\PluginCheck.cs" />
     <Compile Include="Startup\RageCheck.cs" />
     <Compile Include="Startup\RegisterStage.cs" />

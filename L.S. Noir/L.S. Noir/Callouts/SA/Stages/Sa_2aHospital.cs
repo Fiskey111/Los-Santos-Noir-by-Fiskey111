@@ -1,170 +1,169 @@
-/*namespace LSNoir.Callouts
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using Fiskey111Common;
+using LSNoir.Callouts.SA.Commons;
+using LSNoir.Extensions;
+using LtFlash.Common.ScriptManager.Scripts;
+using Rage;
+using Rage.Native;
+using static LtFlash.Common.Serialization.Serializer;
+
+namespace LSNoir.Callouts
 {
     public class Sa_2aHospital : BasicScript
     {
-        private Vector3 _position;
-        private Blip _areaBlip;
+        private Blip _hospBlip;
+        private Vector3 _position = new Vector3(298.52f, -584.51f, 43.26f);
         private Ped _doc;
-        private string _vicTraces;
-        private bool _vicImportant = false;
-        private string[] _docreport;
         private ELocation _state;
         private EDialog _dialogstate;
         private Object _notepad;
-        private LtFlash.Common.EvidenceLibrary.Dialog _dialog;
-        private PedData _victim;
-        private CaseData _case;
+        private Vector3 _playerPos => Game.LocalPlayer.Character.Position;
+        private Marker _marker;
+
+        private Dialogue _dialogue;
+        private CaseData _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
 
         protected override bool Initialize()
         {
             "Initializing L.S. Noir Callout: Sexual Assault -- Stage 2a [Hospital]".AddLog();
-            ExtensionMethods.LogDistanceFromCallout(_position);
-            _position = GetNearestHospital(Game.LocalPlayer.Character.Position);
-            _areaBlip = new Blip(_position, 10f);
-            _areaBlip.Color = System.Drawing.Color.Green;
-            _areaBlip.EnableRoute(System.Drawing.Color.Yellow);
-
-            _victim = PedSerializer.GetPedData(PedType.Victim);
-            _case = CaseSerializer.GetData();
+            
+            _hospBlip = new Blip(_position)
+            {
+                Sprite = BlipSprite.GangAttackPackage,
+                Color = Color.DarkOrange,
+                Name = "Enter Hospital"
+            };
 
             "Sexual Assault Case Update".DisplayNotification("Visit Hospital for Update");
 
-            _doc = new Ped("s_m_m_doctor_01", _position, 2f);
-            _doc.RandomizeVariation();
+            _marker = new Marker(_position, Color.Green, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, false, true);
+            ActivateStage(WaitForEnterCommand);
             
-            _state = ELocation.Dispatched;
-
-            AddStage(EnRoute);
-            AddStage(Close);
-            AddStage(VeryClose);
-            AddStage(Leaving);
             return true;
         }
 
-        public static Vector3 GetNearestHospital(Vector3 target)
+        private void WaitForEnterCommand()
         {
-            Vector3 myHospital = new Vector3();
-            List<Vector3> hospitals = new List<Vector3>();
-            hospitals.Add(new Vector3(-454, -340, 34));
-            hospitals.Add(new Vector3(296, -1442, 29));
-            hospitals.Add(new Vector3(1827, 3693, 34));
-            hospitals.Add(new Vector3(-242, -6337, 32));
-            float closestRange = 100000;
+            if (_playerPos.DistanceTo(_position) > 1.5f) return;
+            
+            "At hospital; entering".AddLog();
 
-            foreach (Vector3 sp in hospitals)
-            {
-                if (sp.DistanceTo(target) < closestRange)
-                {
-                    closestRange = sp.DistanceTo(target);
-                    myHospital = sp;
-                }
-            }
-            return myHospital;
+            if (_marker.Exists) _marker.Stop();
+
+            SwapStages(WaitForEnterCommand, CameraAndFade);
         }
 
-        protected override void Process()
+        private void CameraAndFade()
         {
-            if (Vector3.Distance(Game.LocalPlayer.Character.Position, _position) < 80f && _state == ELocation.Dispatched)
-            {
-                ActivateStage(EnRoute);
-            }
-            if (Vector3.Distance(Game.LocalPlayer.Character.Position, _position) <15f && _state == ELocation.Within80)
-            {
-                ActivateStage(Close);
-            }
-            if (Vector3.Distance(Game.LocalPlayer.Character.Position, _position) < 5f && _state == ELocation.Within15 && Game .LocalPlayer.Character.IsOnFoot)
-            {
-                ActivateStage(VeryClose);
-            }
+            //todo -- interpolate camera to hospital sign
+            Game.FadeScreenOut(5000);
+
+            while (Game.IsScreenFadedIn)
+                GameFiber.Yield();
+
+            SwapStages(CameraAndFade, LoadHospital);
         }
 
-        #region Stages
-        public void EnRoute()
+        private void LoadHospital()
         {
-            _state = ELocation.Within80;
-            _doc.Tasks.PlayAnimation("amb@medic@standing@timeofdeath@idle_a", "idle_b", 4, AnimationFlags.Loop);
-            "Within 80".AddLog();
-            _notepad = new Object("prop_notepad_01", _doc.Position);
-            int boneId = _doc.GetBoneIndex(PedBoneId.LeftPhHand);
-            NativeFunction.CallByName<uint>("ATTACH_ENTITY_TO_ENTITY", _notepad, _doc, boneId, 0f, 0f, 0f, 0f, 0f, 0f, true, false, false, false, 2, 1);
-            DeactivateStage(EnRoute);
+            OpenHospital();
+            
+            GameFiber.Sleep(0500);
+
+            LoadPeds();
+
+            Game.LocalPlayer.Character.Position = new Vector3(298.52f, -584.51f, 43.27f);
+
+            SwapStages(LoadHospital, FadeScreenIn);
         }
 
-        public void Close()
+        private void FadeScreenIn()
         {
-            _state = ELocation.Within15;
-            _areaBlip.Delete();
-            Game.DisplayHelp("Approach the ~g~doctor~w~ to get information regarding the victim.");
-            _dialogstate = EDialog.Pre;
-            DeactivateStage(Close);
+            Game.FadeScreenIn(2000);
+
+            while (!Game.IsScreenFadedIn)
+                GameFiber.Yield();
+
+            SwapStages(FadeScreenIn, WaitForSecretaryTalk);
         }
 
-        public void PrettyClose()
+        private void WaitForSecretaryTalk()
         {
-            GameFiber.StartNew(delegate
+            //todo -- add if (distancetoPed > 2f) return;
+        }
+
+        protected override void Process() { }
+
+        private void OpenHospital()
+        {
+            CallNatives();
+
+            SpawnFloor();
+
+            GameFiber.Sleep(0500);
+
+            LoadPeds();
+        }
+
+        private void CallNatives()
+        {
+            NativeFunction.Natives.x0888C3502DBBEEF5();
+            NativeFunction.Natives.x9BAE5AD2508DF078(1);
+
+            NativeFunction.Natives.SET_STREAMING(true);
+            NativeFunction.Natives.REQUEST_IPL("RC12B_Default");
+            NativeFunction.Natives.REQUEST_IPL("RC12B_Destroyed");
+            NativeFunction.Natives.REQUEST_IPL("RC12B_Fixed");
+            NativeFunction.Natives.REMOVE_IPL("RC12B_HospitalInterior");
+            NativeFunction.CallByName<bool>("IS_IPL_ACTIVE", "RC12B_Fixed");
+            NativeFunction.CallByName<bool>("IS_IPL_ACTIVE", "RC12B_HospitalInterior");
+            NativeFunction.CallByName<bool>("IS_IPL_ACTIVE", "RC12B_Default");
+            NativeFunction.CallByName<bool>("IS_IPL_ACTIVE", "RC12B_Destroyed");
+
+            NativeFunction.Natives.REQUEST_COLLISION_AT_COORD(311.4596f, -588.8196f, 41.3174f);
+            var hosp = NativeFunction.CallByName<int>("GET_INTERIOR_AT_COORDS", 311.4596f, -588.8196f, 44.3174f);
+            NativeFunction.Natives.x2CA429C029CCF247(hosp);
+            NativeFunction.Natives.SET_INTERIOR_ACTIVE(hosp, true);
+            NativeFunction.Natives.LOAD_SCENE(330.4596f, -584.8196f, 42.3174f, true);
+        }
+
+        private void SpawnFloor()
+        {
+            var model = new Model("prop_container_01a");
+
+            var q = -583f;
+            for (var i = 307f; i > 287f; i = i - 1f)
             {
-                if (_areaBlip.Exists()) _areaBlip.Delete();
-                _state = ELocation.Within5;
-                _doc.Tasks.PlayAnimation("amb@medic@standing@timeofdeath@exit", "exit", 4, AnimationFlags.None);
-                GameFiber.Sleep(7000);
-                GameFiber.Sleep(7000);
-                if (_notepad.Exists()) _notepad.Delete();
-                NativeFunction.CallByName<uint>("TASK_TURN_PED_TO_FACE_ENTITY", _doc, Game.LocalPlayer.Character, 1000);
-                "Swapping Stages Now".AddLog();
-                SwapStages(PrettyClose, VeryClose);
-            });
-        }
-
-        public void VeryClose()
-        {
-            if (_dialogstate == EDialog.Pre)
-            {
-                _dialogstate = EDialog.During;
-                "Dialog Starting".AddLog();
-                _dialog.StartDialog(_doc, Game.LocalPlayer.Character);
+                var obj = new Object(model, new Vector3(i, q, 39.441f));
+                obj.Heading = 252f;
+                q = q - 2.5f;
             }
 
-            if (_dialog.HasEnded && _dialogstate == EDialog.During)
+            var x = 319f;
+            for (var w = -586f; w > -610f; w = w - 2.5f)
             {
-                "Dialog Ending".AddLog();
-                _dialogstate = EDialog.Post;
-                int l = Rand.RandomNumber(1, 10);
-                if (l == 1)
-                {
-                    _doc.Tasks.PlayAnimation("amb@world_human_smoking@male@male_a@idle_a", "idle_b", 4, AnimationFlags.Loop);
-                    "Leaving".AddLog();
-                    _notepad = new Object("prop_cs_ciggy_01", _doc.Position);
-                    int boneId = _doc.GetBoneIndex(PedBoneId.RightPhHand);
-                    NativeFunction.CallByName<uint>("ATTACH_ENTITY_TO_ENTITY", _notepad, _doc, boneId, 0f, 0f, 0f, 0f, 0f, 0f, true, false, false, false, 2, 1);
-                }
-                else
-                {
-                    _doc.Tasks.PlayAnimation("amb@medic@standing@timeofdeath@idle_a", "idle_b", 4, AnimationFlags.Loop);
-                    "Leaving".AddLog();
-                    _notepad = new Object("prop_notepad_01", _doc.Position);
-                    int boneId = _doc.GetBoneIndex(PedBoneId.LeftPhHand);
-                    NativeFunction.CallByName<uint>("ATTACH_ENTITY_TO_ENTITY", _notepad, _doc, boneId, 0f, 0f, 0f, 0f, 0f, 0f, true, false, false, false, 2, 1);
-                }
-                SwapStages(VeryClose, Leaving);
+                var obj = new Object(model, new Vector3(x, w, 39.441f));
+                obj.Heading = 252f;
+                x = x - 1f;
             }
-        }
 
-        public void Leaving()
-        {
-            if (Game.LocalPlayer.Character.Position.DistanceTo(_doc) < 30f)
+            var x2 = 326f;
+            for (var w = -587f; w > -610f; w = w - 2.5f)
             {
-                if (_doc.Exists()) _doc.Tasks.Clear();
-                if (_doc.Exists()) _doc.Dismiss();
-                if (_notepad.Exists()) _notepad.Delete();
-                SetScriptFinished();
+                var obj = new Object(model, new Vector3(x2, w, 39.441f));
+                obj.Heading = 252f;
+                x2 = x2 - 1f;
             }
         }
-        #endregion
 
-        protected override void End()
+        private void LoadPeds()
         {
-
+            
         }
+        
+        protected override void End() { }
 
         protected void SetScriptFinished()
         {
@@ -186,4 +185,4 @@
             Pre, During, Post
         }
     }
-}*/
+}

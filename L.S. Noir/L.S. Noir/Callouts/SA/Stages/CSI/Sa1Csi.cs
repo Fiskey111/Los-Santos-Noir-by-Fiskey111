@@ -130,7 +130,7 @@ namespace LSNoir.Callouts.SA.Stages
             ShowAreaBlip(CsiCreator.Victim.Ped.Position, 150f);
             PlaySoundPlayerClosingIn = true;
 
-            Functions.PlayScannerAudio("ATTN_UNIT_02 " + Settings.UnitName() + " WE_HAVE AN_ASSAULT OFFICERS_AT_SCENE RESPOND_CODE3");
+            Functions.PlayScannerAudio("WE_HAVE AN_ASSAULT OFFICERS_AT_SCENE RESPOND_CODE3");
         }
 
         protected override bool Accepted()
@@ -299,6 +299,7 @@ namespace LSNoir.Callouts.SA.Stages
                 {
                     "Suspect being created".AddLog();
                     var s = new Ped(Model.PedModels.Where(m => m.IsPed).ToList()[MathHelper.GetRandomInteger(Model.PedModels.Where(m => m.IsPed).ToList().Count)], new Vector3(0, 0, 0), 0f);
+                    if (!s.IsHuman) s = new Ped(Model.PedModels.Where(m => m.IsPed).ToList()[MathHelper.GetRandomInteger(Model.PedModels.Where(m => m.IsPed).ToList().Count)], new Vector3(0, 0, 0), 0f);
                     GameFiber.Sleep(1000);
                     _sDataList.Add(new PedData(s, PedType.Suspect, false, num == 1));
                     GameFiber.Sleep(0500);
@@ -309,7 +310,8 @@ namespace LSNoir.Callouts.SA.Stages
                 {
                     "Creating vicfamily member".AddLog();
                     var s = new Ped(new Vector3(0, 0, 0));
-                    GameFiber.Sleep(1000);
+                        if (!s.IsHuman) s = new Ped(Model.PedModels.Where(m => m.IsPed).ToList()[MathHelper.GetRandomInteger(Model.PedModels.Where(m => m.IsPed).ToList().Count)], new Vector3(0, 0, 0), 0f);
+                        GameFiber.Sleep(1000);
                     var data = new PedData(s, PedType.VictimFamily);
                     GameFiber.Sleep(0500);
                     _pDataList.Add(data);
@@ -334,7 +336,7 @@ namespace LSNoir.Callouts.SA.Stages
                 new Evidence("electronic", "prop_ing_camera_01", "Sonsung Camera"),
                 new Evidence("electronic", "prop_ld_lap_top", "iFruit McBook"),
                 new Evidence("food", "prop_food_bs_chips", "Burger Shot Fries"),
-                new Evidence("bag", "prop_big_bag_01", "Duffel Bag"),
+                new Evidence("bag", "prop_big_bag_01", "Duffle Bag"),
                 new Evidence("bag", "prop_poly_bag_money", "Bag of Money"),
                 new Evidence("id", "prop_ld_wallet_01", "Wallet"),
                 new Evidence("id", "prop_ld_suitcase_01", "Suitcase"),
@@ -463,8 +465,6 @@ namespace LSNoir.Callouts.SA.Stages
                 _rancheck = true;
                 var markerPos = new Vector3(CsiCreator.FirstOfficer.Spawn.X, CsiCreator.FirstOfficer.Spawn.Y, (CsiCreator.FirstOfficer.Spawn.Z + 1.6f));
                 _foMarker = new Marker(markerPos, Color.LightBlue);
-
-                _foMarker.Start();
                 FoDialog.Position = CsiCreator.FirstOfficer.Ped.Position;
                 "Arrived at scene".AddLog();
 
@@ -766,7 +766,7 @@ namespace LSNoir.Callouts.SA.Stages
             foreach (var wit in _witList.Keys.ToList())
             {
                 witnessNum++;
-                var tick = wit.IsCollected
+                var tick = wit.Dialog.HasEnded
                     ? MissionPassedScreen.TickboxState.Tick
                     : MissionPassedScreen.TickboxState.Empty;
                 handler.AddItem($"Witness {witnessNum} Statement Taken", "", tick);

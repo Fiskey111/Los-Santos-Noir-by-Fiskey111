@@ -1,4 +1,5 @@
-﻿using Fiskey111Common;
+﻿using System;
+using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Creators;
 using LtFlash.Common.ScriptManager.Scripts;
@@ -50,7 +51,7 @@ namespace LSNoir.Callouts
             _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
 
             _sData = GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                s => s.FirstOrDefault(c => c.Name == _cData.CurrentSuspect));
+                s => s.FirstOrDefault(c => String.Equals(c.Name, _cData.CurrentSuspect, StringComparison.CurrentCultureIgnoreCase)));
             
             _one = new Ped(_sData.Model, _oneSpawn.Spawn, _oneSpawn.Heading);
             _one.MakeMissionPed();
@@ -131,10 +132,12 @@ namespace LSNoir.Callouts
                 var handler = new MissionPassedHandler("Suspect Interrogation", value, medal);
 
                 handler.AddItem("Spoke to Suspect", "", MissionPassedScreen.TickboxState.Tick);
+                var num = 0;
                 foreach (var q in _interrogation.QuestionList)
                 {
+                    num++;
                     var correct = q.Value ? "Correct" : "Incorrect";
-                    handler.AddItem($"Question {_interrogation.QuestionList[q.Key]}", correct, MissionPassedScreen.TickboxState.None);
+                    handler.AddItem($"Question {num}", correct, MissionPassedScreen.TickboxState.None);
                 }
 
                 handler.Show();

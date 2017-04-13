@@ -12,7 +12,11 @@ namespace LSNoir.Callouts.SA.Commons
         public Ped Ped { get; set; }
         public Vector3 Position
         {
-            get { return Ped.Position; }
+            get
+            {
+                if (Ped) return Ped.Position;
+                else return Vector3.Zero;
+            }
             set { Ped.Position = value; }
         }
         public SpawnPt TargetPosition { get; protected set; }

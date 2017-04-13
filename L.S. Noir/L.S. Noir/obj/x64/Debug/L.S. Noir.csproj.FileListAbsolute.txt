@@ -115,3 +115,4 @@ C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.W
 C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csproj.GenerateResource.Cache
 C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.dll
 C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.pdb
+C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\bin\x64\Debug\RagePROletariat.xml

@@ -41,15 +41,12 @@ namespace LSNoir.Callouts.SA.Stages
             if (string.IsNullOrWhiteSpace(_cData.CurrentSuspect)) return;
 
             var sus = Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                s => s.FirstOrDefault<PedData>(p => p.Name == _cData.CurrentSuspect));
-
-            if (!sus.IsPerp) return;
+                s => s.First());
+            
+            if (!sus.Exists || !sus.IsPerp || _cData.CurrentSuspect != sus.Name.ToLower()) return;
 
             $"Suspect matches: {sus.IsPerp}".AddLog();
             "Sexual Assault Case Update".DisplayNotification("Suspect ~g~confirmed~w~\nGPS coordinates downloading...");
-
-            this.Attributes.NextScripts.Clear();
-            this.Attributes.NextScripts.Add("Sa_4ASuspectHome");
 
             SetScriptFinished();
         }

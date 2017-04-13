@@ -210,9 +210,7 @@ namespace LSNoir.Callouts.SA.Stages
                 var sw = new Stopwatch();
                 sw.Start();
 
-                while (
-                    _copList.Any(
-                        c => !c.IsSecondCop && c.Ped.DistanceTo(c.TargetPosition.Spawn) > 7f) || sw.Elapsed.Seconds < 15)
+                while (_copList.Count > 0 && _copList.Any(c => c.Ped && !c.IsSecondCop && c.Ped.DistanceTo(c.TargetPosition.Spawn) > 7f) || sw.Elapsed.Seconds < 15)
                 {
                     foreach (var cop in _copList.Where(c => c.Position.DistanceTo(c.TargetPosition.Spawn) <= 7f && c.Ped.IsInAnyVehicle(false)))
                     {
@@ -224,6 +222,7 @@ namespace LSNoir.Callouts.SA.Stages
                             MathHelper.GetRandomSingle(0, 4f), 8f);
                     }             
                     GameFiber.Yield();
+                    if (this.HasFinished) break;
                 }
             });
         }

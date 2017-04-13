@@ -152,10 +152,12 @@ namespace LSNoir.Callouts
             var handler = new MissionPassedHandler("Victim Family", value, medal);
             
             handler.AddItem("Spoke to Family", "", MissionPassedScreen.TickboxState.Tick);
+            var num = 0;
             foreach (var q in _interrogation.QuestionList)
             {
+                num++;
                 var correct = q.Value ? "Correct" : "Incorrect";
-                handler.AddItem($"Question {_interrogation.QuestionList[q.Key]}", correct, MissionPassedScreen.TickboxState.None);
+                handler.AddItem($"Question {num}", correct, MissionPassedScreen.TickboxState.None);
             }
 
             handler.Show();

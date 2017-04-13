@@ -37,33 +37,33 @@ namespace LSNoir
             if (_shown == false)
             {
                 _shown = true;
-                _marker = new Marker(closestLoc, Color.Yellow);
-                _marker.Start();
+                _marker = new Marker(closestLoc, Color.Yellow, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, true,
+                    true);
             }
             if (!(Game.LocalPlayer.Character.Position.DistanceTo(closestLoc) < 1.75f)) return;
 
             Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer");
-            if (Game.IsKeyDown(Settings.ComputerKey()) && !_startedComp)
-            {
-                _marker.Stop();
-                _startedComp = true;
-                Game.IsPaused = true;
-                Computer.StartComputerHandler();
 
-                while (Computer.Controller.IsRunning)
-                    GameFiber.Yield();
+            if (!Game.IsKeyDown(Settings.ComputerKey()) || _startedComp) return;
 
-                Background.DisableBackground(Background.Type.Computer);
-                Computer.AbortController();
-                Game.IsPaused = false;
-                _startedComp = false;
-            }
+            _marker.Stop();
+            _startedComp = true;
+            Game.IsPaused = true;
+            Computer.StartComputerHandler();
+
+            while (Computer.Controller.IsRunning)
+                GameFiber.Yield();
+
+            Background.DisableBackground(Background.Type.Computer);
+            Computer.AbortController();
+            Game.IsPaused = false;
+            _startedComp = false;
         }
 
         private static Vector3 GetClosestLoc()
         {
-            Vector3 station = new Vector3();
-            List<Vector3> stations = new List<Vector3>
+            var station = new Vector3();
+            var stations = new List<Vector3>
             {
                 new Vector3(1853, 3690, 34),
                 new Vector3(-449, 6012, 32),
@@ -71,7 +71,7 @@ namespace LSNoir
             };
             float closest = 100000f;
 
-            foreach (Vector3 sp in stations)
+            foreach (var sp in stations)
             {
                 if (!(sp.DistanceTo(Game.LocalPlayer.Character.Position) < closest)) continue;
 

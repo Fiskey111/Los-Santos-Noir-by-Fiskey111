@@ -12,12 +12,11 @@ namespace LSNoir.Callouts.SA.Commons
         private static string _location = "Plugins/LSPDFR/LSNoir/Settings.ini";
         public static void IniUpdateCheck()
         {
-            OfficerData_Darkmyre.PlayerData.LoadOfficer();
             if (File.Exists(_location))
             {
-                string version = File.ReadLines(_location).First();
+                var version = File.ReadLines(_location).First();
                 ("Existing .ini found; " + version).AddLog();
-                if (version != "Version: 2/10/17")
+                if (version != "Version: 4/7/17")
                 {
                     UpdateIni(version);
                 }
@@ -28,39 +27,68 @@ namespace LSNoir.Callouts.SA.Commons
                 CreateIni();
             }
         }
-
-        // FIX TO UPDATE
+        
         private static void UpdateIni(string version)
         {
-            string[] lines = File.ReadAllLines(_location);
-            List<string> lineList = new List<string>();
+            var lines = File.ReadAllLines(_location);
+            var lineList = new List<string>();
 
-            if (version == "Version: 1/10/17")
+            switch (version)
             {
-                lineList.AddRange(lines);
-                lineList[0] = "Version: 2/10/17";
-                lineList.Add("");
-                lineList.Add("The below value changes the coroner van model -- DEFAULT=burrito3");
-                lineList.Add("CoronerVan=burrito3");
+                case "Version: 1/10/17":
+                    lineList.AddRange(lines);
+                    lineList[0] = "Version: 4/7/17";
+                    lineList.Add("");
+                    lineList.Add("The below value changes the coroner van model -- DEFAULT=burrito3");
+                    lineList.Add("CoronerVan=burrito3");
+                    lineList.Add("");
+                    lineList.Add("The below value will set your detective name -- DEFAULT=Daniel Reagan");
+                    lineList.Add("DetectiveName=Daniel Reagan");
+                    lineList.Add("");
+                    lineList.Add("The below value changes the vehicle list to pull for cars -- DEFAULT=police police2 police3 police4");
+                    lineList.Add("Please format it in the following manner (spaces inbetween cars): vehiclename vehiclename vehiclename");
+                    lineList.Add("CarList=police police2 police3 police4");
+                    lineList.Add("");
+                    lineList.Add("The below value changes the minimum and maximum times inbetween stages");
+                    lineList.Add("DEAFULT_MIN=5000");
+                    lineList.Add("DEAFULT_MAX=10000");
+                    lineList.Add("MIN=5000");
+                    lineList.Add("MAX=10000");
+                    break;
+                case "Version: 2/10/17":
+                    lineList.AddRange(lines);
+                    lineList[0] = "Version: 4/7/17";
+                    lineList.Add("");
+                    lineList.Add("The below value will set your detective name -- DEFAULT=Daniel Reagan");
+                    lineList.Add("DetectiveName=Daniel Reagan");
+                    lineList.Add("");
+                    lineList.Add("The below value changes the vehicle list to pull for cars -- DEFAULT=police police2 police3 police4");
+                    lineList.Add("Please format it in the following manner (spaces inbetween cars): vehiclename vehiclename vehiclename");
+                    lineList.Add("CarList=police police2 police3 police4");
+                    lineList.Add("");
+                    lineList.Add("The below value changes the minimum and maximum times inbetween stages");
+                    lineList.Add("DEAFULT_MIN=5000");
+                    lineList.Add("DEAFULT_MAX=10000");
+                    lineList.Add("MIN=5000");
+                    lineList.Add("MAX=10000");
+                    break;
             }
 
             File.Delete(_location);
 
-            using (StreamWriter ini = File.AppendText(_location))
+            using (var ini = File.AppendText(_location))
             {
-                foreach (string line in lineList)
-                {
+                foreach (var line in lineList)
                     ini.WriteLine(line);
-                }
             }
         }
 
         private static void CreateIni()
         {
             "Creating .ini".AddLog();
-            using (StreamWriter ini = File.AppendText(_location))
+            using (var ini = File.AppendText(_location))
             {
-                ini.WriteLine("Version: 2/10/17");
+                ini.WriteLine("Version: 4/7/17");
                 ini.WriteLine("DO NOT CHANGE THE ABOVE VALUE");
                 ini.WriteLine("");
                 ini.WriteLine("");
@@ -78,39 +106,38 @@ namespace LSNoir.Callouts.SA.Commons
                 ini.WriteLine("");
                 ini.WriteLine("The below value changes the coroner van model -- DEFAULT=burrito3");
                 ini.WriteLine("CoronerVan=burrito3");
+                ini.WriteLine("");
+                ini.WriteLine("The below value changes the vehicle list to pull for cars -- DEFAULT=police police2 police3 police4");
+                ini.WriteLine("Please format it in the following manner (spaces inbetween cars): vehiclename vehiclename vehiclename");
+                ini.WriteLine("CarList=police police2 police3 police4");
+                ini.WriteLine("");
+                ini.WriteLine("The below value changes the minimum and maximum times inbetween stages");
+                ini.WriteLine("DEAFULT_MIN=5000");
+                ini.WriteLine("DEAFULT_MAX=10000");
+                ini.WriteLine("MIN=5000");
+                ini.WriteLine("MAX=10000");
             }
         }
 
         public static InitializationFile InitializeIni()
         {
-            InitializationFile ini = new InitializationFile(_location);
+            var ini = new InitializationFile(_location);
             ini.Create();
             return ini;
         }
 
         public static bool AiAudio()
         {
-            InitializationFile ini = InitializeIni();
-
+            var ini = InitializeIni();
             return ini.ReadBoolean("Options", "AIAudio", true);
-        }
-
-        public static string OfficerName()
-        {
-            return OfficerData_Darkmyre.PlayerData.OfficerName;
-        }
-
-        public static string UnitName()
-        {
-            return OfficerData_Darkmyre.PlayerData.CallSign;
         }
 
         public static Keys ComputerKey()
         {
-            InitializationFile ini = InitializeIni();
+            var ini = InitializeIni();
 
-            KeysConverter converter = new KeysConverter();
-            string value = ini.ReadString("KeyBindings", "ComputerKey", "D1");
+            var converter = new KeysConverter();
+            var value = ini.ReadString("KeyBindings", "ComputerKey", "D1");
             Keys cKey;
 
             try
@@ -127,23 +154,45 @@ namespace LSNoir.Callouts.SA.Commons
 
         public static string CoronerModel()
         {
-            InitializationFile ini = InitializeIni();
-
+            var ini = InitializeIni();
             return ini.ReadString("Options", "CoronerVan", "burrito3");
+        }
+
+        public static string OfficerName()
+        {
+            var ini = InitializeIni();
+            return ini.ReadString("Options", "DetectiveName", "Daniel Reagan");
+        }
+
+        public static List<string> VehicleList()
+        {
+            var ini = InitializeIni();
+
+            return ini.ReadString("Options", "CarList", "police police2 police3 police4").Split(' ').ToList();
         }
 
         public static bool LicenseViewed()
         {
-            InitializationFile ini = InitializeIni();
-
+            var ini = InitializeIni();
             return ini.ReadBoolean("Options", "LicenseViewed", false);
         }
 
         public static bool ReadmeViewed()
         {
-            InitializationFile ini = InitializeIni();
-
+            var ini = InitializeIni();
             return ini.ReadBoolean("Options", "ReadmeViewed", false);
+        }
+
+        public static double MinValue()
+        {
+            var ini = InitializeIni();
+            return ini.ReadDouble("Options", "MIN", 5000);
+        }
+
+        public static double MaxValue()
+        {
+            var ini = InitializeIni();
+            return ini.ReadDouble("Options", "MAX", 10000);
         }
     }
 }

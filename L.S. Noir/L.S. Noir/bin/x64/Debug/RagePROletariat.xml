@@ -1,0 +1,260 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>RagePROletariat</name>
+    </assembly>
+    <members>
+        <member name="T:RagePro.Crypto.FingerPrint">
+            <summary>
+            Generates a 16 byte Unique Identification code of a computer
+            Example: 4876-8DB5-EE85-69D3-FE52-8CF7-395D-2EA9
+            </summary>
+        </member>
+        <member name="M:RagePro.Crypto.KeyLoader.LoadKeyFromXML(System.String)">
+            <summary>
+            Loads an RSA private or public key from an XML file on the filesystem. 
+            Remember, NEVER include a private key file with your application!
+            </summary>
+            <param name="path"></param>
+            <returns></returns>
+        </member>
+        <member name="M:RagePro.Crypto.KeyLoader.ReadPublicKeyFromEmbeddedFile(System.String,System.String)">
+            <summary>
+            Creates an RSA provider from an embedded public key file (or a private key file, but don't ever embed a private 
+            key in your application!). The RSA provider can be used to verify that a file was signed by the corresponding 
+            private key. 
+            </summary>
+            <param name="fileNamespace">The namespace that the file is saved in your project, e.g. <code>CoastalCallouts.Licensing</code>. 
+            Basically, if your file is in a folder within your project, it should be the folder hierarchy with <code>.</code> between 
+            folder names.</param>
+            <param name="filename">The name of the file you want to load, e.g. <code>RageProKey.xml</code>.</param>
+            <returns></returns>
+        </member>
+        <member name="T:RagePro.Licensing.ELicenseType">
+            <summary>
+            How to classify the license. These are only used for display/reporting purposes and do not affect how licenses are processed.
+            </summary>
+        </member>
+        <member name="T:RagePro.Licensing.ERecordingLevel">
+            <summary>
+            Sets what level of recording is allowed in the plugin
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ERecordingLevel.ALLOW">
+            <summary>
+            No restrictions on recording
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ERecordingLevel.RESTRICT">
+            <summary>
+            A large overlay will be displayed any time recording software is detected to be running
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ERecordingLevel.PROHIBIT">
+            <summary>
+            A large overlay will be displayed at all times even if recording software is not running
+            </summary>
+        </member>
+        <member name="T:RagePro.Licensing.Plugin">
+            <summary>
+            Represents a plugin which has been registered with RagePro
+            </summary>
+        </member>
+        <member name="M:RagePro.Licensing.LicenseRegistry.RegisterPlugin(System.Reflection.Assembly,System.Security.Cryptography.RSACryptoServiceProvider,RagePro.Licensing.ERecordingLevel,RagePro.Licensing.ELicenseType,System.Int32)">
+            <summary>
+            Registers a plugin with RagePro.
+            </summary>
+            <param name="Plugin">The assembly to register. This MUST be the calling assembly or verification will fail.</param>
+            <param name="rsaProvider">The RSA public key corresponding to the private key the license file was signed with.</param>
+            <param name="DefaultRecordingLevel">The recording level to allow if no license file is present.</param>
+            <param name="DefaultLicenseType">What license classification the plugin uses when no license file is present.</param>
+            <param name="DefaultRockstarEditorMaxSecs">How many seconds the R* editor is allowed to record for at once if no license is present. 
+            0 disables the R* editor recording feature completely. -1 enables R* editor videos of any length.</param>
+            <returns></returns>
+        </member>
+        <member name="M:RagePro.Licensing.LicenseRegistry.RegisterPlugin(System.Reflection.Assembly,System.Security.Cryptography.RSACryptoServiceProvider)">
+            <summary>
+            Registers a plugin with RagePro as a non-commercial-use recording-restricted plugin with R* editor disabled
+            </summary>
+            <param name="Plugin">The assembly to register. This MUST be the calling assembly or verification will fail</param>
+            <param name="rsaProvider">The RSA public key corresponding to the private key the license file was signed with</param>
+            <returns></returns>
+        </member>
+        <member name="T:RagePro.Licensing.ValidationStatus">
+            <summary>
+            Created when a plugin is registered. Reports whether the plugin has a valid license, and 
+            all licenses found to be associated with the plugin.
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ValidationStatus.IsValid">
+            <summary>
+            Will be true if a valid license is found
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ValidationStatus.MatchingLicenses">
+            <summary>
+            All licenses that match this plugin name/author name combo. May include licenses which are invalid.
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ValidationStatus.ValidLicenses">
+            <summary>
+            All licenses matching this plugin which are entirely valid.
+            </summary>
+        </member>
+        <member name="P:RagePro.Licensing.ValidationStatus.FirstValidLicense">
+            <summary>
+            First license that matches this plugin and is valid. May return null.
+            </summary>
+        </member>
+        <member name="F:RagePro.Licensing.ValidationStatus.InvalidReasons">
+            <summary>
+            Invalid license reasons for any license file which contains any license for this plugin.
+            </summary>
+        </member>
+        <member name="F:RagePro.Detection.HardwareDetect.DisplayDeviceStateFlags.AttachedToDesktop">
+            <summary>The device is part of the desktop.</summary>
+        </member>
+        <member name="F:RagePro.Detection.HardwareDetect.DisplayDeviceStateFlags.PrimaryDevice">
+            <summary>The device is part of the desktop.</summary>
+        </member>
+        <member name="F:RagePro.Detection.HardwareDetect.DisplayDeviceStateFlags.MirroringDriver">
+            <summary>Represents a pseudo device used to mirror application drawing for remoting or other purposes.</summary>
+        </member>
+        <member name="F:RagePro.Detection.HardwareDetect.DisplayDeviceStateFlags.VGACompatible">
+            <summary>The device is VGA compatible.</summary>
+        </member>
+        <member name="F:RagePro.Detection.HardwareDetect.DisplayDeviceStateFlags.Removable">
+            <summary>The device is removable; it cannot be the primary display.</summary>
+        </member>
+        <member name="F:RagePro.Detection.HardwareDetect.DisplayDeviceStateFlags.ModesPruned">
+            <summary>The device has more display modes than its output devices support.</summary>
+        </member>
+        <member name="T:RAGENativeUI.Elements.ResRectangle">
+            <summary>
+            A rectangle in 1080 pixels height system.
+            </summary>
+        </member>
+        <member name="T:RAGENativeUI.Elements.ResText">
+            <summary>
+            A Text object in the 1080 pixels height base system.
+            </summary>
+        </member>
+        <member name="M:RAGENativeUI.Elements.ResText.AddLongString(System.String)">
+            <summary>
+            Push a long string into the stack.
+            </summary>
+            <param name="str"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.#ctor(System.String,System.String,System.Drawing.Point,System.Drawing.Size,System.Single,System.Drawing.Color)">
+            <summary>
+            Creates a game sprite object from a texture dictionary and texture name.
+            </summary>
+            <param name="textureDict"></param>
+            <param name="textureName"></param>
+            <param name="position"></param>
+            <param name="size"></param>
+            <param name="heading"></param>
+            <param name="color"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.#ctor(System.String,System.String,System.Drawing.Point,System.Drawing.Size)">
+            <summary>
+            Creates a game sprite object from a texture dictionary and texture name.
+            </summary>
+            <param name="textureDict"></param>
+            <param name="textureName"></param>
+            <param name="position"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.Draw">
+            <summary>
+            Draws the sprite on a 1080-pixels height base.
+            </summary>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.DrawTexture(Rage.Texture,System.Drawing.Point,System.Drawing.Size,Rage.GraphicsEventArgs)">
+            <summary>
+            Draw a custom texture from a file on a 1080-pixels height base.
+            </summary>
+            <param name="texture">Your custom texture object.</param>
+            <param name="position"></param>
+            <param name="size"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.DrawTexture(Rage.Texture,System.Drawing.Point,System.Drawing.Size,Rage.Graphics)">
+            <summary>
+            Draws a custom texture from a file on a 1080-pixels height base.
+            </summary>
+            <param name="texture">Your custom texture object.</param>
+            <param name="position"></param>
+            <param name="size"></param>
+            <param name="graphics"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.WriteFileFromResources(System.Reflection.Assembly,System.String)">
+            <summary>
+            Save an embedded resource to a temporary file.
+            </summary>
+            <param name="yourAssembly">Your executing assembly.</param>
+            <param name="fullResourceName">Resource name including your solution name. E.G MyMenuMod.banner.png</param>
+            <returns>Absolute path to the written file.</returns>
+        </member>
+        <member name="M:RAGENativeUI.Elements.Sprite.WriteFileFromResources(System.Reflection.Assembly,System.String,System.String)">
+            <summary>
+            Save an embedded resource to a concrete path.
+            </summary>
+            <param name="yourAssembly">Your executing assembly.</param>
+            <param name="fullResourceName">Resource name including your solution name. E.G MyMenuMod.banner.png</param>
+            <param name="savePath">Path to where save the file, including the filename.</param>
+            <returns>Absolute path to the written file.</returns>
+        </member>
+        <member name="T:RAGENativeUI.Common.EFont">
+            <summary>
+            Fonts used by GTA V
+            </summary>
+        </member>
+        <member name="M:RAGENativeUI.Common.IsDisabledControlPressed(System.Int32,Rage.GameControl)">
+            <summary>
+            Check if a Rage.GameControl is pressed while it's disabled
+            </summary>
+            <param name="index"></param>
+            <param name="control"></param>
+            <returns>true if a Rage.GameControl is pressed while it's disabled</returns>
+        </member>
+        <member name="M:RAGENativeUI.Common.IsDisabledControlJustPressed(System.Int32,Rage.GameControl)">
+            <summary>
+            Check if a Rage.GameControl is just pressed while it's disabled
+            </summary>
+            <param name="index"></param>
+            <param name="control"></param>
+            <returns>true if a Rage.GameControl is just pressed while it's disabled</returns>
+        </member>
+        <member name="M:RAGENativeUI.Common.IsDisabledControlJustReleased(System.Int32,Rage.GameControl)">
+            <summary>
+            Check if a Rage.GameControl is just released while it's disabled
+            </summary>
+            <param name="index"></param>
+            <param name="control"></param>
+            <returns>true if a Rage.GameControl is just released while it's disabled</returns>
+        </member>
+        <member name="M:RAGENativeUI.Common.GetPressedKeys">
+            <summary>
+            Gets the current pressed keys.
+            </summary>
+            <returns>A <see cref="T:System.Collections.Generic.ICollection`1"/> with the current pressed keys.</returns>
+        </member>
+        <member name="M:RAGENativeUI.Common.WriteFileFromResources(System.Reflection.Assembly,System.String)">
+            <summary>
+            Save an embedded resource to a temporary file.
+            </summary>
+            <param name="yourAssembly">Your executing assembly.</param>
+            <param name="fullResourceName">Resource name including your solution name. E.G MyMenuMod.banner.png</param>
+            <returns>Absolute path to the written file.</returns>
+        </member>
+        <member name="M:RAGENativeUI.Common.WriteFileFromResources(System.Reflection.Assembly,System.String,System.String)">
+            <summary>
+            Save an embedded resource to a concrete path.
+            </summary>
+            <param name="yourAssembly">Your executing assembly.</param>
+            <param name="fullResourceName">Resource name including your solution name. E.G MyMenuMod.banner.png</param>
+            <param name="savePath">Path to where save the file, including the filename.</param>
+            <returns>Absolute path to the written file.</returns>
+        </member>
+    </members>
+</doc>

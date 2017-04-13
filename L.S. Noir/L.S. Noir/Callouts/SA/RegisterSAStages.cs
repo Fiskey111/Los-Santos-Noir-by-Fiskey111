@@ -1,4 +1,5 @@
 ﻿using System.Linq;
+using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Stages;
 using LSNoir.Extensions;
 using LtFlash.Common.ScriptManager.Managers;
@@ -12,16 +13,20 @@ namespace LSNoir.Callouts.SA
         internal static AdvancedScriptManager Asm;
         internal static void RegisterStages(CaseData cData)
         {
-            Asm = new AdvancedScriptManager();
             "Started AdvancedScriptManager".AddLog();
+            Asm = new AdvancedScriptManager
+            {
+                DefaultTimerIntervalMin = Settings.MinValue(),
+                DefaultTimerIntervalMax = Settings.MaxValue()
+            };
 
             StageRegister.RegisterStage(Asm, typeof(Sa1Csi), nameof(Sa1Csi), null, StageRegister.CreateList("Sa_2aHospital", "SA_2b_MedicalExaminer"), true);
             //StageRegister.RegisterStage(Asm, typeof(Sa_2aHospital), nameof(Sa_2aHospital), StageRegister.CreateList("Sa1Csi"), StageRegister.CreateList("SA_3_VictimFamily"));
             StageRegister.RegisterStage(Asm, typeof(Sa_2BMedicalExaminer), nameof(Sa_2BMedicalExaminer), StageRegister.CreateList("Sa1Csi"), StageRegister.CreateList("Sa_2CStation"));
             StageRegister.RegisterStage(Asm, typeof(Sa_2CStation), nameof(Sa_2CStation), StageRegister.CreateList("Sa_2BMedicalExaminer"), StageRegister.CreateList("SA_3_VictimFamily"));
+            StageRegister.RegisterStage(Asm, typeof(SA_3_VictimFamily), nameof(SA_3_VictimFamily), StageRegister.CreateList("Sa_2CStation"), StageRegister.CreateList("Sa_3b_Wait"));
             StageRegister.RegisterStage(Asm, typeof(Sa_3b_Wait), nameof(Sa_3b_Wait), StageRegister.CreateList("SA_3_VictimFamily"), StageRegister.CreateList("Sa_4ASuspectHome"));
-            StageRegister.RegisterStage(Asm, typeof(SA_3_VictimFamily), nameof(SA_3_VictimFamily), StageRegister.CreateList("Sa_2CStation"), StageRegister.CreateList("Sa_4ASuspectHome"));
-            StageRegister.RegisterStage(Asm, typeof(Sa_4ASuspectHome), nameof(Sa_4ASuspectHome), StageRegister.CreateList("SA_3_VictimFamily"), StageRegister.CreateList("Sa_4BWait"));
+            StageRegister.RegisterStage(Asm, typeof(Sa_4ASuspectHome), nameof(Sa_4ASuspectHome), StageRegister.CreateList("Sa_3b_Wait"), StageRegister.CreateList("Sa_4BWait"));
             StageRegister.RegisterStage(Asm, typeof(Sa_4BWait), nameof(Sa_4BWait), StageRegister.CreateList("Sa_4ASuspectHome"), StageRegister.CreateList("Sa_4CSuspectWork"));
             StageRegister.RegisterStage(Asm, typeof(Sa_4CSuspectWork), nameof(Sa_4CSuspectWork), StageRegister.CreateList("Sa_4BWait"), null);
 
@@ -38,7 +43,7 @@ namespace LSNoir.Callouts.SA
                 {
                     ("Starting script from stage: " + cData.StartingStage).AddLog();
                     Asm.StartScript(cData.StartingStage);
-                }
+                } 
 
                 var stage = CaseData.LastStage.None;
 

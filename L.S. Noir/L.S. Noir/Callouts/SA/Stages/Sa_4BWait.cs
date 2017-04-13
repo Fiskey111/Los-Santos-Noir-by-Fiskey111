@@ -24,10 +24,7 @@ namespace LSNoir.Callouts
             return true;
         }
 
-        protected override void Process()
-        {
-            IsWarrantApproved();
-        }
+        protected override void Process() => IsWarrantApproved();
 
         protected override void End()
         {

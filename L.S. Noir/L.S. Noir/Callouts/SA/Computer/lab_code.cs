@@ -6,6 +6,7 @@ using System.Drawing;
 using Gwen.Control;
 using System.Diagnostics;
 using Fiskey111Common;
+using LSNoir.Callouts.SA;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using static LtFlash.Common.Serialization.Serializer;
@@ -95,10 +96,11 @@ namespace LSNoir
                 foreach (var data in _eList)
                 {
                     if (!data.Collected) continue;
-                    data.IsTested = true;
+                    data.TestingFinishTime = TimeCheckObject.RandomTimeCreator().ToLocalTime();
+                    Evid_War_TimeChecker.AddObject(new TimeCheckObject(TimeCheckObject.Type.Evidence, data.Name, data.TestingFinishTime));
                 }
 
-                SaveItemToXML<List<EvidenceData>>(_eList, Main.EDataPath);
+                SaveItemToXML<List<EvidenceData>>(_eList, Main.EDataPath);        
 
                 lab_sending_lbl.Text = "Request Sent!";
                 _sw.Stop();
