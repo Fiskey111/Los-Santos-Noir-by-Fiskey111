@@ -5,6 +5,7 @@ using LSPD_First_Response.Mod.API;
 using Rage;
 using System.Collections.Generic;
 using Fiskey111Common;
+using LSNoir.Callouts.SA.Stages.ME;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 

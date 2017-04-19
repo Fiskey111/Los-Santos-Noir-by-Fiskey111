@@ -13,7 +13,7 @@ using LSNoir.Startup;
 using static LtFlash.Common.Serialization.Serializer;
 using Plugin = LSPD_First_Response.Mod.API.Plugin;
 
-[assembly: Rage.Attributes.Plugin("L.S. Noir", Description = "A detective style plugin for LSPDFR", Author = "Fiskey111")]
+[assembly: Rage.Attributes.Plugin("L.S. Noir", Description = "A detective style plugin for LSPDFR", Author = "Fiskey111", PrefersSingleInstance = true)]
 namespace LSNoir
 {
     public class Main : Plugin
@@ -40,6 +40,8 @@ namespace LSNoir
         {
             GameFiber.StartNew(delegate
             {
+                bool isLoadStarted = false;
+                "Loading L.S. Noir".AddLog(); 
                 if (!onDuty) return;
 
                 if (!RageCheck.RPHCheck(0.46f)) return;
@@ -47,6 +49,7 @@ namespace LSNoir
                 if (!RageProRegistration.RegisterRagePro()) return;
 
                 if (!VersionCheck.OldLSNCheck()) return;
+
                 /*
                 var readme = new FileChecker(@"Plugins\LSPDFR\LSNoir\Readme.txt", FileChecker.FileType.readme);
                 readme.StartFileCheck();
@@ -72,7 +75,8 @@ namespace LSNoir
                 //VersionCheck.CheckVersion();
 
                 Settings.IniUpdateCheck();
-                    
+
+                "LoadLSN".AddLog();
                 LoadLsn();
             });
         }
@@ -83,6 +87,8 @@ namespace LSNoir
             {
                 try
                 {
+                    "Starting".AddLog();
+
                     AppDomain.CurrentDomain.AssemblyResolve += LSPDFRResolveEventHandler;
 
                     if (!CheckFiles())
@@ -91,8 +97,6 @@ namespace LSNoir
                             "L.S. Noir was missing scene data/service data\nplease reinstall this modification");
                         return;
                     }
-
-                    GameFiber.Sleep(1000);
 
                     "Starting to load L.S. Noir!".AddLog(true);
                     _cData = LoadItemFromXML<CaseData>(Main.CDataPath);

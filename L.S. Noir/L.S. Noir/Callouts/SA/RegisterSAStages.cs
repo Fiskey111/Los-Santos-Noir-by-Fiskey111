@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Stages;
+using LSNoir.Callouts.SA.Stages.CSI;
+using LSNoir.Callouts.SA.Stages.ME;
 using LSNoir.Extensions;
 using LtFlash.Common.ScriptManager.Managers;
 using Rage;
@@ -13,7 +15,7 @@ namespace LSNoir.Callouts.SA
         internal static AdvancedScriptManager Asm;
         internal static void RegisterStages(CaseData cData)
         {
-            "Started AdvancedScriptManager".AddLog();
+            $"Started AdvancedScriptManager with min: {Settings.MinValue()} max: {Settings.MaxValue()}".AddLog();
             Asm = new AdvancedScriptManager
             {
                 DefaultTimerIntervalMin = Settings.MinValue(),

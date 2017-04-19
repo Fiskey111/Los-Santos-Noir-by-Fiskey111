@@ -30,11 +30,7 @@ namespace LSNoir.Callouts.SA.Stages
         {
             "Initializing L.S. Noir Callout: Sexual Assault -- Stage 2c [Police Station]".AddLog();
             _position = _station.Position;
-
-            var caseData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
-            caseData.ComputerAccess = false;
-            Serializer.SaveItemToXML<CaseData>(caseData, Main.CDataPath);
-
+            
             _stationBlip = new Blip(_position)
             {
                 Sprite = BlipSprite.GangAttackPackage,
@@ -42,8 +38,9 @@ namespace LSNoir.Callouts.SA.Stages
                 Name = "Visit Station"
             };
             _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+            $"Case number: {_cData.Number}".AddLog();
 
-            "Sexual Assault Case Update".DisplayNotification("Visit a ~o~police station~w~ and view the SAJRS");
+            "Sexual Assault Case Update".DisplayNotification("Visit a ~o~police station~w~ and view the SAJRS", _cData.Number);
 
             if (_station.Location == StationLocation.Downtown)
             {
@@ -176,6 +173,7 @@ namespace LSNoir.Callouts.SA.Stages
             handler.AddItem("Viewed SAJRS", "Details Received", MissionPassedScreen.TickboxState.Tick);
             handler.AddItem("Suspect Acquired", "", tick);
 
+            $"Case number: {_cData.Number}".AddLog();
             handler.Show();
 
             SetScriptFinished();

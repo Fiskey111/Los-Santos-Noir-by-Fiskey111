@@ -1,21 +1,19 @@
-﻿using LSNoir.Callouts.SA.Commons;
-using LtFlash.Common.ScriptManager.Scripts;
-using Rage;
-using Rage.Native;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using Fiskey111Common;
-using LSPD_First_Response.Mod.API;
+using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Creators;
-using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using StageCreator;
-using static LtFlash.Common.Serialization.Serializer;
+using LSPD_First_Response.Mod.API;
+using LtFlash.Common.ScriptManager.Scripts;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Native;
 
-namespace LSNoir.Callouts
+namespace LSNoir.Callouts.SA.Stages.ME
 {
     public class Sa_2BMedicalExaminer : BasicScript
     {
@@ -33,7 +31,7 @@ namespace LSNoir.Callouts
         private Fiskey111Common.SpawnPt CarSpawn, MainSpawn;
 
         // Data
-        private CaseData _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
+        private CaseData _cData;
         private ReportData _meData;
 
         // Dialog
@@ -87,15 +85,14 @@ namespace LSNoir.Callouts
                 Name = "Medical Examiner"
             };
 
-            "Sexual Assault Case Update".DisplayNotification("Visit ~o~Medical Examiner~w~ for update");
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+
+            "Sexual Assault Case Update".DisplayNotification("Visit ~o~Medical Examiner~w~ for update", _cData.Number);
    
             _state = ELocation.Dispatched;
             
             InteriorHelper.IsCoronerInteriorEnabled = true;
-
-            AddStage(EnRoute);
-            AddStage(Close);
-            AddStage(VeryClose);
+            
             return true;
         }
 
@@ -263,6 +260,7 @@ namespace LSNoir.Callouts
                     }
                     else if (Game.LocalPlayer.Character.DistanceTo(CarSpawn.Spawn.Around(5f)) < 1f)
                     {
+                        Game.LocalPlayer.HasControl = false;
                         GameFiber.Sleep(1000);
                         SetScriptFinished();
                     }
@@ -410,10 +408,10 @@ namespace LSNoir.Callouts
                 _startingswap = false;
                 NativeFunction.Natives.DO_SCREEN_FADE_IN(1000);
 
-                var vicData = GetSelectedListElementFromXml<PedData>(Main.PDataPath,
-                    p => p.FirstOrDefault(v => v.Type == PedType.Victim));
-                var susData = GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                    s => s.FirstOrDefault(v => v.IsPerp == true));
+                var vicData = Serializer.GetSelectedListElementFromXml<PedData>(Main.PDataPath,
+                    p => Enumerable.FirstOrDefault<PedData>(p, v => v.Type == PedType.Victim));
+                var susData = Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
+                    s => Enumerable.FirstOrDefault<PedData>(s, v => v.IsPerp == true));
 
                 ("Does ME Exist " + MeCreator.MedicalExaminer.Ped.Exists()).AddLog();
 
@@ -446,13 +444,13 @@ namespace LSNoir.Callouts
                 {
                     GameFiber.Yield();
                 }
-                "Sexual Assault Case Update".DisplayNotification("Medical Examiner Conversation \nAdded to ~b~SAJRS");
+                "Sexual Assault Case Update".DisplayNotification("Medical Examiner Conversation \nAdded to ~b~SAJRS", _cData.Number);
                 Game.DisplayHelp("Now that you have the report, ~y~exit~w~ the building");
 
-                var rList = LoadItemFromXML<List<ReportData>>(Main.RDataPath);
+                var rList = Serializer.LoadItemFromXML<List<ReportData>>(Main.RDataPath);
                 _meData = new ReportData(ReportData.Service.ME, MeCreator.MedicalExaminer.Ped, _meDialog.Dialogue, true);
                 rList.Add(_meData);
-                SaveItemToXML<List<ReportData>>(rList, Main.RDataPath);
+                Serializer.SaveItemToXML<List<ReportData>>(rList, Main.RDataPath);
 
                 _meMarker = new Marker(MeCreator.PPos, Color.Yellow, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, true,
                     true);
@@ -550,7 +548,8 @@ namespace LSNoir.Callouts
             _cData.CompletedStages.Add(CaseData.LastStage.MedicalExaminer);
             _cData.SajrsUpdates.Add("Medical Examiner Report Added");
             _cData.StartingStage = this.Attributes.NextScripts.FirstOrDefault();
-            SaveItemToXML(_cData, Main.CDataPath);
+            $"Case number: {_cData.Number}".AddLog();
+            Serializer.SaveItemToXML(_cData, Main.CDataPath);
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
             "Terminating L.S. Noir Callout: Sexual Assault -- Stage 2b [ME]".AddLog();
             if (_me.Exists()) _me.Dismiss();

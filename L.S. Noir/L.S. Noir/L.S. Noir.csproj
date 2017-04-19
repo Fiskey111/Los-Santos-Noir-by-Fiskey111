@@ -167,6 +167,7 @@
     <Compile Include="Callouts\SA\Data\PedData.cs" />
     <Compile Include="Callouts\SA\Data\ReportData.cs" />
     <Compile Include="Callouts\SA\Data\WitnessData.cs" />
+    <Compile Include="Commands.cs" />
     <Compile Include="Startup\Evid_War_TimeChecker.cs" />
     <Compile Include="Callouts\SA\Interaction\HelpMenu.cs" />
     <Compile Include="Callouts\SA\Interaction\SecurityCamera.cs" />

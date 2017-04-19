@@ -15,13 +15,13 @@ using LSNoir.Extensions;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary.Evidence;
 using LtFlash.Common.ScriptManager.Scripts;
+using LtFlash.Common.Serialization;
 using Rage;
 using Evid = LtFlash.Common.EvidenceLibrary.Evidence;
 using Marker = Fiskey111Common.Marker;
 using SpawnPoint = LSNoir.Callouts.SA.Services.SpawnPoint;
-using static LtFlash.Common.Serialization.Serializer;
 
-namespace LSNoir.Callouts.SA.Stages
+namespace LSNoir.Callouts.SA.Stages.CSI
 {
     public class Sa1Csi : CalloutScript
     {
@@ -79,28 +79,29 @@ namespace LSNoir.Callouts.SA.Stages
             _sw.Start();
 
             // Resets previous Data
-            SaveItemToXML(new PedData(), Main.PDataPath);
-            SaveItemToXML(new PedData(), Main.SDataPath);
-            SaveItemToXML(new WitnessData(), Main.WDataPath);
-            SaveItemToXML(new CaseData(), Main.CDataPath);
-            SaveItemToXML(new EvidenceData(), Main.EDataPath);
-            SaveItemToXML(new ReportData(), Main.RDataPath);
+            Serializer.SaveItemToXML(new PedData(), Main.PDataPath);
+            Serializer.SaveItemToXML(new PedData(), Main.SDataPath);
+            Serializer.SaveItemToXML(new WitnessData(), Main.WDataPath);
+            Serializer.SaveItemToXML(new CaseData(), Main.CDataPath);
+            Serializer.SaveItemToXML(new EvidenceData(), Main.EDataPath);
+            Serializer.SaveItemToXML(new ReportData(), Main.RDataPath);
 
             CsiCreator.CreateScene(Game.LocalPlayer.Character.Position);
 
             while (!CsiCreator.Completed && !CsiCreator.AComplete && !CsiCreator.CComplete && !CsiCreator.loadCreated)
                 GameFiber.Yield();
             
-            _caseData = LoadItemFromXML<CaseData>(Main.CDataPath);
+            _caseData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
 
             UpdateandSaveCaseData();
             GameFiber.Sleep(1000);
-            _caseData = LoadItemFromXML<CaseData>(Main.CDataPath);
 
             DisplayCallout();
 
             _dispEmsTo = new Services.SpawnPoint(CsiCreator.EmsLast.Heading, CsiCreator.EmsLast.Position);
             _dispCoronerTo = new Services.SpawnPoint(CsiCreator.EmsLast.Heading, CsiCreator.EmsLast.Position);
+
+            $"Case number: {_caseData.Number}".AddLog();
 
             _sw.Stop();
             ("***TIME_LOGGER: " + _sw.Elapsed.Seconds.ToString() + " to run Initialize()").AddLog();
@@ -118,7 +119,6 @@ namespace LSNoir.Callouts.SA.Stages
             _caseData.SecCamSpawn = CsiCreator.SecCamSpawnPoint;
             _caseData.SusSpawnPoint = CsiCreator.SusSpawnPoint;
             _caseData.SusTarget = CsiCreator.SusTargetPoint;
-            SaveItemToXML<CaseData>(_caseData, Main.CDataPath);
         }
 
         private void DisplayCallout()
@@ -142,7 +142,7 @@ namespace LSNoir.Callouts.SA.Stages
 
                 ShowAreaWithRoute(CsiCreator.Victim.Ped.Position, 75f, Color.Yellow);
 
-                "Case Accepted".DisplayNotification("Investigate the scene\nReports of a " + _genderstring + " on the ground not responding.");
+                "Case Accepted".DisplayNotification("Investigate the scene\nReports of a " + _genderstring + " on the ground not responding.", _caseData.Number);
 
                 _state = EnumState.EnRoute;
                 _availablestate = CheckState.Start;
@@ -205,7 +205,9 @@ namespace LSNoir.Callouts.SA.Stages
 
                     _vicData.Model = CsiCreator.Victim.Ped.Model.Name;
 
-                    CsiCreator.Victim.KeyLeave = Keys.D9;
+                    CsiCreator.Victim.KeyCollect = Settings.CollectKey();
+                    CsiCreator.Victim.KeyInteract = Settings.InteractKey();
+                    CsiCreator.Victim.KeyLeave = Settings.LeaveKey();
                     break;
                 case EntityType.Fo:
                     $"FO exists: {CsiCreator.FirstOfficer.Exists}".AddLog();
@@ -235,6 +237,10 @@ namespace LSNoir.Callouts.SA.Stages
                         _wit1.Ped.IsInvincible = true;
                         _wit1.Ped.RandomizeVariation();
                         _wit1.Ped.MakeMissionPed();
+
+                        _wit1.KeyCollect = Settings.CollectKey();
+                        _wit1.KeyInteract = Settings.InteractKey();
+                        _wit1.KeyLeave = Settings.LeaveKey();
 
                         _wit1Data = new PedData(_wit1.Ped, PedType.Witness1, MathHelper.GetRandomInteger(3) == 1);
 
@@ -270,6 +276,10 @@ namespace LSNoir.Callouts.SA.Stages
                         _wit2.Ped.IsInvincible = true;
                         _wit2.Ped.RandomizeVariation();
                         _wit2.Ped.MakeMissionPed();
+
+                        _wit2.KeyCollect = Settings.CollectKey();
+                        _wit2.KeyInteract = Settings.InteractKey();
+                        _wit2.KeyLeave = Settings.LeaveKey();
 
                         _wit2Data = new PedData(_wit2.Ped, PedType.Witness2, MathHelper.GetRandomInteger(3) == 1);
 
@@ -360,7 +370,13 @@ namespace LSNoir.Callouts.SA.Stages
             for (int i = 0; i < randomEvidenceNumber; i++)
             {
                 var evidType = eList[ints[i]];
-                var obj = new Evid.Object(evidType.Description, evidType.Description, evidType.Model, CsiCreator.Victim.Position.Around2D(3f, 9f));
+                var obj = new Evid.Object(evidType.Description, evidType.Description, evidType.Model,
+                    CsiCreator.Victim.Position.Around2D(3f, 9f))
+                {
+                    KeyLeave = Settings.LeaveKey(),
+                    KeyCollect = Settings.CollectKey(),
+                    KeyInteract = Settings.InteractKey()
+                };
                 CompleteEvidCreation(obj);
                 _dData = new EvidenceData(EvidenceData.DataType.Drink, evidType.PublicName, obj.@object.Model, obj.IsImportant);
                 GetTraces(_dData);
@@ -488,7 +504,7 @@ namespace LSNoir.Callouts.SA.Stages
                         GameFiber.Sleep(0500);
                         ("LtFlashEMS Called; EMT exists: " + _ems.PedWorker.Exists()).AddLog();
                     }
-                    "~g~EMS~w~ Dispatched".DisplayNotification("EMS requested by the first officer");
+                    "~g~EMS~w~ Dispatched".DisplayNotification("EMS requested by the first officer", _caseData.Number);
                 }
             }
 
@@ -513,7 +529,7 @@ namespace LSNoir.Callouts.SA.Stages
 
             "First Officer Collected".AddLog();
 
-            "Sexual Assault Case Update".DisplayNotification("First Officer Conversation \nAdded to ~b~SAJRS");
+            "Sexual Assault Case Update".DisplayNotification("First Officer Conversation \nAdded to ~b~SAJRS", _caseData.Number);
             Game.DisplayHelp("Now that you have checked with the first officer, investigate the crime scene.");
 
             CsiCreator.FirstOfficer.Ped.Heading = heading;
@@ -555,7 +571,7 @@ namespace LSNoir.Callouts.SA.Stages
 
                     CreateServices(ServiceType.Coroner);
                     "~g~Coroner~w~ Dispatched".DisplayNotification(
-                        $"Coroner dispatched to ~y~{World.GetStreetName(Game.LocalPlayer.Character.Position)}");
+                        $"Coroner dispatched to ~y~{World.GetStreetName(Game.LocalPlayer.Character.Position)}", _caseData.Number);
                     "Begin Coroner".AddLog();
                 }
 
@@ -563,7 +579,7 @@ namespace LSNoir.Callouts.SA.Stages
                 {
                     _informed2 = true; _coronercollected = true;
 
-                    "Sexual Assault Case Update".DisplayNotification("Coroner Conversation \nAdded to ~b~SAJRS");
+                    "Sexual Assault Case Update".DisplayNotification("Coroner Conversation \nAdded to ~b~SAJRS", _caseData.Number);
                     "Coroner Collected == true".AddLog();
                     _caseData.SajrsUpdates.Add("Obtained report from Coroner");
 
@@ -624,7 +640,7 @@ namespace LSNoir.Callouts.SA.Stages
 
                 _emscollect = true;
                 "BetterEMS Collected".AddLog();
-                "Sexual Assault Case Update".DisplayNotification("EMS Report \nAdded to ~b~SAJRS");
+                "Sexual Assault Case Update".DisplayNotification("EMS Report \nAdded to ~b~SAJRS", _caseData.Number);
                 _caseData.SajrsUpdates.Add("Obtained report from Paramedic");
                 _missionValue = _missionValue + 5;
                 $"Mission value changed to: {_missionValue}".AddLog();
@@ -634,7 +650,7 @@ namespace LSNoir.Callouts.SA.Stages
             {
                 _emscollect = true;
                 "LtFlashEMS Collected".AddLog();
-                "Sexual Assault Case Update".DisplayNotification("EMS Report \nAdded to ~b~SAJRS");
+                "Sexual Assault Case Update".DisplayNotification("EMS Report \nAdded to ~b~SAJRS", _caseData.Number);
                 _caseData.SajrsUpdates.Add("Obtained report from Paramedic");
                 _missionValue = _missionValue + 5;
                 $"Mission value changed to: {_missionValue}".AddLog();
@@ -673,7 +689,7 @@ namespace LSNoir.Callouts.SA.Stages
                     _ems = new Ems(CsiCreator.Victim.Ped, _dispEmsTo, null, _emstransport);
 
                     _ems.Dispatch();
-
+                    
                     GameFiber.Sleep(1500);
 
                     var d = new Dialog(ConversationCreator.DialogLineCreator(ConversationCreator.ConversationType.Ems, _ems.PedDriver), CsiCreator.Victim.Ped.LeftPosition);
@@ -704,7 +720,7 @@ namespace LSNoir.Callouts.SA.Stages
                     _coroner.PedDriver.RandomizeVariation();
                     _coroner.PedWorker.RandomizeVariation();
 
-                    Dialog c = new Dialog(ConversationCreator.DialogLineCreator(ConversationCreator.ConversationType.Coroner, _coroner.PedWorker), CsiCreator.Victim.Ped.LeftPosition);
+                    var c = new Dialog(ConversationCreator.DialogLineCreator(ConversationCreator.ConversationType.Coroner, _coroner.PedWorker), CsiCreator.Victim.Ped.LeftPosition);
                     c.AddPed(0, Game.LocalPlayer.Character);
                     c.AddPed(1, _coroner.PedWorker);
                     c.DistanceToStop = 3f;
@@ -758,12 +774,14 @@ namespace LSNoir.Callouts.SA.Stages
 
             foreach (var evid in _eDataList)
             {
+                if (string.IsNullOrEmpty(evid.Name)) return;
+
                 if (evid.Collected) handler.AddItem(evid.Name, "Collected", MissionPassedScreen.TickboxState.Tick);
                 else handler.AddItem(evid.Name, "Missed", MissionPassedScreen.TickboxState.Empty);
             }
 
             var witnessNum = 0;
-            foreach (var wit in _witList.Keys.ToList())
+            foreach (var wit in _witList.Keys.ToArray())
             {
                 witnessNum++;
                 var tick = wit.Dialog.HasEnded
@@ -790,13 +808,14 @@ namespace LSNoir.Callouts.SA.Stages
             _caseData.CurrentStage = CaseData.LastStage.CSI;
             _caseData.StartingStage = this.Attributes.NextScripts.FirstOrDefault();
             _caseData.CurrentSuspect = "";
-            SaveItemToXML<CaseData>(_caseData, Main.CDataPath);
+            Serializer.SaveItemToXML<CaseData>(_caseData, Main.CDataPath);
             _pDataList.Add(_vicData);
-            if (_wDataList.Count > 0) SaveItemToXML<List<PedData>>(_wDataList, Main.WDataPath);
-            SaveItemToXML<List<PedData>>(_sDataList, Main.SDataPath);
-            SaveItemToXML<List<PedData>>(_pDataList, Main.PDataPath);
-            SaveItemToXML<List<EvidenceData>>(_eDataList, Main.EDataPath);
-            SaveItemToXML<List<ReportData>>(_rDataList, Main.RDataPath);
+            if (_wDataList.Count > 0) Serializer.SaveItemToXML<List<PedData>>(_wDataList, Main.WDataPath);
+            Serializer.SaveItemToXML<List<PedData>>(_sDataList, Main.SDataPath);
+            Serializer.SaveItemToXML<List<PedData>>(_pDataList, Main.PDataPath);
+            Serializer.SaveItemToXML<List<EvidenceData>>(_eDataList, Main.EDataPath);
+            Serializer.SaveItemToXML<List<ReportData>>(_rDataList, Main.RDataPath);
+            $"Case number: {_caseData.Number}".AddLog();
             _eController?.Dispose();
             _missionValue = _missionValue + 5;
             $"Mission value changed to: {_missionValue}".AddLog();

@@ -1,12 +1,11 @@
-﻿using Rage;
-using Rage.Native;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
-using LSNoir.Extensions;
+using Rage;
+using Rage.Native;
 
-namespace LSNoir.Callouts.SA.Commons
+namespace LSNoir.Extensions
 {
     public static class ExtensionMethods
     {
@@ -16,31 +15,19 @@ namespace LSNoir.Callouts.SA.Commons
             ped.IsPersistent = true;
         }
 
-        public static void MakeMissionVehicle(this Vehicle veh)
-        {
-            veh.IsPersistent = true;
-        }
+        public static void MakeMissionVehicle(this Vehicle veh) => veh.IsPersistent = true;
 
-        public static void MakeMissionObject(this Rage.Object obj)
-        {
-            obj.IsPersistent = true;
-        }
-        
+        public static void MakeMissionObject(this Rage.Object obj) => obj.IsPersistent = true;
+
         public static void LogDistanceFromCallout(Vector3 calloutLocation)
         {
             float distance = Vector3.Distance(calloutLocation, Game.LocalPlayer.Character.Position);
             ("Player is: " + distance.ToString() + "f away from the location").AddLog();
         }
 
-        public static void Task_Scenario(this Ped ped, string scenario)
-        {
-            NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(ped, scenario.ToString(), 0, true);
-        }
+        public static void Task_Scenario(this Ped ped, string scenario) => NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(ped, scenario.ToString(), 0, true);
 
-        public static void Task_Scenario(this Ped ped, string scenario, Vector3 position, float heading)
-        {
-            NativeFunction.Natives.TASK_START_SCENARIO_AT_POSITION(ped, scenario, position.X, position.Y, position.Z, heading, 0, 0, 1);
-        }
+        public static void Task_Scenario(this Ped ped, string scenario, Vector3 position, float heading) => NativeFunction.Natives.TASK_START_SCENARIO_AT_POSITION(ped, scenario, position.X, position.Y, position.Z, heading, 0, 0, 1);
 
         /*public static void StartCalloutCheck()
         {
@@ -67,23 +54,12 @@ namespace LSNoir.Callouts.SA.Commons
             }
         }*/
 
-        public static bool IsPolicePed(this Ped ped)
-        {
-            return ped.RelationshipGroup == "COP";
-        }
+        public static bool IsPolicePed(this Ped ped) => ped.RelationshipGroup == "COP";
 
-        public static T PickRandom<T>(this IEnumerable<T> source)
-        {
-            return source.PickRandom(1).Single();
-        }
-        public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count)
-        {
-            return source.Shuffle().Take(count);
-        }
-        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
-        {
-            return source.OrderBy(x => Guid.NewGuid());
-        }
+        public static T PickRandom<T>(this IEnumerable<T> source) => source.PickRandom(1).Single();
+        public static IEnumerable<T> PickRandom<T>(this IEnumerable<T> source, int count) => source.Shuffle().Take(count);
+
+        public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source) => source.OrderBy(x => Guid.NewGuid());
 
         public static string GetKeyString(this Keys mainKey, Keys modifierKey)
         {
@@ -113,17 +89,11 @@ namespace LSNoir.Callouts.SA.Commons
                     strmodKey = "ALT";
                 }
 
-                return string.Format("{0} + {1}", strmodKey, mainKey.ToString());
+                return $"{strmodKey} + {mainKey.ToString()}";
             }
         }
 
-        public static Gender GetGender(Ped p)
-        {
-            if (p.IsMale)
-                return Gender.Male;
-            else
-                return Gender.Female;
-        }
+        public static Gender GetGender(Ped p) => p.IsMale ? Gender.Male : Gender.Female;
 
         public enum Gender { Male, Female }
     }

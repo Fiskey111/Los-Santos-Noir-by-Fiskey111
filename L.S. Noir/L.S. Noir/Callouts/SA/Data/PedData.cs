@@ -6,6 +6,7 @@ using System.Linq;
 using Fiskey111Common;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Extensions;
 using LtFlash.Common.ScriptManager.Scripts;
 
 namespace LSNoir

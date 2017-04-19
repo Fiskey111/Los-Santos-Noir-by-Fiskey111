@@ -1,9 +1,11 @@
-﻿using Rage;
+﻿using System;
+using Rage;
 using Rage.Forms;
 using System.Drawing;
 using Gwen.Control;
 using LSNoir.Callouts.SA.Commons;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
@@ -43,22 +45,45 @@ namespace LSNoir
             HideStuff();
 
             _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
-            if (_cData.WitnessIDs.Contains(1))
-                _w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                    c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
-            if (_cData.WitnessIDs.Contains(2))
-                _w2Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                    c => c.FirstOrDefault(p => p.Type == PedType.Witness2));
 
-            if (_w1Data != null)
-                wit_select_combobox.AddItem(_w1Data.Name);
-            if (_w2Data != null)
-                wit_select_combobox.AddItem(_w2Data.Name);
-            if (_w1Data != null && _w2Data != null)
+            if (FillData()) { }
+            else
                 wit_select_combobox.AddItem("No Witnesses");
 
             wit_select_combobox.ItemSelected += Wit_select_combobox_ItemSelected;
             witness_return_but.Clicked += Witness_return_but_Clicked;
+        }
+
+        private bool FillData()
+        {
+            try
+            {
+                var witDataList = LoadItemFromXML<List<PedData>>(Main.WDataPath);
+
+                if (witDataList.Count < 1) return false;
+
+                if (witDataList.Count == 1)
+                {
+                    _w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+                    wit_select_combobox.AddItem(_w1Data.Name);
+                }
+                else
+                {
+                    _w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+                    wit_select_combobox.AddItem(_w1Data.Name);
+                    _w2Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => c.FirstOrDefault(p => p.Type == PedType.Witness2));
+                    wit_select_combobox.AddItem(_w2Data.Name);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                $"Error loading witnesses: {ex.ToString()}".AddLog(true);
+                return false;
+            }
         }
 
         private void Wit_select_combobox_ItemSelected(Base sender, ItemSelectedEventArgs arguments)

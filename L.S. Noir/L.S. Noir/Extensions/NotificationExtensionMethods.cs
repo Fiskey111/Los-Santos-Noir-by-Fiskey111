@@ -8,15 +8,17 @@ namespace LSNoir.Extensions
         {
             if (logRelease)
                 Game.LogTrivial("[L.S. Noir Log]: " + text);
-            #if DEBUG
-            Game.LogTrivialDebug("[L.S. Noir Log]: " + text);
-            #endif
+            else
+            {
+#if DEBUG
+                Game.LogTrivialDebug("[L.S. Noir Log]: " + text);
+#endif
+            }
         }
 
-        public static void DisplayNotification(this string subtitle, string body)
+        public static void DisplayNotification(this string subtitle, string body, int number)
         {
-            var _Case = LtFlash.Common.Serialization.Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
-            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Case #: " + _Case.Number, subtitle, body);
+            Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Case #: " + number, subtitle, body);
         }
     }
 }

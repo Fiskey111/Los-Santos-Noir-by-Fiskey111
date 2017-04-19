@@ -1,19 +1,18 @@
-﻿using Fiskey111Common;
-using LtFlash.Common.ScriptManager.Scripts;
-using Rage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using Rage.Native;
-using LSNoir.Callouts.SA.Commons;
-using LSPD_First_Response.Mod.API;
+using Fiskey111Common;
 using LSNoir.Callouts.SA.Creators;
-using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
-using System.Drawing;
 using LSNoir.Callouts.Universal;
+using LSNoir.Extensions;
+using LSPD_First_Response.Mod.API;
+using LtFlash.Common.ScriptManager.Scripts;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Native;
 
-namespace LSNoir.Callouts
+namespace LSNoir.Callouts.SA.Stages
 {
     public class SA_3_VictimFamily : BasicScript
     {
@@ -50,16 +49,12 @@ namespace LSNoir.Callouts
 
             ExtensionMethods.LogDistanceFromCallout(_oneSpawn.Spawn);
             
-            _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
-            _pData = GetSelectedListElementFromXml<PedData>(Main.PDataPath,
-                p => p.FirstOrDefault(f => f.Type == PedType.VictimFamily));
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+            _pData = Serializer.GetSelectedListElementFromXml<PedData>(Main.PDataPath,
+                p => Enumerable.FirstOrDefault<PedData>(p, f => f.Type == PedType.VictimFamily));
 
-            _one = new Ped(_pData.Model, _oneSpawn.Spawn, _oneSpawn.Heading);
-            _one.MakeMissionPed();
-            
-            "Sexual Assault Case Update".DisplayNotification("Speak to family of the victim");
-
-            ScenarioHelper();
+            $"Case number: {_cData.Number}".AddLog();
+            "Sexual Assault Case Update".DisplayNotification("Speak to family of the victim", _cData.Number);
            
             return true;
         }
@@ -96,16 +91,29 @@ namespace LSNoir.Callouts
         // todo -- get positions and put them in xml
         private static SpawnPt GetRandomSpawn()
         {
-            List<SpawnPt> spawnlist = new List<SpawnPt>
+            var spawnlist = new List<SpawnPt>
             {
-                new SpawnPt(95.29f, -278.10f, 386.18f, 110.83f)
+                new SpawnPt(95.29f, -278.10f, 386.18f, 110.83f),
+                new SpawnPt(310.89f, -23.97f, -47.98f, 67.59f),
+                new SpawnPt(46.90f, -1087.29f, -1215.88f, 2.35f),
+                new SpawnPt(213.37f, 450.28f, -1720.78f, 29.34f),
+                new SpawnPt(241.49f, -3184.23f, 1312.09f, 14.57f)
             };
 
-            return spawnlist[MathHelper.GetRandomInteger(spawnlist.Count)];
+            return spawnlist[Rand.RandomNumber(spawnlist.Count)];
         }
 
         protected override void Process()
         {
+            if (Game.LocalPlayer.Character.Position.DistanceTo(_oneSpawn.Spawn) > 150f) return;
+
+            if (!_one)
+            {
+                _one = new Ped(_pData.Model, _oneSpawn.Spawn, _oneSpawn.Heading);
+                _one.MakeMissionPed();
+                ScenarioHelper();
+            }
+
             if (Game.LocalPlayer.Character.Position.DistanceTo(_oneSpawn.Spawn) < 6f && _beginDialogue == false)
             {
                 "Beginning Dialog".AddLog();
@@ -113,7 +121,6 @@ namespace LSNoir.Callouts
                 _beginDialogue = true;
                 _one.Tasks.Clear();
                 GameFiber.Sleep(0500);
-                var player = Game.LocalPlayer.Character;
                 _one.Face(Game.LocalPlayer.Character);
                 Game.DisplayHelp("Press ~y~Y~w~ to start the interrogation");  
             }
@@ -168,11 +175,12 @@ namespace LSNoir.Callouts
             _cData.StartingStage = this.Attributes.NextScripts.FirstOrDefault();
             _cData.LastCompletedStage = CaseData.LastStage.VictimFamily;
 
-            SaveItemToXML<CaseData>(_cData, Main.CDataPath);
-            var l = LoadItemFromXML<List<ReportData>>(Main.RDataPath);
+            Serializer.SaveItemToXML<CaseData>(_cData, Main.CDataPath);
+            var l = Serializer.LoadItemFromXML<List<ReportData>>(Main.RDataPath);
             l.Add(_vfData);
-            SaveItemToXML(l, Main.RDataPath);
+            Serializer.SaveItemToXML(l, Main.RDataPath);
 
+            $"Case number: {_cData.Number}".AddLog();
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
             Main.CompAccess = true;
             if (_areaBlip.Exists()) _areaBlip.Delete();

@@ -1,19 +1,17 @@
-﻿using Rage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using StageObjects;
-using LSNoir.Callouts.SA.Commons;
-using Rage.Native;
-using AnimationDatabase;
+using Fiskey111Common;
 using LSNoir.Extensions;
 using LtFlash.Common;
-using Fiskey111Common;
+using Rage;
+using Rage.Native;
+using StageObjects;
 
-namespace StageCreator
+namespace LSNoir.Callouts.SA.Stages.ME
 {
     public class MeCreator
     {

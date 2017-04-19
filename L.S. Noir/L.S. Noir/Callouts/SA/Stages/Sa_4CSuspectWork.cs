@@ -8,6 +8,7 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Objects;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using LSPD_First_Response.Mod.API;
@@ -54,7 +55,7 @@ namespace LSNoir.Callouts.SA.Stages
             _cData = LtFlash.Common.Serialization.Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
 
             "Sexual Assault Case Update".DisplayNotification(
-                "Meet with your ~b~team~w~ to perform a raid on the ~r~suspect's~w~ work");
+                "Meet with your ~b~team~w~ to perform a raid on the ~r~suspect's~w~ work", _cData.Number);
 
             CreateStage();
             
@@ -68,15 +69,7 @@ namespace LSNoir.Callouts.SA.Stages
                 Color = Color.DarkOrange,
                 Name = "Meet with SWAT Team"
             };
-
-            AddStage(AwaitingArrival);
-            AddStage(AwaitingExitVehicle);
-            AddStage(AwaitingAcceptance);
-            AddStage(WaitingToGo);
-            AddStage(AwaitingArriveAtScene);
-            AddStage(OnScene);
-            AddStage(Searching);
-           
+            
             ActivateStage(AwaitingArrival);
             return true;
         }
@@ -231,7 +224,7 @@ namespace LSNoir.Callouts.SA.Stages
         {
             Game.DisplayHelp("Search for the ~r~suspect");
             "Sexual Assault Case Update".DisplayNotification(
-                "Officers on scene\nBeginning search for ~r~suspect");
+                "Officers on scene\nBeginning search for ~r~suspect", _cData.Number);
 
             SwapStages(OnScene, Searching);
         }
@@ -302,7 +295,7 @@ namespace LSNoir.Callouts.SA.Stages
 
         protected void SetScriptFinished()
         {
-            "Sexual Assault Case Update".DisplayNotification("Case completed successfully \n\n~g~Good job ~b~Officer~w~!");
+            "Sexual Assault Case Update".DisplayNotification("Case completed successfully \n\n~g~Good job ~b~Officer~w~!", _cData.Number);
             _cData.LastCompletedStage = CaseData.LastStage.SuspectWork;
             _cData.CompletedStages.Add(CaseData.LastStage.SuspectWork);
             _cData.SajrsUpdates.Add("Case completed!");

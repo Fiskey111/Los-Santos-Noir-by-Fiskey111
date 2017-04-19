@@ -1,21 +1,19 @@
 ﻿using System;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Creators;
-using LtFlash.Common.ScriptManager.Scripts;
-using Rage;
-using Rage.Native;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
-using LSNoir.Extensions;
-using System.Drawing;
+using Fiskey111Common;
+using LSNoir.Callouts.SA.Creators;
 using LSNoir.Callouts.Universal;
-using RAGENativeUI.Elements;
-using static LtFlash.Common.Serialization.Serializer;
+using LSNoir.Extensions;
+using LtFlash.Common.ScriptManager.Scripts;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Native;
 
-namespace LSNoir.Callouts
+namespace LSNoir.Callouts.SA.Stages
 {
     public class Sa_4ASuspectHome : BasicScript
     {
@@ -37,10 +35,18 @@ namespace LSNoir.Callouts
         private PedData _sData;
         private ReportData _sReportData;
 
+        // Misc
+        private string _scenario;
+
         protected override bool Initialize()
         {
             "Initializing L.S. Noir Callout: Sexual Assault -- Stage 4a [Suspect Home]".AddLog();
-            _oneSpawn = GetRandomSpawn().Keys.FirstOrDefault();
+
+            var spawn_scene = LoadDict();
+
+            var random = Rand.RandomNumber(spawn_scene.Count);
+            _scenario = spawn_scene.Values.ToArray()[random];
+            _oneSpawn = spawn_scene.Keys.ToArray()[random];
             _areaBlip = new Blip(_oneSpawn.Spawn)
             {
                 Sprite = BlipSprite.GangAttackPackage,
@@ -48,45 +54,57 @@ namespace LSNoir.Callouts
                 Name = "Interrogate Suspect"
             };
 
-            _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
 
-            _sData = GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                s => s.FirstOrDefault(c => String.Equals(c.Name, _cData.CurrentSuspect, StringComparison.CurrentCultureIgnoreCase)));
-            
-            _one = new Ped(_sData.Model, _oneSpawn.Spawn, _oneSpawn.Heading);
-            _one.MakeMissionPed();
-            _one.ResetVariation();
-            _one.Heading = _oneSpawn.Heading;
+            _sData = Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
+                s => s.FirstOrDefault<PedData>(c => String.Equals(c.Name, _cData.CurrentSuspect, StringComparison.CurrentCultureIgnoreCase)));
 
-            "Sexual Assault Case Update".DisplayNotification("Speak to suspect");
-            GameFiber.StartNew(delegate
-            {
-                "_one.Task.Start".AddLog();
-                while (Game.LocalPlayer.Character.Position.DistanceTo(_one) > 5f)
-                {
-                    _one.Task_Scenario(GetRandomSpawn().Values.FirstOrDefault());
-                    while (NativeFunction.Natives.IS_PED_USING_ANY_SCENARIO<bool>(_one))
-                        GameFiber.Yield();
-                    GameFiber.Yield();
-                }
-                NativeFunction.Natives.TASK_TURN_PED_TO_FACE_ENTITY(_one, Game.LocalPlayer.Character, -1);
-            });
+            "Sexual Assault Case Update".DisplayNotification("Speak to suspect", _cData.Number);
+
             
             return true;
         }
 
         // todo -- get positions and put them in xml
-        private static Dictionary<SpawnPt, string> GetRandomSpawn()
+        private static Dictionary<SpawnPt, string> LoadDict()
         {
-            var spawnlist = new Dictionary<SpawnPt, string>();
+            var spawnlist = new Dictionary<SpawnPt, string>
+            {
+                {new SpawnPt(208.22f, 1059.81f, -446.85f, 66.02f), "WORLD_HUMAN_GARDENER_PLANT"},
+                {new SpawnPt(210.04f, -288.29f, 15.24f, 54.75f), "WORLD_HUMAN_DRINKING"},
+                {new SpawnPt(48.47f, 1280.95f, -1602.24f, 54.23f), "WORLD_HUMAN_JOG_STANDING"},
+                {new SpawnPt(315.62f, -1372.31f, -903.95f, 12.47f), "WORLD_HUMAN_HAMMERING"},
+                {new SpawnPt(159.69f, 788.48f, 2178.03f, 52.65f), "WORLD_HUMAN_MAID_CLEAN"}
+            };
 
-            spawnlist.Add(new SpawnPt(208.22f, 1059.81f, -446.85f, 66.02f), "WORLD_HUMAN_GARDENER_PLANT");
-            
             return spawnlist;
         }
         bool _notified, _interrStarted, _leaveNotified;
         protected override void Process()
         {
+            if (Game.LocalPlayer.Character.Position.DistanceTo(_oneSpawn.Spawn) > 150f) return;
+
+            if (!_one)
+            {
+                _one = new Ped(_sData.Model, _oneSpawn.Spawn, _oneSpawn.Heading);
+                _one.MakeMissionPed();
+                _one.ResetVariation();
+                _one.Heading = _oneSpawn.Heading;
+
+                GameFiber.StartNew(delegate
+                {
+                    "_one.Task.Start".AddLog();
+                    while (Game.LocalPlayer.Character.Position.DistanceTo(_one) > 5f)
+                    {
+                        _one.Task_Scenario(_scenario);
+                        while (NativeFunction.Natives.IS_PED_USING_ANY_SCENARIO<bool>(_one))
+                            GameFiber.Yield();
+                        GameFiber.Yield();
+                    }
+                    NativeFunction.Natives.TASK_TURN_PED_TO_FACE_ENTITY(_one, Game.LocalPlayer.Character, -1);
+                });
+            }
+
             if (Game.LocalPlayer.Character.Position.DistanceTo(_oneSpawn.Spawn) < 10f && !_notified)
             {
                 _notified = true;
@@ -105,6 +123,11 @@ namespace LSNoir.Callouts
 
             if (Game.IsKeyDown(Keys.Y) && !_interrStarted)
             {
+                _one.Tasks.ClearImmediately();
+                GameFiber.Sleep(0500);
+                _one.Face(Game.LocalPlayer.Character);
+
+                GameFiber.Sleep(1000);
                 _interrogation = new Interrogation(InterrogationCreator.InterrogationLineCreator(InterrogationCreator.Type.Suspect, _one), _one);
                 _interrogation.StartDialog();
                 _interrStarted = true;
@@ -149,18 +172,18 @@ namespace LSNoir.Callouts
 
         protected void SetScriptFinished()
         {
-            "Sexual Assault Case Update".DisplayNotification("Suspect Conversation \nAdded to ~b~SAJRS");
+            "Sexual Assault Case Update".DisplayNotification("Suspect Conversation \nAdded to ~b~SAJRS", _cData.Number);
             _cData.CurrentStage = CaseData.LastStage.SuspectHome;
             _cData.LastCompletedStage = CaseData.LastStage.SuspectHome;
             _cData.CompletedStages.Add(CaseData.LastStage.SuspectHome);
             _cData.SajrsUpdates.Add("Interrogated Suspect");
             _cData.WarrantAccess = true;
             _cData.StartingStage = this.Attributes.NextScripts.FirstOrDefault();
-            SaveItemToXML<CaseData>(_cData, Main.CDataPath);
+            Serializer.SaveItemToXML<CaseData>(_cData, Main.CDataPath);
 
-            var l = LoadItemFromXML<List<ReportData>>(Main.RDataPath);
+            var l = Serializer.LoadItemFromXML<List<ReportData>>(Main.RDataPath);
             l.Add(_sReportData);
-            SaveItemToXML(l, Main.RDataPath);
+            Serializer.SaveItemToXML(l, Main.RDataPath);
 
             if (_areaBlip.Exists()) _areaBlip.Delete();
             if (_one) _one.Dismiss();

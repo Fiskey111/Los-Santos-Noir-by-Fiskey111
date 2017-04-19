@@ -5,17 +5,15 @@ using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
 
-namespace LSNoir.Callouts.SA.Commons
+namespace LSNoir.Callouts.SA.Objects
 {
     public class Cop
     {
         public Ped Ped { get; set; }
         public Vector3 Position
         {
-            get
-            {
-                if (Ped) return Ped.Position;
-                else return Vector3.Zero;
+            get {
+                return Ped ? Ped.Position : Vector3.Zero;
             }
             set { Ped.Position = value; }
         }
@@ -81,6 +79,7 @@ namespace LSNoir.Callouts.SA.Commons
         {
             if (!Ped.Exists()) return;
             Ped.Tasks.LeaveVehicle(LeaveVehicleFlags.LeaveDoorOpen);
+            SetNotBusy();
         }
 
         public void DriveToTargetPosition()

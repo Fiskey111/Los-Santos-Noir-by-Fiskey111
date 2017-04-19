@@ -13,13 +13,13 @@ namespace LSNoir.Startup
         {
             if (CompareVersions())
             {
-                "L.S. Noir Update Check".DisplayNotification("You have the current version of L.S. Noir!");
+                "L.S. Noir Update Check".DisplayNotification("You have the current version of L.S. Noir!", 0);
             }
             else
             {
-                "Newer version available".DisplayNotification($"A newer version of L.S. Noir is available");
+                "Newer version available".DisplayNotification($"A newer version of L.S. Noir is available", 0);
 
-                "Newer version available".DisplayNotification("You are being directed to the download page to download the latest version\nPress ~y~enter~w~ to cancel");
+                "Newer version available".DisplayNotification("You are being directed to the download page to download the latest version\nPress ~y~enter~w~ to cancel", 0);
 
                 var count = 0;
                 while (count <= 300)

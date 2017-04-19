@@ -124,12 +124,10 @@ namespace LSNoir.Callouts.Universal
                 while (true)
                 {
                     GameFiber.Yield();
-                    if (Game.IsKeyDown(InteractKey))
-                    {
-                        "Interact Key Pressed".AddLog();
-                        Game.HideHelp();
-                        break;
-                    }
+                    if (!Game.IsKeyDown(InteractKey)) continue;
+
+                    Game.HideHelp();
+                    break;
                 }
 
                 var cl = _lines[_currentLine];

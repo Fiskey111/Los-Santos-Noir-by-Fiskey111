@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Rage;
 using Rage.Forms;
 using Notsolethalpolicing.MDT;
@@ -31,7 +32,6 @@ namespace LSNoir
 
         // Data
         private static CaseData _cData;
-        private static PedData _w1Data, _w2Data;
         private static List<PedData> _sData = new List<PedData>();
 
         public MainCode()
@@ -57,12 +57,6 @@ namespace LSNoir
             Window.DeleteOnClose = true;
 
             _cData = LoadItemFromXML<CaseData>(Main.CDataPath);     
-            if (_cData.WitnessIDs.Contains(1))
-                _w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                    c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
-            if (_cData.WitnessIDs.Contains(2))
-                _w2Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                    c => c.FirstOrDefault(p => p.Type == PedType.Witness2));
             _sData = LoadFromXML<PedData>(Main.SDataPath);
             
             CreateForm();
@@ -119,13 +113,8 @@ namespace LSNoir
             
             UpdateSajrs();
             
-            var witname = "None";
-            if (_w1Data != null)
-                witname = _w1Data.Name;
-            if (_w2Data != null)
-                witname = witname + ", " + _w2Data.Name;
-
-            main_witness_value.Text = witname;
+            if (GetWitData()) { }
+            else main_witness_value.Text = "None";
 
             if (!string.IsNullOrWhiteSpace(_cData.CurrentSuspect))
                 _susBox.Text = _cData.CurrentSuspect;
@@ -161,6 +150,39 @@ namespace LSNoir
             if (_cData.WarrantAccess)
             {
                 menu_combo.AddItem("Warrant Request Form");
+            }
+        }
+
+        private bool GetWitData()
+        {
+            try
+            {
+                var witDataList = LoadItemFromXML<List<PedData>>(Main.WDataPath);
+
+                if (witDataList.Count < 1) return false;
+
+                if (witDataList.Count == 1)
+                {
+                    var w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+
+                    main_witness_value.Text = w1Data.Name;
+                }
+                else
+                {
+                    var w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+                    var w2Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => c.FirstOrDefault(p => p.Type == PedType.Witness2));
+
+                    main_witness_value.Text = w1Data.Name + ", " + w2Data.Name;
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                $"Error loading witnesses: {ex.ToString()}".AddLog(true);
+                return false;
             }
         }
 

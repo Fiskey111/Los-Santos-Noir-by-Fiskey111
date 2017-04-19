@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Fiskey111Common;
+using LSNoir.Callouts.SA.Commons;
 using LSNoir.Extensions;
 using Rage;
 using static LtFlash.Common.Serialization.Serializer;
@@ -22,6 +23,7 @@ namespace LSNoir.Callouts.SA
             _fiber = new GameFiber(CheckFiber);
             _fiber.Start();
             InitialStartup();
+            Game.AddConsoleCommands();
         }
 
         internal static void InitialStartup()
@@ -30,7 +32,7 @@ namespace LSNoir.Callouts.SA
             _objList = new List<TimeCheckObject>();
 
             var cData = LoadItemFromXML<CaseData>(Main.CDataPath);
-            if (String.IsNullOrEmpty(cData.StartingStage)) return;
+            if (string.IsNullOrEmpty(cData.StartingStage)) return;
 
             var eList = LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
 
@@ -59,6 +61,22 @@ namespace LSNoir.Callouts.SA
             if (_objList.Contains(obj)) _objList.Remove(obj);
         }
 
+        internal static void SkipWaitTimes()
+        {
+            "Skipping wait time".AddLog(true);
+
+            if (_objList.Count < 1)
+            {
+                "No objects to skip wait time for".AddLog(true);
+                return;
+            }
+            foreach (var obj in _objList.ToArray())
+            {
+                $"Skipping test for object {obj.Name}".AddLog(true);
+                EvidenceTestCompleted(obj);
+            }
+        }
+
         private static void CheckFiber()
         {
             while (true)
@@ -69,10 +87,11 @@ namespace LSNoir.Callouts.SA
                     continue;
                 }
 
-                foreach (var obj in _objList.ToList())
+                foreach (var obj in _objList.ToArray())
                 {
-                    if (!obj.Exists && DateTime.Compare(obj.CompletionTime, DateTime.Now) < 0) continue;
-                    EvidenceTestCompleted(obj);
+                    if (!obj.Exists) continue;
+                    if (DateTime.Compare(obj.CompletionTime, DateTime.Now) < 0) continue;
+                    EvidenceTestCompleted(obj); 
                 }
 
                 GameFiber.Yield();
@@ -82,7 +101,7 @@ namespace LSNoir.Callouts.SA
         private static void EvidenceTestCompleted(TimeCheckObject obj)
         {
 
-            $"{obj.Name} testing completed".AddLog(true);
+            $"{obj.Name} testing completed; datetime.compare = {DateTime.Compare(obj.CompletionTime, DateTime.Now)}".AddLog(true);
 
             if (obj.CheckType == TimeCheckObject.Type.Evidence)
             {
@@ -91,9 +110,9 @@ namespace LSNoir.Callouts.SA
 
                 foreach (var val in eList)
                 {
-                    if (val.Name != obj.Name && !val.IsTested) continue;
+                    if (val.Name != obj.Name || !val.IsTested) continue;
                     val.IsTested = true;
-                    "~b~Police Laboratory".DisplayNotification($"Evidence testing ~g~completed~w~ for ~y~{obj.Name}~w~\nView the details in the ~b~SAJRS ~w~computer");
+                    "~b~Police Laboratory".DisplayNotification($"Evidence testing ~g~completed~w~ for ~y~{obj.Name}~w~\nView the details in the ~b~SAJRS ~w~computer", LoadItemFromXML<CaseData>(Main.CDataPath).Number);
                     break;
                 }
                 SaveItemToXML(eList, Main.EDataPath);
@@ -128,12 +147,14 @@ namespace LSNoir.Callouts.SA
 
         internal static DateTime RandomTimeCreator()
         {
-            var timeSpan = DateTime.Now.AddDays(2d) - DateTime.Now;
+            var testTime = Settings.TestTimes();
+            var timeSpan = DateTime.Now.Add(new TimeSpan(testTime.Days, testTime.Hours, testTime.Minutes, 0)) - DateTime.Now;
+
             var newSpan = new TimeSpan(0, Rand.RandomNumber(0, (int)timeSpan.TotalMinutes), 0);
 
             var finalTime = DateTime.Now + newSpan;
 
-            $"Time for evidence test completion: {finalTime}".AddLog(true);
+            $"Time for test completion: {finalTime}".AddLog(true);
             return finalTime;
         }
 

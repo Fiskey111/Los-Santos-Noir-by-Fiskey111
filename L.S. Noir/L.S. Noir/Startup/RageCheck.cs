@@ -25,10 +25,10 @@ namespace LSNoir.Startup
                         while (Game.IsLoading)
                             GameFiber.Yield();
 
-                        "Invalid RPH Version".DisplayNotification($"Your Rage is not up-to-date\nMinimum version is: {minVers}\nYour version is {rVers}");
+                        "Invalid RPH Version".DisplayNotification($"Your Rage is not up-to-date\nMinimum version is: {minVers}\nYour version is {rVers}", 0);
                         "RPH version does not meet minimum requirements.".AddLog(true);
 
-                        "Invalid RPH Version".DisplayNotification("You are being directed to ragepluginhook.net to download the latest version\nPress ~y~enter~w~ to cancel");
+                        "Invalid RPH Version".DisplayNotification("You are being directed to ragepluginhook.net to download the latest version\nPress ~y~enter~w~ to cancel", 0);
 
                         var count = 0;
                         while (count <= 300)
@@ -53,7 +53,7 @@ namespace LSNoir.Startup
                 Game.LogTrivial(File.Exists("RAGEPluginHook.exe")
                     ? "RAGEPluginHook.exe exists"
                     : "RAGEPluginHook doesn't exist.");
-                "Unable to detect RPH".DisplayNotification("Unable to find RagePluginHook. Please send Fiskey111 your log.");
+                "Unable to detect RPH".DisplayNotification("Unable to find RagePluginHook. Please send Fiskey111 your log.", 0);
                 return false;
             }
         }

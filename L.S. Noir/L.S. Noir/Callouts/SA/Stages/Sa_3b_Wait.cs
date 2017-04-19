@@ -15,8 +15,10 @@ namespace LSNoir.Callouts.SA.Stages
         protected override bool Initialize()
         {
             "Initializing L.S. Noir Callout: Sexual Assault -- Stage 3b [Wait]".AddLog();
-            
-            "Sexual Assault Case Update".DisplayNotification("Get information on the ~r~suspect");
+
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+
+            "Sexual Assault Case Update".DisplayNotification("Get information on the ~r~suspect", _cData.Number);
 
             return true;
         }
@@ -46,7 +48,7 @@ namespace LSNoir.Callouts.SA.Stages
             if (!sus.Exists || !sus.IsPerp || _cData.CurrentSuspect != sus.Name.ToLower()) return;
 
             $"Suspect matches: {sus.IsPerp}".AddLog();
-            "Sexual Assault Case Update".DisplayNotification("Suspect ~g~confirmed~w~\nGPS coordinates downloading...");
+            "Sexual Assault Case Update".DisplayNotification("Suspect ~g~confirmed~w~\nGPS coordinates downloading...", _cData.Number);
 
             SetScriptFinished();
         }

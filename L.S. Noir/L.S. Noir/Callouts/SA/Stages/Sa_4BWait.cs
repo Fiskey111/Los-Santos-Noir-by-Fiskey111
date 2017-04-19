@@ -1,12 +1,11 @@
-﻿using LtFlash.Common.ScriptManager.Scripts;
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows.Forms;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
+using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 
-namespace LSNoir.Callouts
+namespace LSNoir.Callouts.SA.Stages
 {
     public class Sa_4BWait : BasicScript
     {
@@ -16,10 +15,11 @@ namespace LSNoir.Callouts
         protected override bool Initialize()
         {
             "Initializing L.S. Noir Callout: Sexual Assault -- Stage 4b [Wait]".AddLog();
-            
-            "Sexual Assault Case Update".DisplayNotification("Request a ~r~warrant~w~ using the SAJRS computer");
 
             _cData = LtFlash.Common.Serialization.Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+
+            "Sexual Assault Case Update".DisplayNotification("Request a ~r~warrant~w~ using the SAJRS computer", _cData.Number);
+
 
             return true;
         }
@@ -49,7 +49,7 @@ namespace LSNoir.Callouts
             if (_cData.WarrantApproved)
             {
                 "Warrant Approved".AddLog();
-                "Sexual Assault Case Update".DisplayNotification("Warrant ~g~approved");
+                "Sexual Assault Case Update".DisplayNotification("Warrant ~g~approved", _cData.Number);
                 SetScriptFinished();
             }
             else
@@ -66,7 +66,7 @@ namespace LSNoir.Callouts
                         GameFiber.Yield();
                     }
                 });
-                "Sexual Assault Case Update".DisplayNotification("Warrant ~r~denied~w~. \nCase has gone cold, better luck next time.");
+                "Sexual Assault Case Update".DisplayNotification("Warrant ~r~denied~w~. \nCase has gone cold, better luck next time.", _cData.Number);
                 SetScriptFinished();
             }
         }

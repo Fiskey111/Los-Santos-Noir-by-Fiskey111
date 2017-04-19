@@ -7,9 +7,9 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
+using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary.Evidence;
 using Rage;
 using Rage.Native;
@@ -17,7 +17,7 @@ using StageObjects;
 using Animations = AnimationDatabase.Animations;
 using SpawnPoint = LtFlash.Common.SpawnPoint;
 
-namespace LSNoir.Callouts.SA.Creators
+namespace LSNoir.Callouts.SA.Stages.CSI
 {
     class CsiCreator
     {
@@ -111,20 +111,32 @@ namespace LSNoir.Callouts.SA.Creators
                 Xml = XDocument.Load(Xmlpath);
                 ("XML Loaded from " + Xmlpath).AddLog();
 
-                int count = XDocument.Load(Xmlpath).XPathSelectElements("CSI/Location").Count();
+                var count = XDocument.Load(Xmlpath).XPathSelectElements("CSI/Location").Count();
                 ("Number of Locations: " + count.ToString()).AddLog();
-                int l = 2;
 
-                if (l == 1)
+                var l = Rand.RandomNumber(6);
+                switch (l)
                 {
-                    "Scene: JamestownCarson".AddLog();
-                    Root = "CSI/Location/JamestownCarson";
+                    case 0:
+                        Root = "CSI/Location/Storage";
+                        break;
+                    case 1:
+                        Root = "CSI/Location/Alta";
+                        break;
+                    case 2:
+                        Root = "CSI/Location/Greenwich";
+                        break;
+                    case 3:
+                        Root = "CSI/Location/Grove";
+                        break;
+                    case 4:
+                        Root = "CSI/Location/LaborPl";
+                        break;
+                    case 5:
+                        Root = "CSI/Location/NorthRockfordDr";
+                        break;
                 }
-                else if (l == 2)
-                {
-                    "Scene: Storage".AddLog();
-                    Root = "CSI/Location/Storage";
-                }
+                $"Scene: {Root}".AddLog(true);
                 var sp = GetSpawn("/Victim/");
                 Victim = new DeadBody("Vic", "Victim", sp, Vmodel[Rand.RandomNumber(Vmodel.Length)]);
                 "Victim created".AddLog();
@@ -143,6 +155,7 @@ namespace LSNoir.Callouts.SA.Creators
                     FirstOfficer = new StageObject("s_m_y_cop_01", spawn.Position, spawn.Heading);
 
                     FirstOfficer.Ped.MakeMissionPed();
+                    Functions.SetCopAsBusy(FirstOfficer.Ped, true);
 
                     FirstOfficer.Exists = true;
 
@@ -193,6 +206,8 @@ namespace LSNoir.Callouts.SA.Creators
                 SusSpawnPoint = GetSpawn("/SusSpawn/");
                 SusTargetPoint = GetSpawn("/SusTarget/");
 
+                $" ***SPAWNPOINTS*** {SecCamSpawnPoint.Position.X} {SusSpawnPoint.Position.X} {SusTargetPoint.Position.X} ".AddLog(true);
+
                 loadCreated = true;
 
             }
@@ -235,6 +250,7 @@ namespace LSNoir.Callouts.SA.Creators
                         {
                             case ObjectType.Cop:
                                 obj.Ped = new Ped(Copmodel[Rand.RandomNumber(1, Copmodel.Length)], obj.Spawn, obj.Heading);
+                                Functions.SetCopAsBusy(obj.Ped, true);
                                 break;
                             case ObjectType.Witness:
                                 new Services.LtFlash.Common.EvidenceLibrary.Evidence.Witness(

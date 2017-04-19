@@ -1,4 +1,5 @@
-﻿using Rage;
+﻿using LSNoir.Extensions;
+using Rage;
 using Rage.Native;
 
 namespace LSNoir.Callouts.SA.Commons
@@ -40,7 +41,7 @@ namespace LSNoir.Callouts.SA.Commons
                 IsRunning = true;
                 while (_loop)
                 {
-                    TargetPed.Task_Scenario("WORLD_HUMAN_STAND_MOBILE");
+                    TargetPed.Task_Scenario(Scenario);
                     while (NativeFunction.Natives.IS_PED_USING_ANY_SCENARIO<bool>(TargetPed))
                     {
                         if (!_loop) break;
