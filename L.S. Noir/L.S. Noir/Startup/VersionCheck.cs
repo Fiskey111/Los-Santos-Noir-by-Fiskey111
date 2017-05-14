@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.IO;
 using System.Net;
-using LSNoir.Extensions;
 using Rage;
 
 namespace LSNoir.Startup
@@ -31,7 +30,8 @@ namespace LSNoir.Startup
                     GameFiber.Sleep(20);
                     count++;
                 }
-                System.Diagnostics.Process.Start("http://bit.ly/LSNDownload");
+
+                Process.Start("http://bit.ly/LSNDownload");
             }
         }
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using LSNoir.Extensions;
 using Rage;
 
 namespace LSNoir
@@ -8,11 +7,13 @@ namespace LSNoir
     {
         internal static bool BetterEMS()
         {
+            //TODO: get xml from the internet with the current versions of mods
+
             if (PluginCheck.IsLspdfrPluginRunning("BetterEMS", new Version("3.0.6232.42981")))
             {
                 "BetterEMS Found".AddLog();
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "L.S. Noir" + "Created by Fiskey111, LtFlash, Albo1125", "L.S. Noir dependency loaded ~g~successfully~w~", "BetterEMS ~g~found~w~\n\nEnjoy!");
-                return false;
+                return true;
             }
             else if (PluginCheck.IsLspdfrPluginRunning("BetterEMS"))
             {

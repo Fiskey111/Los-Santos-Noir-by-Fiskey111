@@ -1,0 +1,11 @@
+﻿
+- stages
+	* handle hour range player can start stage, display "Get back between"
+
+- serialization
+	* create a PedSerializationData to use with different classes of peds
+	  instead of using witnessData for random entities
+
+- Native to change notification background: 0x92F0DA1E27DB96DC - uses color id
+
+- rename Warrants to (court) documents? warrant, juv detention order, search warrant, restraining order

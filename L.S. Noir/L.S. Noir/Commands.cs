@@ -15,15 +15,14 @@ namespace LSNoir
         [ConsoleCommand]
         internal static void Command_SkipEvidWarWaitTime()
         {
-            "Skipping evidence/warrant wait time".AddLog(true);
+            Game.LogTrivial("Skipping evidence/warrant wait time");
 
-            for (var i = 0; i < Fiskey111Common.Rand.RandomNumber(5, 25); i++)
+            for (var i = 0; i < MathHelper.GetRandomInteger(5, 25); i++)
             {
                 Game.Console.Print("CHEATER");
                 GameFiber.Sleep(10);
             }
-
-            Evid_War_TimeChecker.SkipWaitTimes();
+            //currentCase.RequestedDocs - set TimeDecision to Now
         }
     }
 }

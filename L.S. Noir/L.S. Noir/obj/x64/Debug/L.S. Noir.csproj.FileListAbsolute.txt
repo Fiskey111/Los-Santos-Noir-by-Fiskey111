@@ -116,3 +116,19 @@ C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noi
 C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.dll
 C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.pdb
 C:\Users\cfisk\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\bin\x64\Debug\RagePROletariat.xml
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csprojResolveAssemblyReference.cache
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Computer.DocumentsList_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Computer.Main_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Computer.ReportsList_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Computer.ReportView_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.EvidenceForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.LabForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\Notsolethalpolicing.MDT.MainForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.MessageBoxForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.ReportsForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.VictimForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.WarrantForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.WarrantRequestForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.WitnessForm.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csproj.GenerateResource.Cache
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.pdb
