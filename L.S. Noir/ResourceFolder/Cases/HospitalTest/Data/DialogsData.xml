@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDialogData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <DialogData>
+    <Dialog>
+      <string>[You] How you doin' doc, any news on Joanne Doe?</string>
+      <string>[Doc] She was DOA, we sent her body to ME office.</string>
+	  <string>[You] Ok, I'll contact them. Send me your report, please.</string>
+    </Dialog>
+    <ID>dialog_doc</ID>
+  </DialogData>
+  
+</ArrayOfDialogData>

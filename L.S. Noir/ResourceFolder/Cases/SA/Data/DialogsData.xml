@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDialogData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <DialogData>
+	<ID>dial_ems_1</ID>
+    <Dialog>
+      <string>[You] What you can say about her?</string>
+      <string>[EMS] She's dead, it looks like the aorta was damaged.</string>
+	  <string>She was stabbed multiple times as you can see.</string>
+	  <string>I'll leave you a copy of my report.</string>
+	  <string>[You] Alright, thanks guys!</string>
+    </Dialog>
+  </DialogData>
+  
+  <DialogData>
+	<ID>dial_officer_1</ID>
+    <Dialog>
+      <string>[You] Howdy, what you got Mike?</string>
+      <string>[Mike] Hi, we found her accidentally about 30 minutes ago</string>
+	  <string>noone saw anything of course but</string>
+	  <string>there's a woman you might.</string>
+	  <string>She's probably a hoe from another hood.</string>
+	  <string>[You] Thanks Mike, I'll see what I got there.</string>
+    </Dialog>
+  </DialogData>
+  
+  <DialogData>
+	<ID>dial_wit_1</ID>
+    <Dialog>
+      <string>[You] How are you today? I'm Frank Pembleton, LSPD Homicide</string>
+	  <string>Did you know the victim?</string>
+      <string>[Witness] Of course I knew her!</string>
+	  <string>We were working together.</string>
+	  <string>[You] For the record, what is your name?</string>
+	  <string>[Witness] I'm Christine Rock</string>
+	  <string>[You] Christine, what kind of work was it?</string>
+	  <string>[Witness] Workin' streets bro.</string>
+	  <string>[You] Do you know about her last john?</string>
+	  <string>[Witness] No, I haven't seen her since yesterday.</string>
+    </Dialog>
+  </DialogData>
+  
+  <DialogData>
+	<ID>dial_coroner_1</ID>
+    <Dialog>
+      <string>[You] What you got guys?</string>
+	  <string>[CO] I'll be able to say more after the autopsy.</string>
+      <string>I don't like to come with conclusions too early.</string>
+	  <string>[You] I can understand that, I'll see you later.</string>
+	  <string>[CO] Take care!</string>
+    </Dialog>
+  </DialogData>
+  
+  <DialogData>
+  <ID>me_dial_driver</ID>
+    <Dialog>
+      <string>You the driver?</string>
+      <string>Yes sir, I am. You can go with me or pick your own wheels.</string>
+    </Dialog>
+  </DialogData>
+  
+  <DialogData>
+  <ID>me_dial_me</ID>
+    <Dialog>
+      <string>[You] How are you Doc?</string>
+      <string>[ME] I'm alright, the victim couldn't be more dead.</string>
+      <string>Well, I figured.</string>
+	  <string>The cause of death was an hypovolemic shock</string>
+	  <string>after she was stabbed to aorta.</string>
+	  <string>All evidence we retrieved in her pocket was sent</string>
+	  <string>to the central lab.</string>
+	  <string>My report was sent to homicide squad office already.</string>
+	  <string>Her parents live on Monroe St probably.</string>
+    </Dialog>
+  </DialogData>
+  
+</ArrayOfDialogData>

@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSceneData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <SceneData>
+    <ID>scene_raid</ID>
+    <Items>
+            
+        <!--PEDS-->
+        <SceneItem>
+            <ID>cop1</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <VehicleID>veh1</VehicleID>
+            <VehicleSeatID>-1</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>1155.58923</X>
+          <Y>-338.99826</Y>
+          <Z>67.97791</Z>
+        </Position>
+        <Heading>186.864563</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>cop2</ID>
+            <Model>s_f_y_cop_01</Model>
+            <Type>Ped</Type>
+            <VehicleID>veh1</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>1152.15247</X>
+          <Y>-339.3578</Y>
+          <Z>67.87405</Z>
+        </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>cop3</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <VehicleID>veh2</VehicleID>
+            <VehicleSeatID>-1</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>1159.28357</X>
+          <Y>-338.134949</Y>
+          <Z>68.23527</Z>
+        </Position>
+        <Heading>196.789154</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>cop4</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <VehicleID>veh2</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>1156.57007</X>
+          <Y>-338.4317</Y>
+          <Z>68.08488</Z>
+        </Position>
+        <Heading>211.761429</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>fbi1</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <VehicleID>veh3</VehicleID>
+            <VehicleSeatID>-1</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>1165.1825</X>
+          <Y>-337.380524</Y>
+          <Z>68.5935745</Z>
+        </Position>
+        <Heading>188.104111</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>fbi2</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <VehicleID>veh3</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>1161.2146</X>
+          <Y>-337.939362</Y>
+          <Z>68.36616</Z>
+        </Position>
+        <Heading>198.811188</Heading>
+            </Spawn>
+        </SceneItem>
+       
+        
+        <!--VEHICLES-->
+        <SceneItem>
+            <ID>veh1</ID>
+            <Model>police2</Model>
+            <Type>Vehicle</Type>
+            <Spawn>
+                <Position>
+          <X>1154.03174</X>
+          <Y>-339.707855</Y>
+          <Z>67.44262</Z>
+        </Position>
+        <Heading>193.7687</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>veh2</ID>
+            <Model>police2</Model>
+            <Type>Vehicle</Type>
+            <Spawn>
+                <Position>
+          <X>1158.203</X>
+          <Y>-338.88208</Y>
+          <Z>67.72312</Z>
+        </Position>
+        <Heading>196.6152</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>veh3</ID>
+            <Model>police2</Model>
+            <Type>Vehicle</Type>
+            <Spawn>
+                <Position>
+                    <X>1162.91113</X>
+                    <Y>-338.037964</Y>
+                    <Z>68.44388</Z>
+                </Position>
+                <Heading>195.170685</Heading>
+            </Spawn>
+        </SceneItem>
+              
+    </Items>
+    </SceneData>
+    
+</ArrayOfSceneData>

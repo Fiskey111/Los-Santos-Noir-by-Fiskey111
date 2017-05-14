@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaseData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+<!--Victim was assauled and killed by her ex-boyfriend? Easy id by information from the family member?-->
+
+    <ID>csi_demo</ID>
+    <Name>Sexual Assault Demo</Name>
+    <Stages>
+        <string>csi</string>
+        <string>me</string>
+		    <string>vic_family</string>
+        <string>suspect_home</string>
+    </Stages>
+
+</CaseData>

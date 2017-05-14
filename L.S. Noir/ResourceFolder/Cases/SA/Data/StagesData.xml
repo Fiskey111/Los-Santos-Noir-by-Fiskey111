@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfStageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+  <!--CSI-->
+  
+  <StageData>
+    <ID>csi</ID>
+    <StageType>CSI</StageType>
+    <SceneID>scene_csi</SceneID>
+    
+    <CallPosition>
+      <X>245.8</X>
+      <Y>-1995.3</Y>
+      <Z>20.11</Z>
+    </CallPosition>
+    
+    <CallBlipRad>100</CallBlipRad>
+    <PlaySoundClosingIn>true</PlaySoundClosingIn>
+    
+    <NotificationTexDic>dic</NotificationTexDic>
+    <NotificationTexName>tex</NotificationTexName>
+    <NotificationTitle>New case!</NotificationTitle>
+    <NotificationSubtitle>Sexual assault</NotificationSubtitle>
+    <NotificationText>Patrol unit reports a possible assault, respond code 3</NotificationText>
+    
+    <EvidenceID>
+      <string>tablet_1</string>
+    </EvidenceID>
+    
+    <VictimID>vic_1</VictimID>
+    
+    <WitnessID>
+      <string>wit_1</string>
+    </WitnessID>
+    
+    <OfficerID>officer_1</OfficerID>
+    <CoronerID>coroner</CoronerID>
+    <EmsID>ems_1</EmsID>
+    
+    <NextScripts>
+      <string>me</string>
+    </NextScripts>
+    
+  </StageData>
+  
+  <!--ME-->
+  
+  <StageData>
+    <ID>me</ID>
+    <StageType>MedicalExaminerStage</StageType>
+
+    <PlaySoundClosingIn>true</PlaySoundClosingIn>
+    <NotificationTexDic>dic</NotificationTexDic>
+    <NotificationTexName>tex</NotificationTexName>
+    <NotificationTitle>title</NotificationTitle>
+    <NotificationSubtitle>subtitle</NotificationSubtitle>
+    <NotificationText>text</NotificationText>
+    
+    <DialogsID>
+      <string>me_dial_driver</string>
+      <string>me_dial_me</string>
+    </DialogsID>
+    
+    <ReportsID>
+      <string>me_report_me</string>
+    </ReportsID>
+
+    <NextScripts>
+      <string>vic_family</string>
+    </NextScripts>
+  
+  </StageData>
+  
+  <!--VICTIM FAMILY-->
+  <StageData>
+    <ID>vic_family</ID>
+    <StageType>TalkToPed</StageType>
+	
+	<CallBlipSprite>GangAttackPackage</CallBlipSprite>
+	<CallBlipName>Victim family</CallBlipName>
+	
+	  <CallPosition>
+		  <X>-278</X>
+        <Y>386</Y>
+        <Z>110</Z>
+    </CallPosition>
+	
+    <PlaySoundClosingIn>true</PlaySoundClosingIn>
+    <NotificationTexDic>dic</NotificationTexDic>
+    <NotificationTexName>tex</NotificationTexName>
+    <NotificationTitle>VICTIM FAMILY</NotificationTitle>
+    <NotificationSubtitle>subtitle</NotificationSubtitle>
+    <NotificationText>Speak to victim's family member</NotificationText>
+
+    <WitnessID>
+      <string>wit_vic_family</string>
+    </WitnessID>
+  
+  </StageData>
+
+  <!--SUSPECT HOME-->
+  <StageData>
+    <ID>suspect_home</ID>
+    <StageType>TalkToPedWithTimeout</StageType>
+
+    <CallBlipSprite>GangAttackPackage</CallBlipSprite>
+    <CallBlipName>Talk to a suspect</CallBlipName>
+
+    <CallPosition>
+      <X>-120</X>
+      <Y>963</Y>
+      <Z>235</Z>
+    </CallPosition>
+
+    <PlaySoundClosingIn>true</PlaySoundClosingIn>
+    <NotificationTexDic>dic</NotificationTexDic>
+    <NotificationTexName>tex</NotificationTexName>
+    <NotificationTitle>SUSPECT HOME</NotificationTitle>
+    <NotificationSubtitle>subtitle</NotificationSubtitle>
+    <NotificationText>Meet with a suspect</NotificationText>
+
+    <WitnessID>
+      <string>suspect</string>
+    </WitnessID>
+
+  </StageData>
+  
+</ArrayOfStageData>

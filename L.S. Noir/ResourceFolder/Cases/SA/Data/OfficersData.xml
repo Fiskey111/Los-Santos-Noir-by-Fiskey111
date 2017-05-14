@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfFirstOfficerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <FirstOfficerData>
+    <Description>first officer on scene</Description>
+    <IsImportant>true</IsImportant>
+    <Spawn>
+      <Position>
+        <X>239.7</X>
+        <Y>-1999.01</Y>
+        <Z>19.5</Z>
+      </Position>
+      <Heading>135.6</Heading>
+    </Spawn>
+    <CanBeInspected>true</CanBeInspected>
+    <PlaySoundImportantCollected>false</PlaySoundImportantCollected>
+    <PlaySoundNearby>false</PlaySoundNearby>
+    <ID>officer_1</ID>
+    <Model>s_m_y_cop_01</Model>
+    <IsCompliant>false</IsCompliant>
+    <DialogID>dial_officer_1</DialogID>
+    <PickupPos>
+      <X>0</X>
+      <Y>0</Y>
+      <Z>0</Z>
+    </PickupPos>
+  </FirstOfficerData>
+  
+</ArrayOfFirstOfficerData>

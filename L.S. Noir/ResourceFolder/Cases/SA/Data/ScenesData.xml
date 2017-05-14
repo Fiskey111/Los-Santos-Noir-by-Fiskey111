@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSceneData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <SceneData>
+    <ID>scene_csi</ID>
+    <Items>
+    
+        <!--OBJECTS-->
+        <SceneItem>
+            <ID>barrier1</ID>
+            <Model>prop_barrier_work05</Model>
+            <Type>Object</Type>
+            <Spawn>
+                <Heading>321</Heading>
+                <Position>
+                    <X>253</X>
+                    <Y>-1978</Y>
+                    <Z>21</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>barrier2</ID>
+            <Model>prop_barrier_work05</Model>
+            <Type>Object</Type>
+            <Spawn>
+                <Heading>151</Heading>
+                <Position>
+                    <X>238</X>
+                    <Y>-2000</Y>
+                    <Z>19</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>barrier3</ID>
+            <Model>prop_barrier_work05</Model>
+            <Type>Object</Type>
+            <Spawn>
+                <Heading>240</Heading>
+                <Position>
+                    <X>273</X>
+                    <Y>-2008</Y>
+                    <Z>19</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <!--PEDS-->
+        <SceneItem>
+            <ID>cop1</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <Spawn>
+                <Heading>114</Heading>
+                <Position>
+                    <X>252</X>
+                    <Y>-1988</Y>
+                    <Z>21</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>cop2</ID>
+            <Model>s_f_y_cop_01</Model>
+            <Type>Ped</Type>
+            <Spawn>
+                <Heading>207</Heading>
+                <Position>
+                    <X>268</X>
+                    <Y>-1999</Y>
+                    <Z>20</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>cop3</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <Spawn>
+                <Heading>41</Heading>
+                <Position>
+                    <X>264</X>
+                    <Y>-2004</Y>
+                    <Z>20</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>cop4</ID>
+            <Model>s_m_y_cop_01</Model>
+            <Type>Ped</Type>
+            <Spawn>
+                <Heading>226</Heading>
+                <Position>
+                    <X>263</X>
+                    <Y>-2003</Y>
+                    <Z>20</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>fbi1</ID>
+            <Model>s_m_m_fiboffice_01</Model>
+            <Type>Ped</Type>
+            <Spawn>
+                <Heading>159</Heading>
+                <Position>
+                    <X>245</X>
+                    <Y>-1992</Y>
+                    <Z>20</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>fbi2</ID>
+            <Model>s_m_m_fiboffice_02</Model>
+            <Type>Ped</Type>
+            <Spawn>
+                <Heading>68</Heading>
+                <Position>
+                    <X>247</X>
+                    <Y>-1996</Y>
+                    <Z>20</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <!--VEHICLES-->
+        <SceneItem>
+            <ID>veh1</ID>
+            <Model>police2</Model>
+            <Type>Vehicle</Type>
+            <Spawn>
+                <Heading>145</Heading>
+                <Position>
+                    <X>250.60</X>
+                    <Y>-1981.20</Y>
+                    <Z>20.59</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>veh2</ID>
+            <Model>police4</Model>
+            <Type>Vehicle</Type>
+            <Spawn>
+                <Heading>111</Heading>
+                <Position>
+                    <X>271.08</X>
+                    <Y>-2003.72</Y>
+                    <Z>19.28</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>veh3</ID>
+            <Model>police4</Model>
+            <Type>Vehicle</Type>
+            <Spawn>
+                <Heading>318</Heading>
+                <Position>
+                    <X>233</X>
+                    <Y>-2007</Y>
+                    <Z>19</Z>
+                </Position>
+            </Spawn>
+        </SceneItem>
+               
+    </Items>
+    </SceneData>
+    
+</ArrayOfSceneData>

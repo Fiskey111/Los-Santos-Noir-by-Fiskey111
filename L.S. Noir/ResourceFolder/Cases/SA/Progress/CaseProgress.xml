@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaseProgress xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <CaseNo>4732</CaseNo>
+  <LastStageID>me</LastStageID>
+  <Finished>false</Finished>
+  <WitnessesInterviewed />
+  <DialogsPassed />
+  <ReportsReceived>
+    <string>report_EMS</string>
+    <string>report_coroner_scene</string>
+  </ReportsReceived>
+  <NotesMade />
+  <StagesPassed>
+    <string>csi</string>
+    <string>me</string>
+  </StagesPassed>
+  <CollectedEvidence />
+  <RequestedDocuments>
+    <DocumentRequestData>
+      <TimeRequested>2017-05-14T12:50:34.5931596+02:00</TimeRequested>
+      <TimeDecision>2017-05-14T12:55:34.5931596+02:00</TimeDecision>
+      <Considered>false</Considered>
+      <Accepted>false</Accepted>
+      <DecisionSeenByPlayer>false</DecisionSeenByPlayer>
+      <ID>doc_warrant</ID>
+    </DocumentRequestData>
+  </RequestedDocuments>
+</CaseProgress>

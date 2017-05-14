@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfWitnessData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <WitnessData>
+    <ID>wit_1</ID>
+    <Description>main witness</Description>
+    <IsImportant>true</IsImportant>
+    <Weapon>WEAPON_PISTOL</Weapon>
+    <Scenario>WORLD_HUMAN_STAND_MOBILE</Scenario>
+    <Model>A_F_Y_TOURIST_01</Model>
+    
+    <Spawn>
+      <Position>
+        <X>1161</X>
+          <Y>-789</Y>
+          <Z>58</Z>
+      </Position>
+      <Heading>80</Heading>
+    </Spawn>
+    
+    <CanBeInspected>true</CanBeInspected>
+    <PlaySoundImportantCollected>false</PlaySoundImportantCollected>
+    <PlaySoundNearby>false</PlaySoundNearby>
+    
+    <Traces>
+      <ETraces>DNAUnk</ETraces>
+    </Traces>
+    
+    <IsCompliant>true</IsCompliant>
+    <DialogID></DialogID>
+    <PickupPos>
+      <X>279.2248</X>
+      <Y>-2010.839</Y>
+      <Z>19.261343</Z>
+    </PickupPos>
+  </WitnessData>
+</ArrayOfWitnessData>

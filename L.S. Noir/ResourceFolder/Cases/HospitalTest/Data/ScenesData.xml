@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfSceneData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <SceneData>
+    <ID>scene_hospital</ID>
+    <Items>
+            
+        <!--PEDS-->
+        <SceneItem>
+            <ID>gen1</ID>
+            <Model>csb_customer</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>306.79</X>
+        <Y>-588.25</Y>
+        <Z>43.26</Z>
+        </Position>
+        <Heading>343</Heading>
+            </Spawn>
+			<Scenario>WORLD_HUMAN_STAND_MOBILE</Scenario>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>gen2</ID>
+            <Model>csb_customer</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+          <X>316.58</X>
+        <Y>-587.66</Y>
+        <Z>43.26</Z>
+        </Position>
+		<Heading>184</Heading>
+            </Spawn>
+			<Scenario>WORLD_HUMAN_STAND_MOBILE</Scenario>
+        </SceneItem>
+		
+		<SceneItem>
+            <ID>gen3</ID>
+            <Model>csb_customer</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+         <X>315.28</X>
+        <Y>-588.87</Y>
+        <Z>43.26</Z>
+        </Position>
+        <Heading>63</Heading>
+            </Spawn>
+        </SceneItem>
+        
+        <SceneItem>
+            <ID>gen4</ID>
+            <Model>csb_customer</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+         <X>325.40</X>
+        <Y>-598.77</Y>
+        <Z>43.26</Z>
+        </Position>
+		<Heading>250</Heading>
+            </Spawn>
+        </SceneItem>
+		
+		<SceneItem>
+            <ID>nurse1</ID>
+            <Model>a_f_m_bevhills_02</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+         <X>322.96</X>
+        <Y>-588.80</Y>
+        <Z>43.26</Z>
+        </Position>
+		<Heading>162</Heading>
+            </Spawn>
+			<Scenario>WORLD_HUMAN_STAND_MOBILE</Scenario>
+        </SceneItem>
+		
+		<SceneItem>
+            <ID>nurse2</ID>
+            <Model>a_f_m_bevhills_02</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+        <X>321.80</X>
+        <Y>-589.36</Y>
+        <Z>43.26</Z>
+        </Position>
+		<Heading>268</Heading>
+            </Spawn>
+        </SceneItem>
+		
+		<SceneItem>
+            <ID>nurse3</ID>
+            <Model>a_f_m_bevhills_02</Model>
+            <Type>Ped</Type>
+            <VehicleID>0</VehicleID>
+            <VehicleSeatID>0</VehicleSeatID>
+            <Spawn>
+                <Position>
+					<X>305.69</X>
+					<Y>-597.87</Y>
+					<Z>43.26</Z>
+				</Position>
+				<Heading>22</Heading>
+            </Spawn>
+			<Scenario>WORLD_HUMAN_STAND_MOBILE</Scenario>
+        </SceneItem>
+		
+    </Items>
+    </SceneData>
+    
+</ArrayOfSceneData>

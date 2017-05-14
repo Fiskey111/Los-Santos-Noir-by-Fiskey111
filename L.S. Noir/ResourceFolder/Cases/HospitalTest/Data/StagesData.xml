@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfStageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--RAID-->
+  <StageData>
+    <ID>hospital</ID>
+    <StageType>Hospital</StageType>
+    <SceneID>scene_hospital</SceneID>
+    
+    <CallPosition>
+      <X>295</X>
+      <Y>-1447</Y>
+      <Z>29</Z>
+    </CallPosition>
+    
+    <CallBlipRad>100</CallBlipRad>
+	<CallBlipSprite>GangAttackPackage</CallBlipSprite>
+	<CallBlipName>Hospital</CallBlipName>
+	
+    <PlaySoundClosingIn>true</PlaySoundClosingIn>
+    
+    <NotificationTexDic>dic</NotificationTexDic>
+    <NotificationTexName>tex</NotificationTexName>
+    <NotificationTitle>HOSPITAL</NotificationTitle>
+    <NotificationSubtitle>Hospital test</NotificationSubtitle>
+    <NotificationText>Meet the doctor and obtain information about the victim</NotificationText>
+    
+	
+	
+	<DialogsID>
+		<string>dialog_doc</string>
+	</DialogsID>
+	
+  </StageData>
+  
+  
+</ArrayOfStageData>

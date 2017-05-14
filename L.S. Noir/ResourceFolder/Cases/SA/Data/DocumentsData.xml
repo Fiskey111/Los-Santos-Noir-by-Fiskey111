@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDocumentData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <DocumentData>
+    <ID>doc_warrant</ID>
+    <To>Los Santos Court</To>
+    <Title>Arrest Warrant</Title>
+    <Text>Arrest Warrant for Michael Angelo on request of Los Santos Homicide Squad.{n}Obtained information suggest that the suspect might be responsible for{n}a homicide of Joanne Doe.</Text>
+  
+    <EvidenceIDRequiredToRequest></EvidenceIDRequiredToRequest>
+    <DialogIDRequiredToRequest></DialogIDRequiredToRequest>
+    <ReportIDRequiredToRequest></ReportIDRequiredToRequest>
+    <StageIDRequiredToRequest>
+      <string>csi</string>
+      <string>me</string>
+    </StageIDRequiredToRequest>
+
+    <EvidenceIDRequiredToAccept></EvidenceIDRequiredToAccept>
+    <DialogIDRequiredToAccept></DialogIDRequiredToAccept>
+    <ReportIDRequiredToAccept></ReportIDRequiredToAccept>
+    <StageIDRequiredToAccept></StageIDRequiredToAccept>
+  </DocumentData>
+</ArrayOfDocumentData>

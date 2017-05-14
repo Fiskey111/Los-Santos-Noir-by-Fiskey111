@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfReportData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <ReportData>
+	<ID>report_EMS</ID>
+	<Title>Medical report</Title>
+	<Text>Placeholder for medical report on Joanne Doe who was{n}examined at by Thomas Johnson, LSFD{n}The victim presented multiple serious body injuries that indicates{n}that their most probable cause was a criminal act.</Text>
+  </ReportData>
+  
+  <ReportData>
+	<ID>report_coroner_scene</ID>
+	<Title>Coroner field report</Title>
+	<Text>A body of Joanne Doe was collected by Michael Angelo, LS Medical Examiner Office.</Text>
+  </ReportData>
+  
+</ArrayOfReportData>

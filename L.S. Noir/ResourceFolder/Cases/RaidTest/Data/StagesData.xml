@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfStageData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--RAID-->
+  <StageData>
+    <ID>raid</ID>
+    <StageType>Raid</StageType>
+    <SceneID>scene_raid</SceneID>
+    
+    <CallPosition>
+      <X>1159.44031</X>
+      <Y>-350.807678</Y>
+      <Z>66.90868</Z>
+    </CallPosition>
+    
+    <CallBlipRad>100</CallBlipRad>
+    <PlaySoundClosingIn>true</PlaySoundClosingIn>
+    
+    <NotificationTexDic>dic</NotificationTexDic>
+    <NotificationTexName>tex</NotificationTexName>
+    <NotificationTitle>RAID</NotificationTitle>
+    <NotificationSubtitle>Raid test</NotificationSubtitle>
+    <NotificationText>Patrol unit request assistance, respond code 3</NotificationText>
+    
+    <WitnessID>
+      <string>wit_1</string>
+    </WitnessID>
+    
+    <NextScripts>
+      <string></string>
+    </NextScripts>
+    
+  </StageData>
+  
+  
+</ArrayOfStageData>

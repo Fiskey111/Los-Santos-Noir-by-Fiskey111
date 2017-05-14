@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfDeadBodyData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <DeadBodyData>
+	<ID>vic_1</ID>
+	<Model>A_F_M_BEACH_01</Model>
+    <Description>victim</Description>
+    <IsImportant>true</IsImportant>
+    <Spawn>
+      <Position>
+        <X>245.8</X>
+        <Y>-1995.3</Y>
+        <Z>20.11</Z>
+      </Position>
+      <Heading>36</Heading>
+    </Spawn>
+    <CanBeInspected>false</CanBeInspected>
+    <PlaySoundImportantCollected>true</PlaySoundImportantCollected>
+    <PlaySoundNearby>false</PlaySoundNearby>
+    <AdditionalTextWhileInspecting>Identification: Joanne Doe. ~n~Multiple stab wounds to the stomach. Bruises on the neck. Panties dirty, put inside out.</AdditionalTextWhileInspecting>
+    <Traces>
+      <ETraces>DNAUnk</ETraces>
+      <ETraces>FingerprintsUnk</ETraces>
+      <ETraces>HairUnk</ETraces>
+    </Traces>
+  </DeadBodyData>
+  
+</ArrayOfDeadBodyData>

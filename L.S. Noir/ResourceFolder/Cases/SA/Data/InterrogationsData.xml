@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfInterrogationData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	
+	<InterrogationData>
+		<ID>inter_wit_fam</ID>
+		<Lines>
+			<!--1st-->
+			<InterrogationLineData>
+				<Question>
+					<string>[You] Is that right that the interrogation</string>
+					<string>module works?</string>
+				</Question>
+				<Answer>
+					<string>[Jasmine Doe] It looks like so.</string>
+				</Answer>
+				<CorrectAnswer>Truth</CorrectAnswer>
+				
+				<PlayerResponseTruth>
+					<string>Okey, it seems you are right about that.</string>
+				</PlayerResponseTruth>
+				<InterrogeeReactionTruth>
+					<string>Oke doke</string>
+				</InterrogeeReactionTruth>
+				
+				<PlayerResponseDoubt>
+					<string>You ain't tellin me everything, right?</string>
+				</PlayerResponseDoubt>
+				<InterrogeeReactionDoubt>
+					<string>Ok, I might add something.</string>
+					<string>* info *</string>
+				</InterrogeeReactionDoubt>
+				
+				<PlayerResponseLie>
+					<string>You bullshitting me, stop now.</string>
+				</PlayerResponseLie>
+				<InterrogeeReactionLie>
+					<string>You are rude, Sir. Fuck you fatso!</string>
+				</InterrogeeReactionLie>
+			</InterrogationLineData>
+			
+			<!--2ND-->
+			
+			<InterrogationLineData>
+				<Question>
+					<string>[You] Is that right that the 2nd</string>
+					<string>question of the interrogation works?</string>
+				</Question>
+				<Answer>
+					<string>[Jasmine Doe] Yea, I think so.</string>
+				</Answer>
+				<CorrectAnswer>Doubt</CorrectAnswer>
+				
+				<PlayerResponseTruth>
+					<string>Okey, it seems you are right about that.</string>
+				</PlayerResponseTruth>
+				<InterrogeeReactionTruth>
+					<string>Oke doke</string>
+				</InterrogeeReactionTruth>
+				
+				<PlayerResponseDoubt>
+					<string>You ain't telli me everything, right?</string>
+				</PlayerResponseDoubt>
+				<InterrogeeReactionDoubt>
+					<string>Ok, I might add something.</string>
+					<string>* info *</string>
+				</InterrogeeReactionDoubt>
+				
+				<PlayerResponseLie>
+					<string>You bullshitting me, stop now.</string>
+				</PlayerResponseLie>
+				<InterrogeeReactionLie>
+					<string>You are rude, Sir. Fuck you fatso!</string>
+				</InterrogeeReactionLie>
+			</InterrogationLineData>
+			
+		</Lines>
+	</InterrogationData>
+  
+  <!--INTERROGATION: SUSPECT's HOME-->
+  <InterrogationData>
+    <ID>inter_suspect_home</ID>
+    <Lines>
+      <!--1st-->
+      <InterrogationLineData>
+        <Question>
+          <string>[You] Is that right that the interrogation</string>
+          <string>module works?</string>
+        </Question>
+        <Answer>
+          <string>[Jasmine Doe] It looks like so.</string>
+        </Answer>
+        <CorrectAnswer>Truth</CorrectAnswer>
+
+        <PlayerResponseTruth>
+          <string>Okey, it seems you are right about that.</string>
+        </PlayerResponseTruth>
+        <InterrogeeReactionTruth>
+          <string>Oke doke</string>
+        </InterrogeeReactionTruth>
+
+        <PlayerResponseDoubt>
+          <string>You ain't tellin me everything, right?</string>
+        </PlayerResponseDoubt>
+        <InterrogeeReactionDoubt>
+          <string>Ok, I might add something.</string>
+          <string>* info *</string>
+        </InterrogeeReactionDoubt>
+
+        <PlayerResponseLie>
+          <string>You bullshitting me, stop now.</string>
+        </PlayerResponseLie>
+        <InterrogeeReactionLie>
+          <string>You are rude, Sir. Fuck you fatso!</string>
+        </InterrogeeReactionLie>
+      </InterrogationLineData>
+
+      <!--2ND-->
+
+      <InterrogationLineData>
+        <Question>
+          <string>[You] Is that right that the 2nd</string>
+          <string>question of the interrogation works?</string>
+        </Question>
+        <Answer>
+          <string>[Jasmine Doe] Yea, I think so.</string>
+        </Answer>
+        <CorrectAnswer>Doubt</CorrectAnswer>
+
+        <PlayerResponseTruth>
+          <string>Okey, it seems you are right about that.</string>
+        </PlayerResponseTruth>
+        <InterrogeeReactionTruth>
+          <string>Oke doke</string>
+        </InterrogeeReactionTruth>
+
+        <PlayerResponseDoubt>
+          <string>You ain't telli me everything, right?</string>
+        </PlayerResponseDoubt>
+        <InterrogeeReactionDoubt>
+          <string>Ok, I might add something.</string>
+          <string>* info *</string>
+        </InterrogeeReactionDoubt>
+
+        <PlayerResponseLie>
+          <string>You bullshitting me, stop now.</string>
+        </PlayerResponseLie>
+        <InterrogeeReactionLie>
+          <string>You are rude, Sir. Fuck you fatso!</string>
+        </InterrogeeReactionLie>
+      </InterrogationLineData>
+
+    </Lines>
+  </InterrogationData>
+
+
+</ArrayOfInterrogationData>

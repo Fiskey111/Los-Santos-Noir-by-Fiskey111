@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfCoronerData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+	<CoronerData>
+		<ID>coroner</ID>
+		
+		<DialogID>dial_coroner_1</DialogID>
+		<ReportID>report_coroner_scene</ReportID>
+		<SpawnAtScene>false</SpawnAtScene>
+		
+		<DispatchTo>
+			<Position>
+				<X>279.2248</X>
+				<Y>-2010.839</Y>
+				<Z>19.261343</Z>
+			</Position>
+			<Heading>0</Heading>
+		</DispatchTo>
+		
+	</CoronerData>
+  
+</ArrayOfCoronerData>

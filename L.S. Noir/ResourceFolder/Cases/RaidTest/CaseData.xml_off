@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CaseData xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <ID>raid_test</ID>
+    <Name>Sexual Assault Demo</Name>
+    <Stages>
+        <string>raid</string>
+    </Stages>
+ 
+ <!-- <WitnessesPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\WitnessesData.xml</WitnessesPath>
+  <EvidencePath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\EvidenceData.xml</EvidencePath>
+  <VictimsPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\VictimsData.xml</VictimsPath>
+  <OfficersPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\OfficersData.xml</OfficersPath>
+  <DialogsPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\DialogsData.xml</DialogsPath>
+  <CoronerPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\Coroner.xml</CoronerPath>
+  <EmsPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\EMSData.xml</EmsPath>
+  <StagesPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\StagesData.xml</StagesPath>
+  <CaseProgressPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\CaseProgress.xml</CaseProgressPath>
+  <ScenesDataPath>.\Plugins\LSPDFR\LSNoire\Cases\SA\Data\ScenesData.xml</ScenesDataPath> -->
+  
+</CaseData>
