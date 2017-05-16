@@ -54,7 +54,7 @@
     </Reference>
     <Reference Include="Fiskey111Common, Version=1.12.27.0, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Fiskey111Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\Fiskey111Common.dll</HintPath>
     </Reference>
     <Reference Include="Gwen">
       <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\Gwen.dll</HintPath>
@@ -91,78 +91,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIWrapper.cs" />
-    <Compile Include="Callouts\SA\Commons\ScenarioHelper.cs" />
-    <Compile Include="Callouts\SA\Commons\WarrantRequestor.cs" />
-    <Compile Include="Callouts\SA\Computer\Background.cs" />
-    <Compile Include="Callouts\SA\Computer\evidence_code.cs" />
-    <Compile Include="Callouts\SA\Computer\evidence_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\evidence_form.Designer.cs">
-      <DependentUpon>evidence_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\lab_code.cs" />
-    <Compile Include="Callouts\SA\Computer\lab_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\lab_form.Designer.cs">
-      <DependentUpon>lab_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\main_code.cs" />
-    <Compile Include="Callouts\SA\Computer\main_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\main_form.Designer.cs">
-      <DependentUpon>main_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\MessageBoxCode.cs" />
-    <Compile Include="Callouts\SA\Computer\MessageBoxForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\MessageBoxForm.Designer.cs">
-      <DependentUpon>MessageBoxForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\reports_code.cs" />
-    <Compile Include="Callouts\SA\Computer\reports_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\reports_form.Designer.cs">
-      <DependentUpon>reports_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\victim_code.cs" />
-    <Compile Include="Callouts\SA\Computer\victim_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\victim_form.Designer.cs">
-      <DependentUpon>victim_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\warrant_code.cs" />
-    <Compile Include="Callouts\SA\Computer\warrant_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\warrant_form.Designer.cs">
-      <DependentUpon>warrant_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\warrant_request_code.cs" />
-    <Compile Include="Callouts\SA\Computer\warrant_request_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\warrant_request_form.Designer.cs">
-      <DependentUpon>warrant_request_form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\witness_code.cs" />
-    <Compile Include="Callouts\SA\Computer\witness_form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Callouts\SA\Computer\witness_form.Designer.cs">
-      <DependentUpon>witness_form.cs</DependentUpon>
-    </Compile>
     <Compile Include="Cases\Case.cs" />
     <Compile Include="Cases\CasesController.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="Computer\ComputerController.cs" />
     <Compile Include="Computer\GwenForms\DocumentsListForm.cs" />
     <Compile Include="Computer\GwenForms\MainForm.cs" />
+    <Compile Include="Computer\GwenForms\Progress.cs" />
     <Compile Include="Computer\GwenForms\ReportsListForm.cs" />
     <Compile Include="Computer\GwenForms\ReportViewForm.cs" />
     <Compile Include="Computer\WinForms\DocumentsList_Form.cs">
@@ -176,6 +111,12 @@
     </Compile>
     <Compile Include="Computer\WinForms\Main_Form.designer.cs">
       <DependentUpon>Main_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Computer\WinForms\Progress.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computer\WinForms\Progress.Designer.cs">
+      <DependentUpon>Progress.cs</DependentUpon>
     </Compile>
     <Compile Include="Computer\WinForms\ReportsList_Form.cs">
       <SubType>Form</SubType>
@@ -194,16 +135,18 @@
     <Compile Include="Data\CollectedEvidence.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\DocumentData.cs" />
+    <Compile Include="Data\DocumentRequestData.cs" />
     <Compile Include="Data\InterrogationData.cs" />
     <Compile Include="Data\ReportData.cs" />
     <Compile Include="Data\SceneData.cs" />
     <Compile Include="Data\StageData.cs" />
     <Compile Include="Data\SuspectData.cs" />
+    <Compile Include="Extensions\Extensions.cs" />
     <Compile Include="Resources\CameraInterpolator.cs" />
+    <Compile Include="Resources\Checkpoint.cs" />
     <Compile Include="Resources\DriverFollow.cs" />
     <Compile Include="Resources\Interrogation.cs" />
     <Compile Include="Resources\Marker.cs" />
-    <Compile Include="Resources\MissionPassedHandler.cs" />
     <Compile Include="Resources\PedAnimationLoop.cs" />
     <Compile Include="Resources\PedScenarioLoop.cs" />
     <Compile Include="Resources\SecurityCamera.cs" />
@@ -213,6 +156,7 @@
     <Compile Include="Scenes\SceneItem.cs" />
     <Compile Include="Scenes\SceneMEOffice.cs" />
     <Compile Include="Scenes\SceneWithIdProps.cs" />
+    <Compile Include="Settings\Keys.cs" />
     <Compile Include="Settings\Paths.cs" />
     <Compile Include="Settings\Texts.cs" />
     <Compile Include="Stages\Base\SharedStageMethods.cs" />
@@ -225,48 +169,14 @@
     <Compile Include="Stages\TalkToPed.cs" />
     <Compile Include="Stages\TalkToPedWithTimeout.cs" />
     <Compile Include="Stages\WaitForWarrant.cs" />
-    <Compile Include="Callouts\SA\RegisterSAStages.cs" />
-    <Compile Include="Callouts\SA\Services\Camera.cs" />
-    <Compile Include="Callouts\SA\Services\Coroner.cs" />
-    <Compile Include="Callouts\SA\Services\EMS.cs" />
-    <Compile Include="Callouts\SA\Services\EvidencePed.cs" />
-    <Compile Include="Callouts\SA\Services\Hospitals.cs" />
-    <Compile Include="Callouts\SA\Services\Interfaces.cs" />
-    <Compile Include="Callouts\SA\Services\PoliceStations.cs" />
-    <Compile Include="Callouts\SA\Services\ServiceBase.cs" />
-    <Compile Include="Callouts\SA\Services\SpawnPoint.cs" />
-    <Compile Include="Callouts\SA\Services\Transport.cs" />
-    <Compile Include="Callouts\SA\Services\Witness.cs" />
-    <Compile Include="Callouts\SA\SocialMediaDrawer.cs" />
-    <Compile Include="Callouts\SA\Stages\CSI\CsiCreator.cs" />
-    <Compile Include="Callouts\SA\Stages\CSI\Sa1Csi.cs" />
-    <Compile Include="Callouts\SA\Stages\ME\ME_Creator.cs" />
-    <Compile Include="Callouts\SA\Stages\ME\Sa_2BMedicalExaminer.cs" />
-    <Compile Include="Callouts\SA\Stages\Sa_2aHospital.cs" />
-    <Compile Include="Callouts\SA\Stages\Sa_2CStation.cs" />
-    <Compile Include="Callouts\SA\Stages\Sa_3b_Wait.cs" />
-    <Compile Include="Callouts\SA\Stages\SA_3_VictimFamily.cs" />
-    <Compile Include="Callouts\SA\Stages\Sa_4ASuspectHome.cs" />
-    <Compile Include="Callouts\SA\Stages\Sa_4BWait.cs" />
-    <Compile Include="Callouts\SA\Stages\Sa_4CSuspectWork.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RagePro\Licensing.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Startup\DependencyCheck.cs" />
-    <Compile Include="Startup\FileChecker.cs" />
-    <Compile Include="Startup\PluginCheck.cs" />
     <Compile Include="Startup\RageCheck.cs" />
     <Compile Include="Startup\VersionCheck.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Callouts\SA\XMLs\CaseData.xml" />
-    <Content Include="Callouts\SA\XMLs\EvidenceData.xml" />
-    <Content Include="Callouts\SA\XMLs\PedData.xml" />
-    <Content Include="Callouts\SA\XMLs\ReportData.xml" />
-    <Content Include="Callouts\SA\XMLs\SA_Data.xml" />
-    <Content Include="Callouts\SA\XMLs\SceneData.xml" />
-    <Content Include="Callouts\SA\XMLs\ServiceCoordinates.xml" />
     <Content Include="TODO.txt" />
     <EmbeddedResource Include="Computer\WinForms\DocumentsList_Form.resx">
       <DependentUpon>DocumentsList_Form.cs</DependentUpon>
@@ -274,48 +184,23 @@
     <EmbeddedResource Include="Computer\WinForms\Main_Form.resx">
       <DependentUpon>Main_Form.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Computer\WinForms\Progress.resx">
+      <DependentUpon>Progress.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\ReportsList_Form.resx">
       <DependentUpon>ReportsList_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\ReportView_Form.resx">
       <DependentUpon>ReportView_Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RagePro\PublicKey.xml" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <EmbeddedResource Include="Callouts\SA\Computer\evidence_form.resx">
-      <DependentUpon>evidence_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\lab_form.resx">
-      <DependentUpon>lab_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\main_form.resx">
-      <DependentUpon>main_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\MessageBoxForm.resx">
-      <DependentUpon>MessageBoxForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\reports_form.resx">
-      <DependentUpon>reports_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\victim_form.resx">
-      <DependentUpon>victim_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\warrant_form.resx">
-      <DependentUpon>warrant_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\warrant_request_form.resx">
-      <DependentUpon>warrant_request_form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Callouts\SA\Computer\witness_form.resx">
-      <DependentUpon>witness_form.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="RagePro\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetFileName)"
-copy /Y "$(TargetDir)\$(TargetName).pdb" "C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetName).pdb"</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

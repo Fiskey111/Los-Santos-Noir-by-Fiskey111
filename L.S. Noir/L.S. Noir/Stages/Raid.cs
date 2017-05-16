@@ -1,19 +1,15 @@
-﻿using LSNoire.Data;
-using LSNoire.Resources;
-using LSNoire.Scenes;
+﻿using LSNoir.Data;
+using LSNoir.Resources;
+using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary.Serialization;
-using LtFlash.Common.Processes;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LSNoir.Stages
@@ -430,27 +426,27 @@ namespace LSNoir.Stages
             Game.DisplayNotification("DEBUG TEXT: RAID FINISHED");
 
             //=================================================================
-            var value = 100;
+            //var value = 100;
 
-            if (suspect)
-            {
-                if (suspect.IsDead) value = 70;
-                else if (Functions.IsPedArrested(suspect)) value = 100;
-            }
+            //if (suspect)
+            //{
+            //    if (suspect.IsDead) value = 70;
+            //    else if (Functions.IsPedArrested(suspect)) value = 100;
+            //}
 
-            value = scene.Peds.Where(c => c && c.IsDead).Aggregate(value, (current, c) => current - 10);
+            //value = scene.Peds.Where(c => c && c.IsDead).Aggregate(value, (current, c) => current - 10);
 
-            var medal = MissionPassedScreen.Medal.Gold;
-            if (value >= 80 && value < 100) medal = MissionPassedScreen.Medal.Silver;
-            else if (value < 80) medal = MissionPassedScreen.Medal.Bronze;
+            //var medal = MissionPassedScreen.Medal.Gold;
+            //if (value >= 80 && value < 100) medal = MissionPassedScreen.Medal.Silver;
+            //else if (value < 80) medal = MissionPassedScreen.Medal.Bronze;
 
-            var passed = new MissionPassedHandler("Suspect Raid", value, medal);
+            //var passed = new MissionPassedHandler("Suspect Raid", value, medal);
 
-            passed.AddItem("Suspect Arrested", "", Functions.IsPedArrested(suspect) ? MissionPassedScreen.TickboxState.Tick : MissionPassedScreen.TickboxState.Empty);
+            //passed.AddItem("Suspect Arrested", "", Functions.IsPedArrested(suspect) ? MissionPassedScreen.TickboxState.Tick : MissionPassedScreen.TickboxState.Empty);
 
-            passed.AddItem("All Officers Survived", "", scene.Peds.Any(c => c && c.IsDead) ? MissionPassedScreen.TickboxState.Empty : MissionPassedScreen.TickboxState.Tick);
+            //passed.AddItem("All Officers Survived", "", scene.Peds.Any(c => c && c.IsDead) ? MissionPassedScreen.TickboxState.Empty : MissionPassedScreen.TickboxState.Tick);
 
-            passed.Show();
+            //passed.Show();
 
             SetScriptFinished(true);
         }

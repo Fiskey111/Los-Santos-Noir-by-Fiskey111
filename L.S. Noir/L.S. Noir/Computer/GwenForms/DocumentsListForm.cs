@@ -14,9 +14,13 @@ namespace LSNoir.Computer
         private TextBox title, to, status;
         private MultilineTextBox text;
 
-        public DocumentsListForm(CaseData caseData) : base(typeof(DocumentsList_Form))
+        private ComputerController host;
+
+        public DocumentsListForm(ComputerController ctrl, CaseData caseData) : base(typeof(DocumentsList_Form))
         {
             data = caseData;
+
+            host = ctrl;
         }
 
         public override void InitializeLayout()
@@ -28,13 +32,18 @@ namespace LSNoir.Computer
 
             title.KeyboardInputEnabled = false;
             title.Disable();
+
             to.KeyboardInputEnabled = false;
             to.Disable();
+
             status.KeyboardInputEnabled = false;
             status.Disable();
 
-            var d = data.GetRequestableDocuments();
-            d.ForEach(r => documentsList.AddRow(r.Title, r.ID, r));
+            text.KeyboardInputEnabled = false;
+            text.Disable();
+
+            var requestableDocs = data.GetRequestableDocuments();
+            requestableDocs.ForEach(r => documentsList.AddRow(r.Title, r.ID, r));
 
             documentsList.RowSelected += DocumentsList_RowSelected;
 
@@ -47,39 +56,44 @@ namespace LSNoir.Computer
 
         private void DocumentsList_RowSelected(Base sender, ItemSelectedEventArgs arguments)
         {
-            var dd = documentsList?.SelectedRow?.UserData as DocumentData;
-            title.Text = dd.Title;
-            to.Text = dd.To;
+            var documentData = documentsList?.SelectedRow?.UserData as DocumentData;
 
-            var t = dd.Text.Split(new string[] { "{n}" }, StringSplitOptions.None);
-            for (int i = 0; i < t.Length; i++)
+            title.Text = documentData.Title;
+            to.Text = documentData.To;
+
+            var lines = documentData.Text.Split(new string[] { "{n}" }, StringSplitOptions.None);
+            for (int i = 0; i < lines.Length; i++)
             {
-                text.SetTextLine(i, t[i]);
+                text.SetTextLine(i, lines[i]);
             }
 
             request.Enable();
             request.KeyboardInputEnabled = true;
 
-            var rd = data.GetDocuRequestData(dd.ID);
-            if (rd == null)
+            DocumentRequestData requestData = data.GetDocuRequestData(documentData.ID);
+
+            if (requestData == null)
             {
                 status.Text = "Available to request";
             }
             else
             { 
-                if (!rd.Considered)
+                if (!requestData.IsConsidered())
                 {
                     request.Disable();
                     request.KeyboardInputEnabled = false;
+
                     status.Text = "Awaiting decision";
                 }
-                else if (rd.Considered)
+                else
                 {
                     request.Disable();
                     request.KeyboardInputEnabled = false;
-                    if (rd.Accepted) status.Text = "Accepted";
+
+                    if (data.CanDocumentRequestBeAccepted(requestData.ID)) status.Text = "Accepted";
                     else status.Text = "Refused";
-                    data.ModifyCaseProgress(m => m.RequestedDocuments.Where(d => d.ID == dd.ID).FirstOrDefault().DecisionSeenByPlayer = true);
+
+                    data.ModifyCaseProgress(m => m.RequestedDocuments.Where(d => d.ID == documentData.ID).FirstOrDefault().DecisionSeenByPlayer = true);
                 }
             }
         }
@@ -87,20 +101,27 @@ namespace LSNoir.Computer
         private void Request_Clicked(Base sender, ClickedEventArgs arguments)
         {
             if (!request.KeyboardInputEnabled) return;
-            var cd = documentsList?.SelectedRow?.UserData as DocumentData;
-            var drd = data.GetDocuRequestData(cd.ID);
+            var documentData = documentsList?.SelectedRow?.UserData as DocumentData;
+            var requestData = data.GetDocuRequestData(documentData.ID);
 
-            if (cd == null)
+            if (documentData == null)
             {
-                var mb = new Gwen.Control.MessageBox(this, "No warrant!", "WARNING");
+                var mb = new MessageBox(this, "No warrant!", "WARNING");
                 return;
             }
 
-            data.ModifyCaseProgress(m => m.RequestedDocuments.Add(new DocumentRequestData(cd)));
+            data.ModifyCaseProgress(m => m.RequestedDocuments.Add(new DocumentRequestData(documentData)));
 
             request.Disable();
 
             status.Text = "Awaiting decision";
+
+            GameFiber.StartNew(() =>
+            {
+                var progressWnd = new GwenForms.Progress("Sending request");
+                host.AddWnd(progressWnd);
+                progressWnd.Show();
+            });
         }
 
         private DocumentData GetSelectedDocData()

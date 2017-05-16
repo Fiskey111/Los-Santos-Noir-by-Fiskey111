@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfVector3 xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<Vector3>
+		<X>459.613922</X>
+        <Y>-989.130554</Y>
+        <Z>24.91487</Z>
+	</Vector3>
+	
+	<Vector3>
+		<X>437.454681</X>
+		<Y>-996.4536</Y>
+		<Z>30.6896</Z>
+	</Vector3>
+	
+	<Vector3>
+		<X>441.993439</X>
+		<Y>-978.4764</Y>
+		<Z>30.6895924</Z>
+	</Vector3>
+
+</ArrayOfVector3>

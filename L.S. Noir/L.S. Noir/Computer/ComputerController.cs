@@ -1,12 +1,13 @@
 ﻿using LSNoir.Data;
+using LSNoir.Settings;
 using LtFlash.Common.InputHandling;
+using LtFlash.Common.Serialization;
 using Rage;
 using Rage.Forms;
-using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LSNoir.Computer
@@ -16,32 +17,46 @@ namespace LSNoir.Computer
         //http://gtaxscripting.blogspot.com/2016/05/gta-v-blips-id-and-image.html
 
         //TODO:
-        // - wnd list passed by ctor param -> check if All(closed)
-        //   to switch state to isActive = false;
         // - use Checkpoint to mark the closest computer - don't make one for all!
         // - load computer positions from xml to easily update the mod via internet
 
-        private readonly Vector3[] positions =
-        {
-            new Vector3(-2.349341f, 533.5342f, 175.3423f),
-        };
+        //NOTES:
+        // - wnd list passed by ctor param -> check if All(closed)
+        //   to switch state to isActive = false;
+
+        private readonly Vector3[] positions;// =
+        //{
+        //    new Vector3(-2.349341f, 533.5342f, 175.3423f),
+        //};
 
         private readonly List<Blip> blips = new List<Blip>();
 
         private GameFiber fiber;
         private bool canRun;
         private bool isComputerActive;
-        private const float DIST_ACTIVE = 5.5f;
-        private readonly ControlSet controlSet = new ControlSet(Keys.E, Keys.LControlKey, ControllerButtons.None);
-        private MainForm wnd;
+        private const float DIST_ACTIVE = 1f;
+
+        private readonly ControlSet controlSet = new ControlSet(Controls.KeyActivateComputer, Controls.ModifierActivateComputer, Controls.CtrlButtonActivateComputer);
+
         private readonly List<GwenForm> wnds = new List<GwenForm>();
-        private List<CaseData> getCaseData;
+        private readonly List<CaseData> activeCasesData;
         //private Checkpoint
+        private Texture computerBackground;
 
         public ComputerController(List<CaseData> getCaseData)
         {
-            this.getCaseData = getCaseData;
+            activeCasesData = getCaseData;
             controlSet.ColorTag = "~y~";
+
+            if (File.Exists(Paths.PATH_COMPUTER_POSITIONS))
+            {
+                positions = Serializer.LoadFromXML<Vector3>(Paths.PATH_COMPUTER_POSITIONS).ToArray();
+            }
+            else
+            {
+                var msg = $"{nameof(ComputerController)}.{nameof(ComputerController)}(): file with computer positions could not be found: {Paths.PATH_COMPUTER_POSITIONS}";
+                throw new FileNotFoundException(msg);
+            }
         }
 
         public void Start()
@@ -49,20 +64,53 @@ namespace LSNoir.Computer
             canRun = true;
             fiber = GameFiber.StartNew(Process);
 
-            for (int i = 0; i < positions.Length; i++)
+            blips.AddRange(CreateBlipsForPositions(positions, (BlipSprite)407, Color.Blue));
+
+            if (File.Exists(Paths.PATH_COMPUTER_BACKGROUND))
             {
-                var b = new Blip(positions[i]);
-                b.Sprite = (BlipSprite)407;
-                b.Color = System.Drawing.Color.Blue;
-                blips.Add(b);
+                computerBackground = Game.CreateTextureFromFile(Settings.Paths.PATH_COMPUTER_BACKGROUND);
+                Game.RawFrameRender += RawRender;
+            }
+            else
+            {
+                string msg = $"{nameof(ComputerController)}.{nameof(Start)}(): computer background was not found: {Settings.Paths.PATH_COMPUTER_BACKGROUND}";
+                throw new FileNotFoundException(msg);
+            }
+        }
+
+        private IEnumerable<Blip> CreateBlipsForPositions(Vector3[] pos, BlipSprite sprite, Color col)
+        {
+            for (int i = 0; i < pos.Length; i++)
+            {
+                var b = new Blip(pos[i]);
+                b.Sprite = sprite;
+                b.Color = col;
+                //DisplayType: no-minimap, map only
+                yield return b;
+            }
+        }
+
+        private void RawRender(object sender, GraphicsEventArgs e)
+        {
+            if(isComputerActive)
+            {
+                e.Graphics.DrawTexture(computerBackground, 0f, 0f, Game.Resolution.Width, Game.Resolution.Height);
             }
         }
 
         public void Stop()
         {
             canRun = false;
+            wnds.ForEach(w => w.Window.Hide());
             blips.ForEach(b => { if (b) b.Delete(); });
             blips.Clear();
+            isComputerActive = false;
+            Game.LocalPlayer.HasControl = true;
+        }
+
+        public void AddWnd(GwenForm wnd)
+        {
+            wnds.Add(wnd);
         }
 
         public void Process()
@@ -79,8 +127,10 @@ namespace LSNoir.Computer
                     {
                         GameFiber.StartNew(() =>
                         {
-                            wnd = new MainForm(getCaseData);
-                            wnd.Show();
+                            var mainWnd = new MainForm(this, activeCasesData);
+                            AddWnd(mainWnd);
+                            mainWnd.Show();
+
                             isComputerActive = true;
                         });
 
@@ -90,6 +140,7 @@ namespace LSNoir.Computer
                 else if(isComputerActive && wnds.All(w => !w.Window.IsVisible))
                 {
                     isComputerActive = false;
+
                     Game.LocalPlayer.HasControl = true;
                 }
             }

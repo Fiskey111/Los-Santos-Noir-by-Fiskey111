@@ -1,0 +1,20 @@
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csprojResolveAssemblyReference.cache
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.DocumentsList_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.Main_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.ReportsList_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.ReportView_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csproj.GenerateResource.Cache
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\L.S. Noir.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\L.S. Noir.pdb
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\Fiskey111Common.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\Gwen.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\LSPD First Response.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\LtFlash.Common.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\RAGENativeUI.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\RagePluginHookSDK.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\LSPD First Response.pdb
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\RAGENativeUI.xml
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\RagePluginHookSDK.xml
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.dll
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.pdb
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.Progress.resources

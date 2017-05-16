@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LSNoir.Callouts.SA;
-using LSNoir.Extensions;
-using Rage;
+﻿using Rage;
 using Rage.Attributes;
 
 namespace LSNoir

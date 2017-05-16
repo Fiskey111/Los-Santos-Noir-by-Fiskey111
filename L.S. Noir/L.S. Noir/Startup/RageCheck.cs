@@ -2,7 +2,6 @@
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
-using LSNoir.Extensions;
 using Rage;
 
 // Modified from Albo's base RPH Check sclass

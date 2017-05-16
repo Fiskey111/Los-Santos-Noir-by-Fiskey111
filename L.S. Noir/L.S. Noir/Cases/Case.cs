@@ -1,15 +1,9 @@
-﻿using LSNoire.Data;
-using LSNoire.Stages;
+﻿using LSNoir.Data;
 using LtFlash.Common.ScriptManager.Managers;
 using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-using Rage;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LSNoir.Cases
 {
@@ -27,7 +21,7 @@ namespace LSNoir.Cases
         private readonly List<StageData> stages = new List<StageData>();
         private readonly AdvancedScriptManager manager = new AdvancedScriptManager();
 
-        private const string NAMESPACE_STAGES = "LSNoire.Stages";
+        private const string NAMESPACE_STAGES = "LSNoir.Stages";
 
         public Case(CaseData cd)
         {

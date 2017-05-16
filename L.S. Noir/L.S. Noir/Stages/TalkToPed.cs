@@ -5,19 +5,12 @@
 
 
 
-using LSNoire.Data;
-using LSNoire.Resources;
+using LSNoir.Data;
+using LSNoir.Resources;
 using LSPD_First_Response.Mod.API;
-using LtFlash.Common;
-using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
-using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LSNoir.Stages
@@ -150,18 +143,19 @@ namespace LSNoir.Stages
 
         protected void SetScriptFinished()
         {
-            var value = interrogation.GoodAnswers / interrogation.Questions * 100;
+            //var value = interrogation.GoodAnswers / interrogation.Questions * 100;
 
-            var medal = MissionPassedScreen.Medal.Gold;
-            if (value >= 80 && value < 100) medal = MissionPassedScreen.Medal.Silver;
-            else if (value < 80) medal = MissionPassedScreen.Medal.Bronze;
+            //var medal = RAGENativeUI.Elements.MissionPassedScreen.MedalType.Gold;
 
-            var handler = new MissionPassedHandler("Victim Family", value, medal);
+            //if (value >= 80 && value < 100) medal = RAGENativeUI.Elements.MissionPassedScreen.MedalType.Silver;
+            //else if (value < 80) medal = RAGENativeUI.Elements.MissionPassedScreen.MedalType.Bronze;
 
-            handler.AddItem("Spoke to Family", "", MissionPassedScreen.TickboxState.Tick);
-            var num = 0;
+            //var handler = new MissionPassedHandler("Victim Family", value, medal);
 
-            handler.Show();
+            //handler.AddItem("Spoke to Family", "", MissionPassedScreen.TickboxState.Tick);
+            //var num = 0;
+
+            //handler.Show();
 
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
 
@@ -172,6 +166,7 @@ namespace LSNoir.Stages
         {
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
+            data.ParentCase.ModifyCaseProgress(m => m.LastStageID = data.ID);
         }
     }
 }

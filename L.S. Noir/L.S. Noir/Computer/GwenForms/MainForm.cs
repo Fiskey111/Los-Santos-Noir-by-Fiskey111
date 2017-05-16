@@ -8,7 +8,8 @@ namespace LSNoir.Computer
     class MainForm : GwenForm
     {
         public bool IsClosed { get; private set; }
-        private List<CaseData> data;
+        private readonly List<CaseData> data;
+        private readonly ComputerController host;
 
 #pragma warning disable CS0169 // Unused
 #pragma warning disable CS0649 // Unused
@@ -20,9 +21,10 @@ namespace LSNoir.Computer
 #pragma warning restore CS0169 // Unused
 #pragma warning restore CS0649 // Unusedo
 
-        public MainForm(List<CaseData> caseData) : base(typeof(Main_Form))
+        public MainForm(ComputerController ctrl, List<CaseData> caseData) : base(typeof(Main_Form))
         {
             data = caseData;
+            host = ctrl;
         }
 
         public override void InitializeLayout()
@@ -54,8 +56,9 @@ namespace LSNoir.Computer
                     return;
                 }
 
-                var d = new DocumentsListForm(cd);
-                d.Show();
+                var docsWnd = new DocumentsListForm(host, cd);
+                host.AddWnd(docsWnd);
+                docsWnd.Show();
             });
         }
 
@@ -64,6 +67,8 @@ namespace LSNoir.Computer
             var cd = (listCases.SelectedRow.UserData as CaseData);
             var cp = cd.GetCaseProgress();
             caseNo.Text = cp.CaseNo.ToString();
+
+            //TODO: add proper case data entry
             victim.Text = "Test Joanne Doe";
         }
 
@@ -83,8 +88,9 @@ namespace LSNoir.Computer
 
                 List<ReportData> rd = new List<ReportData>();
                 r.ForEach(k => rd.Add(cd.GetReportData(k)));
-                var rl = new ReportsListForm(rd.ToArray());
-                rl.Show();
+                var reportsWnd = new ReportsListForm(rd.ToArray());
+                host.AddWnd(reportsWnd);
+                reportsWnd.Show();
             });
         }
     }

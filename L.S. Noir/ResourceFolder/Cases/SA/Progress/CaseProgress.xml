@@ -16,13 +16,6 @@
   </StagesPassed>
   <CollectedEvidence />
   <RequestedDocuments>
-    <DocumentRequestData>
-      <TimeRequested>2017-05-14T12:50:34.5931596+02:00</TimeRequested>
-      <TimeDecision>2017-05-14T12:55:34.5931596+02:00</TimeDecision>
-      <Considered>false</Considered>
-      <Accepted>false</Accepted>
-      <DecisionSeenByPlayer>false</DecisionSeenByPlayer>
-      <ID>doc_warrant</ID>
-    </DocumentRequestData>
+    
   </RequestedDocuments>
 </CaseProgress>

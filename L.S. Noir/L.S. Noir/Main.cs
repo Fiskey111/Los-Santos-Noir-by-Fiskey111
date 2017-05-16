@@ -1,7 +1,6 @@
 ﻿using LSNoir.Cases;
 using LSNoir.Computer;
 using LSNoir.Settings;
-using LSNoir.Startup;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using System.Diagnostics;
@@ -28,11 +27,11 @@ namespace LSNoir
         {
             if (onDuty)
             {
-                if (!RageCheck.RPHCheck(0.46f)) return;
+                //if (!RageCheck.RPHCheck(0.46f)) return;
 
                 //if (!RageProRegistration.RegisterRagePro()) return;
 
-                if (!VersionCheck.OldLSNCheck()) return;
+                //if (!VersionCheck.OldLSNCheck()) return;
 
                 //Settings.IniUpdateCheck();
 
@@ -40,17 +39,17 @@ namespace LSNoir
 
                 casesCtrl.Start();
 
-                computerCtrl = new ComputerController(casesCtrl.GetActiveCases()/*() => cd/*cc.CurrentCase*/);
+                computerCtrl = new ComputerController(casesCtrl.GetActiveCases());
 
                 computerCtrl.Start();
 
                 Game.DisplayNotification("Script manager started.");
 
-                PrintBanner();
+                //PrintConsoleBanner();
             }
         }
 
-        private static void PrintBanner()
+        private static void PrintConsoleBanner()
         {
             string version = GetLSNVersion();
             for (int i = 0; i < Texts.BANNER.Length; i++)
@@ -61,6 +60,7 @@ namespace LSNoir
 
         private static string GetLSNVersion()
         {
+            //throws an error
             Assembly assembly = Assembly.GetExecutingAssembly();
             var versInfo = FileVersionInfo.GetVersionInfo(assembly.Location);
             return versInfo.FileVersion;
@@ -69,6 +69,7 @@ namespace LSNoir
         public override void Finally()
         {
             //cleanup
+            computerCtrl.Stop();
         }
     }
 

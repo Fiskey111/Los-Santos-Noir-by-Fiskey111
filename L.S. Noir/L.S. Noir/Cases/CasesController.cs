@@ -1,6 +1,7 @@
 ﻿using LSNoir.Data;
 using LtFlash.Common.ScriptManager.Managers;
 using LtFlash.Common.Serialization;
+using System;
 using System.Collections.Generic;
 using System.IO;
 
@@ -42,18 +43,20 @@ namespace LSNoir.Cases
                 throw new DirectoryNotFoundException(msg);
             }
 
-            var result = new List<CaseData>();
+            string[] caseDataPaths = Directory.GetFiles(folderPath, dataFileName, SearchOption.AllDirectories);
 
-            var cd = Directory.GetFiles(folderPath, dataFileName, SearchOption.AllDirectories);
+            List<CaseData> cases = new List<CaseData>();
 
-            for (int i = 0; i < cd.Length; i++)
-            {
-                var p = Serializer.LoadItemFromXML<CaseData>(cd[i]);
-                p.SetRootPath(cd[i]);
-                result.Add(p);
-            }
+            Array.ForEach(caseDataPaths, path => LoadCaseDataToList(path, cases));
 
-            return result;
+            return cases;
+        }
+
+        private static void LoadCaseDataToList(string path, List<CaseData> list)
+        {
+            var p = Serializer.LoadItemFromXML<CaseData>(path);
+            p.SetRootPath(path);
+            list.Add(p);
         }
 
         //TODO:
@@ -76,7 +79,7 @@ namespace LSNoir.Cases
         public void Start()
         {
             //TODO:
-            // - always start the 1st registered script!
+            // - always starts the 1st registered script!
             //   save the latest case + rnd next to prevent that
             manager.Start();
         }

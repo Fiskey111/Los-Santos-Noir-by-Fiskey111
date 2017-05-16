@@ -1,20 +1,13 @@
-﻿using LSNoire.Data;
-using LSNoire.Scenes;
+﻿using LSNoir.Data;
+using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
-using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.EvidenceLibrary.Evidence;
-using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.EvidenceLibrary.Services;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
 using Rage;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace LSNoir.Stages
