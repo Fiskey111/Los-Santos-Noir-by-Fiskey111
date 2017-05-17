@@ -12,16 +12,10 @@ namespace LSNoir.Stages
 {
     //https://github.com/Fiskey111/Los-Santos-Noir-by-Fiskey111/blob/master/L.S.%20Noir/L.S.%20Noir/Callouts/SA/Stages/Sa_4ASuspectHome.cs
 
-    //{new SpawnPt(208.22f, 1059.81f, -446.85f, 66.02f), "WORLD_HUMAN_GARDENER_PLANT"},
-    //{new SpawnPt(210.04f, -288.29f, 15.24f, 54.75f), "WORLD_HUMAN_DRINKING"},
-    //{new SpawnPt(48.47f, 1280.95f, -1602.24f, 54.23f), "WORLD_HUMAN_JOG_STANDING"},
-    //{new SpawnPt(315.62f, -1372.31f, -903.95f, 12.47f), "WORLD_HUMAN_HAMMERING"},
-    //{new SpawnPt(159.69f, 788.48f, 2178.03f, 52.65f), "WORLD_HUMAN_MAID_CLEAN"}
-
     public class TalkToPedWithTimeout : BasicScript
     {
         //TODO:
-        // - add RNUI TimerBar and display time left while leaving
+        // - add RNUI TimerBar and display time left while leaving?
 
         //TECHNICAL REQUIREMENTS:
         // - StageData: 1 WitnessID, CallPosition, CallBlipSprite, CallBlipName, Notification data,
@@ -96,8 +90,8 @@ namespace LSNoir.Stages
             pedScenario = new PedScenarioLoop(ped, pedsData.Scenario);
             pedScenario.IsActive = true;
 
-            var idata = data.ParentCase.GetInterrogationData(pedsData.DialogID);
-            interrogation = new Interrogation(idata.Lines, ped);
+            var interrogationData = data.ParentCase.GetInterrogationData(pedsData.DialogID);
+            interrogation = new Interrogation(interrogationData.Lines, ped);
         }
 
         private void NotifyTalk()
@@ -144,20 +138,6 @@ namespace LSNoir.Stages
         {
             if (interrogation.HasEnded)
             {
-                var notesPed = pedsData.NotesID;
-                if (notesPed != null && notesPed.Length > 0)
-                {
-                    data.ParentCase.ModifyCaseProgress(c => c.NotesMade.AddRange(notesPed));
-                }
-
-                var notesStage = data.NotesID;
-                if(notesStage != null && notesStage.Length > 0)
-                {
-                    data.ParentCase.ModifyCaseProgress(c => c.NotesMade.AddRange(notesStage));
-                }
-
-                data.ParentCase.ModifyCaseProgress(c => c.LastStageID = data.ID);
-
                 Game.DisplayHelp(MSG_LEAVE);
 
                 evacTime.Start();
@@ -189,6 +169,13 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            data.ParentCase.AddNotesToProgress(pedsData.NotesID);
+            data.ParentCase.AddNotesToProgress(data.NotesID);
+            data.ParentCase.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.AddDialogsToProgress(pedsData.DialogID);
+
+            data.SetThisAsLastStage();
+
             if (areaBlip) areaBlip.Delete();
             if (ped) ped.Dismiss();
         }

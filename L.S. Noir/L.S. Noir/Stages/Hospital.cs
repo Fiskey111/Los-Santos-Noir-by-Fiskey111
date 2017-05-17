@@ -110,11 +110,13 @@ namespace LSNoir.Stages
         // - use WitnessData to create doc
         // - try..catch for each of in-hospital stages to tp back on exception
         // - SceneData: add CallBlipColor
+        // - move model doc to witnessData?
 
         //TECHNICAL REQUIREMENTS:
         // - data.DialogsId contains 1 dialog between player and a doctor
         // - SceneData might contain prop peds inside hospital
         // - data.CallPosition marks the place where player can enter a hospital
+        // - evidence might be added to case progress
 
         private readonly StageData data;
 
@@ -287,6 +289,11 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            data.ParentCase.AddNotesToProgress(data.NotesID);
+            data.ParentCase.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
+            data.SetThisAsLastStage();
+
             if (markerEntrance != null) markerEntrance.Dispose();
             if (markerExit != null) markerExit.Dispose();
             if (doctor) doctor.Delete();

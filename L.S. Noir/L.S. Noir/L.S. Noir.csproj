@@ -93,7 +93,6 @@
     <Compile Include="APIWrapper.cs" />
     <Compile Include="Cases\Case.cs" />
     <Compile Include="Cases\CasesController.cs" />
-    <Compile Include="Commands.cs" />
     <Compile Include="Computer\ComputerController.cs" />
     <Compile Include="Computer\GwenForms\DocumentsListForm.cs" />
     <Compile Include="Computer\GwenForms\MainForm.cs" />
@@ -152,6 +151,7 @@
     <Compile Include="Resources\PedAnimationLoop.cs" />
     <Compile Include="Resources\PedScenarioLoop.cs" />
     <Compile Include="Resources\SecurityCamera.cs" />
+    <Compile Include="Scenes\IScene.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\SceneBase.cs" />
     <Compile Include="Scenes\SceneHospitalInterior.cs" />
@@ -167,7 +167,7 @@
     <Compile Include="Stages\ME.cs" />
     <Compile Include="Stages\NotifyToGo.cs" />
     <Compile Include="Stages\Raid.cs" />
-    <Compile Include="Stages\StageCalloutScript.cs" />
+    <Compile Include="Stages\Base\StageCalloutScript.cs" />
     <Compile Include="Stages\TalkToPed.cs" />
     <Compile Include="Stages\TalkToPedWithTimeout.cs" />
     <Compile Include="Stages\WaitForWarrant.cs" />

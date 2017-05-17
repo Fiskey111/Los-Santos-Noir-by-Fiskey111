@@ -3,8 +3,6 @@
 
 //https://github.com/Fiskey111/Los-Santos-Noir-by-Fiskey111/blob/master/L.S.%20Noir/L.S.%20Noir/Callouts/SA/Computer/main_form.Designer.cs
 
-
-
 using LSNoir.Data;
 using LSNoir.Resources;
 using LSPD_First_Response.Mod.API;
@@ -19,6 +17,7 @@ namespace LSNoir.Stages
     // - StageData: x,
     //              CallPos defines the call area,
     // - WitnessData: defines ped; Model, Spawn, DialogID?
+
     public class TalkToPed : BasicScript
     {
         private readonly StageData data;
@@ -29,8 +28,9 @@ namespace LSNoir.Stages
         private const string MSG_TALK = "Go closer to talk";
         private const string MSG_LEAVE = "Leave the area.";
         private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start the interrogation";
-        private Keys KEY_START_INTERROGATION = Keys.Y;
+        private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
 
+        //TODO: use serialized data!
         private static string[] scenarios =
         {
             "WORLD_HUMAN_PICNIC",
@@ -120,11 +120,11 @@ namespace LSNoir.Stages
                 ped.Face(Player);
                 Player.Face(ped);
 
-                SwapStages(CanStartTalking, HasFinished);
+                SwapStages(CanStartTalking, IsFinished);
             }
         }
 
-        private void HasFinished()
+        private void IsFinished()
         {
             if(interrogation.HasEnded)
             {
@@ -164,9 +164,10 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            data.SetThisAsLastStage();
+
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
-            data.ParentCase.ModifyCaseProgress(m => m.LastStageID = data.ID);
         }
     }
 }

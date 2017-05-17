@@ -24,8 +24,7 @@ namespace LSNoir.Data
         public string Address;
         public string FirstOfficer;
 
-
-
+        //NON SERIALIZABLE PART
         private string WitnessesPath { get; set; }
         private string EvidencePath { get; set; }
         private string VictimsPath { get; set; }
@@ -105,14 +104,16 @@ namespace LSNoir.Data
 
         public StageData[] GetAllStagesData()
         {
-            var r = Serializer.LoadFromXML<StageData>(StagesPath);
-            r.RemoveAll(s => !Stages.Contains(s.ID));
-            return r.ToArray();
+            var allStages = Serializer.LoadFromXML<StageData>(StagesPath);
+            allStages.RemoveAll(s => !Stages.Contains(s.ID));
+            return allStages.ToArray();
         }
 
         public List<DocumentData> GetRequestableDocuments()
         {
-            return Serializer.LoadFromXML<DocumentData>(DocumentsDataPath).FindAll(w => CanDocumentBeRequested(w));
+            var allDocs = Serializer.LoadFromXML<DocumentData>(DocumentsDataPath);
+            var requestableDocs = allDocs.FindAll(w => CanDocumentBeRequested(w));
+            return requestableDocs;
         }
 
         public DocumentRequestData GetDocuRequestData(string id)
@@ -123,13 +124,38 @@ namespace LSNoir.Data
         public SceneData GetSceneData(string id)
             => GetData<SceneData>(ScenesDataPath, id);
 
-        public void AddReportById(params string[] id)
+        public void AddReportsToProgress(params string[] id)
         {
             if (id == null || id.Length < 1) return;
 
             ModifyCaseProgress(m => m.ReportsReceived.AddRange(id));
         }
-        
+
+        public void AddNotesToProgress(params string[] notes)
+        {
+            if (notes == null || notes.Length < 1) return;
+
+            ModifyCaseProgress(m => m.NotesMade.AddRange(notes));
+        }
+
+        public void AddEvidenceToProgress(params string[] ids)
+        {
+            if (ids == null || ids.Length < 1) return;
+
+            for (int i = 0; i < ids.Length; i++)
+            {
+                var collectedEvidence = new PieceOfEvidence(ids[i], DateTime.Now);
+                ModifyCaseProgress(c => c.CollectedEvidence.Add(collectedEvidence));
+            }
+        }
+
+        public void AddDialogsToProgress(params string[] ids)
+        {
+            if (ids == null || ids.Length < 1) return;
+
+            ModifyCaseProgress(m => m.DialogsPassed.AddRange(ids));
+        }
+
         public CaseProgress GetCaseProgress()
         {
             if(!File.Exists(CaseProgressPath))
@@ -147,32 +173,25 @@ namespace LSNoir.Data
 
         public bool CanDocumentBeRequested(DocumentData id)
         {
-            var cp = GetCaseProgress();
+            var caseProgress = GetCaseProgress();
 
-            if (!id.DialogIDRequiredToRequest.All(d => cp.DialogsPassed.Contains(d)))
+            if (!id.DialogIDRequiredToRequest.All(d => caseProgress.DialogsPassed.Contains(d)))
             {
-                Game.LogTrivial("DIALOG");
                 return false;
             }
 
-            if (!id.EvidenceIDRequiredToRequest.All(e => cp.CollectedEvidence.FirstOrDefault(l => l.ID == e) != null))
+            if (!id.EvidenceIDRequiredToRequest.All(e => caseProgress.CollectedEvidence.FirstOrDefault(l => l.ID == e) != null))
             {
-                Game.LogTrivial("evd");
-
                 return false;
             }
 
-            if(!id.ReportIDRequiredToRequest.All(r => cp.ReportsReceived.Contains(r)))
+            if(!id.ReportIDRequiredToRequest.All(r => caseProgress.ReportsReceived.Contains(r)))
             {
-                Game.LogTrivial("rep");
-
                 return false;
             }
 
-            if(!id.StageIDRequiredToRequest.All(s => cp.StagesPassed.Contains(s)))
+            if(!id.StageIDRequiredToRequest.All(s => caseProgress.StagesPassed.Contains(s)))
             {
-                Game.LogTrivial("stage");
-
                 return false;
             }
 
@@ -186,25 +205,25 @@ namespace LSNoir.Data
 
         public bool CanDocumentRequestBeAccepted(string id)
         {
-            var cp = GetCaseProgress();
-            var dd = GetDocumentDataById(id);
+            var caseProgress = GetCaseProgress();
+            var docuData = GetDocumentDataById(id);
 
-            if (!dd.DialogIDRequiredToAccept.All(d => cp.DialogsPassed.Contains(d)))
+            if (!docuData.DialogIDRequiredToAccept.All(d => caseProgress.DialogsPassed.Contains(d)))
             {
                 return false;
             }
 
-            if (!dd.EvidenceIDRequiredToAccept.All(e => cp.CollectedEvidence.FirstOrDefault(l => l.ID == e) != null))
+            if (!docuData.EvidenceIDRequiredToAccept.All(e => caseProgress.CollectedEvidence.FirstOrDefault(l => l.ID == e) != null))
             {
                 return false;
             }
 
-            if (!dd.ReportIDRequiredToAccept.All(r => cp.ReportsReceived.Contains(r)))
+            if (!docuData.ReportIDRequiredToAccept.All(r => caseProgress.ReportsReceived.Contains(r)))
             {
                 return false;
             }
 
-            if (!dd.StageIDRequiredToAccept.All(s => cp.StagesPassed.Contains(s)))
+            if (!docuData.StageIDRequiredToAccept.All(s => caseProgress.StagesPassed.Contains(s)))
             {
                 return false;
             }
@@ -212,9 +231,29 @@ namespace LSNoir.Data
             return true;
         }
 
-        private static T GetData<T>(string path, string id) where T: IIdentifiable
+        private static T GetData<T>(string path, string id) where T : class, IIdentifiable
         {
-            return Serializer.GetSelectedListElementFromXml<T>(path, l => l.SingleOrDefault(e => e.ID == id));
+            if(!File.Exists(path))
+            {
+                var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): a specified file could not be found: {path}";
+                throw new FileNotFoundException(msg);
+            }
+
+            if(string.IsNullOrEmpty(id))
+            {
+                var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): an ID cannot be empty. Path: {path}";
+                throw new ArgumentException(msg);
+            }
+
+            T result = Serializer.GetSelectedListElementFromXml<T>(path, l => l.SingleOrDefault(e => e.ID == id));
+
+            if (result == default(T))
+            {
+                var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): an item with specified ID could not be found. ID: {id}, Path: {path}";
+                throw new KeyNotFoundException(msg);
+            }
+
+            return result;
         }
 
         public CaseData()

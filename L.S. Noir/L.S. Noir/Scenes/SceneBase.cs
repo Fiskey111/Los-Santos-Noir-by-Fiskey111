@@ -4,12 +4,6 @@ using System;
 
 namespace LSNoir.Scenes
 {
-    public interface IScene
-    {
-        void Create();
-        void Dispose();
-    }
-
     class SceneBase
     {
         protected static Entity GenerateItem(SceneItem t)
@@ -18,7 +12,7 @@ namespace LSNoir.Scenes
             switch (t.Type)
             {
                 case "Ped":
-                    result = CreateItem<Ped>(t, (m, p, h) => new Ped(m, p, h));
+                    result = CreateItem(t, (m, p, h) => new Ped(m, p, h));
                     (result as Ped).RandomizeVariation();
 
                     if (!string.IsNullOrEmpty(t.Scenario))

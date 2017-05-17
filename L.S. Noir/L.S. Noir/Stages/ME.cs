@@ -45,7 +45,6 @@ namespace LSNoir.Stages
 
         //NOTES:
 
-        private Vector3 PlayerPos => Game.LocalPlayer.Character.Position;
         private Ped Player => Game.LocalPlayer.Character;
         private static float DistToPlayer(Vector3 p) => Vector3.Distance(Game.LocalPlayer.Character.Position, p);
 
@@ -115,6 +114,7 @@ namespace LSNoir.Stages
 
         private Dialog driverDialog;
         private Dialog meDialog;
+        private string dialogMEID;
 
         private Blip mainBlip;
 
@@ -447,7 +447,7 @@ namespace LSNoir.Stages
 
                 //TODO: add a proper dialog
                 var dialog = data.ParentCase.GetDialogData(data.DialogsID[1]);
-
+                dialogMEID = dialog.ID;
                 meDialog = new Dialog(dialog.Dialog);
 
                 meDialog.PedOne = Player;
@@ -463,11 +463,6 @@ namespace LSNoir.Stages
         {
             if(meDialog.HasEnded)
             {
-                //ModifyCaseProgress(p => p.DialogsPassed.Add(meDialogID));
-                //ModifyCaseProgress(p => p.ReportsReceived.Add(meReportID));
-
-                //TODO: ME Report added to case files
-
                 Game.DisplayHelp(MSG_EXIT_OFFICE);
 
                 markerExit = new Marker(MELS.MarkerExit, Color.Red);
@@ -623,8 +618,6 @@ namespace LSNoir.Stages
         {
             DisplayMissionPassedScreen();
 
-            data.ParentCase.ModifyCaseProgress(p => p.LastStageID = data.ID);
-
             Functions.PlayScannerAudio(SCANNER_FINISH);
 
             SetScriptFinished(true);
@@ -646,7 +639,13 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
-            if(medExaminer) medExaminer.Dismiss();
+            data.ParentCase.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.AddNotesToProgress(data.NotesID);
+            data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
+            data.ParentCase.AddDialogsToProgress(dialogMEID);
+            data.SetThisAsLastStage();
+
+            if (medExaminer) medExaminer.Dismiss();
             if(driver) driver.Dismiss();
             if(meCar) meCar.Dismiss();
 

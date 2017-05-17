@@ -25,10 +25,7 @@ namespace LSNoir.Computer
 
         public override void InitializeLayout()
         {
-            int x = (Game.Resolution.Width / 2) - (Size.Width / 2);
-            int y = (Game.Resolution.Height / 2) - (Size.Height / 2);
-
-            Position = new System.Drawing.Point(x, y);
+            GwenForms.SharedMethods.SetFormPositionCenter(this);
 
             title.KeyboardInputEnabled = false;
             title.Disable();

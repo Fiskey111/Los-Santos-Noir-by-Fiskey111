@@ -6,7 +6,7 @@ using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using System.Collections.Generic;
 
-namespace LSNoir.Stages
+namespace LSNoir.Stages.Base
 {
     abstract class StageCalloutScript : CalloutScript
     {

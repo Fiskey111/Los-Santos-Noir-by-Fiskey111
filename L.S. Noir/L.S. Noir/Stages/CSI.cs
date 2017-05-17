@@ -19,7 +19,7 @@ namespace LSNoir.Stages
     // - witness nor officer does not get deleted on End()
     // - save reports on End to avoid errors caused by crash in the middle of a stage?
 
-    class CSI : StageCalloutScript
+    class CSI : Base.StageCalloutScript
     {
         private FirstOfficer officer;
         private DeadBody victim;
@@ -33,9 +33,10 @@ namespace LSNoir.Stages
 
         private readonly StageData stageData;
 
-        private const Keys KEY_START_DIALOG = Keys.Y;
+        private Keys KEY_START_DIALOG = Settings.Controls.KeyTalkToPed;
         private const Keys KEY_CORONER = Keys.D8;
         private const Keys KEY_CALL_EMS = Keys.D8;
+
         private const float DIST_CLOSE = 150f;
         private const float DIST_OFFICER = 25f;
         private const float DIST_LEFT = 80f;
@@ -49,6 +50,7 @@ namespace LSNoir.Stages
 
         private readonly string msgCallCoroner = $"Press ~y~{KEY_CORONER}~s~ to call coroner.";
         private readonly string msgCallEms = $"Press ~y~{KEY_CALL_EMS}~s~ to call EMS.";
+        private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~";
 
         public CSI(StageData sd) : base()
         {
@@ -142,10 +144,10 @@ namespace LSNoir.Stages
             if (officer.Dialog.HasEnded)
             {
                 var officerReportId = stageData.ParentCase.GetOfficerData(stageData.OfficerID).ReportsID;
-                stageData.ParentCase.AddReportById(officerReportId);
+                stageData.ParentCase.AddReportsToProgress(officerReportId);
 
                 GameFiber.Sleep(0500);
-
+                //TODO: reset officer's heading!
                 officer.Ped.Tasks.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d", 4, AnimationFlags.Loop);
 
                 victim.CanBeInspected = true;
@@ -161,11 +163,8 @@ namespace LSNoir.Stages
         {
             if (victim.Checked)
             {
-                //var vicNotes = stageData.ParentCase.GetVictimData(stageData.VictimID).NotesID;
-                //if (vicNotes != null && vicNotes.Length > 0)
-                //{
-                //    stageData.ParentCase.ModifyCaseProgress(c => c.NotesMade.AddRange(vicNotes));
-                //}
+                var notesVictim = stageData.ParentCase.GetVictimData(stageData.VictimID).NotesID;
+                stageData.ParentCase.AddNotesToProgress(notesVictim);
 
                 victim.CanBeInspected = false;
                 victim.PlaySoundPlayerNearby = false;
@@ -190,7 +189,7 @@ namespace LSNoir.Stages
             if (ems.IsCollected)
             {
                 var emsReport = stageData.ParentCase.GetEMSData(stageData.EmsID).ReportID;
-                stageData.ParentCase.AddReportById(emsReport);
+                stageData.ParentCase.AddReportsToProgress(emsReport);
 
                 if (coroner != null)
                 {
@@ -210,7 +209,7 @@ namespace LSNoir.Stages
             if (Game.IsKeyDown(KEY_CORONER))
             {
                 coroner.Dispatch();
-                Game.DisplayNotification($"Coroner dispatched to ~y~{World.GetStreetName(victim.Position)}~s~");
+                Game.DisplayNotification(string.Format(MSG_CORONER_DISPATCHED, World.GetStreetName(victim.Position)));
                 SwapStages(CallCoroner, IsCoronerDone);
             }
         }
@@ -220,7 +219,7 @@ namespace LSNoir.Stages
             if (coroner.IsCollected)
             {
                 var coronerReport = stageData.ParentCase.GetCoronerData(stageData.CoronerID).ReportID;
-                stageData.ParentCase.AddReportById(coronerReport);
+                stageData.ParentCase.AddReportsToProgress(coronerReport);
 
                 Game.DisplayNotification(MSG_COLLECT);
 
@@ -251,16 +250,19 @@ namespace LSNoir.Stages
         private void CheckIfLeftScene()
         {
             Game.DisplaySubtitle(MSG_LEAVE);
+
             if (DistToPlayer(officer.Ped) > DIST_LEFT)
             {
-                stageData.ParentCase.ModifyCaseProgress(c => c.LastStageID = stageData.ID);
-
                 SetScriptFinished(true);
             }
         }
 
         protected override void End()
         {
+            stageData.ParentCase.ModifyCaseProgress(c => c.LastStageID = stageData.ID);
+            stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
+            stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
+
             evidenceCtrl?.Evidence?.ForEach(e => e.Dismiss());
             ems?.Dispose();
             coroner?.Dispose();

@@ -1,10 +1,5 @@
 ﻿using LSNoir.Data;
 using Rage;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LSNoir.Stages.Base
 {
@@ -14,13 +9,6 @@ namespace LSNoir.Stages.Base
         {
             Game.DisplayNotification(data.NotificationTexDic, data.NotificationTexName,
                 data.NotificationTitle, data.NotificationSubtitle, data.NotificationText);
-        }
-
-        public static void AddReportsToCaseProgress(StageData data)
-        {
-            string[] reports = data.ReportsID;
-            if (reports == null || reports.Length < 1) return;
-            data.ParentCase.ModifyCaseProgress(m => m.ReportsReceived.AddRange(reports));
         }
 
         public static Blip CreateBlip(StageData data)

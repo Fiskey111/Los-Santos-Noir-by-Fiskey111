@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Windows.Forms;
 
 namespace LSNoir.Computer
 {
@@ -25,6 +24,7 @@ namespace LSNoir.Computer
         // - add empty lines to TextBox.Multiline = true in WinForm or it'll throw 
         //   an exception while using SetTextLine on Gwen.MultilineTextBox
         // - wnd size: 800x600, left-side listBox: h200; buttons: 100x100
+        // - references of Gwen.Controls can't be placed in ctor, otherwise it'll throw a NullRef ex
 
         private readonly Vector3[] positions;
 
@@ -45,6 +45,7 @@ namespace LSNoir.Computer
         public ComputerController(List<CaseData> getCaseData)
         {
             activeCasesData = getCaseData;
+
             controlSet.ColorTag = "~y~";
 
             if (File.Exists(Paths.PATH_COMPUTER_POSITIONS))
@@ -84,6 +85,7 @@ namespace LSNoir.Computer
                 var b = new Blip(pos[i]);
                 b.Sprite = sprite;
                 b.Color = col;
+                b.Scale = 0.75f;
                 //DisplayType: no-minimap, map only
                 yield return b;
             }

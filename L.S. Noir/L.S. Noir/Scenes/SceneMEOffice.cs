@@ -1,21 +1,21 @@
-﻿using LSPD_First_Response.Engine;
+﻿using LSNoir.Data;
+using LSNoir.Resources;
+using LSPD_First_Response.Engine;
 using Rage;
 using Rage.Native;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LSNoir.Scenes
 {
-    class SceneMEOffice : IScene
+    class SceneMEOffice : SceneBase, IScene
     {
+        private readonly SceneData data;
         private readonly List<Entity> entities = new List<Entity>();
+        //====
 
         internal static List<SpawnPoint> StaticSpawnPoints, AmbientSpawnPoints;
-
-        internal static SpawnPoint MedicalExaminerSpawnPoint, PlayerSpawnPoint;
 
         internal void GetSpawnPoint()
         {
@@ -64,6 +64,7 @@ namespace LSNoir.Scenes
 
         public SceneMEOffice()
         {
+            //data = sceneData
             GetSpawnPoint();
             s = new List<SpawnPoint>(StaticSpawnPoints.Concat(AmbientSpawnPoints));
         }
@@ -71,6 +72,13 @@ namespace LSNoir.Scenes
         public void Create()
         {
             LoadInterior();
+
+            //Array.ForEach(data.Items, i => entities.Add(GenerateItem(i)));
+            //for (int i = 0; i < data.Items.Length; i++)
+            //{
+            //    var k = GenerateItem(data.Items[i]);
+            //    entities.Add(k);
+            //}
 
             foreach(var p in s)
             {
@@ -82,7 +90,7 @@ namespace LSNoir.Scenes
 
         private void LoadInterior()
         {
-            int id = 60418;
+            const int id = 60418;
             NativeFunction.Natives.SET_INTERIOR_ACTIVE(id, true);
             NativeFunction.Natives.x2CA429C029CCF247(id);
         }

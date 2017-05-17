@@ -67,5 +67,10 @@ namespace LSNoir.Data
         public StageData()
         {
         }
+
+        public void SetThisAsLastStage()
+        {
+            ParentCase.ModifyCaseProgress(m => m.LastStageID = ID);
+        }
     }
 }

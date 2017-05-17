@@ -1,10 +1,13 @@
-﻿
+﻿- priorities
+	* SceneMEOffice data to xml
+
 - evidence
 	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
 	  if a piece of evid is important display info of what kind of traces was found
 
 - stages
 	* handle hour range player can start stage, display "Get back between"
+	* Finish: use TalkToPed to make speak to the Captain when case is finished
 
 - serialization
 	* create a PedSerializationData to use with different classes of peds
@@ -12,7 +15,9 @@
 
 - Native to change notification background: 0x92F0DA1E27DB96DC - uses color id
 
-- rename Warrants to (court) documents? warrant, juv detention order, search warrant, restraining order
+- Documents: warrant, juv detention order, search warrant, restraining order
 
 - forms
-	* universal progress form
+
+- Data:
+	* move ME data to xml

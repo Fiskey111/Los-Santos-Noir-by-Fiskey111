@@ -7,7 +7,7 @@ namespace LSNoir.Data
     {
         //http://stackoverflow.com/questions/2821040/how-do-i-get-the-time-difference-between-two-datetime-objects-using-c
         public string ID { get; set; }
-        public DateTime TimeRequested;
+        public DateTime TimeRequested; //remove as it is unused?
         public DateTime TimeDecision; //NOTE: set on request by adding rnd minutes
         public bool DecisionSeenByPlayer;
 

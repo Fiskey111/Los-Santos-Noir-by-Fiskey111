@@ -7,6 +7,7 @@ namespace LSNoir.Settings
     {
         //TODO:
         // - return vals from ini or default
+        // - use ControlSets?
 
         static Controls()
         {
@@ -18,6 +19,6 @@ namespace LSNoir.Settings
         public static Keys ModifierActivateComputer = Keys.LControlKey;
         public static ControllerButtons CtrlButtonActivateComputer = Rage.ControllerButtons.None;
 
-
+        public static Keys KeyTalkToPed = Keys.Y;
     }
 }

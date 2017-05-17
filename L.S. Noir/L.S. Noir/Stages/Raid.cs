@@ -121,8 +121,6 @@ namespace LSNoir.Stages
 
         private void RemoveVehiclesFromSpawnPoint(Vector3 pos, float radius)
         {
-            //World.GetAllVehicles().Where(v => v && Vector3.Distance(pos, v) < radius && v != Player.CurrentVehicle).ToList().ForEach(v => v.Delete());
-
             foreach (var veh in World.GetAllVehicles())
             {
                 if (veh && Vector3.Distance(pos, veh) < radius)
@@ -413,17 +411,15 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            data.SetThisAsLastStage();
+
             scene.Dispose();
             suspect.Delete();
         }
 
         protected void SetScriptFinished()
         {
-            //data.ParentCase.ModifyCaseProgress(c => c.LastStageID = data.ID);
-
             if (blipMeetingArea) blipMeetingArea.Delete();
-
-            Game.DisplayNotification("DEBUG TEXT: RAID FINISHED");
 
             //=================================================================
             //var value = 100;
