@@ -1,6 +1,6 @@
 ﻿namespace LSNoir.Computer.WinForms
 {
-    partial class Progress
+    partial class Progress_Form
     {
         /// <summary>
         /// Required designer variable.

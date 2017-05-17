@@ -1,4 +1,8 @@
 ﻿
+- evidence
+	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
+	  if a piece of evid is important display info of what kind of traces was found
+
 - stages
 	* handle hour range player can start stage, display "Get back between"
 

@@ -18,16 +18,15 @@ namespace LSNoir.Computer
 
         //TODO:
         // - use Checkpoint to mark the closest computer - don't make one for all!
-        // - load computer positions from xml to easily update the mod via internet
 
         //NOTES:
         // - wnd list passed by ctor param -> check if All(closed)
         //   to switch state to isActive = false;
+        // - add empty lines to TextBox.Multiline = true in WinForm or it'll throw 
+        //   an exception while using SetTextLine on Gwen.MultilineTextBox
+        // - wnd size: 800x600, left-side listBox: h200; buttons: 100x100
 
-        private readonly Vector3[] positions;// =
-        //{
-        //    new Vector3(-2.349341f, 533.5342f, 175.3423f),
-        //};
+        private readonly Vector3[] positions;
 
         private readonly List<Blip> blips = new List<Blip>();
 

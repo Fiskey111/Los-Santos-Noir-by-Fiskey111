@@ -97,9 +97,10 @@
     <Compile Include="Computer\ComputerController.cs" />
     <Compile Include="Computer\GwenForms\DocumentsListForm.cs" />
     <Compile Include="Computer\GwenForms\MainForm.cs" />
-    <Compile Include="Computer\GwenForms\Progress.cs" />
+    <Compile Include="Computer\GwenForms\NotesMadeForm.cs" />
+    <Compile Include="Computer\GwenForms\ProgressForm.cs" />
     <Compile Include="Computer\GwenForms\ReportsListForm.cs" />
-    <Compile Include="Computer\GwenForms\ReportViewForm.cs" />
+    <Compile Include="Computer\GwenForms\SharedMethods.cs" />
     <Compile Include="Computer\WinForms\DocumentsList_Form.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -112,23 +113,23 @@
     <Compile Include="Computer\WinForms\Main_Form.designer.cs">
       <DependentUpon>Main_Form.cs</DependentUpon>
     </Compile>
-    <Compile Include="Computer\WinForms\Progress.cs">
+    <Compile Include="Computer\WinForms\NotesMade_Form.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Computer\WinForms\Progress.Designer.cs">
-      <DependentUpon>Progress.cs</DependentUpon>
+    <Compile Include="Computer\WinForms\NotesMade_Form.Designer.cs">
+      <DependentUpon>NotesMade_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Computer\WinForms\Progress_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computer\WinForms\Progress_Form.Designer.cs">
+      <DependentUpon>Progress_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Computer\WinForms\ReportsList_Form.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Computer\WinForms\ReportsList_Form.designer.cs">
       <DependentUpon>ReportsList_Form.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Computer\WinForms\ReportView_Form.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Computer\WinForms\ReportView_Form.designer.cs">
-      <DependentUpon>ReportView_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Data\CaseData.cs" />
     <Compile Include="Data\CaseProgress.cs" />
@@ -137,6 +138,7 @@
     <Compile Include="Data\DocumentData.cs" />
     <Compile Include="Data\DocumentRequestData.cs" />
     <Compile Include="Data\InterrogationData.cs" />
+    <Compile Include="Data\NoteData.cs" />
     <Compile Include="Data\ReportData.cs" />
     <Compile Include="Data\SceneData.cs" />
     <Compile Include="Data\StageData.cs" />
@@ -184,14 +186,14 @@
     <EmbeddedResource Include="Computer\WinForms\Main_Form.resx">
       <DependentUpon>Main_Form.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Computer\WinForms\Progress.resx">
-      <DependentUpon>Progress.cs</DependentUpon>
+    <EmbeddedResource Include="Computer\WinForms\NotesMade_Form.resx">
+      <DependentUpon>NotesMade_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Computer\WinForms\Progress_Form.resx">
+      <DependentUpon>Progress_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\ReportsList_Form.resx">
       <DependentUpon>ReportsList_Form.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Computer\WinForms\ReportView_Form.resx">
-      <DependentUpon>ReportView_Form.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

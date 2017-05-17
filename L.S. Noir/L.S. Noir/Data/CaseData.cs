@@ -39,6 +39,7 @@ namespace LSNoir.Data
         private string CaseProgressPath { get; set; }
         private string ScenesDataPath { get; set; }
         private string DocumentsDataPath { get; set; }
+        private string NotesDataPath { get; set; }
 
         public void SetRootPath(string root)
         {
@@ -61,6 +62,7 @@ namespace LSNoir.Data
             StagesPath = Combine(dir, @"\Data\StagesData.xml");
             ScenesDataPath = Combine(dir, @"\Data\ScenesData.xml");
             DocumentsDataPath = Combine(dir, @"\Data\DocumentsData.xml");
+            NotesDataPath = Combine(dir, @"\Data\NotesData.xml");
 
             CaseProgressPath = Combine(dir, @"\Progress\CaseProgress.xml");
         }
@@ -97,6 +99,9 @@ namespace LSNoir.Data
 
         public StageData GetStageData(string id)
             => GetData<StageData>(StagesPath, id);
+
+        public NoteData GetNoteData(string id)
+            => GetData<NoteData>(NotesDataPath, id);
 
         public StageData[] GetAllStagesData()
         {

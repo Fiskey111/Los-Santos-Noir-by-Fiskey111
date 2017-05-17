@@ -2,7 +2,6 @@ D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.DocumentsList_Form.resources
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.Main_Form.resources
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.ReportsList_Form.resources
-D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.ReportView_Form.resources
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csproj.GenerateResource.Cache
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\L.S. Noir.dll
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\L.S. Noir.pdb
@@ -17,4 +16,5 @@ D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\RagePluginHookSDK.xml
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.dll
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.pdb
-D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.Progress.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.NotesMade_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.Progress_Form.resources

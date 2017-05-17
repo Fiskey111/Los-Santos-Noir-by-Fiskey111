@@ -1,17 +1,16 @@
 ﻿using Gwen.Control;
 using Rage;
-using System.Threading;
 
 namespace LSNoir.Computer.GwenForms
 {
-    class Progress : Rage.Forms.GwenForm
+    class ProgressForm : Rage.Forms.GwenForm
     {
         private Label sending;
         private ProgressBar progressBar;
 
         private readonly string labTxt;
 
-        public Progress(string labelText) : base(typeof(WinForms.Progress))
+        public ProgressForm(string labelText) : base(typeof(WinForms.Progress_Form))
         {
             labTxt = labelText;
         }
@@ -47,7 +46,6 @@ namespace LSNoir.Computer.GwenForms
 
                     GameFiber.Sleep(MathHelper.GetRandomInteger(0500, 1000));
                 }
-
 
                 Window.Close();
             });

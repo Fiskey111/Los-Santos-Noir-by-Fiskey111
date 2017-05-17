@@ -118,7 +118,7 @@ namespace LSNoir.Computer
 
             GameFiber.StartNew(() =>
             {
-                var progressWnd = new GwenForms.Progress("Sending request");
+                var progressWnd = new GwenForms.ProgressForm("Sending request");
                 host.AddWnd(progressWnd);
                 progressWnd.Show();
             });

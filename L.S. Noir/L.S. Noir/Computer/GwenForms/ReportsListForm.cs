@@ -9,7 +9,7 @@ namespace LSNoir.Computer
     {
         private ReportData[] data;
         private ListBox reportsList;
-        private Button view;
+        private Button close;
         private TextBox reportTitle;
         private MultilineTextBox reportText;
 
@@ -28,6 +28,7 @@ namespace LSNoir.Computer
             Array.ForEach(data, d => reportsList.AddRow(d.Title, d.ID, d));
 
             reportsList.RowSelected += ReportsList_RowSelected;
+            close.Clicked += (s, e) => Window.Close();
 
             base.InitializeLayout();
         }
@@ -45,6 +46,7 @@ namespace LSNoir.Computer
             {
                 reportText.SetTextLine(i, t[i]);
             }
+
             reportText.Disable();
             reportText.KeyboardInputEnabled = false;
             reportText.TextPadding = Gwen.Padding.One;

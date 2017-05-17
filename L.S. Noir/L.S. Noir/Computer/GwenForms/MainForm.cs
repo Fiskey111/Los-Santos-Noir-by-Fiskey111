@@ -7,6 +7,9 @@ namespace LSNoir.Computer
 {
     class MainForm : GwenForm
     {
+        //TODO:
+        // - common method to get and validate selected caseData
+
         public bool IsClosed { get; private set; }
         private readonly List<CaseData> data;
         private readonly ComputerController host;
@@ -15,7 +18,7 @@ namespace LSNoir.Computer
 #pragma warning disable CS0649 // Unused
 
         private Gwen.Control.Label caseNo, caseNoLb, victimLb, victim, casesLb, city, cityLb, address, addressLb, firstOfficerLb, firstOfficer;
-        private Gwen.Control.Button reports, warrants, evidence, notes;
+        private Gwen.Control.Button reports, warrants, evidence, notes, close;
         Gwen.Control.ListBox listCases;
 
 #pragma warning restore CS0169 // Unused
@@ -40,23 +43,46 @@ namespace LSNoir.Computer
             listCases.RowSelected += ListCases_RowSelected;
             reports.Clicked += Reports_Clicked;
             warrants.Clicked += Warrants_Clicked;
-
+            notes.Clicked += Notes_Clicked;
+            close.Clicked += (s, e) => Window.Close();
             base.InitializeLayout();
+        }
+
+        private CaseData GetSelectedCaseData() => listCases.SelectedRow.UserData as CaseData;
+
+        private void Notes_Clicked(Gwen.Control.Base sender, Gwen.Control.ClickedEventArgs arguments)
+        {
+            GameFiber.StartNew(() =>
+            {
+                var selectedCase = GetSelectedCaseData();
+
+                if (selectedCase == null)
+                {
+                    var mb = new Gwen.Control.MessageBox(this, "No case was selected!", "WARNING");
+                    return;
+                }
+
+                var notesWnd = new GwenForms.NotesMadeForm(GetSelectedCaseData());
+
+                host.AddWnd(notesWnd);
+
+                notesWnd.Show();
+            });
         }
 
         private void Warrants_Clicked(Gwen.Control.Base sender, Gwen.Control.ClickedEventArgs arguments)
         {
             GameFiber.StartNew(() =>
             {
-                var cd = listCases?.SelectedRow?.UserData as CaseData;
+                var selectedCase = GetSelectedCaseData();
 
-                if (cd == null)
+                if (selectedCase == null)
                 {
                     var mb = new Gwen.Control.MessageBox(this, "No case was selected!", "WARNING");
                     return;
                 }
 
-                var docsWnd = new DocumentsListForm(host, cd);
+                var docsWnd = new DocumentsListForm(host, selectedCase);
                 host.AddWnd(docsWnd);
                 docsWnd.Show();
             });
@@ -76,18 +102,18 @@ namespace LSNoir.Computer
         {
             GameFiber.StartNew(() =>
             {
-                var cd = listCases?.SelectedRow?.UserData as CaseData;
+                var selectedCase = GetSelectedCaseData();
 
-                if (cd == null)
+                if (selectedCase == null)
                 {
                     var mb = new Gwen.Control.MessageBox(this, "No case was selected!", "WARNING");
                     return;
                 }
 
-                var r = cd.GetCaseProgress().ReportsReceived ?? new List<string>();
+                var r = selectedCase.GetCaseProgress().ReportsReceived ?? new List<string>();
 
                 List<ReportData> rd = new List<ReportData>();
-                r.ForEach(k => rd.Add(cd.GetReportData(k)));
+                r.ForEach(k => rd.Add(selectedCase.GetReportData(k)));
                 var reportsWnd = new ReportsListForm(rd.ToArray());
                 host.AddWnd(reportsWnd);
                 reportsWnd.Show();
