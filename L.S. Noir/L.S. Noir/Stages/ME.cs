@@ -42,6 +42,7 @@ namespace LSNoir.Stages
         // - blink minimap on start
         // - add tex to StageData: 
         //   Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Case #: " + number, subtitle, body);
+        // - remove control from player when activating the enter marker
 
         //NOTES:
 
@@ -403,7 +404,7 @@ namespace LSNoir.Stages
                 InteriorHelper.IsCoronerInteriorEnabled = true;
 
                 var sceneData = data.ParentCase.GetSceneData(data.SceneID);
-                sceneOffice = sceneData.GetScene();// new SceneMEOffice();
+                sceneOffice = new SceneMEOffice(sceneData);//TODO: test sceneData.GetScene();
 
                 Player.IsPositionFrozen = true;
 
