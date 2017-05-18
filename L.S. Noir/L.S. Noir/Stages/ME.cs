@@ -402,7 +402,8 @@ namespace LSNoir.Stages
 
                 InteriorHelper.IsCoronerInteriorEnabled = true;
 
-                sceneOffice = new SceneMEOffice();
+                var sceneData = data.ParentCase.GetSceneData(data.SceneID);
+                sceneOffice = sceneData.GetScene();// new SceneMEOffice();
 
                 Player.IsPositionFrozen = true;
 

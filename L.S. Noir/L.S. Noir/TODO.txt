@@ -1,5 +1,4 @@
 ﻿- priorities
-	* SceneMEOffice data to xml
 
 - evidence
 	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
@@ -8,6 +7,7 @@
 - stages
 	* handle hour range player can start stage, display "Get back between"
 	* Finish: use TalkToPed to make speak to the Captain when case is finished
+	* add IScene to each stage
 
 - serialization
 	* create a PedSerializationData to use with different classes of peds

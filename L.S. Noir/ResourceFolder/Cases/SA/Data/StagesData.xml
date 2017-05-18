@@ -48,7 +48,8 @@
   <StageData>
     <ID>me</ID>
     <StageType>MedicalExaminerStage</StageType>
-
+    <SceneID>scene_me_office</SceneID>
+    
     <PlaySoundClosingIn>true</PlaySoundClosingIn>
     <NotificationTexDic>dic</NotificationTexDic>
     <NotificationTexName>tex</NotificationTexName>

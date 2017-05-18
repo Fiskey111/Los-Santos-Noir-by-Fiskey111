@@ -1,4 +1,5 @@
-﻿using LSNoir.Resources;
+﻿using LSNoir.Data;
+using LSNoir.Resources;
 using Rage;
 using System;
 

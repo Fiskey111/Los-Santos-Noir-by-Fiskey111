@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfNoteData xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<NoteData>
+		<ID>note_call</ID>
+		<Title>Call of an assault</Title>
+		<Text>A call of a sexual assault on Jamestown St was transmitted{n}over the radio. The 1st officer at scene was{n}PO Michael Moore.</Text>
+	</NoteData>
+	
+	<NoteData>
+		<ID>note_victim</ID>
+		<Title>Victim</Title>
+		<Text>Victim is a white female, ca. 25 yo, 5.5 ft, 120 lbs.{n}Name unk.</Text>
+	</NoteData>
+
+</ArrayOfNoteData>
