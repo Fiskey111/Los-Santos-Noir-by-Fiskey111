@@ -1,5 +1,6 @@
 ﻿using LtFlash.Common;
 using LtFlash.Common.EvidenceLibrary.Serialization;
+using Rage;
 
 namespace LSNoir.Data
 {
@@ -27,7 +28,8 @@ namespace LSNoir.Data
         public string VehicleID;
         public int VehicleSeatID;
 
-        public string Weapon;
+        public WeaponHash Weapon;
+        public bool EquipWeapon;
 
         public SceneItem()
         {

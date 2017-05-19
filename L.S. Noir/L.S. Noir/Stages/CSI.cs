@@ -236,7 +236,7 @@ namespace LSNoir.Stages
                 {
                     if(e.IsCollected)
                     {
-                        var c = new PieceOfEvidence(e.Id, DateTime.Now);
+                        var c = new CollectedEvidenceData(e.Id, DateTime.Now);
                         stageData.ParentCase.ModifyCaseProgress(m => m.CollectedEvidence.Add(c));
                     }
                 }

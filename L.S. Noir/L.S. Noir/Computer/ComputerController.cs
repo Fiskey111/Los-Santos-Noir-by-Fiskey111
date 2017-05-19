@@ -33,7 +33,9 @@ namespace LSNoir.Computer
         private GameFiber fiber;
         private bool canRun;
         private bool isComputerActive;
+
         private const float DIST_ACTIVE = 1f;
+        private const string MSG_PRESS_TO_OPEN = "Press {0} to open terminal.";
 
         private readonly ControlSet controlSet = new ControlSet(Controls.KeyActivateComputer, Controls.ModifierActivateComputer, Controls.CtrlButtonActivateComputer);
 
@@ -68,12 +70,12 @@ namespace LSNoir.Computer
 
             if (File.Exists(Paths.PATH_COMPUTER_BACKGROUND))
             {
-                computerBackground = Game.CreateTextureFromFile(Settings.Paths.PATH_COMPUTER_BACKGROUND);
+                computerBackground = Game.CreateTextureFromFile(Paths.PATH_COMPUTER_BACKGROUND);
                 Game.RawFrameRender += RawRender;
             }
             else
             {
-                string msg = $"{nameof(ComputerController)}.{nameof(Start)}(): computer background was not found: {Settings.Paths.PATH_COMPUTER_BACKGROUND}";
+                string msg = $"{nameof(ComputerController)}.{nameof(Start)}(): computer background was not found: {Paths.PATH_COMPUTER_BACKGROUND}";
                 throw new FileNotFoundException(msg);
             }
         }
@@ -82,12 +84,12 @@ namespace LSNoir.Computer
         {
             for (int i = 0; i < pos.Length; i++)
             {
-                var b = new Blip(pos[i]);
-                b.Sprite = sprite;
-                b.Color = col;
-                b.Scale = 0.75f;
-                //DisplayType: no-minimap, map only
-                yield return b;
+                var blip = new Blip(pos[i]);
+                blip.Sprite = sprite;
+                blip.Color = col;
+                blip.Scale = 0.75f;
+                //TODO: DisplayType: no-minimap, map only
+                yield return blip;
             }
         }
 
@@ -122,35 +124,58 @@ namespace LSNoir.Computer
 
                 if (!isComputerActive && IsAnyWithinDist())
                 {
-                    Game.DisplaySubtitle($"Press {controlSet.Description} to open terminal.", 100);
+                    Game.DisplaySubtitle(string.Format(MSG_PRESS_TO_OPEN, controlSet.Description), 100);
 
                     if(controlSet.IsActive)
                     {
-                        GameFiber.StartNew(() =>
-                        {
-                            var mainWnd = new MainForm(this, activeCasesData);
-                            AddWnd(mainWnd);
-                            mainWnd.Show();
-
-                            isComputerActive = true;
-                        });
-
-                        Game.LocalPlayer.HasControl = false;
+                        DisplayComputer();
                     }
                 }
                 else if(isComputerActive && wnds.All(w => !w.Window.IsVisible))
                 {
-                    isComputerActive = false;
-
-                    Game.LocalPlayer.HasControl = true;
+                    CloseComputer();
                 }
             }
         }
+
+        private void DisplayComputer()
+        {
+            GameFiber.StartNew(() =>
+            {
+                var mainWnd = new MainForm(this, activeCasesData);
+                AddWnd(mainWnd);
+                mainWnd.Show();
+
+                isComputerActive = true;
+            });
+
+            Game.LocalPlayer.HasControl = false;
+        }
+
+        private void CloseComputer()
+        {
+            isComputerActive = false;
+
+            Game.LocalPlayer.HasControl = true;
+        }
+
         //TODO: return active to create a checkpoint
         private bool IsAnyWithinDist() => positions.Any(p => IsWithinDist(p));
 
         private bool IsWithinDist(Vector3 p)
             => Vector3.Distance(p, Game.LocalPlayer.Character.Position) < DIST_ACTIVE;
+
+        private static Vector3 GetPositionInRange(Vector3[] pos, Vector3 playerPos, float range)
+        {
+            foreach (var p in pos)
+            {
+                if(Vector3.Distance(p, playerPos) < range)
+                {
+                    return p;
+                }
+            }
+            return Vector3.Zero;
+        }
 
         ~ComputerController()
         {

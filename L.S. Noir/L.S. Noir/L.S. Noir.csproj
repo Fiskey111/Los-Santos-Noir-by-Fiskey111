@@ -95,6 +95,7 @@
     <Compile Include="Cases\CasesController.cs" />
     <Compile Include="Computer\ComputerController.cs" />
     <Compile Include="Computer\GwenForms\DocumentsListForm.cs" />
+    <Compile Include="Computer\GwenForms\EvidenceListForm.cs" />
     <Compile Include="Computer\GwenForms\MainForm.cs" />
     <Compile Include="Computer\GwenForms\NotesMadeForm.cs" />
     <Compile Include="Computer\GwenForms\ProgressForm.cs" />
@@ -105,6 +106,12 @@
     </Compile>
     <Compile Include="Computer\WinForms\DocumentsList_Form.designer.cs">
       <DependentUpon>DocumentsList_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Computer\WinForms\EvidenceList_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computer\WinForms\EvidenceList_Form.Designer.cs">
+      <DependentUpon>EvidenceList_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Computer\WinForms\Main_Form.cs">
       <SubType>Form</SubType>
@@ -132,7 +139,7 @@
     </Compile>
     <Compile Include="Data\CaseData.cs" />
     <Compile Include="Data\CaseProgress.cs" />
-    <Compile Include="Data\CollectedEvidence.cs" />
+    <Compile Include="Data\CollectedEvidenceData.cs" />
     <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\DocumentData.cs" />
     <Compile Include="Data\DocumentRequestData.cs" />
@@ -182,6 +189,9 @@
     <Content Include="TODO.txt" />
     <EmbeddedResource Include="Computer\WinForms\DocumentsList_Form.resx">
       <DependentUpon>DocumentsList_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Computer\WinForms\EvidenceList_Form.resx">
+      <DependentUpon>EvidenceList_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\Main_Form.resx">
       <DependentUpon>Main_Form.cs</DependentUpon>

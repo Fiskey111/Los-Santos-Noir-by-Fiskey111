@@ -1,22 +1,13 @@
 ﻿using LSNoir.Data;
-using LSPD_First_Response.Mod.API;
-using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
-using Rage.Native;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace LSNoir.Scenes
 {
     class SceneWithIdProps : SceneBase, IScene
     {
         //TODO:
-        // - use data.Weapon
 
         class Prop<T>
         {
@@ -47,18 +38,18 @@ namespace LSNoir.Scenes
         {
             for (int i = 0; i < data.Items.Length; i++)
             {
-                var p = GenerateItem(data.Items[i]);
+                var prop = GenerateItem(data.Items[i]);
 
-                if(p is Ped ped)
+                if(prop is Ped ped)
                 {
                     ped.RelationshipGroup = RelationshipGroup.Cop;
                     peds.Add(new Prop<Ped>(data.Items[i], ped));
                 }
-                else if(p is Vehicle veh)
+                else if(prop is Vehicle veh)
                 {
                     vehs.Add(new Prop<Vehicle>(data.Items[i], veh));
                 }
-                else if(p is Rage.Object obj)
+                else if(prop is Rage.Object obj)
                 {
                     objects.Add(obj);
                 }

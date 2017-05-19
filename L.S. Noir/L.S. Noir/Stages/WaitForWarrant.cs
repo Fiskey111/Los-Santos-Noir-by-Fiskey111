@@ -1,18 +1,27 @@
-﻿using LtFlash.Common.ScriptManager.Scripts;
-using System;
-using System.Collections.Generic;
+﻿using LSNoir.Data;
+using LtFlash.Common.ScriptManager.Scripts;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LSNoir.Stages
 {
-    class WaitForWarrant : BasicScript
+    class WaitForEvent : BasicScript
     {
         //NOTES:
         // - check if WarrantRequestData.TimeDecision >= Now and 
         //   finish the case or continue with an arrest stage
         // - can be also used to check if given evidence was analyzed by a lab
+
+        // - define StageFailure?
+
+        private string[] documentsToAccept = { };
+        private string[] evidenceToAnalyze = { };
+
+        private readonly StageData data;
+
+        public WaitForEvent(StageData caseData)
+        {
+            data = caseData;
+        }
 
         protected override bool Initialize()
         {
@@ -21,6 +30,11 @@ namespace LSNoir.Stages
 
         protected override void Process()
         {
+            if(documentsToAccept.All(d => data.ParentCase.CanDocumentRequestBeAccepted(d))/* &&
+                evidenceToAnalyze.All(e => data.ParentCase.IsEvidenceAnalyzed)*/)
+            {
+                SetScriptFinished(true);
+            }
         }
 
         protected override void End()

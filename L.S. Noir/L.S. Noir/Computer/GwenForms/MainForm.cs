@@ -44,8 +44,29 @@ namespace LSNoir.Computer
             reports.Clicked += Reports_Clicked;
             warrants.Clicked += Warrants_Clicked;
             notes.Clicked += Notes_Clicked;
+            evidence.Clicked += Evidence_Clicked;
             close.Clicked += (s, e) => Window.Close();
             base.InitializeLayout();
+        }
+
+        private void Evidence_Clicked(Gwen.Control.Base sender, Gwen.Control.ClickedEventArgs arguments)
+        {
+            GameFiber.StartNew(() =>
+            {
+                var selectedCase = GetSelectedCaseData();
+
+                if (selectedCase == null)
+                {
+                    var mb = new Gwen.Control.MessageBox(this, "No case was selected!", "WARNING");
+                    return;
+                }
+
+                var evidenceWnd = new GwenForms.EvidenceListForm(selectedCase);
+
+                host.AddWnd(evidenceWnd);
+
+                evidenceWnd.Show();
+            });
         }
 
         private CaseData GetSelectedCaseData() => listCases.SelectedRow.UserData as CaseData;

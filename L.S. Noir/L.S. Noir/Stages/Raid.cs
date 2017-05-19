@@ -64,6 +64,7 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenarioHelper;
         private LHandle pursuit;
         private readonly string suspectsGun = MathHelper.Choose("WEAPON_CARBINERIFLE", "WEAPON_PISTOL", "WEAPON_KNIFE");
+
         private Vector3 crewDestination = new Vector3();
         private Vector3 posToCalcLeaveDist = new Vector3();
 
@@ -78,8 +79,7 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
-            Game.DisplayNotification(data.NotificationTexDic, data.NotificationTexName,
-                data.NotificationTitle, data.NotificationSubtitle, data.NotificationText);
+            Base.SharedStageMethods.DisplayNotification(data);
 
             blipMeetingArea = new Blip(data.CallPosition)
             {
@@ -187,13 +187,12 @@ namespace LSNoir.Stages
 
             if (time != 1)
             {
-                //CameraInterpolator : ICamEffect (void Perform()?)
-                var c = new CameraInterpolator();
-                c.Start(Player.AbovePosition, 0);
+                var cameraInterpolator = new CameraInterpolator();
+                cameraInterpolator.Start(Player.AbovePosition, 0);
 
                 TimeWarp(time);
 
-                c.Stop();
+                cameraInterpolator.Stop();
             }
 
             Game.DisplayHelp(string.Format(MSG_PRESS_TO_PREPARE, KEY_PREPARE));
@@ -288,9 +287,6 @@ namespace LSNoir.Stages
                 if (blipSuspectArea) blipSuspectArea.Delete();
 
                 Game.DisplayHelp(MSG_SEARCH);
-
-                //"Sexual Assault Case Update".DisplayNotification(
-                //    "Officers on scene\nBeginning search for ~r~suspect", _cData.Number);
 
                 SwapStages(ClosingIn, AreAtScene);
             }

@@ -144,7 +144,7 @@ namespace LSNoir.Data
 
             for (int i = 0; i < ids.Length; i++)
             {
-                var collectedEvidence = new PieceOfEvidence(ids[i], DateTime.Now);
+                var collectedEvidence = new CollectedEvidenceData(ids[i], DateTime.Now);
                 ModifyCaseProgress(c => c.CollectedEvidence.Add(collectedEvidence));
             }
         }

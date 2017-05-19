@@ -35,14 +35,13 @@ namespace LSNoir.Stages
     public class MedicalExaminerStage : BasicScript
     {
         //TODO:
-        // - get dialog data from StageData
+        // - save doc data in witness data -> easily get dialog data OR make dialogME [0]
         // - add data to MEData
         // - replace distances with const float?
         // - extract common method from Driving and DrivingBack?
-        // - blink minimap on start
-        // - add tex to StageData: 
+        // - add tex to StageData:
         //   Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Case #: " + number, subtitle, body);
-        // - remove control from player when activating the enter marker
+        // - remove transport fuctionality till tests!
 
         //NOTES:
 
@@ -59,11 +58,9 @@ namespace LSNoir.Stages
         {
             Name = "Medical Examiner's Office LS",
             Position = new Vector3(240, -1380, 34),
-            //VehicleSpawn = new SpawnPoint(, new Vector3()),
             TransportRequired = false,
             MarkerOffice = new Vector3(237.67f, -1367.89f, 39.53f),
             MarkerEntrance = new Vector3(240, -1380, 34),
-            //NOTE: unconfirmed coord
             MarkerExit = new Vector3(252, -1366, 40),
         };
 
@@ -91,7 +88,7 @@ namespace LSNoir.Stages
         private const string MODEL_CAR = "FBI";
         private const string MSG_PRESS_TO_SKIP = "Press ~y~{0}~s~ to skip the drive.";
         private const string MSG_TALK_TO_DRIVER = "Approach the ~y~Driver~w~ to go to the Medical Examiner's Office";
-        private const string MSG_EXIT_OFFICE = "Now that you have the report, ~y~exit~w~ the building";
+        private const string MSG_EXIT_OFFICE = "Now that you have the report, ~r~exit~w~ the building";
         private const string MSG_GOTO_ME = "Enter the driver's car or go to the marked destination";
         private const string MSG_ENTER_OFFICE = "Head to the ~y~marker~w~ to enter the Medical Examiner's office";
         private const string MSG_TALK_ME = "Go talk to the ~g~Medical Examiner~w~ in the office";
@@ -139,7 +136,6 @@ namespace LSNoir.Stages
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
-            //DisplayNotification(data.ParentCase.Name, "Visit ~o~Medical Examiner~w~ for update", caseNo);
             Base.SharedStageMethods.DisplayNotification(data);
 
             var nextStage = me.TransportRequired ? (Action)IsFarAway : IsPlayerCloseToOffice;
@@ -384,12 +380,14 @@ namespace LSNoir.Stages
             {
                 markerEntrance.Visible = false;
 
-                var ci = new CameraInterpolator();
-                ci.Start(new Vector3(219, -1422, 35), 200);
+                Game.LocalPlayer.HasControl = false;
+
+                var cameraInterpolator = new CameraInterpolator();
+                cameraInterpolator.Start(new Vector3(219, -1422, 35), 200);
 
                 Game.FadeScreenOut(1000, true);
 
-                ci.Stop();
+                cameraInterpolator.Stop();
 
                 if (mainBlip) mainBlip.Delete();
 
@@ -404,11 +402,9 @@ namespace LSNoir.Stages
                 InteriorHelper.IsCoronerInteriorEnabled = true;
 
                 var sceneData = data.ParentCase.GetSceneData(data.SceneID);
-                sceneOffice = new SceneMEOffice(sceneData);//TODO: test sceneData.GetScene();
+                sceneOffice = sceneData.GetScene();
 
                 Player.IsPositionFrozen = true;
-
-                Game.LocalPlayer.HasControl = false;
 
                 sceneOffice.Create();
 

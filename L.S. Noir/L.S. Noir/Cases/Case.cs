@@ -34,6 +34,15 @@ namespace LSNoir.Cases
             Array.ForEach(stagesData, s => s.ParentCase = data);
 
             stages.AddRange(stagesData);
+
+            //DEBUG;
+            //var ed = new CollectedEvidenceData
+            //{
+            //    ID = "tablet_1",
+            //    TimeCollected = DateTime.Now,
+            //    //TimeAnalysisDone = default(DateTime),
+            //};
+            //data.ModifyCaseProgress(m => m.CollectedEvidence.Add(ed));
         }
 
         private static Type GetStageTypeByName(string name)

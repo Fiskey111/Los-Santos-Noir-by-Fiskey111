@@ -7,36 +7,44 @@ namespace LSNoir.Scenes
 {
     class SceneBase
     {
-        protected static Entity GenerateItem(SceneItem t)
+        protected static Entity GenerateItem(SceneItem data)
         {
             Entity result = default(Entity);
-            switch (t.Type)
+            switch (data.Type)
             {
                 case "Ped":
-                    result = CreateItem(t, (m, p, h) => new Ped(m, p, h));
+                    result = CreateItem(data, (m, p, h) => new Ped(m, p, h));
                     (result as Ped).RandomizeVariation();
 
-                    if (!string.IsNullOrEmpty(t.Scenario))
+                    if (!string.IsNullOrEmpty(data.Scenario))
                     {
-                        var sh = new PedScenarioLoop(result as Ped, t.Scenario);
+                        var sh = new PedScenarioLoop(result as Ped, data.Scenario);
                         sh.IsActive = true;
                     }
 
-                    if(!string.IsNullOrEmpty(t.AnimDictionary) && !string.IsNullOrEmpty(t.AnimName))
+                    if(!string.IsNullOrEmpty(data.AnimDictionary) && !string.IsNullOrEmpty(data.AnimName))
                     {
-                        var ah = new PedAnimationLoop(result as Ped, t.AnimDictionary, t.AnimName);
+                        var ah = new PedAnimationLoop(result as Ped, data.AnimDictionary, data.AnimName);
                         ah.IsActive = true;
+                    }
+
+                    if(data.EquipWeapon)
+                    {
+                        (result as Ped).Inventory.GiveNewWeapon(data.Weapon, 100, false);
                     }
                         
                     break;
+
                 case "Vehicle":
-                    result = CreateItem<Vehicle>(t, (m, p, h) => new Vehicle(m, p, h));
+                    result = CreateItem<Vehicle>(data, (m, p, h) => new Vehicle(m, p, h));
                     break;
+
                 case "Object":
-                    result = CreateItem<Rage.Object>(t, (m, p, h) => new Rage.Object(m, p, h));
+                    result = CreateItem<Rage.Object>(data, (m, p, h) => new Rage.Object(m, p, h));
                     break;
+
                 default:
-                    var msg = $"{nameof(Scene)}.{nameof(GenerateItem)}: SceneItem type could not be recognized: {t.Type}, id: {t.ID}";
+                    var msg = $"{nameof(Scene)}.{nameof(GenerateItem)}: SceneItem type could not be recognized: {data.Type}, id: {data.ID}";
                     throw new ArgumentException(msg);
             }
 
