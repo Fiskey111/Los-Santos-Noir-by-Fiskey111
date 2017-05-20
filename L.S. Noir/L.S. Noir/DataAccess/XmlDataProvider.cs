@@ -1,6 +1,9 @@
-﻿using LtFlash.Common.Serialization;
+﻿using LtFlash.Common.EvidenceLibrary.Serialization;
+using LtFlash.Common.Serialization;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace LSNoir.DataAccess
 {
@@ -31,6 +34,33 @@ namespace LSNoir.DataAccess
             }
 
             Serializer.ModifyItemInXML<T>(filePath, modification);
+        }
+
+        public T GetIdentifiableData<T>(string path, string id) where T : class, IIdentifiable
+        {
+            if (!File.Exists(path))
+            {
+                var msg = $"{nameof(XmlDataProvider)}.{nameof(GetIdentifiableData)}(): a specified file could not be found: {path}";
+                throw new FileNotFoundException(msg);
+            }
+
+            if (string.IsNullOrEmpty(id))
+            {
+                var msg = $"{nameof(XmlDataProvider)}.{nameof(GetIdentifiableData)}(): an ID cannot be empty. Path: {path}";
+                throw new ArgumentException(msg);
+            }
+
+            var list = Load<List<T>>(path);
+
+            IIdentifiable item = list.SingleOrDefault(l => l.ID == id);
+
+            if (item == default(T))
+            {
+                var msg = $"{nameof(XmlDataProvider)}.{nameof(GetIdentifiableData)}(): an item with specified ID could not be found. ID: {id}, Path: {path}";
+                throw new KeyNotFoundException(msg);
+            }
+
+            return item as T;
         }
     }
 }

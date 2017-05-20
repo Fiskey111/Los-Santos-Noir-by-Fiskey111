@@ -1,4 +1,5 @@
-﻿using LtFlash.Common.EvidenceLibrary.Serialization;
+﻿using LSNoir.DataAccess;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.Serialization;
 using Rage;
 using System;
@@ -70,48 +71,48 @@ namespace LSNoir.Data
             => s1 + s2;
 
         public WitnessData GetWitnessData(string id)
-            => GetData<WitnessData>(WitnessesPath, id);
+            => DataProvider.Instance.GetIdentifiableData<WitnessData>(WitnessesPath, id);
 
         public ObjectData GetEvidenceData(string id)
-            => GetData<ObjectData>(EvidencePath, id);
+            => DataProvider.Instance.GetIdentifiableData<ObjectData>(EvidencePath, id);
 
         public DeadBodyData GetVictimData(string id)
-            => GetData<DeadBodyData>(VictimsPath, id);
+            => DataProvider.Instance.GetIdentifiableData<DeadBodyData>(VictimsPath, id);
 
         public FirstOfficerData GetOfficerData(string id)
-            => GetData<FirstOfficerData>(OfficersPath, id);
+            => DataProvider.Instance.GetIdentifiableData<FirstOfficerData>(OfficersPath, id);
 
         public DialogData GetDialogData(string id)
-            => GetData<DialogData>(DialogsPath, id);
+            => DataProvider.Instance.GetIdentifiableData<DialogData>(DialogsPath, id);
 
         public InterrogationData GetInterrogationData(string id)
-            => GetData<InterrogationData>(InterrogationsPath, id);
+            => DataProvider.Instance.GetIdentifiableData<InterrogationData>(InterrogationsPath, id);
 
         public CoronerData GetCoronerData(string id)
-            => GetData<CoronerData>(CoronersPath, id);
+            => DataProvider.Instance.GetIdentifiableData<CoronerData>(CoronersPath, id);
 
         public EMSData GetEMSData(string id)
-            => GetData<EMSData>(EmsPath, id);
+            => DataProvider.Instance.GetIdentifiableData<EMSData>(EmsPath, id);
 
         public ReportData GetReportData(string id)
-            => GetData<ReportData>(ReportsPath, id);
+            => DataProvider.Instance.GetIdentifiableData<ReportData>(ReportsPath, id);
 
         public StageData GetStageData(string id)
-            => GetData<StageData>(StagesPath, id);
+            => DataProvider.Instance.GetIdentifiableData<StageData>(StagesPath, id);
 
         public NoteData GetNoteData(string id)
-            => GetData<NoteData>(NotesDataPath, id);
+            => DataProvider.Instance.GetIdentifiableData<NoteData>(NotesDataPath, id);
 
         public StageData[] GetAllStagesData()
         {
-            var allStages = DataAccess.DataProvider.Instance.Load<List<StageData>>(StagesPath);
+            var allStages = DataProvider.Instance.Load<List<StageData>>(StagesPath);
             allStages.RemoveAll(s => !Stages.Contains(s.ID));
             return allStages.ToArray();
         }
 
         public List<DocumentData> GetRequestableDocuments()
         {
-            var allDocs = DataAccess.DataProvider.Instance.Load<List<DocumentData>>(DocumentsDataPath);
+            var allDocs = DataProvider.Instance.Load<List<DocumentData>>(DocumentsDataPath);
             var requestableDocs = allDocs.FindAll(w => CanDocumentBeRequested(w));
             return requestableDocs;
         }
@@ -122,7 +123,7 @@ namespace LSNoir.Data
         }
 
         public SceneData GetSceneData(string id)
-            => GetData<SceneData>(ScenesDataPath, id);
+            => DataProvider.Instance.GetIdentifiableData<SceneData>(ScenesDataPath, id);
 
         public void AddReportsToProgress(params string[] id)
         {
@@ -189,10 +190,10 @@ namespace LSNoir.Data
         {
             if(!File.Exists(CaseProgressPath))
             {
-                DataAccess.DataProvider.Instance.Save(CaseProgressPath, new CaseProgress());
+                DataProvider.Instance.Save(CaseProgressPath, new CaseProgress());
             }
 
-            return DataAccess.DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
+            return DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
         }
 
         public void ModifyCaseProgress(Action<CaseProgress> modifier)
@@ -229,7 +230,7 @@ namespace LSNoir.Data
 
         public DocumentData GetDocumentDataById(string id)
         {
-            return GetData<DocumentData>(DocumentsDataPath, id);
+            return DataProvider.Instance.GetIdentifiableData<DocumentData>(DocumentsDataPath, id);
         }
 
         public bool CanDocumentRequestBeAccepted(string id)
@@ -258,33 +259,6 @@ namespace LSNoir.Data
             }
 
             return true;
-        }
-
-        private static T GetData<T>(string path, string id) where T : class, IIdentifiable
-        {
-            if(!File.Exists(path))
-            {
-                var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): a specified file could not be found: {path}";
-                throw new FileNotFoundException(msg);
-            }
-
-            if(string.IsNullOrEmpty(id))
-            {
-                var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): an ID cannot be empty. Path: {path}";
-                throw new ArgumentException(msg);
-            }
-
-            var list = DataAccess.DataProvider.Instance.Load<List<IIdentifiable>>(path);
-
-            IIdentifiable item = list.SingleOrDefault(l => l.ID == id);
-
-            if (item == default(T))
-            {
-                var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): an item with specified ID could not be found. ID: {id}, Path: {path}";
-                throw new KeyNotFoundException(msg);
-            }
-
-            return item as T;
         }
 
         public CaseData()

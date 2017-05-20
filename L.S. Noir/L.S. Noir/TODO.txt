@@ -1,6 +1,6 @@
 ﻿- priorities
 	* collect a proper doc position for ME office stage
-	* test adding dialogs to progress
+	* test adding dialogs to progress - NOT WORKIN!
 
 - evidence
 	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
@@ -17,8 +17,7 @@
 	* create a PedSerializationData to use with different classes of peds
 	  instead of using witnessData for random entities
 
-- Native to change notification background: 0x92F0DA1E27DB96DC - uses color id
-- Default(DateTime) == 0001-01-01T00:00:00
+
 
 - Documents: warrant, juv detention order, search warrant, restraining order
 
