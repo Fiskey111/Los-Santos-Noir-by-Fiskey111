@@ -1,12 +1,7 @@
 ﻿using LtFlash.Common.EvidenceLibrary.Serialization;
-using LtFlash.Common.Serialization;
 using Rage;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Serialization;
 
 namespace LSNoir.Data
@@ -20,7 +15,12 @@ namespace LSNoir.Data
         [NonSerialized]
         public CaseData ParentCase; //TODO: replace with caseID? + GetParentCase()
         public Vector3 CallPosition;
+
         public float CallBlipRad;
+        public BlipSprite CallBlipSprite;
+        public string CallBlipName;
+        public string CallBlipColor;
+
         public bool PlaySoundClosingIn;
         public string SceneID;
 
@@ -50,8 +50,7 @@ namespace LSNoir.Data
         public string NotificationSubtitle;
         public string NotificationText;
 
-        public BlipSprite CallBlipSprite;
-        public string CallBlipName;
+        
 
         public string VictimID;
         public string[] EvidenceID;

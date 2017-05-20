@@ -174,5 +174,10 @@ namespace LSNoir.Stages
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
         }
+
+        ~TalkToPed()
+        {
+            End();
+        }
     }
 }

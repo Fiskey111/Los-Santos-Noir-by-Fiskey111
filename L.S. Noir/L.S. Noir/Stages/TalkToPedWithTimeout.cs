@@ -149,7 +149,7 @@ namespace LSNoir.Stages
         private void Evac()
         {
             if(evacTime.Elapsed.Seconds > EVAC_TIME_SEC &&
-               DistToPlayer(ped.Position) < 7)
+               DistToPlayer(ped.Position) < EVAC_MIN_DIST)
             {
                 CaseLost();
 
@@ -171,6 +171,11 @@ namespace LSNoir.Stages
         {
             if (areaBlip) areaBlip.Delete();
             if (ped) ped.Dismiss();
+        }
+
+        ~TalkToPedWithTimeout()
+        {
+            End();
         }
 
         private void SaveProgress()

@@ -211,5 +211,10 @@ namespace LSNoir.Stages
 
             scene.Dispose();
         }
+
+        ~Hospital()
+        {
+            End();
+        }
     }
 }

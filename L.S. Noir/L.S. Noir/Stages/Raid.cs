@@ -407,10 +407,14 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
-
             if (blipMeetingArea) blipMeetingArea.Delete();
             scene.Dispose();
             suspect.Delete();
+        }
+
+        ~Raid()
+        {
+            End();
         }
 
         private void SetScriptFinishedSuccessfulyAndSave()

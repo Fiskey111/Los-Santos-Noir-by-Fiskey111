@@ -129,9 +129,9 @@ namespace LSNoir.Stages
         {
             mainBlip = new Blip(me.Position)
             {
-                Sprite = BlipSprite.GangAttackPackage,
-                Color = Color.DarkOrange,
-                Name = "Medical Examiner"
+                Sprite = data.CallBlipSprite,
+                Color = ColorTranslator.FromHtml(data.CallBlipColor),
+                Name = data.CallBlipName,
             };
 
             NativeFunction.Natives.FlashMinimapDisplay();
@@ -657,6 +657,11 @@ namespace LSNoir.Stages
             timerTipSkipDrive.Stop();
 
             if (sceneOffice != null) sceneOffice.Dispose();
+        }
+
+        ~MedicalExaminerStage()
+        {
+            End();
         }
     }
 }
