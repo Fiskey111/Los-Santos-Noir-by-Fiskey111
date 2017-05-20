@@ -1,6 +1,5 @@
 ﻿using LSNoir.Data;
 using LtFlash.Common.ScriptManager.Managers;
-using LtFlash.Common.Serialization;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -54,7 +53,7 @@ namespace LSNoir.Cases
 
         private static void LoadCaseDataToList(string path, List<CaseData> list)
         {
-            var p = Serializer.LoadItemFromXML<CaseData>(path);
+            var p = DataAccess.DataProvider.Instance.Load<CaseData>(path);
             p.SetRootPath(path);
             list.Add(p);
         }

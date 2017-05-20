@@ -1,7 +1,6 @@
 ﻿using LSNoir.Data;
 using LSNoir.Settings;
 using LtFlash.Common.InputHandling;
-using LtFlash.Common.Serialization;
 using Rage;
 using Rage.Forms;
 using System.Collections.Generic;
@@ -52,7 +51,7 @@ namespace LSNoir.Computer
 
             if (File.Exists(Paths.PATH_COMPUTER_POSITIONS))
             {
-                positions = Serializer.LoadFromXML<Vector3>(Paths.PATH_COMPUTER_POSITIONS).ToArray();
+                positions = DataAccess.DataProvider.Instance.Load<List<Vector3>>(Paths.PATH_COMPUTER_POSITIONS).ToArray();
             }
             else
             {

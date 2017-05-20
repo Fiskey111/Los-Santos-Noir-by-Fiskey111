@@ -104,14 +104,14 @@ namespace LSNoir.Data
 
         public StageData[] GetAllStagesData()
         {
-            var allStages = Serializer.LoadFromXML<StageData>(StagesPath);
+            var allStages = DataAccess.DataProvider.Instance.Load<List<StageData>>(StagesPath);
             allStages.RemoveAll(s => !Stages.Contains(s.ID));
             return allStages.ToArray();
         }
 
         public List<DocumentData> GetRequestableDocuments()
         {
-            var allDocs = Serializer.LoadFromXML<DocumentData>(DocumentsDataPath);
+            var allDocs = DataAccess.DataProvider.Instance.Load<List<DocumentData>>(DocumentsDataPath);
             var requestableDocs = allDocs.FindAll(w => CanDocumentBeRequested(w));
             return requestableDocs;
         }
@@ -126,16 +126,12 @@ namespace LSNoir.Data
 
         public void AddReportsToProgress(params string[] id)
         {
-            if (id == null || id.Length < 1) return;
-
-            ModifyCaseProgress(m => m.ReportsReceived.AddRange(id));
+            AddUniqueStringIDToCaseProgress(id, c => c.ReportsReceived);
         }
 
         public void AddNotesToProgress(params string[] notes)
         {
-            if (notes == null || notes.Length < 1) return;
-
-            ModifyCaseProgress(m => m.NotesMade.AddRange(notes));
+            AddUniqueStringIDToCaseProgress(notes, c => c.NotesMade);
         }
 
         public void AddEvidenceToProgress(params string[] ids)
@@ -145,30 +141,63 @@ namespace LSNoir.Data
             for (int i = 0; i < ids.Length; i++)
             {
                 var collectedEvidence = new CollectedEvidenceData(ids[i], DateTime.Now);
-                ModifyCaseProgress(c => c.CollectedEvidence.Add(collectedEvidence));
+                ModifyCaseProgress(c => AddUniqueElementToCollection(collectedEvidence, c.CollectedEvidence, (c1, c2) => c1.ID == c2.ID));
             }
         }
 
         public void AddDialogsToProgress(params string[] ids)
         {
+            AddUniqueStringIDToCaseProgress(ids, c => c.DialogsPassed);
+        }
+
+        private void AddUniqueStringIDToCaseProgress(string[] ids, Func<CaseProgress, ICollection<string>> getCollection)
+        {
             if (ids == null || ids.Length < 1) return;
 
-            ModifyCaseProgress(m => m.DialogsPassed.AddRange(ids));
+            for (int i = 0; i < ids.Length; i++)
+            {
+                ModifyCaseProgress(m => AddUniqueElementToCollection(ids[i], getCollection(m), (s1, s2) => s1 == s2));
+            }
+        }
+
+        private void AddUniqueElementToCollection<T>(T element, ICollection<T> collection, Func<T, T, bool> comparator)
+        {
+            if (element == null) return;
+
+            if (!collection.Any(c => comparator(element, c)))
+            {
+                collection.Add(element);
+            }
+        }
+
+        private void AddUniqueIDToCaseProgress<T>(T id, Func<CaseProgress, IEnumerable<T>> getList, Func<T, T, bool> comparator)
+        {
+            if (id == null) return;
+
+            var caseProgress = GetCaseProgress();
+            var list = getList(caseProgress);
+
+            if(!list.Any(c => comparator(id, c)))
+            {
+                list.ToList().Add(id);
+            }
+
+            ModifyCaseProgress(m => m = caseProgress);
         }
 
         public CaseProgress GetCaseProgress()
         {
             if(!File.Exists(CaseProgressPath))
             {
-                Serializer.SaveItemToXML(new CaseProgress(), CaseProgressPath);
+                DataAccess.DataProvider.Instance.Save(CaseProgressPath, new CaseProgress());
             }
 
-            return Serializer.LoadItemFromXML<CaseProgress>(CaseProgressPath);
+            return DataAccess.DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
         }
 
         public void ModifyCaseProgress(Action<CaseProgress> modifier)
         {
-            Serializer.ModifyItemInXML(CaseProgressPath, modifier);
+            DataAccess.DataProvider.Instance.Modify(CaseProgressPath, modifier);
         }
 
         public bool CanDocumentBeRequested(DocumentData id)
@@ -245,15 +274,17 @@ namespace LSNoir.Data
                 throw new ArgumentException(msg);
             }
 
-            T result = Serializer.GetSelectedListElementFromXml<T>(path, l => l.SingleOrDefault(e => e.ID == id));
+            var list = DataAccess.DataProvider.Instance.Load<List<IIdentifiable>>(path);
 
-            if (result == default(T))
+            IIdentifiable item = list.SingleOrDefault(l => l.ID == id);
+
+            if (item == default(T))
             {
                 var msg = $"{nameof(CaseData)}.{nameof(GetData)}(): an item with specified ID could not be found. ID: {id}, Path: {path}";
                 throw new KeyNotFoundException(msg);
             }
 
-            return result;
+            return item as T;
         }
 
         public CaseData()

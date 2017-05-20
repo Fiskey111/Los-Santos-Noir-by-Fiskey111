@@ -4,7 +4,6 @@ using LtFlash.Common.EvidenceLibrary.Serialization;
 using Rage.Forms;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LSNoir.Computer.GwenForms
 {
@@ -77,6 +76,16 @@ namespace LSNoir.Computer.GwenForms
 
             SharedMethods.AddSplittedTxtToMultilineTextBox(selectedEvidence.data.Description, description);
             description.Padding = Gwen.Padding.One;
+
+            if(selectedEvidence.data.ReportsID.Length < 1)
+            {
+                request.Disable();
+                request.KeyboardInputEnabled = false;
+
+                status.Text = "Piece of evidence cannot be analyzed.";
+
+                return;
+            }
 
             if (selectedEvidence.collected.WasAnalysisRequested())
             {

@@ -1,5 +1,6 @@
 ﻿- priorities
 	* collect a proper doc position for ME office stage
+	* test adding dialogs to progress
 
 - evidence
 	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
@@ -9,6 +10,8 @@
 	* handle hour range player can start stage, display "Get back between"
 	* Finish: use TalkToPed to make speak to the Captain when case is finished
 	* add IScene to each stage
+	* move saving data to an additional method to prevent wrong data being saved
+	  when a script manager force-end a stage
 
 - serialization
 	* create a PedSerializationData to use with different classes of peds

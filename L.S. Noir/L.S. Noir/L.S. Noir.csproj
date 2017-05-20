@@ -137,10 +137,12 @@
     <Compile Include="Computer\WinForms\ReportsList_Form.designer.cs">
       <DependentUpon>ReportsList_Form.cs</DependentUpon>
     </Compile>
+    <Compile Include="DataAccess\DataProvider.cs" />
+    <Compile Include="DataAccess\IDataProvider.cs" />
+    <Compile Include="DataAccess\XmlDataProvider.cs" />
     <Compile Include="Data\CaseData.cs" />
     <Compile Include="Data\CaseProgress.cs" />
     <Compile Include="Data\CollectedEvidenceData.cs" />
-    <Compile Include="Data\DataProvider.cs" />
     <Compile Include="Data\DocumentData.cs" />
     <Compile Include="Data\DocumentRequestData.cs" />
     <Compile Include="Data\InterrogationData.cs" />
@@ -186,6 +188,7 @@
     <Compile Include="Startup\VersionCheck.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="NOTES.txt" />
     <Content Include="TODO.txt" />
     <EmbeddedResource Include="Computer\WinForms\DocumentsList_Form.resx">
       <DependentUpon>DocumentsList_Form.cs</DependentUpon>
