@@ -169,21 +169,31 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            if (areaBlip) areaBlip.Delete();
+            if (ped) ped.Dismiss();
+        }
+
+        private void SaveProgress()
+        {
             data.ParentCase.AddNotesToProgress(pedsData.NotesID);
             data.ParentCase.AddNotesToProgress(data.NotesID);
             data.ParentCase.AddReportsToProgress(data.ReportsID);
             data.ParentCase.AddDialogsToProgress(pedsData.DialogID);
 
             data.SetThisAsLastStage();
-
-            if (areaBlip) areaBlip.Delete();
-            if (ped) ped.Dismiss();
         }
 
         private void Success()
         {
-            SetScriptFinished(true);
+            SaveProgress();
 
+            DisplayMissionPassedScreen();
+
+            SetScriptFinished(true);
+        }
+
+        private void DisplayMissionPassedScreen()
+        {
             //var value = _interrogation.QuestionList.Where(q => q.Value == false)
             //        .Aggregate(100, (current, q) => current - 15);
 
@@ -207,11 +217,18 @@ namespace LSNoir.Stages
 
         private void CaseLost()
         {
+            SaveProgress();
+
             data.ParentCase.ModifyCaseProgress(c => c.Finished = true);
             Attributes.NextScripts.Clear();
 
-            SetScriptFinished(true);
+            DisplayMissionFailedScreen();
 
+            SetScriptFinished(true);
+        }
+
+        private void DisplayMissionFailedScreen()
+        {
             //MissionFailedScreen failed = new MissionFailedScreen("Violated suspect rights");
 
             //failed.Show();

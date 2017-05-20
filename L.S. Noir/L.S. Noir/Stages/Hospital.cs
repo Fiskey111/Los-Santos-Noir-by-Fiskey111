@@ -1,99 +1,4 @@
-﻿/*
-<Hospital>
-    <Gen1>
-        <x>306.79</x>
-        <y>-588.25</y>
-        <z>43.26</z>
-        <h>343.55</h>
-    </Gen1>
-    <Gen2>
-        <x>316.58</x>
-        <y>-587.66</y>
-        <z>43.26</z>
-        <h>184.24</h>
-    </Gen2>
-    <Gen3>
-        <x>315.28</x>
-        <y>-588.87</y>
-        <z>43.26</z>
-        <h>63.41</h>
-    </Gen3>
-    <Gen4>
-        <x>325.40</x>
-        <y>-598.77</y>
-        <z>43.26</z>
-        <h>250.67</h>
-    </Gen4>
-
-
-
-    <Nurse1>
-        <x>322.96</x>
-        <y>-588.80</y>
-        <z>43.26</z>
-        <h>162.83</h>
-    </Nurse1>
-    <Nurse2>
-        <x>321.80</x>
-        <y>-589.36</y>
-        <z>43.26</z>
-        <h>268.62</h>
-    </Nurse2>
-    <Nurse3>
-        <x>305.69</x>
-        <y>-597.87</y>
-        <z>43.26</z>
-        <h>22.62</h>
-    </Nurse3>
-
-
-
-
-
-    <Doc1>
-        <x>316.63</x>
-        <y>-597.66</y>
-        <z>43.26</z>
-        <h>311.61</h>
-    </Doc1>
-    <DialogDocStart>
-        <x>308.13</x>
-        <y>-602.30</y>
-        <z>43.26</z>
-        <h>355.59</h>
-    </DialogDocStart>
-    <DialogDocEnd>
-        <x>308.09</x>
-        <y>-596.87</y>
-        <z>43.26</z>
-        <h>13.97</h>
-    </DialogDocEnd>
-    <Cashier>
-        <x>312.55</x>
-        <y>-587.97</y>
-        <z>43.26</z>
-        <h>348.21</h>
-    </Cashier>
-    <Enter>
-        <x>298.52</x>
-        <y>584.51</y>
-        <z>43.26</z>
-        <h>0.0</h>
-    </Enter>
-    <Exit>
-        <x>300.31</x>
-        <y>585.13</y>
-        <z>43.26</z>
-        <h>0.0</h>
-    </Exit>
-  </Hospital>
-
-  Gens are ambient peds, cashier is the gift shop person, docstart is where he spawns and then walks to docend to talk to the player, enter and exit are where the player goes to tp
-
-*/
-
-
-using LSNoir.Data;
+﻿using LSNoir.Data;
 using LSNoir.Scenes;
 using LtFlash.Common;
 using LtFlash.Common.EvidenceLibrary;
@@ -279,7 +184,7 @@ namespace LSNoir.Stages
 
                 Game.DisplayNotification(MSG_FINISHED);
 
-                SetScriptFinished(true);
+                SetScriptFinishedSuccessfulyAndSave();
             }
         }
 
@@ -287,13 +192,18 @@ namespace LSNoir.Stages
         {
         }
 
-        protected override void End()
+        private void SetScriptFinishedSuccessfulyAndSave()
         {
             data.ParentCase.AddNotesToProgress(data.NotesID);
             data.ParentCase.AddReportsToProgress(data.ReportsID);
             data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
             data.SetThisAsLastStage();
 
+            SetScriptFinished(true);
+        }
+
+        protected override void End()
+        {
             if (markerEntrance != null) markerEntrance.Dispose();
             if (markerExit != null) markerExit.Dispose();
             if (doctor) doctor.Delete();

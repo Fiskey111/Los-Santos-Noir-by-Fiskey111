@@ -147,7 +147,7 @@ namespace LSNoir.Stages
         protected override void Process()
         {
             //TODO: tests
-            if (Game.IsKeyDown(Keys.End)) SetScriptFinished();
+            if (Game.IsKeyDown(Keys.End)) SetScriptFinishedSuccessfulyAndSave();
         }
 
         private void IsFarAway()
@@ -502,7 +502,7 @@ namespace LSNoir.Stages
                 }
                 else
                 {
-                    SetScriptFinished();
+                    SetScriptFinishedSuccessfulyAndSave();
                 }
 
 
@@ -564,7 +564,7 @@ namespace LSNoir.Stages
 
                 GameFiber.Sleep(1000);
 
-                SetScriptFinished();
+                SetScriptFinishedSuccessfulyAndSave();
             }
         }
 
@@ -590,7 +590,7 @@ namespace LSNoir.Stages
 
             GameFiber.Sleep(1000);
 
-            SetScriptFinished();
+            SetScriptFinishedSuccessfulyAndSave();
         }
 
         //NOTE: to handle both ways of transporting a player
@@ -612,15 +612,6 @@ namespace LSNoir.Stages
             return false;
         }
 
-        protected void SetScriptFinished()
-        {
-            DisplayMissionPassedScreen();
-
-            Functions.PlayScannerAudio(SCANNER_FINISH);
-
-            SetScriptFinished(true);
-        }
-
         private void DisplayMissionPassedScreen()
         {
             ////var value = _isImportant == true ? 100 : 50;
@@ -635,14 +626,23 @@ namespace LSNoir.Stages
             ////handler.Show();
         }
 
-        protected override void End()
+        private void SetScriptFinishedSuccessfulyAndSave()
         {
+            DisplayMissionPassedScreen();
+
+            Functions.PlayScannerAudio(SCANNER_FINISH);
+
             data.ParentCase.AddReportsToProgress(data.ReportsID);
             data.ParentCase.AddNotesToProgress(data.NotesID);
             data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
             data.ParentCase.AddDialogsToProgress(dialogMEID);
             data.SetThisAsLastStage();
 
+            SetScriptFinished(true);
+        }
+
+        protected override void End()
+        {
             if (medExaminer) medExaminer.Dismiss();
             if(driver) driver.Dismiss();
             if(meCar) meCar.Dismiss();

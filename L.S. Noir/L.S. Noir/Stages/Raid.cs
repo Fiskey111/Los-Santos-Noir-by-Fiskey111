@@ -375,7 +375,7 @@ namespace LSNoir.Stages
 
             if(DistToPlayer(posToCalcLeaveDist) > 80)
             {
-                SetScriptFinished();
+                SetScriptFinishedSuccessfulyAndSave();
             }
         }
 
@@ -407,17 +407,23 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
-            data.SetThisAsLastStage();
 
+            if (blipMeetingArea) blipMeetingArea.Delete();
             scene.Dispose();
             suspect.Delete();
         }
 
-        protected void SetScriptFinished()
+        private void SetScriptFinishedSuccessfulyAndSave()
         {
-            if (blipMeetingArea) blipMeetingArea.Delete();
+            DisplayMissionPassedScreen();
 
-            //=================================================================
+            data.SetThisAsLastStage();
+
+            SetScriptFinished(true);
+        }
+
+        private void DisplayMissionPassedScreen()
+        {
             //var value = 100;
 
             //if (suspect)
@@ -439,8 +445,6 @@ namespace LSNoir.Stages
             //passed.AddItem("All Officers Survived", "", scene.Peds.Any(c => c && c.IsDead) ? MissionPassedScreen.TickboxState.Empty : MissionPassedScreen.TickboxState.Tick);
 
             //passed.Show();
-
-            SetScriptFinished(true);
         }
     }
 }

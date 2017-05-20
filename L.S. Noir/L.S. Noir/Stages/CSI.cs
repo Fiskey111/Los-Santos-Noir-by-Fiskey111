@@ -253,16 +253,21 @@ namespace LSNoir.Stages
 
             if (DistToPlayer(officer.Ped) > DIST_LEFT)
             {
-                SetScriptFinished(true);
+                SetSuccessfulyFinishedAndSave();
             }
         }
 
-        protected override void End()
+        private void SetSuccessfulyFinishedAndSave()
         {
             stageData.ParentCase.ModifyCaseProgress(c => c.LastStageID = stageData.ID);
             stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
             stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
 
+            SetScriptFinished(true);
+        }
+
+        protected override void End()
+        {
             evidenceCtrl?.Evidence?.ForEach(e => e.Dismiss());
             ems?.Dispose();
             coroner?.Dispose();
@@ -285,7 +290,7 @@ namespace LSNoir.Stages
         {
             if (Game.LocalPlayer.Character.IsDead) SetScriptFinished(false);
             //TODO: for tests
-            if(Game.IsKeyDown(Keys.End)) SetScriptFinished(true);
+            if (Game.IsKeyDown(Keys.End)) SetSuccessfulyFinishedAndSave();
         }
     }
 }

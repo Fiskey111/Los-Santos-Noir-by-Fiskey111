@@ -132,7 +132,7 @@ namespace LSNoir.Stages
 
                 if(DistToPlayer(callPos) > 80)
                 {
-                    SetScriptFinished();
+                    SetScriptFinishedSuccessfulyAndSave();
                 }
             }
         }
@@ -141,7 +141,18 @@ namespace LSNoir.Stages
         {
         }
 
-        protected void SetScriptFinished()
+        protected void SetScriptFinishedSuccessfulyAndSave()
+        {
+            DisplayMissionPassedScreen();
+
+            Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
+
+            data.SetThisAsLastStage();
+
+            SetScriptFinished(true);
+        }
+
+        private void DisplayMissionPassedScreen()
         {
             //var value = interrogation.GoodAnswers / interrogation.Questions * 100;
 
@@ -156,16 +167,10 @@ namespace LSNoir.Stages
             //var num = 0;
 
             //handler.Show();
-
-            Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
-
-            SetScriptFinished(true);
         }
 
         protected override void End()
         {
-            data.SetThisAsLastStage();
-
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
         }
