@@ -2,7 +2,6 @@
 using LSNoir.Resources;
 using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
-using LtFlash.Common;
 using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
@@ -11,29 +10,16 @@ using Rage.Native;
 using System;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace LSNoir.Stages
 {
-    struct MedicalExaminerData
-    {
-        public Vector3 Position;
-        public Vector3 MarkerEntrance;
-        public Vector3 MarkerExit;
-        public SpawnPoint VehicleSpawn;
-        public SpawnPoint DriverSpawn;
-        public string Name;
-        public bool TransportRequired;
-        public Vector3 MarkerOffice;
-    }
-
     //https://github.com/Fiskey111/Los-Santos-Noir-by-Fiskey111/blob/master/L.S.%20Noir/L.S.%20Noir/Callouts/SA/Stages/ME/ME_Creator.cs
 
     /// <summary>
     /// Requires 2 DialogID stored in StageData.DialogsID[0] and [1]
     /// </summary>
-    public class MedicalExaminerStage : BasicScript
+    public partial class MedicalExaminerStage : BasicScript
     {
         //TODO:
         // - remove markerOffice to be able to place ME in any place of the office
@@ -46,6 +32,14 @@ namespace LSNoir.Stages
 
         //NOTES:
 
+        //TECHNICAL REQUIREMENTS:
+        // - StageData:
+        //   * ID, 
+        // - WitnessData[0] - Medical Examiner
+        //   * Model
+        //   * Position
+        //   * DialogID
+
         private Ped Player => Game.LocalPlayer.Character;
         private static float DistToPlayer(Vector3 p) => Vector3.Distance(Game.LocalPlayer.Character.Position, p);
 
@@ -55,67 +49,25 @@ namespace LSNoir.Stages
         private Camera gameCam;
         private Camera swapCam;
 
-        private static readonly MedicalExaminerData MELS = new MedicalExaminerData()
-        {
-            Name = "Medical Examiner's Office LS",
-            Position = new Vector3(240, -1380, 34),
-            TransportRequired = false,
-            MarkerOffice = new Vector3(237.67f, -1367.89f, 39.53f),
-            MarkerEntrance = new Vector3(240, -1380, 34),
-            MarkerExit = new Vector3(252, -1366, 40),
-        };
-
-        private static readonly MedicalExaminerData MEPB = new MedicalExaminerData()
-        {
-            Name = "Paleto Bay Sheriffs Office",
-            Position = new Vector3(-452, 6038, 32),
-            VehicleSpawn = new SpawnPoint(313, new Vector3(-453, 6034, 31)),
-            TransportRequired = true,
-        };
-
-        private static readonly MedicalExaminerData MESS = new MedicalExaminerData()
-        {
-            Name = "Sandy Shores Sheriffs Office",
-            Position = new Vector3(1840, 3673, 34),
-        };
-
         private static readonly MedicalExaminerData[] MEOffices = { MELS, MEPB, MESS };
 
         private MedicalExaminerData me = MELS;//MEOffices.OrderBy(o => DistToPlayer(o.Position)).FirstOrDefault();
-
-        private const string SCENARIO_DRIVER = "WORLD_HUMAN_COP_IDLES";
-        private const string MODEL_DRIVER = "s_m_m_highsec_01";
-        //private const string MODEL_ME = "s_m_m_doctor_01";
-        //private readonly SpawnPoint ME_SPAWN = new SpawnPoint(259.6473f, new Vector3(230.7229f, -1367.218f, 39.53437f));
-
-        private const string MODEL_CAR = "FBI";
-        private const string MSG_PRESS_TO_SKIP = "Press ~y~{0}~s~ to skip the drive.";
-        private const string MSG_TALK_TO_DRIVER = "Approach the ~y~Driver~w~ to go to the Medical Examiner's Office";
-        private const string MSG_EXIT_OFFICE = "Now that you have the report, ~r~exit~w~ the building";
-        private const string MSG_GOTO_ME = "Enter the driver's car or go to the marked destination";
-        private const string MSG_ENTER_OFFICE = "Head to the ~y~marker~w~ to enter the Medical Examiner's office";
-        private const string MSG_TALK_ME = "Go talk to the ~g~Medical Examiner~w~ in the office";
-        private const string MSG_PRESS_TALK_ME = "Press ~y~{0}~s~ to talk to the ~g~Medical Examiner~s~.";
-        private const string MSG_DRIVER_GOOD_LUCK = "[Driver] Here you are! Good luck!";
-        private const string MSG_DRIVER_GO = "[Driver] Off we go!";
-        private const string SCANNER_FINISH = "ATTN_DISPATCH CODE_04_PATROL";
-
-        private const VehicleDrivingFlags DRIVING_FLAGS = VehicleDrivingFlags.Normal | VehicleDrivingFlags.StopAtDestination | VehicleDrivingFlags.DriveAroundObjects;
 
         private IScene sceneOffice;
 
         private Ped medExaminer;
         private WitnessData meData;
+        private Dialog meDialog;
+
         private Ped driver;
+        private Dialog driverDialog;
         private PedScenarioLoop driverScenario;
+
         private Vehicle meCar;
 
         private readonly Stopwatch timerTipSkipDrive = new Stopwatch();
 
         private StageData data;
-
-        private Dialog driverDialog;
-        private Dialog meDialog;
 
         private Blip mainBlip;
 
@@ -151,13 +103,11 @@ namespace LSNoir.Stages
 
         protected override void Process()
         {
-            //TODO: tests
-            if (Game.IsKeyDown(Keys.End)) SetScriptFinishedSuccessfulyAndSave();
         }
 
         private void IsFarAway()
         {
-            if(DistToPlayer(me.Position) < 80f)
+            if(DistToPlayer(me.Position) < DIST_AWAY)
             {
                 driver = new Ped(MODEL_DRIVER, me.DriverSpawn.Position, me.DriverSpawn.Heading);
                 driver.MakePersistent();
@@ -174,7 +124,7 @@ namespace LSNoir.Stages
 
         private void PlayPedScenario()
         {
-            if (DistToPlayer(driver.Position) < 15f)
+            if (DistToPlayer(driver.Position) < DEACTIVATE_DRIVER_SCENARIO)
             {
                 driverScenario.IsActive = false;
                 DeactivateStage(PlayPedScenario);
@@ -191,7 +141,7 @@ namespace LSNoir.Stages
 
                 SwapStages(IsClose, CanStartDialog);
             }
-            else if(DistToPlayer(me.Position) > 85f)
+            else if(DistToPlayer(me.Position) > DIST_AWAY + 5f)
             {
                 //remove entities and back to the initial state
                 if (driver) driver.Delete();
@@ -388,7 +338,8 @@ namespace LSNoir.Stages
                 Game.LocalPlayer.HasControl = false;
 
                 var cameraInterpolator = new CameraInterpolator();
-                cameraInterpolator.Start(new Vector3(219, -1422, 35), 200);
+                
+                cameraInterpolator.Start(CameraInterpolatorEndPos.Position, CameraInterpolatorEndPos.Heading);
 
                 Game.FadeScreenOut(1000, true);
 
@@ -399,9 +350,7 @@ namespace LSNoir.Stages
                 if(meCar) meCar.Delete();
                 if(driver) driver.Delete();
 
-                //TODO: tp player here
                 Player.Position = MELS.MarkerExit;
-
                 Player.Heading = 180;
 
                 InteriorHelper.IsCoronerInteriorEnabled = true;
@@ -527,10 +476,10 @@ namespace LSNoir.Stages
             meCar.Heading = MELS.VehicleSpawn.Heading;
             meCar.IsInvincible = true;
             meCar.TopSpeed = 100f;
-            driver = new Ped(MODEL_DRIVER, MELS.DriverSpawn.Position, 0f);
-
-            driver.WarpIntoVehicle(meCar, -1);
             meCar.IndicatorLightsStatus = VehicleIndicatorLightsStatus.Both;
+
+            driver = new Ped(MODEL_DRIVER, MELS.DriverSpawn.Position, 0f);
+            driver.WarpIntoVehicle(meCar, -1);
         }
 
         private void Returning()
@@ -655,10 +604,10 @@ namespace LSNoir.Stages
         protected override void End()
         {
             if (medExaminer) medExaminer.Dismiss();
-            if(driver) driver.Dismiss();
-            if(meCar) meCar.Dismiss();
+            if (driver) driver.Dismiss();
+            if (meCar) meCar.Dismiss();
 
-            if(mainBlip) mainBlip.Delete();
+            if (mainBlip) mainBlip.Delete();
             if (markerEntrance != null) markerEntrance.Dispose();
             if (markerExit != null) markerExit.Dispose();
             if (markerOffice != null) markerOffice.Dispose();
