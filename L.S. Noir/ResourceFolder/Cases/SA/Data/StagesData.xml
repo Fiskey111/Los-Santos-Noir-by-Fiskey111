@@ -49,7 +49,11 @@
     <ID>me</ID>
     <StageType>MedicalExaminerStage</StageType>
     <SceneID>scene_me_office</SceneID>
-    
+	
+	<CallBlipName>Medical Examiner's Office</CallBlipName>
+    <CallBlipColor>Red</CallBlipColor>
+	<CallBlipSprite>GangAttackPackage</CallBlipSprite>
+	
     <PlaySoundClosingIn>true</PlaySoundClosingIn>
     <NotificationTexDic>dic</NotificationTexDic>
     <NotificationTexName>tex</NotificationTexName>
@@ -61,6 +65,10 @@
       <string>me_dial_driver</string>
       <string>me_dial_me</string>
     </DialogsID>
+	
+	<WitnessID>
+      <string>wit_me</string>
+    </WitnessID>
     
     <ReportsID>
       <string>me_report_me</string>

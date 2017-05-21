@@ -91,6 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIWrapper.cs" />
+    <Compile Include="DataValidation\CaseDataValidator.cs" />
+    <Compile Include="DataValidation\IValidator.cs" />
+    <Compile Include="DataValidation\StageDataValidator.cs" />
+    <Compile Include="DataValidation\ValidationResult.cs" />
     <Compile Include="Cases\Case.cs" />
     <Compile Include="Cases\CasesController.cs" />
     <Compile Include="Computer\ComputerController.cs" />
@@ -112,6 +116,12 @@
     </Compile>
     <Compile Include="Computer\WinForms\EvidenceList_Form.Designer.cs">
       <DependentUpon>EvidenceList_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Computer\WinForms\MainToolbar_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computer\WinForms\MainToolbar_Form.Designer.cs">
+      <DependentUpon>MainToolbar_Form.cs</DependentUpon>
     </Compile>
     <Compile Include="Computer\WinForms\Main_Form.cs">
       <SubType>Form</SubType>
@@ -195,6 +205,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\EvidenceList_Form.resx">
       <DependentUpon>EvidenceList_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Computer\WinForms\MainToolbar_Form.resx">
+      <DependentUpon>MainToolbar_Form.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\Main_Form.resx">
       <DependentUpon>Main_Form.cs</DependentUpon>

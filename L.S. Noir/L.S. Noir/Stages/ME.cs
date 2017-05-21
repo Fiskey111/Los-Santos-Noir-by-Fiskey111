@@ -4,6 +4,7 @@ using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common;
 using LtFlash.Common.EvidenceLibrary;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
@@ -35,7 +36,7 @@ namespace LSNoir.Stages
     public class MedicalExaminerStage : BasicScript
     {
         //TODO:
-        // - save doc data in witness data -> easily get dialog data OR make dialogME [0]
+        // - remove markerOffice to be able to place ME in any place of the office
         // - add data to MEData
         // - replace distances with const float?
         // - extract common method from Driving and DrivingBack?
@@ -80,11 +81,13 @@ namespace LSNoir.Stages
 
         private static readonly MedicalExaminerData[] MEOffices = { MELS, MEPB, MESS };
 
-        private MedicalExaminerData me = MEOffices.OrderBy(o => DistToPlayer(o.Position)).FirstOrDefault();
+        private MedicalExaminerData me = MELS;//MEOffices.OrderBy(o => DistToPlayer(o.Position)).FirstOrDefault();
 
         private const string SCENARIO_DRIVER = "WORLD_HUMAN_COP_IDLES";
         private const string MODEL_DRIVER = "s_m_m_highsec_01";
-        private const string MODEL_ME = "s_m_m_doctor_01";
+        //private const string MODEL_ME = "s_m_m_doctor_01";
+        //private readonly SpawnPoint ME_SPAWN = new SpawnPoint(259.6473f, new Vector3(230.7229f, -1367.218f, 39.53437f));
+
         private const string MODEL_CAR = "FBI";
         private const string MSG_PRESS_TO_SKIP = "Press ~y~{0}~s~ to skip the drive.";
         private const string MSG_TALK_TO_DRIVER = "Approach the ~y~Driver~w~ to go to the Medical Examiner's Office";
@@ -92,7 +95,7 @@ namespace LSNoir.Stages
         private const string MSG_GOTO_ME = "Enter the driver's car or go to the marked destination";
         private const string MSG_ENTER_OFFICE = "Head to the ~y~marker~w~ to enter the Medical Examiner's office";
         private const string MSG_TALK_ME = "Go talk to the ~g~Medical Examiner~w~ in the office";
-        private const string MSG_PRESS_TALK_ME = "Press ~y~Y~w~ to talk to the ~g~Medical Examiner~w~.";
+        private const string MSG_PRESS_TALK_ME = "Press ~y~{0}~s~ to talk to the ~g~Medical Examiner~s~.";
         private const string MSG_DRIVER_GOOD_LUCK = "[Driver] Here you are! Good luck!";
         private const string MSG_DRIVER_GO = "[Driver] Off we go!";
         private const string SCANNER_FINISH = "ATTN_DISPATCH CODE_04_PATROL";
@@ -102,6 +105,7 @@ namespace LSNoir.Stages
         private IScene sceneOffice;
 
         private Ped medExaminer;
+        private WitnessData meData;
         private Ped driver;
         private PedScenarioLoop driverScenario;
         private Vehicle meCar;
@@ -112,7 +116,6 @@ namespace LSNoir.Stages
 
         private Dialog driverDialog;
         private Dialog meDialog;
-        private string dialogMEID;
 
         private Blip mainBlip;
 
@@ -133,6 +136,8 @@ namespace LSNoir.Stages
                 Color = ColorTranslator.FromHtml(data.CallBlipColor),
                 Name = data.CallBlipName,
             };
+
+            meData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -412,7 +417,7 @@ namespace LSNoir.Stages
 
                 Game.LocalPlayer.HasControl = true;
 
-                medExaminer = new Ped(MODEL_ME, MELS.MarkerOffice, 0);
+                medExaminer = new Ped(meData.Model, meData.Spawn.Position, meData.Spawn.Heading);
                 medExaminer.MakePersistent();
                 medExaminer.AttachBlip();
 
@@ -437,23 +442,29 @@ namespace LSNoir.Stages
         
         private void InME()
         {
-            if (DistToPlayer(medExaminer.Position) < 4f)
+            if (DistToPlayer(MELS.MarkerOffice) < 3f)
             {
-                Game.DisplayHelp(MSG_PRESS_TALK_ME);
+                Game.DisplayHelp(string.Format(MSG_PRESS_TALK_ME, Settings.Controls.KeyTalkToPed));
 
                 markerOffice.Dispose();
 
-                //TODO: add a proper dialog
-                var dialog = data.ParentCase.GetDialogData(data.DialogsID[1]);
-                dialogMEID = dialog.ID;
-                meDialog = new Dialog(dialog.Dialog);
+                SwapStages(InME, CanStartMEDialog);
+            }
+        }
+
+        private void CanStartMEDialog()
+        {
+            if(Game.IsKeyDown(Settings.Controls.KeyTalkToPed))
+            {
+                var dialogData = data.ParentCase.GetDialogData(meData.DialogID);
+                meDialog = new Dialog(dialogData.Dialog);
 
                 meDialog.PedOne = Player;
                 meDialog.PedTwo = medExaminer;
 
                 meDialog.StartDialog();
 
-                SwapStages(InME, FinishedTalkingWithME);
+                SwapStages(CanStartMEDialog, FinishedTalkingWithME);
             }
         }
 
@@ -635,7 +646,7 @@ namespace LSNoir.Stages
             data.ParentCase.AddReportsToProgress(data.ReportsID);
             data.ParentCase.AddNotesToProgress(data.NotesID);
             data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
-            data.ParentCase.AddDialogsToProgress(dialogMEID);
+            data.ParentCase.AddDialogsToProgress(meData.DialogID);
             data.SetThisAsLastStage();
 
             SetScriptFinished(true);

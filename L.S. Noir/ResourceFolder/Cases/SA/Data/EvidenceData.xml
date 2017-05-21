@@ -4,7 +4,8 @@
   <ObjectData>
     <ID>tablet_1</ID>
     <Model>prop_cs_tablet</Model>
-    <Description>iFruit tablet</Description>
+	<Name>Tablet</Name>
+    <Description>iFruit tablet found in the immediate vicinity of the victim.{n}Basic examination showed no signs of biological material.</Description>
     <IsImportant>true</IsImportant>
     
     <Spawn>
@@ -23,8 +24,13 @@
     <Traces>
       <ETraces>Fiber</ETraces>
     </Traces>
+	<ReportsID>
+		<string>report_evid_tablet</string>
+	</ReportsID>
     
     <TextHelpWhileExamining>text</TextHelpWhileExamining>
   </ObjectData>
+  
+  
   
 </ArrayOfObjectData>

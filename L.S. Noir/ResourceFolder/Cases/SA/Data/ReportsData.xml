@@ -13,4 +13,10 @@
 	<Text>A body of Joanne Doe was collected by Michael Angelo, LS Medical Examiner Office.</Text>
   </ReportData>
   
+  <ReportData>
+	<ID>report_evid_tablet</ID>
+	<Title>Crime Laboratory * Evidence analysis</Title>
+	<Text>Details of a piece of evidence collected at the crime scene.{n}The item is described as a silver tablet.</Text>
+  </ReportData>
+  
 </ArrayOfReportData>
