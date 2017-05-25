@@ -4,6 +4,8 @@
 [-] mision passed screens for each stage
 [-] complete SA data
 [-] add RagePro
+[-][Flash] check case behavior when it's finished
+[-][Flash] finish WaitFor stage to start Raid when a warrant is issued
 [?] case summary stage
 
 ===============================================
