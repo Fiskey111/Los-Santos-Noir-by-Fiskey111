@@ -1,4 +1,5 @@
 ﻿- use DataAccess.DataProvider.Instance instead of LtFlash.Common.Serialization.Serializer
+- do not place caseprogress saving into End() as it'll be called when a stage is terminated forcefully
 
 - Native to change notification background: 0x92F0DA1E27DB96DC - uses color id
 - Default(DateTime) == 0001-01-01T00:00:00

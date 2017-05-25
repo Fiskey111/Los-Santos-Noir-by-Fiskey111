@@ -50,8 +50,6 @@ namespace LSNoir.Data
         public string NotificationSubtitle;
         public string NotificationText;
 
-        
-
         public string VictimID;
         public string[] EvidenceID;
         public string[] WitnessID;
@@ -70,6 +68,7 @@ namespace LSNoir.Data
         public void SetThisAsLastStage()
         {
             ParentCase.ModifyCaseProgress(m => m.LastStageID = ID);
+            ParentCase.ModifyCaseProgress(m => m.StagesPassed.Add(ID));
         }
     }
 }

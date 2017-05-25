@@ -84,7 +84,7 @@ namespace LSNoir.Stages
             blipMeetingArea = new Blip(data.CallPosition)
             {
                 Sprite = data.CallBlipSprite,
-                Color = Color.DarkOrange,
+                Color = ColorTranslator.FromHtml(data.CallBlipColor),
                 Name = data.CallBlipName,
             };
 
