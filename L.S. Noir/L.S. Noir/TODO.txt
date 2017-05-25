@@ -1,5 +1,14 @@
-﻿- priorities
-	* collect a proper doc position for ME office stage
+﻿
+1ST RELEASE ROADMAP===========================
+
+[-] mision passed screens for each stage
+[-] complete SA data
+[-] add RagePro
+[?] case summary stage
+
+===============================================
+
+- priorities
 
 - evidence
 	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
@@ -13,8 +22,6 @@
 - serialization
 	* create a PedSerializationData to use with different classes of peds
 	  instead of using witnessData for random entities
-
-
 
 - Documents: warrant, juv detention order, search warrant, restraining order
 
