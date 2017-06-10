@@ -23,7 +23,6 @@ namespace LSNoir.Data
         public string[] Stages = { };
         public string City;
         public string Address;
-        public string FirstOfficer;
 
         //NON SERIALIZABLE PART
         private string WitnessesPath { get; set; }
@@ -36,7 +35,7 @@ namespace LSNoir.Data
         private string CoronersPath { get; set; }
         private string EmsPath { get; set; }
         private string StagesPath { get; set; }
-        private string CaseProgressPath { get; set; }
+        public string CaseProgressPath { get; set; }
         private string ScenesDataPath { get; set; }
         private string DocumentsDataPath { get; set; }
         private string NotesDataPath { get; set; }
@@ -139,11 +138,18 @@ namespace LSNoir.Data
         {
             if (ids == null || ids.Length < 1) return;
 
+            var progress = DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
             for (int i = 0; i < ids.Length; i++)
             {
-                var collectedEvidence = new CollectedEvidenceData(ids[i], DateTime.Now);
-                ModifyCaseProgress(c => AddUniqueElementToCollection(collectedEvidence, c.CollectedEvidence, (c1, c2) => c1.ID == c2.ID));
+                var elem = progress.CollectedEvidence.FirstOrDefault(e => e.ID == ids[i]);
+
+                if (elem == null)
+                {
+                    var collectedEvidence = new CollectedEvidenceData(ids[i], DateTime.Now);
+                    progress.CollectedEvidence.Add(collectedEvidence);
+                }
             }
+            DataProvider.Instance.Save(CaseProgressPath, progress);
         }
 
         public void AddDialogsToProgress(params string[] ids)
@@ -155,10 +161,16 @@ namespace LSNoir.Data
         {
             if (ids == null || ids.Length < 1) return;
 
+            var progress = DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
             for (int i = 0; i < ids.Length; i++)
             {
-                ModifyCaseProgress(m => AddUniqueElementToCollection(ids[i], getCollection(m), (s1, s2) => s1 == s2));
+                var collection = getCollection(progress);
+                if (!collection.Contains(ids[i]))
+                {
+                    collection.Add(ids[i]);
+                }
             }
+            DataProvider.Instance.Save(CaseProgressPath, progress);
         }
 
         private void AddUniqueElementToCollection<T>(T element, ICollection<T> collection, Func<T, T, bool> comparator)
@@ -198,9 +210,17 @@ namespace LSNoir.Data
 
         public void ModifyCaseProgress(Action<CaseProgress> modifier)
         {
-            DataAccess.DataProvider.Instance.Modify(CaseProgressPath, modifier);
+            DataProvider.Instance.Modify(CaseProgressPath, modifier);
         }
 
+        //public void ModifyCaseProgress(Func<CaseProgress, CaseProgress> modifier)
+        //{
+        //    var progress = DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
+        //    var modified = modifier(progress);
+        //    DataProvider.Instance.Save(CaseProgressPath, progress);
+        //}
+
+        //TODO: move as a static member to DocumentData (string id, CaseData data)?
         public bool CanDocumentBeRequested(DocumentData id)
         {
             var caseProgress = GetCaseProgress();
@@ -233,6 +253,7 @@ namespace LSNoir.Data
             return DataProvider.Instance.GetIdentifiableData<DocumentData>(DocumentsDataPath, id);
         }
 
+        //TODO: move to DocumentRequestData (string id, CaseData data)
         public bool CanDocumentRequestBeAccepted(string id)
         {
             var caseProgress = GetCaseProgress();

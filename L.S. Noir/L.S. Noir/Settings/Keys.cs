@@ -15,10 +15,13 @@ namespace LSNoir.Settings
         }
 
         //always assign default vals
-        public static Keys KeyActivateComputer = Keys.Q;
-        public static Keys ModifierActivateComputer = Keys.LControlKey;
+        public static Keys KeyActivateComputer = Keys.C;
+        public static Keys ModifierActivateComputer = Keys.LShiftKey;
+
         public static ControllerButtons CtrlButtonActivateComputer = Rage.ControllerButtons.None;
 
         public static Keys KeyTalkToPed = Keys.Y;
+
+        //public static Keys KeyCallCoroner = Keys
     }
 }

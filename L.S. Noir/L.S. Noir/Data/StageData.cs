@@ -27,6 +27,9 @@ namespace LSNoir.Data
         public string MsgSuccess;
         public string MsgFailure; //used in failure screen
 
+        public int DelayMinSeconds;
+        public int DelayMaxSeconds;
+
         public string[] NextScripts = new string[] { };
 
   //      <ListOfThings>
@@ -60,6 +63,7 @@ namespace LSNoir.Data
         public string[] DialogsID;
         public string[] ReportsID;
         public string[] NotesID;
+        public string[] DocumentsID;
 
         public StageData()
         {

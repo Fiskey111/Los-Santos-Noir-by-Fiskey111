@@ -65,12 +65,6 @@ namespace LSNoir.CaseDataValidation
                 result.AddWarning(data.ID, "", nameof(data.City), "City is empty");
             }
 
-            if(string.IsNullOrEmpty(data.FirstOfficer))
-            {
-                result.AddWarning(data.ID, "", nameof(data.FirstOfficer), "First officer is empty");
-            }
-
-
             return result;
         }
     }

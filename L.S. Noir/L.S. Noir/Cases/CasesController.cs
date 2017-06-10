@@ -1,8 +1,12 @@
 ﻿using LSNoir.Data;
+using LSNoir.DataAccess;
+using LSNoir.Settings;
 using LtFlash.Common.ScriptManager.Managers;
+using Rage;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace LSNoir.Cases
 {
@@ -14,26 +18,33 @@ namespace LSNoir.Cases
 
         public CaseData CurrentCase { get; private set; }
 
-        //stores data of all cases found in a folder passed as a ctor param
         private readonly List<CaseData> data = new List<CaseData>();
 
-        private readonly AdvancedScriptManager manager = new AdvancedScriptManager();
+        private ScriptManagerBase manager = new ScriptManagerBase();
 
         public CasesController(string caseFolderPath, string filenameCaseData)
         {
-            var di = GetAllCasesFromFolder(caseFolderPath, filenameCaseData);
+            Game.LogTrivial("CasesController.Ctor");
 
-            data.AddRange(di);
+            var allCaseData = GetAllCasesFromFolder(caseFolderPath, filenameCaseData);
 
-            RegisterCases(manager, data);
+            data.AddRange(allCaseData);
+
+            manager.OnScriptFinished += OnCaseFinished;
         }
 
-        /// <summary>
-        /// Finds all files with name CaseData.xml and returns deserialized content
-        /// </summary>
-        /// <param name="folderPath"></param>
-        /// <param name="dataFileName"></param>
-        /// <returns></returns>
+        private void OnCaseFinished(string id)
+        {
+            Game.LogTrivial("CasesController.OnCaseFinished: " + id);
+
+            DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCases.Add(id));
+
+            var caseNo = data.FirstOrDefault(c => c.ID == id).GetCaseProgress().CaseNo;
+            DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCaseNo = caseNo);
+
+            Start();
+        }
+
         private static List<CaseData> GetAllCasesFromFolder(string folderPath, string dataFileName)
         {
             if (!Directory.Exists(folderPath))
@@ -46,41 +57,71 @@ namespace LSNoir.Cases
 
             List<CaseData> cases = new List<CaseData>();
 
-            Array.ForEach(caseDataPaths, path => LoadCaseDataToList(path, cases));
+            Array.ForEach(caseDataPaths, path => cases.Add(LoadCaseDataToList(path)));
 
             return cases;
         }
 
-        private static void LoadCaseDataToList(string path, List<CaseData> list)
+        private static CaseData LoadCaseDataToList(string path)
         {
-            var p = DataAccess.DataProvider.Instance.Load<CaseData>(path);
+            var p = DataProvider.Instance.Load<CaseData>(path);
             p.SetRootPath(path);
-            list.Add(p);
-        }
-
-        //TODO:
-        // - replace with ASM with RandomScriptManager or register and start by random
-
-
-        /// <summary>
-        /// Uses a collection of CaseData to register cases to a script manager
-        /// </summary>
-        /// <param name="mgr"></param>
-        /// <param name="data"></param>
-        private static void RegisterCases(AdvancedScriptManager mgr, ICollection<CaseData> data)
-        {
-            foreach (var d in data)
-            {
-                mgr.AddScript(typeof(Case), new object[] { d }, d.ID, LtFlash.Common.ScriptManager.Scripts.EInitModels.TimerBased, new List<string>(), new List<List<string>>(), 1000, 1100);
-            }
+            return p;
         }
 
         public void Start()
         {
-            //TODO:
-            // - always starts the 1st registered script!
-            //   save the latest case + rnd next to prevent that
-            manager.Start();
+            Game.LogTrivial("CasesController.Start()");
+
+            var anyActive = GetAnyActiveCase();
+
+            if(anyActive != null)
+            {
+                AddAndStart(anyActive.ID);
+                return;
+            }
+
+            if(!File.Exists(Paths.PATH_OVERALL_PROGRESS))
+            {
+                DataProvider.Instance.Save(Paths.PATH_OVERALL_PROGRESS, new OverallProgress());
+            }
+
+            var overallProgress = DataProvider.Instance.Load<OverallProgress>(Paths.PATH_OVERALL_PROGRESS);
+
+            var notRecentlyUsed = GetCaseNotRecenlyUsed(overallProgress.LastCases, data);
+
+            //finished can't be restarted!!!
+            AddAndStart(notRecentlyUsed);
+
+            data.FirstOrDefault().ModifyCaseProgress(m => m.CaseNo = overallProgress.LastCaseNo + 1);
+        }
+
+        private void AddAndStart(string id)
+        {
+            manager = new ScriptManagerBase();
+            manager.OnScriptFinished += OnCaseFinished;
+            var cd = data.FirstOrDefault(s => s.ID == id);
+            manager.AddScript(id, typeof(Case), new object[] { cd });
+            manager.StartScriptById(id);
+        }
+
+        private CaseData GetAnyActiveCase()
+        {
+            var active = GetActiveCases();
+            if (active.Count < 1) return null;
+            return MathHelper.Choose<CaseData>(active);
+        }
+
+        private static string GetCaseNotRecenlyUsed(List<string> lastCases, List<CaseData> data)
+        {
+            var notUsedRecently = data.Select(c => c.ID).Except(lastCases).ToList();
+            //if all cases id are stored in OverallProgress.LastCases
+            if(notUsedRecently.Count < 1)
+            {
+                DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCases.Clear());
+                notUsedRecently = data.Select(s => s.ID).ToList();
+            }
+            return MathHelper.Choose<string>(notUsedRecently);
         }
 
         public List<CaseData> GetActiveCases()

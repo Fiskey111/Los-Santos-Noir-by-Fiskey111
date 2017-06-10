@@ -1,6 +1,9 @@
 ﻿using Gwen.Control;
 using LSNoir.Data;
+using LSNoir.DataAccess;
+using LSNoir.Settings;
 using LtFlash.Common.EvidenceLibrary.Serialization;
+using Rage;
 using Rage.Forms;
 using System;
 using System.Collections.Generic;
@@ -10,6 +13,7 @@ namespace LSNoir.Computer.GwenForms
     class EvidenceListForm : GwenForm
     {
         private CaseData data;
+        private ComputerController host;
 
         private ListBox evidence;
         private TextBox status;
@@ -22,8 +26,9 @@ namespace LSNoir.Computer.GwenForms
             public EvidenceData data;
         }
 
-        public EvidenceListForm(CaseData caseData) : base(typeof(WinForms.EvidenceList_Form))
+        public EvidenceListForm(ComputerController ctrl, CaseData caseData) : base(typeof(WinForms.EvidenceList_Form))
         {
+            host = ctrl;
             data = caseData;
         }
 
@@ -31,9 +36,14 @@ namespace LSNoir.Computer.GwenForms
         {
             SharedMethods.SetFormPositionCenter(this);
 
+            Window.DisableResizing();
+
             close.Clicked += (s, e) => Window.Close();
 
             evidence.RowSelected += Evidence_RowSelected;
+
+            request.Disable();
+            request.KeyboardInputEnabled = false;
 
             request.Clicked += Request_Clicked;
 
@@ -66,8 +76,22 @@ namespace LSNoir.Computer.GwenForms
                 var mb = new MessageBox(this, "Select an evidence!", "WARNING");
                 return;
             }
+            var minutesToAnalysisDone = MathHelper.GetRandomInteger(Consts.MIN_TIME_EVIDENCE_ANALYSIS, Consts.MAX_TIME_EVIDENCE_ANALYSIS);
+            var progress = data.GetCaseProgress();
+            progress.CollectedEvidence.Find(e => e.ID == selectedEvidence.collected.ID).TimeAnalysisDone = DateTime.Now.AddMinutes(minutesToAnalysisDone);
+            DataProvider.Instance.Save(data.CaseProgressPath, progress);
 
-            data.ModifyCaseProgress(m => m.CollectedEvidence.Find(e => e.ID == selectedEvidence.collected.ID).TimeAnalysisDone = DateTime.Now.AddMinutes(1));
+            request.Disable();
+            request.KeyboardInputEnabled = false;
+
+            status.Text = "Analysis in progress";
+
+            GameFiber.StartNew(() =>
+            {
+                var progressWnd = new ProgressForm("Sending request");
+                host.AddWnd(progressWnd);
+                progressWnd.Show();
+            });
         }
 
         private void Evidence_RowSelected(Base sender, ItemSelectedEventArgs arguments)
@@ -133,7 +157,8 @@ namespace LSNoir.Computer.GwenForms
 
         private Evidence GetSelectedEvidence()
         {
-            return evidence.SelectedRow.UserData as Evidence;
+            var d = evidence.SelectedRow?.UserData;
+            return d != null ? d as Evidence : null;
         }
 
         private void DisableTextBoxes()

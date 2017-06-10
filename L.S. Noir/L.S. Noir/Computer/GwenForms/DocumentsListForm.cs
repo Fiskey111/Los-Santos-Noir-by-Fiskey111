@@ -1,7 +1,6 @@
 ﻿using Gwen.Control;
 using LSNoir.Data;
 using Rage;
-using System;
 using System.Linq;
 
 namespace LSNoir.Computer
@@ -27,6 +26,8 @@ namespace LSNoir.Computer
         {
             GwenForms.SharedMethods.SetFormPositionCenter(this);
 
+            Window.DisableResizing();
+
             title.KeyboardInputEnabled = false;
             title.Disable();
 
@@ -48,6 +49,8 @@ namespace LSNoir.Computer
             request.KeyboardInputEnabled = false;
             request.Clicked += Request_Clicked;
 
+            close.Clicked += (s, e) => Window.Close();
+
             base.InitializeLayout();
         }
 
@@ -58,11 +61,9 @@ namespace LSNoir.Computer
             title.Text = documentData.Title;
             to.Text = documentData.To;
 
-            var lines = documentData.Text.Split(new string[] { "{n}" }, StringSplitOptions.None);
-            for (int i = 0; i < lines.Length; i++)
-            {
-                text.SetTextLine(i, lines[i]);
-            }
+            GwenForms.SharedMethods.AddSplittedTxtToMultilineTextBox(documentData.Text, text);
+
+            text.Padding = Gwen.Padding.One;
 
             request.Enable();
             request.KeyboardInputEnabled = true;
@@ -110,6 +111,7 @@ namespace LSNoir.Computer
             data.ModifyCaseProgress(m => m.RequestedDocuments.Add(new DocumentRequestData(documentData)));
 
             request.Disable();
+            request.KeyboardInputEnabled = false;
 
             status.Text = "Awaiting decision";
 

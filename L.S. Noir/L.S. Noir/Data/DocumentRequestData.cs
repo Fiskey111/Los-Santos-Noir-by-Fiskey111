@@ -1,11 +1,12 @@
-﻿using LtFlash.Common.EvidenceLibrary.Serialization;
+﻿using LSNoir.Settings;
+using LtFlash.Common.EvidenceLibrary.Serialization;
+using Rage;
 using System;
 
 namespace LSNoir.Data
 {
     public class DocumentRequestData : IIdentifiable
     {
-        //http://stackoverflow.com/questions/2821040/how-do-i-get-the-time-difference-between-two-datetime-objects-using-c
         public string ID { get; set; }
         public DateTime TimeRequested; //remove as it is unused?
         public DateTime TimeDecision; //NOTE: set on request by adding rnd minutes
@@ -19,13 +20,11 @@ namespace LSNoir.Data
         {
             ID = data.ID;
             TimeRequested = DateTime.Now;
-            //TODO: rnd time
-            TimeDecision = DateTime.Now.AddMinutes(1);
+
+            var minutesDocConsidered = MathHelper.GetRandomInteger(Consts.MIN_TIME_DOCUMENT_CONSIDERED, Consts.MAX_TIME_DOCUMENT_CONSIDERED);
+            TimeDecision = DateTime.Now.AddMinutes(minutesDocConsidered);
         }
 
-        public bool IsConsidered()
-        {
-            return DateTime.Now > TimeDecision;
-        }
+        public bool IsConsidered() => DateTime.Now > TimeDecision;
     }
 }

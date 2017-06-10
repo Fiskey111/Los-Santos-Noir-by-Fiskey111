@@ -25,11 +25,13 @@ namespace LSNoir.Computer.GwenForms
             title.Disable();
 
             text.KeyboardInputEnabled = false;
-            //text.Disable();
+            text.Disable();
 
             close.Clicked += (s, e) => Window.Close();
 
             SharedMethods.SetFormPositionCenter(this);
+
+            Window.DisableResizing();
 
             var notesMadeIDs = data.GetCaseProgress().NotesMade;
 

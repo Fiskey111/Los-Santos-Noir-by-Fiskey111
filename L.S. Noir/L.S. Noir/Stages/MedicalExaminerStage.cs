@@ -465,7 +465,6 @@ namespace LSNoir.Stages
                     SetScriptFinishedSuccessfulyAndSave();
                 }
 
-
                 Game.FadeScreenIn(1000, true);
             }
         }
@@ -617,11 +616,6 @@ namespace LSNoir.Stages
             timerTipSkipDrive.Stop();
 
             if (sceneOffice != null) sceneOffice.Dispose();
-        }
-
-        ~MedicalExaminerStage()
-        {
-            End();
         }
     }
 }

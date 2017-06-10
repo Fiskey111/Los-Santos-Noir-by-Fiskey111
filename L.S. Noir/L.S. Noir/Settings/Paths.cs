@@ -10,5 +10,7 @@
         public const string FILENAME_CASEDATA = "CaseData.xml";
         public const string PATH_COMPUTER_BACKGROUND = PATH_ROOT + @"Textures\background.jpg";
         public const string PATH_COMPUTER_POSITIONS = PATH_ROOT + @"Data\ComputerPositions.xml";
+
+        public const string PATH_OVERALL_PROGRESS = PATH_ROOT + @"Progress\OverallProgress.xml";
     }
 }

@@ -19,10 +19,10 @@ namespace LSNoir.Stages
         private const string MODEL_CAR = "FBI";
         private const string MSG_PRESS_TO_SKIP = "Press ~y~{0}~s~ to skip the drive.";
         private const string MSG_TALK_TO_DRIVER = "Approach the ~y~Driver~w~ to go to the Medical Examiner's Office";
-        private const string MSG_EXIT_OFFICE = "Now that you have the report, ~r~exit~w~ the building";
+        private const string MSG_EXIT_OFFICE = "Now that you have the report, ~r~exit~s~ the building.";
         private const string MSG_GOTO_ME = "Enter the driver's car or go to the marked destination";
-        private const string MSG_ENTER_OFFICE = "Head to the ~y~marker~w~ to enter the Medical Examiner's office";
-        private const string MSG_TALK_ME = "Go talk to the ~g~Medical Examiner~w~ in the office";
+        private const string MSG_ENTER_OFFICE = "Head to the ~y~marker~w~ to enter the Medical Examiner's Office.";
+        private const string MSG_TALK_ME = "Go talk to the ~g~Medical Examiner~w~ in the office.";
         private const string MSG_PRESS_TALK_ME = "Press ~y~{0}~s~ to talk to the ~g~Medical Examiner~s~.";
         private const string MSG_DRIVER_GOOD_LUCK = "[Driver] Here you are! Good luck!";
         private const string MSG_DRIVER_GO = "[Driver] Off we go!";

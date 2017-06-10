@@ -1,6 +1,5 @@
 ﻿using Gwen.Control;
 using LSNoir.Data;
-using Rage;
 using System;
 
 namespace LSNoir.Computer
@@ -20,10 +19,9 @@ namespace LSNoir.Computer
 
         public override void InitializeLayout()
         {
-            int x = (Game.Resolution.Width / 2) - (Size.Width / 2);
-            int y = (Game.Resolution.Height / 2) - (Size.Height / 2);
+            GwenForms.SharedMethods.SetFormPositionCenter(this);
 
-            Position = new System.Drawing.Point(x, y);
+            Window.DisableResizing();
 
             Array.ForEach(data, d => reportsList.AddRow(d.Title, d.ID, d));
 
@@ -35,17 +33,14 @@ namespace LSNoir.Computer
 
         private void ReportsList_RowSelected(Base sender, ItemSelectedEventArgs arguments)
         {
-            var d = (reportsList.SelectedRow.UserData as ReportData);
-            if (d == null) return;
-            reportTitle.Text = d.Title;
+            var selectedReport = (reportsList.SelectedRow.UserData as ReportData);
+            if (selectedReport == null) return;
+
+            reportTitle.Text = selectedReport.Title;
             reportTitle.Disable();
             reportTitle.KeyboardInputEnabled = false;
 
-            string[] t = d.Text.Split(new string[]{ "{n}" }, StringSplitOptions.None);
-            for (int i = 0; i < t.Length; i++)
-            {
-                reportText.SetTextLine(i, t[i]);
-            }
+            GwenForms.SharedMethods.AddSplittedTxtToMultilineTextBox(selectedReport.Text, reportText);
 
             reportText.Disable();
             reportText.KeyboardInputEnabled = false;

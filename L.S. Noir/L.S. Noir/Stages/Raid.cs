@@ -403,19 +403,23 @@ namespace LSNoir.Stages
 
         protected override void Process()
         {
+            if(Game.IsKeyDown(Keys.End))
+            {
+                SetScriptFinishedSuccessfulyAndSave();
+            }
         }
 
         protected override void End()
         {
             if (blipMeetingArea) blipMeetingArea.Delete();
-            scene.Dispose();
-            suspect.Delete();
+            scene?.Dispose();
+            suspect?.Delete();
         }
 
-        ~Raid()
-        {
-            End();
-        }
+        //~Raid()
+        //{
+        //    End();
+        //}
 
         private void SetScriptFinishedSuccessfulyAndSave()
         {

@@ -34,26 +34,32 @@ namespace LSNoir.Stages
         private readonly StageData stageData;
 
         private Keys KEY_START_DIALOG = Settings.Controls.KeyTalkToPed;
+
         private const Keys KEY_CORONER = Keys.D8;
         private const Keys KEY_CALL_EMS = Keys.D8;
 
         private const float DIST_CLOSE = 150f;
         private const float DIST_OFFICER = 25f;
         private const float DIST_LEFT = 80f;
-        private const string MSG_LEAVE = "Leave the scene";
+        private const string MSG_LEAVE = "Leave the scene.";
         private const string MSG_TALK_TO_PO = "Talk to the ~b~First Officer~w~ at scene to receive a preliminary report.";
         private const string MSG_CSI = "Now that you have checked with the first officer, investigate the crime scene.";
         private const string MSG_COLLECT = "Collect evidence and talk to witnesses.";
+
         private const string SCANNER_NOT_ACCEPTED = "OFFICER_INTRO_01 UNIT_RESPONDING_DISPATCH_04";
         private const string SCANNER_AT_SCENE = "ATTENTION_ALL_UNITS_05 OFFICERS_AT_SCENE NO_FURTHER_UNITS CRIME_AMBULANCE_REQUESTED_02";
         private const string SCANNER_CALL = "ATTN_UNIT_02 DIV_01 ADAM BEAT_12 WE_HAVE AN_ASSAULT OFFICERS_AT_SCENE RESPOND_CODE3";
 
+
         private readonly string msgCallCoroner = $"Press ~y~{KEY_CORONER}~s~ to call coroner.";
         private readonly string msgCallEms = $"Press ~y~{KEY_CALL_EMS}~s~ to call EMS.";
         private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~";
+        private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~";
 
         public CSI(StageData sd) : base()
         {
+            Game.LogTrivial("CSI.Ctor");
+
             stageData = sd;
 
             var sceneData = stageData.ParentCase.GetSceneData(stageData.SceneID);
@@ -62,12 +68,14 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
+            Game.LogTrivial("CSI.Initialize()");
+
             DisplayCalloutInfo(stageData.NotificationTexDic, stageData.NotificationTexName,
                                stageData.NotificationTitle, stageData.NotificationSubtitle, stageData.NotificationText);
 
             Functions.PlayScannerAudio(SCANNER_CALL);
 
-            ShowAreaBlip(stageData.CallPosition, stageData.CallBlipRad);
+            ShowAreaBlip(stageData.CallPosition, stageData.CallBlipRad, true, true);
             PlaySoundPlayerClosingIn = stageData.PlaySoundClosingIn;
 
             return true;
@@ -83,7 +91,14 @@ namespace LSNoir.Stages
 
             witnesses.AddRange(CreateWitnesses(stageData));
 
-            CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
+            //CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
+            var evd = CreateEvidenceObject(stageData);
+            Game.LogTrivial("CSI.Accepted.CreatedEvid count: " + evd.Count);
+            foreach (var e in evd)
+            {
+                evidenceCtrl.AddEvidence(e);
+            }
+            Game.LogTrivial("CSI.Accepted.EvidenceCtrl.Count: " + evidenceCtrl.Evidence.Count);
 
             ems = CreateEMS(stageData, victim.Ped);
 
@@ -94,7 +109,7 @@ namespace LSNoir.Stages
                 coroner = CreateCoroner(stageData, victim.Ped);
             }
 
-            ShowAreaWithRoute(stageData.CallPosition, stageData.CallBlipRad, Color.Yellow);
+            ShowAreaWithRoute(stageData.CallPosition, stageData.CallBlipRad, ColorTranslator.FromHtml(stageData.CallBlipColor));
 
             ActivateStage(Close);
 
@@ -143,8 +158,9 @@ namespace LSNoir.Stages
         {
             if (officer.Dialog.HasEnded)
             {
-                var officerReportId = stageData.ParentCase.GetOfficerData(stageData.OfficerID).ReportsID;
-                stageData.ParentCase.AddReportsToProgress(officerReportId);
+                var officerData = stageData.ParentCase.GetOfficerData(stageData.OfficerID);
+                stageData.ParentCase.ModifyCaseProgress(m => m.Officers.Add(officerData.ID));
+                stageData.ParentCase.AddReportsToProgress(officerData.ReportsID);
 
                 GameFiber.Sleep(0500);
                 //TODO: reset officer's heading!
@@ -163,8 +179,9 @@ namespace LSNoir.Stages
         {
             if (victim.Checked)
             {
-                var notesVictim = stageData.ParentCase.GetVictimData(stageData.VictimID).NotesID;
-                stageData.ParentCase.AddNotesToProgress(notesVictim);
+                var victimData = stageData.ParentCase.GetVictimData(stageData.VictimID);
+                stageData.ParentCase.ModifyCaseProgress(m => m.Victims.Add(victimData.ID));
+                stageData.ParentCase.AddNotesToProgress(victimData.NotesID);
 
                 victim.CanBeInspected = false;
                 victim.PlaySoundPlayerNearby = false;
@@ -179,7 +196,12 @@ namespace LSNoir.Stages
         {
             if(Game.IsKeyDown(KEY_CALL_EMS))
             {
+                Game.HideHelp();
+
                 ems.Dispatch();
+
+                Game.DisplayNotification(string.Format(MSG_EMS_DISPATCHED, World.GetStreetName(stageData.CallPosition)));
+
                 SwapStages(WaitForEMSCalled, WaitEMSFinished);
             }
         }
@@ -193,7 +215,7 @@ namespace LSNoir.Stages
 
                 if (coroner != null)
                 {
-                    Game.DisplayNotification(msgCallCoroner);
+                    Game.DisplayHelp(msgCallCoroner);
                     SwapStages(WaitEMSFinished, CallCoroner);
                 }
                 else
@@ -208,8 +230,12 @@ namespace LSNoir.Stages
         {
             if (Game.IsKeyDown(KEY_CORONER))
             {
+                Game.HideHelp();
+
                 coroner.Dispatch();
-                Game.DisplayNotification(string.Format(MSG_CORONER_DISPATCHED, World.GetStreetName(victim.Position)));
+
+                Game.DisplayNotification(string.Format(MSG_CORONER_DISPATCHED, World.GetStreetName(stageData.CallPosition)));
+
                 SwapStages(CallCoroner, IsCoronerDone);
             }
         }
@@ -226,7 +252,7 @@ namespace LSNoir.Stages
                 SwapStages(IsCoronerDone, CollectEvidence);
             }
         }
-
+        //TODO: high cyclomatic complexity - refactor
         private void CollectEvidence()
         {
             if(evidenceCtrl.Evidence.All(e => e.IsImportant && e.IsCollected) &&
@@ -236,10 +262,25 @@ namespace LSNoir.Stages
                 {
                     if(e.IsCollected)
                     {
-                        var c = new CollectedEvidenceData(e.Id, DateTime.Now);
-                        stageData.ParentCase.ModifyCaseProgress(m => m.CollectedEvidence.Add(c));
+                        stageData.ParentCase.AddEvidenceToProgress(e.Id);
                     }
                 }
+
+                foreach (var wit in witnesses)
+                {
+                    if(wit.Checked)
+                    {
+                        stageData.ParentCase.ModifyCaseProgress(m => m.WitnessesInterviewed.Add(wit.Id));
+                        var wdata = stageData.ParentCase.GetWitnessData(wit.Id);
+                        if(wdata.DialogID != null) stageData.ParentCase.ModifyCaseProgress(m => m.DialogsPassed.Add(wdata.DialogID));
+                        if(wdata.NotesID != null) stageData.ParentCase.ModifyCaseProgress(m => m.NotesMade.AddRange(wdata.NotesID));
+                        if(wdata.ReportsID != null) stageData.ParentCase.ModifyCaseProgress(m => m.ReportsReceived.AddRange(wdata.ReportsID));
+                    }
+                }
+
+                stageData.SetThisAsLastStage();
+                stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
+                stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
 
                 Game.DisplayNotification(MSG_LEAVE);
 
@@ -259,10 +300,6 @@ namespace LSNoir.Stages
 
         private void SetSuccessfulyFinishedAndSave()
         {
-            stageData.ParentCase.ModifyCaseProgress(c => c.LastStageID = stageData.ID);
-            stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
-            stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
-
             SetScriptFinished(true);
         }
 
@@ -281,16 +318,15 @@ namespace LSNoir.Stages
             scene?.Dispose();
         }
 
-        ~CSI()
-        {
-            End();
-        }
-
         protected override void Process()
         {
             if (Game.LocalPlayer.Character.IsDead) SetScriptFinished(false);
             //TODO: for tests
-            if (Game.IsKeyDown(Keys.End)) SetSuccessfulyFinishedAndSave();
+            if (Game.IsKeyDown(Keys.End))
+            {
+                Game.DisplayNotification("DEBUG: end triggered");
+                ActivateStage(CollectEvidence);//SetSuccessfulyFinishedAndSave();
+            }
         }
     }
 }

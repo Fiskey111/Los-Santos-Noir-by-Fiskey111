@@ -1,5 +1,6 @@
 ﻿using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.Serialization;
+using Rage;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -25,15 +26,18 @@ namespace LSNoir.DataAccess
             Serializer.SaveItemToXML<T>(item, filePath);
         }
 
+        public void Modify<T>(string filePath, Func<T, T> modification)
+        {
+            var element = Load<T>(filePath);
+            var modified = modification(element);
+            Save(filePath, modified);
+        }
+
         public void Modify<T>(string filePath, Action<T> modification)
         {
-            if (!File.Exists(filePath))
-            {
-                var msg = $"{nameof(XmlDataProvider)}.{nameof(Modify)}(): specified file could not be found: {filePath}";
-                throw new FileNotFoundException(msg);
-            }
-
-            Serializer.ModifyItemInXML<T>(filePath, modification);
+            var element = Load<T>(filePath);
+            modification(element);
+            Save(filePath, element);
         }
 
         public T GetIdentifiableData<T>(string path, string id) where T : class, IIdentifiable

@@ -174,9 +174,9 @@
             this.firstOfficerLb.Location = new System.Drawing.Point(242, 273);
             this.firstOfficerLb.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.firstOfficerLb.Name = "firstOfficerLb";
-            this.firstOfficerLb.Size = new System.Drawing.Size(157, 20);
+            this.firstOfficerLb.Size = new System.Drawing.Size(178, 20);
             this.firstOfficerLb.TabIndex = 14;
-            this.firstOfficerLb.Text = "First officer at scene:";
+            this.firstOfficerLb.Text = "Patrol officers assigned:";
             // 
             // city
             // 
@@ -202,7 +202,7 @@
             // firstOfficer
             // 
             this.firstOfficer.AutoSize = true;
-            this.firstOfficer.Location = new System.Drawing.Point(404, 273);
+            this.firstOfficer.Location = new System.Drawing.Point(430, 273);
             this.firstOfficer.Margin = new System.Windows.Forms.Padding(5, 0, 5, 0);
             this.firstOfficer.Name = "firstOfficer";
             this.firstOfficer.Size = new System.Drawing.Size(31, 20);
@@ -241,7 +241,7 @@
             this.Controls.Add(this.warrants);
             this.Controls.Add(this.reports);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 16F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Pixel, ((byte)(238)));
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "Main_Form";
             this.Text = "SAJRS Terminal * AUTHORISED PERSONNEL ONLY";
             this.ResumeLayout(false);

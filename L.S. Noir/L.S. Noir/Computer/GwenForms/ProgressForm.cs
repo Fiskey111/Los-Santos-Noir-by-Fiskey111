@@ -19,6 +19,8 @@ namespace LSNoir.Computer.GwenForms
         {
             SharedMethods.SetFormPositionCenter(this);
 
+            Window.DisableResizing();
+
             sending.Alignment = Gwen.Pos.CenterH;
             progressBar.Alignment = Gwen.Pos.CenterH;
 

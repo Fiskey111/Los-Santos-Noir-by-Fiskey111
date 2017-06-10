@@ -20,6 +20,8 @@ namespace LSNoir.Data
         public string[] NextScripts;
         public bool Finished;
 
+        public List<string> Victims = new List<string>();
+        public List<string> Officers = new List<string>();
         public List<string> WitnessesInterviewed = new List<string>();
         public List<string> DialogsPassed = new List<string>();
         public List<string> ReportsReceived = new List<string>();

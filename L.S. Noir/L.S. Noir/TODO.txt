@@ -2,15 +2,13 @@
 1ST RELEASE ROADMAP===========================
 
 [-] mision passed screens for each stage
+[?] case summary stage (mission passed only which ends when player closes it)
 [-] complete SA data
 [-] add RagePro
-[-][Flash] check case behavior when it's finished
-[-][Flash] finish WaitFor stage to start Raid when a warrant is issued
-[?] case summary stage
-
+[+][Flash] check case behavior when it's finished
+[+][Flash] finish WaitFor stage to start Raid when a warrant is issued
+[-][Flash] implement closing for all gwen btns
 ===============================================
-
-- priorities
 
 - evidence
 	* progress contains entires; id, timerequestedAnalysis, timeAnalysisDone,
@@ -26,8 +24,6 @@
 	  instead of using witnessData for random entities
 
 - Documents: warrant, juv detention order, search warrant, restraining order
-
-- forms
 
 - Data:
 	* move ME data to xml

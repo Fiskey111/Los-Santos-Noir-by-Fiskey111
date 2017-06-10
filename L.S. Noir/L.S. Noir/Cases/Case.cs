@@ -1,6 +1,10 @@
 ﻿using LSNoir.Data;
+using LSNoir.DataAccess;
+using LSNoir.Settings;
 using LtFlash.Common.ScriptManager.Managers;
 using LtFlash.Common.ScriptManager.Scripts;
+using LtFlash.Common.Serialization;
+using Rage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +13,13 @@ namespace LSNoir.Cases
 {
     class Case : BasicScript
     {
+        //TODO:
+        // - start all cases in stageData.NextStages
+
         //NOTES:
         // - now handles only one-by-one order of execution
         
-        //the definition of case
         private readonly CaseData data;
-
-        //CaseProgress contains the player's progress, it is specific for each case
         private CaseProgress Progress => data.GetCaseProgress();
 
         private readonly List<StageData> stages = new List<StageData>();
@@ -27,22 +31,11 @@ namespace LSNoir.Cases
         {
             data = cd;
 
-            //get all stages of this case
-            var stagesData = data.GetAllStagesData();
+            StageData[] stagesData = data.GetAllStagesData();
         
-            //set this case as a ParentCase to each stage
             Array.ForEach(stagesData, s => s.ParentCase = data);
 
             stages.AddRange(stagesData);
-
-            //DEBUG;
-            //var ed = new CollectedEvidenceData
-            //{
-            //    ID = "tablet_1",
-            //    TimeCollected = DateTime.Now,
-            //    //TimeAnalysisDone = default(DateTime),
-            //};
-            //data.ModifyCaseProgress(m => m.CollectedEvidence.Add(ed));
         }
 
         private static Type GetStageTypeByName(string name)
@@ -58,8 +51,10 @@ namespace LSNoir.Cases
                 var ctorParams = new object[] { s };
                 var prior = s.FinishPriorThis ?? new List<List<string>>();
                 var next = s.NextScripts?.ToList() ?? new List<string>();
+                var delayMin = s.DelayMinSeconds * 1000;
+                var delayMax = s.DelayMaxSeconds * 1000;
 
-                mgr.AddScript(type, ctorParams, s.ID, EInitModels.TimerBased, next, prior, 2000, 3000);
+                mgr.AddScript(type, ctorParams, s.ID, EInitModels.TimerBased, next, prior, delayMin, delayMax);
             }
         }
 
@@ -68,24 +63,28 @@ namespace LSNoir.Cases
             RegisterStages(manager, stages);
 
             //if this case was already finished before start it from the beginning
-            if(data.GetCaseProgress().Finished)
+            var caseProgress = data.GetCaseProgress();
+
+            Game.LogTrivial("Finished status: " + caseProgress.Finished);
+
+            if(caseProgress.Finished)
             {
-                data.ModifyCaseProgress(c => c = new CaseProgress());
+                caseProgress = new CaseProgress();
+                Serializer.SaveItemToXML(caseProgress, data.CaseProgressPath);
             }
 
-            //when CaseProgress.LastStageID is empty == the case was just
-            //  initiated we want start the 1st script on the list,
-            //  otherwise we use the list of all callout stages to get
-            //  the next script after the recently finished one
-            if (!string.IsNullOrEmpty(Progress.LastStageID))
+            if (!string.IsNullOrEmpty(caseProgress.LastStageID))
             {
                 //TODO: use CaseProgress.NextScripts?
-                var next = GetNextScriptID(data.Stages, Progress.LastStageID);
+                var next = GetNextScriptID(data.Stages, caseProgress.LastStageID);
 
                 manager.StartScript(data.Stages[next]);
+                Game.LogTrivial("Start script: " + data.Stages[next]);
             }
             else
             {
+                Game.LogTrivial("Start script: first");
+
                 manager.Start();
             }
 
@@ -109,12 +108,15 @@ namespace LSNoir.Cases
         {
             if(manager.HasFinished)
             {
+                Game.LogTrivial($"Case: {data.ID} was finished");
                 SetScriptFinished(true);
             }
         }
 
         protected override void End()
         {
+            Game.LogTrivial($"Case: {data.ID}.End()");
+
             data.ModifyCaseProgress(p => p.Finished = true);
         }
     }
