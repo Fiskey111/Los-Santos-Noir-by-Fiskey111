@@ -36,6 +36,9 @@ namespace LSNoir.Computer
         private const float DIST_ACTIVE = 1f;
         private const string MSG_PRESS_TO_OPEN = "Press {0} to open terminal.";
 
+        private readonly int GameResWidth = Game.Resolution.Width;
+        private readonly int GameResHeight = Game.Resolution.Height;
+
         private readonly ControlSet controlSet = new ControlSet(Controls.KeyActivateComputer, Controls.ModifierActivateComputer, Controls.CtrlButtonActivateComputer);
 
         private readonly List<GwenForm> wnds = new List<GwenForm>();
@@ -96,7 +99,7 @@ namespace LSNoir.Computer
         {
             if(isComputerActive)
             {
-                e.Graphics.DrawTexture(computerBackground, 0f, 0f, Game.Resolution.Width, Game.Resolution.Height);
+                e.Graphics.DrawTexture(computerBackground, 0f, 0f, GameResWidth, GameResHeight);
             }
         }
 
@@ -165,16 +168,7 @@ namespace LSNoir.Computer
             => Vector3.Distance(p, Game.LocalPlayer.Character.Position) < DIST_ACTIVE;
 
         private static Vector3 GetPositionInRange(Vector3[] pos, Vector3 playerPos, float range)
-        {
-            foreach (var p in pos)
-            {
-                if(Vector3.Distance(p, playerPos) < range)
-                {
-                    return p;
-                }
-            }
-            return Vector3.Zero;
-        }
+            => pos.FirstOrDefault(p => Vector3.Distance(p, playerPos) < range);
 
         ~ComputerController()
         {

@@ -19,6 +19,17 @@ namespace LSNoir.Stages
     // - witness nor officer does not get deleted on End()
     // - save reports on End to avoid errors caused by crash in the middle of a stage?
 
+    /*
+    REQUIRED DATA
+
+        StagesData.xml
+            - StageType,
+            - SceneID,
+            - DelayMinSeconds,
+            - DelayMaxSeconds,
+
+        and so on... - complete
+    */
     class CSI : Base.StageCalloutScript
     {
         private FirstOfficer officer;

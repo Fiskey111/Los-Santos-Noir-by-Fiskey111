@@ -6,6 +6,7 @@ using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
+using RAGENativeUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -416,11 +417,6 @@ namespace LSNoir.Stages
             suspect?.Delete();
         }
 
-        //~Raid()
-        //{
-        //    End();
-        //}
-
         private void SetScriptFinishedSuccessfulyAndSave()
         {
             DisplayMissionPassedScreen();
@@ -432,27 +428,28 @@ namespace LSNoir.Stages
 
         private void DisplayMissionPassedScreen()
         {
-            //var value = 100;
+            var value = 100;
 
-            //if (suspect)
-            //{
-            //    if (suspect.IsDead) value = 70;
-            //    else if (Functions.IsPedArrested(suspect)) value = 100;
-            //}
+            if (suspect)
+            {
+                if (suspect.IsDead) value = 70;
+                else if (Functions.IsPedArrested(suspect)) value = 100;
+            }
 
             //value = scene.Peds.Where(c => c && c.IsDead).Aggregate(value, (current, c) => current - 10);
 
-            //var medal = MissionPassedScreen.Medal.Gold;
-            //if (value >= 80 && value < 100) medal = MissionPassedScreen.Medal.Silver;
-            //else if (value < 80) medal = MissionPassedScreen.Medal.Bronze;
+            var medal = MissionPassedScreen.MedalType.Gold;
+            if (value >= 80 && value < 100) medal = MissionPassedScreen.MedalType.Silver;
+            else if (value < 80) medal = MissionPassedScreen.MedalType.Bronze;
 
-            //var passed = new MissionPassedHandler("Suspect Raid", value, medal);
+            var passed = new MissionPassedScreen("Suspect Raid", value, medal);
 
-            //passed.AddItem("Suspect Arrested", "", Functions.IsPedArrested(suspect) ? MissionPassedScreen.TickboxState.Tick : MissionPassedScreen.TickboxState.Empty);
+            var tickPedArrested = Functions.IsPedArrested(suspect) ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.Empty;
+            passed.Items.Add(new MissionPassedScreenItem("Suspect Arrested", "", tickPedArrested));
 
             //passed.AddItem("All Officers Survived", "", scene.Peds.Any(c => c && c.IsDead) ? MissionPassedScreen.TickboxState.Empty : MissionPassedScreen.TickboxState.Tick);
 
-            //passed.Show();
+            passed.Show();
         }
     }
 }
