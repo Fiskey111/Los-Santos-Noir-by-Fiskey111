@@ -1,6 +1,6 @@
 ﻿using Rage;
 
-namespace AnimationDatabase
+namespace LSNoir.Callouts.Universal
 {
     public class Animations
     {

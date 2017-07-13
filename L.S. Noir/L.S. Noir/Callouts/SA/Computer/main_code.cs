@@ -1,17 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
-using Rage;
-using Rage.Forms;
-using Notsolethalpolicing.MDT;
 using System.Drawing;
 using System.Linq;
 using Gwen.Control;
-using LSNoir.Callouts.SA.Computer;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class MainCode : GwenForm
     {
@@ -56,8 +55,8 @@ namespace LSNoir
             Window.Width = 800;
             Window.DeleteOnClose = true;
 
-            _cData = LoadItemFromXML<CaseData>(Main.CDataPath);     
-            _sData = LoadFromXML<PedData>(Main.SDataPath);
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);     
+            _sData = Serializer.LoadFromXML<PedData>(Main.SDataPath);
             
             CreateForm();
             
@@ -157,23 +156,23 @@ namespace LSNoir
         {
             try
             {
-                var witDataList = LoadItemFromXML<List<PedData>>(Main.WDataPath);
+                var witDataList = Serializer.LoadItemFromXML<List<PedData>>(Main.WDataPath);
 
                 if (witDataList.Count < 1) return false;
 
                 if (witDataList.Count == 1)
                 {
-                    var w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+                    var w1Data = Serializer.GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Witness1));
 
                     main_witness_value.Text = w1Data.Name;
                 }
                 else
                 {
-                    var w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
-                    var w2Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                        c => c.FirstOrDefault(p => p.Type == PedType.Witness2));
+                    var w1Data = Serializer.GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Witness1));
+                    var w2Data = Serializer.GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Witness2));
 
                     main_witness_value.Text = w1Data.Name + ", " + w2Data.Name;
                 }
@@ -200,7 +199,7 @@ namespace LSNoir
             if (isMatch)
             {
                 _cData.CurrentSuspect = _susBox.Text;
-                SaveItemToXML(_cData, Main.CDataPath);
+                Serializer.SaveItemToXML(_cData, Main.CDataPath);
                 this._susBox.Text = suspect.Name;
                 "Displaying MessageBox".AddLog();
                 MessageBoxCode.Message = $"Name: {suspect.Name};  DOB: {suspect.Dob}\nGender: {suspect.Gender}\n\nAdd address to GPS?";
@@ -227,28 +226,28 @@ namespace LSNoir
             {
                 case "Witness Statements":
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.MainFiber, ComputerController.Fibers.WitnessFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber, ComputerController.Fibers.WitnessFiber);
                     break;
                 case "SAJRS Reports":
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.MainFiber, ComputerController.Fibers.ReportFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber, ComputerController.Fibers.ReportFiber);
                     break;
                 case "Evidence Viewer":
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.MainFiber, ComputerController.Fibers.EvidenceFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber, ComputerController.Fibers.EvidenceFiber);
                     break;
                 case "Victim Information":
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.MainFiber, ComputerController.Fibers.VictimFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber, ComputerController.Fibers.VictimFiber);
                     break;
                 case "Warrant Request Form":
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.MainFiber, ComputerController.Fibers.WarrantFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber, ComputerController.Fibers.WarrantFiber);
                     break;
                 case "View Security Camera Footage":
                     Background.DisableBackground(Background.Type.Computer);
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.MainFiber, ComputerController.Fibers.SecurityCamFiber, _cData);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber, ComputerController.Fibers.SecurityCamFiber, _cData);
                     break;
             }
         }
@@ -256,7 +255,7 @@ namespace LSNoir
         private void OpenMessageBox()
         {
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.MainFiber,
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MainFiber,
                 ComputerController.Fibers.MessageBoxFiber);
         }
 
@@ -264,7 +263,7 @@ namespace LSNoir
         {
             Background.DisableBackground(Background.Type.Computer);
             Window.Close();
-            Computer.AbortController();
+            Universal.Computer.AbortController();
         }
         #endregion     
     }

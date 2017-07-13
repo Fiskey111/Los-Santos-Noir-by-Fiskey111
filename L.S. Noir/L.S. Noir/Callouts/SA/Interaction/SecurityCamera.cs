@@ -2,13 +2,14 @@
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
+using LtFlash.Common.Serialization;
 using Rage;
 using Rage.Native;
-using static LtFlash.Common.Serialization.Serializer;
 
-namespace LSNoir.Callouts.SA.Commons
+namespace LSNoir.Callouts.SA.Interaction
 {
     class SecurityCamera
     {
@@ -83,10 +84,10 @@ namespace LSNoir.Callouts.SA.Commons
         {
             Game.LogTrivial("Setting up security camera");
 
-            var _sData = GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                c => c.FirstOrDefault(s => s.Type == PedType.Suspect));
-            var _vData = GetSelectedListElementFromXml<PedData>(Main.PDataPath,
-                c => c.FirstOrDefault(v => v.Type == PedType.Victim));
+            var _sData = Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
+                c => Enumerable.FirstOrDefault<PedData>(c, s => s.Type == PedType.Suspect));
+            var _vData = Serializer.GetSelectedListElementFromXml<PedData>(Main.PDataPath,
+                c => Enumerable.FirstOrDefault<PedData>(c, v => v.Type == PedType.Victim));
 
             var model = String.IsNullOrEmpty(_sData.VehModel) ? "FUTO" : _sData.VehModel; 
 

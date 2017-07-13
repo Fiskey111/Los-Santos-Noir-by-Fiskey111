@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using LSNoir.Callouts.SA;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
 using LSNoir.RagePro;
 using LSNoir.Startup;
@@ -74,7 +75,7 @@ namespace LSNoir
                 */
                 //VersionCheck.CheckVersion();
 
-                Settings.IniUpdateCheck();
+                Settings.Settings.IniUpdateCheck();
 
                 "LoadLSN".AddLog();
                 LoadLsn();

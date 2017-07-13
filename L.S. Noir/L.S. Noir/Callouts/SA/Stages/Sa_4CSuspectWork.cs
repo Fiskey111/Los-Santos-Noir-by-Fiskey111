@@ -8,7 +8,9 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.SA.Objects;
+using LSNoir.Callouts.SA.Services;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using LSPD_First_Response.Mod.API;
@@ -94,7 +96,7 @@ namespace LSNoir.Callouts.SA.Stages
             if (!_notified)
             {
                 _notified = true;
-                var hr = World.DateTime.Hour.ToString();
+                var hr = World.DateTime.ToUniversalTime().Hour;
                 Game.DisplayHelp("~w~Decide when you would like the raid to occur" +
                                                          "\nMorning (0600) ~y~1~w~" +
                                                          "\nMidday (1200) ~y~2~w~" +

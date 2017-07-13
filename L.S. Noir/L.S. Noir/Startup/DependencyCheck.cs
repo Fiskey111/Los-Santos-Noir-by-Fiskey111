@@ -2,7 +2,7 @@
 using LSNoir.Extensions;
 using Rage;
 
-namespace LSNoir
+namespace LSNoir.Startup
 {
     class DependencyCheck
     {

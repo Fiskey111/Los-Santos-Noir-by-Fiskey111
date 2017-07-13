@@ -2,6 +2,7 @@
 using System.Drawing;
 using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Computer;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using Rage;
 using static LtFlash.Common.Serialization.Serializer;
@@ -42,9 +43,9 @@ namespace LSNoir
             }
             if (!(Game.LocalPlayer.Character.Position.DistanceTo(closestLoc) < 1.75f)) return;
 
-            Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer");
+            Game.DisplayHelp($"Press {Settings.Settings.ComputerKey()} to open the computer");
 
-            if (!Game.IsKeyDown(Settings.ComputerKey()) || _startedComp) return;
+            if (!Game.IsKeyDown(Settings.Settings.ComputerKey()) || _startedComp) return;
 
             _marker.Stop();
             _startedComp = true;

@@ -1,15 +1,15 @@
-﻿using Rage;
-using Rage.Forms;
-using System;
+﻿using System;
 using System.Drawing;
 using System.Linq;
 using Gwen.Control;
-using LSNoir.Callouts.SA;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class VictimCode : GwenForm
     {
@@ -37,12 +37,12 @@ namespace LSNoir
             Position = new Point(Game.Resolution.Width / 2 - Window.Width / 2, Game.Resolution.Height / 2 - Window.Height / 2);
             "Initializing Victim Info Viewer".AddLog();
             
-            _vData = GetSelectedListElementFromXml<PedData>(Main.PDataPath,
-                c => c.FirstOrDefault(p => p.Type == PedType.Victim));
-            _vfData = GetSelectedListElementFromXml<PedData>(Main.PDataPath,
-                c => c.FirstOrDefault(p => p.Type == PedType.VictimFamily));
-            _sData = GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                c => c.FirstOrDefault(p => p.Type == PedType.Suspect));
+            _vData = Serializer.GetSelectedListElementFromXml<PedData>(Main.PDataPath,
+                c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Victim));
+            _vfData = Serializer.GetSelectedListElementFromXml<PedData>(Main.PDataPath,
+                c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.VictimFamily));
+            _sData = Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
+                c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Suspect));
 
             this.Window.Show();
 
@@ -104,7 +104,7 @@ namespace LSNoir
         {
             "Returning to main form".AddLog();
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.VictimFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.VictimFiber, ComputerController.Fibers.MainFiber);
         }
 
         private void FamilyBut_Clicked(Base sender, ClickedEventArgs arguments)
@@ -117,7 +117,7 @@ namespace LSNoir
             "Displaying MessageBox".AddLog();
             MessageBoxCode.Message = String.Format("An email has been sent to {0}." + Environment.NewLine + "You will be updated when they are ready to meet.", _vfData.Name).ToString();
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.VictimFiber, ComputerController.Fibers.MessageBoxFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.VictimFiber, ComputerController.Fibers.MessageBoxFiber);
         }
 
         private void SocialBut_Clicked(Base sender, ClickedEventArgs arguments)
@@ -127,7 +127,7 @@ namespace LSNoir
                 SocialMediaDrawer.DrawSocialMediaPage(_vData, _sData, Window);
                 Window.Close();
                 GameFiber.Sleep(10100);
-                Computer.Controller.SwitchFibers(Computer.Controller.VictimFiber, ComputerController.Fibers.MainFiber);
+                Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.VictimFiber, ComputerController.Fibers.MainFiber);
             });
         }
     }

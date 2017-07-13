@@ -1,13 +1,14 @@
-﻿using Rage;
-using Rage.Forms;
+﻿using System.Diagnostics;
 using System.Drawing;
 using Gwen.Control;
-using System.Diagnostics;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class WarrantRequestCode : GwenForm
     {
@@ -73,7 +74,7 @@ namespace LSNoir
                 "Displaying MessageBox".AddLog();
                 MessageBoxCode.Message = $"Known place of employment: Strawberry Mortuary\nRequest a raid with warrant squad?\n(Based on warrant approval)";
                 Window.Close();
-                Computer.Controller.SwitchFibers(Computer.Controller.WarrantRequestFiber, ComputerController.Fibers.MessageBoxFiber);
+                Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.WarrantRequestFiber, ComputerController.Fibers.MessageBoxFiber);
             });
         }
 

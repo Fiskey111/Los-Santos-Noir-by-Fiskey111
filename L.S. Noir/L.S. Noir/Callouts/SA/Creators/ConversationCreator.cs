@@ -17,7 +17,7 @@ namespace LSNoir.Callouts.SA.Creators
 
         public static DialogLine[] DialogLineCreator(ConversationType type, Ped ped, int witnumber = 0, bool victimAlive = false, PedData vicdata = null, PedData susdata = null, PedData witdata = null)
         {
-            string playerName = Settings.OfficerName();
+            string playerName = Settings.Settings.OfficerName();
             List<string> value = new List<string>();
             string fullName = Functions.GetPersonaForPed(ped).FullName;
 

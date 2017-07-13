@@ -5,11 +5,11 @@ using System.Linq;
 using System.Xml.Linq;
 using System.Xml.XPath;
 using Fiskey111Common;
+using LSNoir.Callouts.SA.Objects;
 using LSNoir.Extensions;
 using LtFlash.Common;
 using Rage;
 using Rage.Native;
-using StageObjects;
 
 namespace LSNoir.Callouts.SA.Stages.ME
 {

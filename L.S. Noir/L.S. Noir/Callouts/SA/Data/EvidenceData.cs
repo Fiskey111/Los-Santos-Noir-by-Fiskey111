@@ -1,7 +1,7 @@
-﻿using Rage;
-using System;
+﻿using System;
+using Rage;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Data
 {
     [Serializable]
     public class EvidenceData

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Media;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
 using Rage;
 using RAGENativeUI.Elements;

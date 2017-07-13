@@ -1,12 +1,13 @@
 ﻿using System.Linq;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.SA.Stages;
 using LSNoir.Callouts.SA.Stages.CSI;
 using LSNoir.Callouts.SA.Stages.ME;
 using LSNoir.Extensions;
+using LSNoir.Startup;
 using LtFlash.Common.ScriptManager.Managers;
 using Rage;
-using LSNoir.StageRegistration;
 
 namespace LSNoir.Callouts.SA
 {
@@ -15,11 +16,11 @@ namespace LSNoir.Callouts.SA
         internal static AdvancedScriptManager Asm;
         internal static void RegisterStages(CaseData cData)
         {
-            $"Started AdvancedScriptManager with min: {Settings.MinValue()} max: {Settings.MaxValue()}".AddLog();
+            $"Started AdvancedScriptManager with min: {Settings.Settings.MinValue()} max: {Settings.Settings.MaxValue()}".AddLog();
             Asm = new AdvancedScriptManager
             {
-                DefaultTimerIntervalMin = Settings.MinValue(),
-                DefaultTimerIntervalMax = Settings.MaxValue()
+                DefaultTimerIntervalMin = Settings.Settings.MinValue(),
+                DefaultTimerIntervalMax = Settings.Settings.MaxValue()
             };
 
             StageRegister.RegisterStage(Asm, typeof(Sa1Csi), nameof(Sa1Csi), null, StageRegister.CreateList("Sa_2aHospital", "SA_2b_MedicalExaminer"), true);

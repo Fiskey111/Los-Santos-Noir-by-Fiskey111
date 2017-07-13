@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using LtFlash.Common.ScriptManager.Scripts;
@@ -113,7 +114,7 @@ namespace LSNoir.Callouts.SA.Stages
         {
             if (_playerPos.DistanceTo(_station.Position) > 2f) return;
             if (_marker.Exists) _marker.Stop();
-            Game.DisplayHelp($"Press {Settings.ComputerKey()} to open the computer");
+            Game.DisplayHelp($"Press {Settings.Settings.ComputerKey()} to open the computer");
             SwapStages(AtComputer, WaitForComputerStart);
         }
 
@@ -123,7 +124,7 @@ namespace LSNoir.Callouts.SA.Stages
             if (_playerPos.DistanceTo(_station.Position) > 1.5f) return;
 
 
-            if (!Game.IsKeyDown(Settings.ComputerKey()) || _startedComp) return;
+            if (!Game.IsKeyDown(Settings.Settings.ComputerKey()) || _startedComp) return;
 
             _startedComp = true;
             Game.IsPaused = true;

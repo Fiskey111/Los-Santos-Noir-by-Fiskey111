@@ -7,14 +7,15 @@ using System.Xml.Linq;
 using System.Xml.XPath;
 using Fiskey111Common;
 using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Data;
+using LSNoir.Callouts.SA.Objects;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary.Evidence;
 using Rage;
 using Rage.Native;
-using StageObjects;
-using Animations = AnimationDatabase.Animations;
+using Animations = LSNoir.Callouts.Universal.Animations;
 using SpawnPoint = LtFlash.Common.SpawnPoint;
 
 namespace LSNoir.Callouts.SA.Stages.CSI
@@ -52,7 +53,7 @@ namespace LSNoir.Callouts.SA.Stages.CSI
         internal static SpawnPoint EmsLast;
 
         internal static string[] Vmodel = { "a_f_y_topless_01", "csb_stripper_02", "a_f_m_beach_01", "s_f_y_stripper_01", "a_m_m_beach_01" };
-        internal static List<string> Pcarmodel = Settings.VehicleList();
+        internal static List<string> Pcarmodel = Settings.Settings.VehicleList();
         internal static string[] Fbimodel = { "s_m_m_fiboffice_01", "s_m_m_fiboffice_02" };
         internal static string[] Copmodel = { "s_m_y_cop_01", "s_f_y_cop_01" };
         internal static string[] Pedmodel = { "a_m_m_genfat_01", "a_m_m_genfat_02", "a_f_y_genhot_01", "a_m_o_genstreet_01", "a_m_y_genstreet_01", "a_m_y_genstreet_02" };
@@ -275,7 +276,7 @@ namespace LSNoir.Callouts.SA.Stages.CSI
                     case ObjectType.Vehicle:
                         obj.ObjectType = StageObject.Type.Vehicle;
                         obj.Vehicle =
-                            new Vehicle(Settings.VehicleList()[Rand.RandomNumber(Settings.VehicleList().Count)],
+                            new Vehicle(Settings.Settings.VehicleList()[Rand.RandomNumber(Settings.Settings.VehicleList().Count)],
                                 obj.Spawn, obj.Heading);
                         obj.Vehicle.MakeMissionVehicle();
                         if (Rand.RandomNumber(1, 3) == 1)

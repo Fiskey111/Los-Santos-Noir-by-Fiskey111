@@ -1,17 +1,16 @@
 ﻿using System;
-using Rage;
-using Rage.Forms;
-using System.Drawing;
-using Gwen.Control;
-using LSNoir.Callouts.SA.Commons;
 using System.Collections.Generic;
-using System.IO;
+using System.Drawing;
 using System.Linq;
+using Gwen.Control;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class WitnessCode : GwenForm
     {
@@ -44,7 +43,7 @@ namespace LSNoir
 
             HideStuff();
 
-            _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
 
             if (FillData()) { }
             else
@@ -58,23 +57,23 @@ namespace LSNoir
         {
             try
             {
-                var witDataList = LoadItemFromXML<List<PedData>>(Main.WDataPath);
+                var witDataList = Serializer.LoadItemFromXML<List<PedData>>(Main.WDataPath);
 
                 if (witDataList.Count < 1) return false;
 
                 if (witDataList.Count == 1)
                 {
-                    _w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+                    _w1Data = Serializer.GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Witness1));
                     wit_select_combobox.AddItem(_w1Data.Name);
                 }
                 else
                 {
-                    _w1Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                        c => c.FirstOrDefault(p => p.Type == PedType.Witness1));
+                    _w1Data = Serializer.GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Witness1));
                     wit_select_combobox.AddItem(_w1Data.Name);
-                    _w2Data = GetSelectedListElementFromXml<PedData>(Main.WDataPath,
-                        c => c.FirstOrDefault(p => p.Type == PedType.Witness2));
+                    _w2Data = Serializer.GetSelectedListElementFromXml<PedData>(Main.WDataPath,
+                        c => Enumerable.FirstOrDefault<PedData>(c, p => p.Type == PedType.Witness2));
                     wit_select_combobox.AddItem(_w2Data.Name);
                 }
                 return true;
@@ -92,7 +91,7 @@ namespace LSNoir
             {
                 wit_name_value.Text = _w1Data.Name;
                 wit_gender_value.Text = _w1Data.Gender.ToString();
-                wit_taken_value.Text = Settings.OfficerName();
+                wit_taken_value.Text = Settings.Settings.OfficerName();
                 wit_statement_box.Text = ConversationSplitter(_w1Data.Conversation);
 
                 HideStuff(false);
@@ -101,7 +100,7 @@ namespace LSNoir
             {
                 wit_name_value.Text = _w2Data.Name;
                 wit_gender_value.Text = _w2Data.Gender.ToString();
-                wit_taken_value.Text = Settings.OfficerName();
+                wit_taken_value.Text = Settings.Settings.OfficerName();
                 wit_statement_box.Text = ConversationSplitter(_w2Data.Conversation);
 
                 HideStuff(false);
@@ -141,7 +140,7 @@ namespace LSNoir
         private void Witness_return_but_Clicked(Base sender, ClickedEventArgs arguments)
         {
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.WitnessFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.WitnessFiber, ComputerController.Fibers.MainFiber);
         }
 
         private string ConversationSplitter(List<string> conversation)

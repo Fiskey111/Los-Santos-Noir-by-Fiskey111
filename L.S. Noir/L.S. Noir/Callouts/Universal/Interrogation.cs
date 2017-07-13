@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Media;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
-using AnimationDatabase;
 using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
 using Rage;

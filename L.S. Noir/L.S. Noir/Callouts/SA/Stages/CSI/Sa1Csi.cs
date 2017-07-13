@@ -205,9 +205,9 @@ namespace LSNoir.Callouts.SA.Stages.CSI
 
                     _vicData.Model = CsiCreator.Victim.Ped.Model.Name;
 
-                    CsiCreator.Victim.KeyCollect = Settings.CollectKey();
-                    CsiCreator.Victim.KeyInteract = Settings.InteractKey();
-                    CsiCreator.Victim.KeyLeave = Settings.LeaveKey();
+                    CsiCreator.Victim.KeyCollect = Settings.Settings.CollectKey();
+                    CsiCreator.Victim.KeyInteract = Settings.Settings.InteractKey();
+                    CsiCreator.Victim.KeyLeave = Settings.Settings.LeaveKey();
                     break;
                 case EntityType.Fo:
                     $"FO exists: {CsiCreator.FirstOfficer.Exists}".AddLog();
@@ -238,9 +238,9 @@ namespace LSNoir.Callouts.SA.Stages.CSI
                         _wit1.Ped.RandomizeVariation();
                         _wit1.Ped.MakeMissionPed();
 
-                        _wit1.KeyCollect = Settings.CollectKey();
-                        _wit1.KeyInteract = Settings.InteractKey();
-                        _wit1.KeyLeave = Settings.LeaveKey();
+                        _wit1.KeyCollect = Settings.Settings.CollectKey();
+                        _wit1.KeyInteract = Settings.Settings.InteractKey();
+                        _wit1.KeyLeave = Settings.Settings.LeaveKey();
 
                         _wit1Data = new PedData(_wit1.Ped, PedType.Witness1, MathHelper.GetRandomInteger(3) == 1);
 
@@ -277,9 +277,9 @@ namespace LSNoir.Callouts.SA.Stages.CSI
                         _wit2.Ped.RandomizeVariation();
                         _wit2.Ped.MakeMissionPed();
 
-                        _wit2.KeyCollect = Settings.CollectKey();
-                        _wit2.KeyInteract = Settings.InteractKey();
-                        _wit2.KeyLeave = Settings.LeaveKey();
+                        _wit2.KeyCollect = Settings.Settings.CollectKey();
+                        _wit2.KeyInteract = Settings.Settings.InteractKey();
+                        _wit2.KeyLeave = Settings.Settings.LeaveKey();
 
                         _wit2Data = new PedData(_wit2.Ped, PedType.Witness2, MathHelper.GetRandomInteger(3) == 1);
 
@@ -373,9 +373,9 @@ namespace LSNoir.Callouts.SA.Stages.CSI
                 var obj = new Evid.Object(evidType.Description, evidType.Description, evidType.Model,
                     CsiCreator.Victim.Position.Around2D(3f, 9f))
                 {
-                    KeyLeave = Settings.LeaveKey(),
-                    KeyCollect = Settings.CollectKey(),
-                    KeyInteract = Settings.InteractKey()
+                    KeyLeave = Settings.Settings.LeaveKey(),
+                    KeyCollect = Settings.Settings.CollectKey(),
+                    KeyInteract = Settings.Settings.InteractKey()
                 };
                 CompleteEvidCreation(obj);
                 _dData = new EvidenceData(EvidenceData.DataType.Drink, evidType.PublicName, obj.@object.Model, obj.IsImportant);
@@ -429,7 +429,7 @@ namespace LSNoir.Callouts.SA.Stages.CSI
 
         protected override void NotAccepted()
         {
-            if (Settings.AiAudio())
+            if (Settings.Settings.AiAudio())
                 Functions.PlayScannerAudio("OFFICER_INTRO_01 UNIT_RESPONDING_DISPATCH_04");
             CsiCreator.End();
         }
@@ -617,7 +617,7 @@ namespace LSNoir.Callouts.SA.Stages.CSI
 
             _caseData.SajrsUpdates.Add("Examined Victim");
 
-            Game.DisplaySubtitle("[~p~" + Settings.OfficerName() + "~w~] Let's see what I can find from the victim.");
+            Game.DisplaySubtitle("[~p~" + Settings.Settings.OfficerName() + "~w~] Let's see what I can find from the victim.");
             Game.DisplayNotification(
                 $"Your inspection found the following: \n ~y~Identification~w~: " +
                 $"{_vicData.Name}\n ~y~Bruises~w~: {_vicData.BruiseLocation}\n ~y~Marks~w~: " +
@@ -711,7 +711,7 @@ namespace LSNoir.Callouts.SA.Stages.CSI
 
                     _coroner.ModelPedDriver = "s_m_m_scientist_01";
                     _coroner.ModelPedWorker = "s_m_m_scientist_01";
-                    _coroner.ModelVehicle = Settings.CoronerModel();
+                    _coroner.ModelVehicle = Settings.Settings.CoronerModel();
 
                     _coroner.Dispatch();
 
@@ -783,6 +783,7 @@ namespace LSNoir.Callouts.SA.Stages.CSI
             var witnessNum = 0;
             foreach (var wit in _witList.Keys.ToArray())
             {
+                if (!wit.Exists()) continue;
                 witnessNum++;
                 var tick = wit.Dialog.HasEnded
                     ? MissionPassedScreen.TickboxState.Tick

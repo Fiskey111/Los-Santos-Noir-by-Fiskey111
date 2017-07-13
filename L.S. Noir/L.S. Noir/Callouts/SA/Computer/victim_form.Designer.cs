@@ -1,4 +1,4 @@
-﻿namespace LSNoir
+﻿namespace LSNoir.Callouts.SA.Computer
 {
     partial class VictimForm
     {

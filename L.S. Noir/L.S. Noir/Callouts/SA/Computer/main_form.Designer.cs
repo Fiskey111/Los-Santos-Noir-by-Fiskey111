@@ -1,6 +1,4 @@
-﻿using Rage;
-
-namespace Notsolethalpolicing.MDT
+﻿namespace LSNoir.Callouts.SA.Computer
 {
     partial class MainForm
     {

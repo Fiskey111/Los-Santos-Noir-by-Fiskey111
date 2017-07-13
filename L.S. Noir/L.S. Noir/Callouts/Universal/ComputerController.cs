@@ -1,6 +1,8 @@
 ﻿using System.Linq;
 using LSNoir.Callouts.SA.Commons;
 using LSNoir.Callouts.SA.Computer;
+using LSNoir.Callouts.SA.Data;
+using LSNoir.Callouts.SA.Interaction;
 using LSNoir.Extensions;
 using Rage;
 

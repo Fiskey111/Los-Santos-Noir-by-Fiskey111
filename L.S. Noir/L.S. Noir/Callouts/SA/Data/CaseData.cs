@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using LtFlash.Common;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Data
 {
     [Serializable]
     public class CaseData

@@ -1,6 +1,6 @@
 ﻿using Rage;
 
-namespace LSNoir.Callouts.SA.Data
+namespace LSNoir.Callouts.Universal
 {
     public class InterrogationLine
     {

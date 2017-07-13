@@ -1,7 +1,7 @@
 ﻿using Rage;
 using Rage.Native;
 
-namespace LSNoir.Callouts.SA.Commons
+namespace LSNoir.Callouts.SA.Services
 {
     internal class CamClass
     {

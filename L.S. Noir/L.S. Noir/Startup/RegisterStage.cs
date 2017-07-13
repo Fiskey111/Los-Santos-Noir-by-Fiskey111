@@ -4,7 +4,7 @@ using LSNoir.Extensions;
 using LtFlash.Common.ScriptManager.Managers;
 using LtFlash.Common.ScriptManager.Scripts;
 
-namespace LSNoir.StageRegistration
+namespace LSNoir.Startup
 {
     public static class StageRegister
     {

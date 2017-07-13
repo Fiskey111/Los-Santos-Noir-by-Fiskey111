@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace Notsolethalpolicing.MDT
+namespace LSNoir.Callouts.SA.Computer
 {
     public partial class MainForm : Form
     {

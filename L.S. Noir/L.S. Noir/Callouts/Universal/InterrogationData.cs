@@ -1,8 +1,8 @@
-﻿using Rage;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using Rage;
 
-namespace LSNoir.Callouts.SA.Data
+namespace LSNoir.Callouts.Universal
 {
     [Serializable]
     class InterrogationData

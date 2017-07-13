@@ -1,13 +1,14 @@
-﻿using Rage;
-using Rage.Forms;
+﻿using System.Collections.Generic;
 using System.Drawing;
-using Gwen.Control;
-using System.Collections.Generic;
 using System.Linq;
+using Gwen.Control;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class ReportsCode : GwenForm
     {
@@ -140,7 +141,7 @@ namespace LSNoir
         {
             "Returning to main form".AddLog();
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.ReportFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.ReportFiber, ComputerController.Fibers.MainFiber);
         }
     }
 }

@@ -3,6 +3,7 @@ using LSNoir.Callouts.SA.Data;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using System.Linq;
+using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
 using static LtFlash.Common.Serialization.Serializer;
 
@@ -12,7 +13,7 @@ namespace LSNoir.Callouts.SA.Creators
     {
         public static InterrogationLine[] InterrogationLineCreator(Type type, Ped perp)
         {
-            string player = Settings.OfficerName();
+            string player = Settings.Settings.OfficerName();
             string pedName = Functions.GetPersonaForPed(perp).FullName;
             string pedMrMrs;
             if (perp.IsMale)

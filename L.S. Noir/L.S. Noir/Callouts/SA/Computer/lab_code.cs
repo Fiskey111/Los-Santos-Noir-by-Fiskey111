@@ -1,17 +1,18 @@
-﻿using Rage;
-using Rage.Forms;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
-using Gwen.Control;
 using System.Diagnostics;
+using System.Drawing;
 using Fiskey111Common;
-using LSNoir.Callouts.SA;
+using Gwen.Control;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
+using LSNoir.Startup;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class LabCode : GwenForm
     {
@@ -40,7 +41,7 @@ namespace LSNoir
             Position = new Point(Game.Resolution.Width / 2 - Window.Width / 2, Game.Resolution.Height / 2 - Window.Height / 2);
             "Initializing San Andreas Joint Records System Lab Request Form".AddLog();
 
-            _eList = LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
+            _eList = Serializer.LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
 
             StartMethods();
 
@@ -100,7 +101,7 @@ namespace LSNoir
                     Evid_War_TimeChecker.AddObject(new TimeCheckObject(TimeCheckObject.Type.Evidence, data.Name, data.TestingFinishTime));
                 }
 
-                SaveItemToXML<List<EvidenceData>>(_eList, Main.EDataPath);        
+                Serializer.SaveItemToXML<List<EvidenceData>>(_eList, Main.EDataPath);        
 
                 lab_sending_lbl.Text = "Request Sent!";
                 _sw.Stop();
@@ -115,7 +116,7 @@ namespace LSNoir
             "Displaying MessageBox".AddLog();
             MessageBoxCode.Message = "The request for testing has been placed. \nPlease be patient while lab technicians test the evidence. \n\nYou will be notified when the evidence is tested.";
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.LabFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.LabFiber, ComputerController.Fibers.MainFiber);
         }
     }
 }

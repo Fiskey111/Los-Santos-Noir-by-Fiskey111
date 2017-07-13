@@ -1,10 +1,9 @@
-﻿
+﻿using System.Drawing;
+using LSNoir.Extensions;
 using Rage;
 using RAGENativeUI.Elements;
-using System.Drawing;
-using LSNoir.Extensions;
 
-namespace LSNoir.Callouts.SA.Commons
+namespace LSNoir.Callouts.SA.Interaction
 {
     public static class TimerBar
     {

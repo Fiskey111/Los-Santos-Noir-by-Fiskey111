@@ -1,17 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
+using LtFlash.Common.Serialization;
 using Rage;
-using static LtFlash.Common.Serialization.Serializer;
 
-namespace LSNoir.Callouts.SA
+namespace LSNoir.Startup
 {
     internal static class Evid_War_TimeChecker
     {
@@ -31,10 +26,10 @@ namespace LSNoir.Callouts.SA
             "Checking for outstanding evidence/warrants".AddLog(true);
             _objList = new List<TimeCheckObject>();
 
-            var cData = LoadItemFromXML<CaseData>(Main.CDataPath);
+            var cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
             if (string.IsNullOrEmpty(cData.StartingStage)) return;
 
-            var eList = LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
+            var eList = Serializer.LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
 
             if (eList.Count > 0)
             {
@@ -105,26 +100,26 @@ namespace LSNoir.Callouts.SA
 
             if (obj.CheckType == TimeCheckObject.Type.Evidence)
             {
-                var eList = LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
+                var eList = Serializer.LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
                 if (eList.Count < 1) return;
 
                 foreach (var val in eList)
                 {
                     if (val.Name != obj.Name || !val.IsTested) continue;
                     val.IsTested = true;
-                    "~b~Police Laboratory".DisplayNotification($"Evidence testing ~g~completed~w~ for ~y~{obj.Name}~w~\nView the details in the ~b~SAJRS ~w~computer", LoadItemFromXML<CaseData>(Main.CDataPath).Number);
+                    "~b~Police Laboratory".DisplayNotification($"Evidence testing ~g~completed~w~ for ~y~{obj.Name}~w~\nView the details in the ~b~SAJRS ~w~computer", Serializer.LoadItemFromXML<CaseData>(Main.CDataPath).Number);
                     break;
                 }
-                SaveItemToXML(eList, Main.EDataPath);
+                Serializer.SaveItemToXML(eList, Main.EDataPath);
             }
             else
             {
                 "Hearing warrant".AddLog(true);
-                var data = LoadItemFromXML<CaseData>(Main.CDataPath);
+                var data = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
                 data.WarrantHeard = true;
                 if (data.WarrantReason == "Gut Feeling" || data.WarrantReason == "None") data.WarrantApproved = MathHelper.GetRandomInteger(10) != 1;
                 else data.WarrantApproved = MathHelper.GetRandomInteger(250) != 1;
-                SaveItemToXML<CaseData>(data, Main.CDataPath);
+                Serializer.SaveItemToXML<CaseData>(data, Main.CDataPath);
             }
             RemoveObject(obj);
         }
@@ -147,7 +142,7 @@ namespace LSNoir.Callouts.SA
 
         internal static DateTime RandomTimeCreator()
         {
-            var testTime = Settings.TestTimes();
+            var testTime = Settings.Settings.TestTimes();
             var timeSpan = DateTime.Now.Add(new TimeSpan(testTime.Days, testTime.Hours, testTime.Minutes, 0)) - DateTime.Now;
 
             var newSpan = new TimeSpan(0, Rand.RandomNumber(0, (int)timeSpan.TotalMinutes), 0);

@@ -1,11 +1,9 @@
-﻿using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
+﻿using LSNoir.Callouts.Universal;
+using LSPD_First_Response.Mod.API;
+using Rage;
 
 namespace LSNoir.Callouts.SA.Services
 {
-    using Rage;
-    using LSPD_First_Response.Mod.API;
-
     namespace LtFlash.Common.EvidenceLibrary.Evidence
     {
         public class Witness : EvidencePed

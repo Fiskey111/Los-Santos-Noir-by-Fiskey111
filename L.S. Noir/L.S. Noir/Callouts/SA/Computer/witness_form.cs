@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public partial class WitnessForm : Form
     {

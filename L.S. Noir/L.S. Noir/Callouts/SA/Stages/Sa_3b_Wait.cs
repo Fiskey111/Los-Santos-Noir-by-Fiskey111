@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
 using LtFlash.Common.ScriptManager.Scripts;
 using LtFlash.Common.Serialization;

@@ -1,11 +1,12 @@
-﻿using Rage;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using LSNoir.Extensions;
+using Rage;
 
-namespace LSNoir.Callouts.SA.Commons
+namespace LSNoir.Settings
 {
     class Settings
     {
@@ -73,7 +74,7 @@ namespace LSNoir.Callouts.SA.Commons
 
         public static InitializationFile InitializeIni()
         {
-            var ini = new InitializationFile(_location);
+            var ini = new InitializationFile(_location, CultureInfo.InvariantCulture, false);
             ini.Create();
             return ini;
         }
@@ -210,7 +211,9 @@ namespace LSNoir.Callouts.SA.Commons
         public static TestTime TestTimes()
         {
             var ini = InitializeIni();
-            return new TestTime(ini.ReadInt32("Options", "Days", 2), ini.ReadInt32("Options", "Hours", 0), ini.ReadInt32("Options", "Minutes", 0));
+            return new TestTime(int.Parse(ini.ReadString("Options", "Days", "2"), CultureInfo.InvariantCulture),
+                int.Parse(ini.ReadString("Options", "Hours", "0"), CultureInfo.InvariantCulture),
+                int.Parse(ini.ReadString("Options", "Minutes", "0"), CultureInfo.InvariantCulture));
         }
     }
 

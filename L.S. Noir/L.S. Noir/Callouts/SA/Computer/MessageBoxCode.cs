@@ -1,11 +1,11 @@
-using Rage;
-using Rage.Forms;
 using System.Drawing;
 using Gwen.Control;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class MessageBoxCode : GwenForm
     {
@@ -50,7 +50,7 @@ namespace LSNoir
         {
             Accepted = true;
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.MessageBoxFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MessageBoxFiber, ComputerController.Fibers.MainFiber);
         }
     }
 }

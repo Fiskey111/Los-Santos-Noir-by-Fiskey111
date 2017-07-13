@@ -2,6 +2,8 @@
 using LSNoir.Callouts.SA.Commons;
 using Rage;
 using System.Diagnostics;
+using LSNoir.Callouts.SA.Computer;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
 
 namespace LSNoir.Callouts.SA

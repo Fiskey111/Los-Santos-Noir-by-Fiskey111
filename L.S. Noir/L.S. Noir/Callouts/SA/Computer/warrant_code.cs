@@ -1,13 +1,14 @@
-﻿using Rage;
-using Rage.Forms;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Linq;
 using Gwen.Control;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class WarrantCode : GwenForm
     {
@@ -39,9 +40,9 @@ namespace LSNoir
             Position = new Point(Game.Resolution.Width / 2 - Window.Width / 2, Game.Resolution.Height / 2 - Window.Height / 2);
             "Initializing San Andreas Joint Records System Warrant Statement Viewer".AddLog();
 
-            _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
-            _sData = GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                c => c.FirstOrDefault(s => s.Type == PedType.Suspect));
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+            _sData = Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
+                c => Enumerable.FirstOrDefault<PedData>(c, s => s.Type == PedType.Suspect));
 
             StartMethods();
 
@@ -69,17 +70,17 @@ namespace LSNoir
                     _cData.WarrantReason = reason_box.SelectedItem.Text;
                     "Loading Warrant Request Form".AddLog();
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.WarrantFiber, ComputerController.Fibers.WarrantRequestFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.WarrantFiber, ComputerController.Fibers.WarrantRequestFiber);
                     break;
                 default:
                     _cData.WarrantReason = reason_box.SelectedItem.Text;
                     "Loading Warrant Request Form".AddLog();
                     Window.Close();
-                    Computer.Controller.SwitchFibers(Computer.Controller.WarrantFiber, ComputerController.Fibers.WarrantRequestFiber);
+                    Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.WarrantFiber, ComputerController.Fibers.WarrantRequestFiber);
                     break;
             }
 
-            SaveItemToXML<CaseData>(_cData, Main.CDataPath);
+            Serializer.SaveItemToXML<CaseData>(_cData, Main.CDataPath);
         }
 
         private void FillData()
@@ -136,7 +137,7 @@ namespace LSNoir
         private void Witness_return_but_Clicked(Base sender, ClickedEventArgs arguments)
         {
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.WarrantFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.WarrantFiber, ComputerController.Fibers.MainFiber);
         }
     }
 }

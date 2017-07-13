@@ -1,14 +1,15 @@
-using Rage;
-using Rage.Forms;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
 using Gwen.Control;
+using LSNoir.Callouts.SA.Data;
 using LSNoir.Callouts.Universal;
 using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
+using LtFlash.Common.Serialization;
+using Rage;
+using Rage.Forms;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Computer
 {
     public class EvidenceCode : GwenForm
     {
@@ -33,8 +34,8 @@ namespace LSNoir
             Position = new Point(Game.Resolution.Width / 2 - Window.Width / 2, Game.Resolution.Height / 2 - Window.Height / 2);
             "Initializing San Andreas Joint Records System Evidence Viewer".AddLog();
 
-            _eList = LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
-            _cData = LoadItemFromXML<CaseData>(Main.CDataPath);
+            _eList = Serializer.LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
+            _cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
 
             if (_cData.EvidenceTested) this.evidence_lab_but.Hide();
 
@@ -50,7 +51,7 @@ namespace LSNoir
             {
                 evidence_lab_but.Clicked += Evidence_lab_but_Clicked;
                 _cData.EvidenceTested = true;
-                SaveItemToXML<CaseData>(_cData, Main.CDataPath);
+                Serializer.SaveItemToXML<CaseData>(_cData, Main.CDataPath);
             }
             else
             {
@@ -76,13 +77,13 @@ namespace LSNoir
         private void Evidence_lab_but_Clicked(Base sender, ClickedEventArgs arguments)
         {
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.EvidenceFiber, ComputerController.Fibers.LabFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.EvidenceFiber, ComputerController.Fibers.LabFiber);
         }
 
         private void Evidence_return_but_Clicked(Base sender, ClickedEventArgs arguments)
         {
             Window.Close();
-            Computer.Controller.SwitchFibers(Computer.Controller.EvidenceFiber, ComputerController.Fibers.MainFiber);
+            Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.EvidenceFiber, ComputerController.Fibers.MainFiber);
         }
     }
 }

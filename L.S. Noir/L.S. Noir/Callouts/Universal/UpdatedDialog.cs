@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using AnimationDatabase;
 using LSNoir.Extensions;
 using Rage;
 using Rage.Native;

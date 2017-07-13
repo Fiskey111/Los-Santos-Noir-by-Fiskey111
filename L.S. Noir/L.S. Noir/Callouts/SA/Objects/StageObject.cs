@@ -1,7 +1,7 @@
-﻿using Rage;
-using System;
+﻿using System;
+using Rage;
 
-namespace StageObjects
+namespace LSNoir.Callouts.SA.Objects
 {
     [Serializable]
     public class StageObject

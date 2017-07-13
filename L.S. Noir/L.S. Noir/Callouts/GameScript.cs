@@ -1,4 +1,4 @@
-﻿namespace APIExample.Callouts
+﻿namespace LSNoir.Callouts
 {
     public class Ga
     {

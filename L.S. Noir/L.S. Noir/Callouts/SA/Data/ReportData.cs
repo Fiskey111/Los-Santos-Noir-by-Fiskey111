@@ -1,9 +1,9 @@
-﻿using LSPD_First_Response.Mod.API;
-using Rage;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using LSPD_First_Response.Mod.API;
+using Rage;
 
-namespace LSNoir
+namespace LSNoir.Callouts.SA.Data
 {
     [Serializable]
     public class ReportData

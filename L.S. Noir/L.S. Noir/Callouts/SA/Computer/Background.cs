@@ -6,8 +6,6 @@ namespace LSNoir.Callouts.SA.Computer
 {
     class Background
     {
-
-
         private static Texture _background;
 
         internal static void EnableBackground(string filename)

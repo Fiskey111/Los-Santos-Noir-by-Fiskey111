@@ -1,9 +1,8 @@
-﻿using LSPD_First_Response.Mod.API;
-using System;
+﻿using System;
 using System.Linq;
-using System.Reflection;
+using LSPD_First_Response.Mod.API;
 
-namespace LSNoir
+namespace LSNoir.Startup
 {
     class PluginCheck
     {
