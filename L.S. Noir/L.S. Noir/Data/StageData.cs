@@ -30,7 +30,15 @@ namespace LSNoir.Data
         public int DelayMinSeconds;
         public int DelayMaxSeconds;
 
-        public string[] NextScripts = new string[] { };
+        //public string[] NextScripts = new string[] { };
+
+        [XmlArrayItem("Set")]
+        public List<List<string>> NextScripts;
+
+        //NEW SHIT:
+        public List<string> AccessoryData;
+        public float CallAreaRadius;
+
 
   //      <ListOfThings>
   //  <ArrayOfString>
@@ -73,6 +81,11 @@ namespace LSNoir.Data
         {
             ParentCase.ModifyCaseProgress(m => m.LastStageID = ID);
             ParentCase.ModifyCaseProgress(m => m.StagesPassed.Add(ID));
+        }
+
+        public void SaveNextScriptsToProgress(List<string> next)
+        {
+            ParentCase.ModifyCaseProgress(m => m.NextScripts = next);
         }
     }
 }

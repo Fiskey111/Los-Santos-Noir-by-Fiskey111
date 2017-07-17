@@ -6,6 +6,7 @@
 using LSNoir.Data;
 using LSNoir.Resources;
 using LSPD_First_Response.Mod.API;
+using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using System.Drawing;
@@ -18,16 +19,18 @@ namespace LSNoir.Stages
     //              CallPos defines the call area,
     // - WitnessData: defines ped; Model, Spawn, DialogID?
 
-    public class TalkToPed : BasicScript
+    public class DialogWithPed : BasicScript
     {
         private readonly StageData data;
         private Ped Player => Game.LocalPlayer.Character;
         private float DistToPlayer(Vector3 p) => Vector3.Distance(Player.Position, p);
-        private Interrogation interrogation;
+        private Dialog dialog;
+        private string dialogID;
 
-        private const string MSG_TALK = "Go closer to talk";
+        private const string MSG_TALK = "Go closer to talk.";
         private const string MSG_LEAVE = "Leave the area.";
-        private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start the interrogation";
+        private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start talking.";
+
         private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
 
         //TODO: use serialized data!
@@ -49,7 +52,7 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
 
-        public TalkToPed(StageData stageData)
+        public DialogWithPed(StageData stageData)
         {
             data = stageData;
         }
@@ -82,8 +85,9 @@ namespace LSNoir.Stages
                 ped.MakePersistent();
                 pedScenario = new PedScenarioLoop(ped, MathHelper.Choose(scenarios));
 
-                var interrogationData = data.ParentCase.GetInterrogationData(witnessData.DialogID);
-                interrogation = new Interrogation(interrogationData.Lines, ped);
+                var dialogData = data.ParentCase.GetDialogData(witnessData.DialogID);
+                dialogID = dialogData.ID;
+                dialog = new Dialog(dialogData.Dialog);
 
                 SwapStages(Away, NotifyToTalk);
             }
@@ -115,7 +119,7 @@ namespace LSNoir.Stages
         {
             if(Game.IsKeyDown(KEY_START_INTERROGATION))
             {
-                interrogation.StartDialog();
+                dialog.StartDialog();
 
                 ped.Face(Player);
                 Player.Face(ped);
@@ -126,11 +130,11 @@ namespace LSNoir.Stages
 
         private void IsFinished()
         {
-            if(interrogation.HasEnded)
+            if(dialog.HasEnded)
             {
                 Game.DisplaySubtitle(MSG_LEAVE, 100);
 
-                if(DistToPlayer(callPos) > 80)
+                if(DistToPlayer(callPos) > data.CallAreaRadius)
                 {
                     SetScriptFinishedSuccessfulyAndSave();
                 }
@@ -146,6 +150,10 @@ namespace LSNoir.Stages
             DisplayMissionPassedScreen();
 
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
+
+            data.ParentCase.AddDialogsToProgress(dialogID);
+
+            data.SaveNextScriptsToProgress(data.NextScripts[0]);
 
             data.SetThisAsLastStage();
 
@@ -173,11 +181,6 @@ namespace LSNoir.Stages
         {
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
-        }
-
-        ~TalkToPed()
-        {
-            End();
         }
     }
 }

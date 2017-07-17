@@ -12,7 +12,7 @@ namespace LSNoir.Stages
 {
     //https://github.com/Fiskey111/Los-Santos-Noir-by-Fiskey111/blob/master/L.S.%20Noir/L.S.%20Noir/Callouts/SA/Stages/Sa_4ASuspectHome.cs
 
-    public class TalkToPedWithTimeout : BasicScript
+    public class InterrogatePedWithTimeout : BasicScript
     {
         //TODO:
         // - add RNUI TimerBar and display time left while leaving?
@@ -30,7 +30,6 @@ namespace LSNoir.Stages
         private Stopwatch evacTime = new Stopwatch();
         private int EVAC_TIME_SEC = 30;
         private float EVAC_MIN_DIST = 7f;
-        private float FINISH_DIST = 20f;
 
         //TODO: replace suspect with suspect's name
         private const string MSG_TALK_TO_PED = "While you don't have enough information to arrest the ~r~suspect~w~ nothing is stopping you from have a conversation!";
@@ -46,7 +45,7 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenario;
         private Interrogation interrogation;
 
-        public TalkToPedWithTimeout(StageData stageData)
+        public InterrogatePedWithTimeout(StageData stageData)
         {
             data = stageData;
             var id = data.WitnessID.FirstOrDefault();
@@ -155,7 +154,7 @@ namespace LSNoir.Stages
 
                 DeactivateStage(Evac);
             }
-            else if(DistToPlayer(ped.Position) > FINISH_DIST)
+            else if(DistToPlayer(ped.Position) > data.CallAreaRadius)
             {
                 Success();
 
@@ -173,7 +172,7 @@ namespace LSNoir.Stages
             if (ped) ped.Dismiss();
         }
 
-        ~TalkToPedWithTimeout()
+        ~InterrogatePedWithTimeout()
         {
             End();
         }
@@ -185,6 +184,7 @@ namespace LSNoir.Stages
             data.ParentCase.AddReportsToProgress(data.ReportsID);
             data.ParentCase.AddDialogsToProgress(pedsData.DialogID);
 
+            data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();
         }
 

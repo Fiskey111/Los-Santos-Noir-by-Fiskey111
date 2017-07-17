@@ -17,7 +17,10 @@ namespace LSNoir.Data
         public string CaseID;
 
         public string LastStageID;
-        public string[] NextScripts;
+        public List<string> StagesPassed = new List<string>();
+
+        public List<string> NextScripts = new List<string>();
+
         public bool Finished;
 
         public List<string> Victims = new List<string>();
@@ -26,7 +29,7 @@ namespace LSNoir.Data
         public List<string> DialogsPassed = new List<string>();
         public List<string> ReportsReceived = new List<string>();
         public List<string> NotesMade = new List<string>();
-        public List<string> StagesPassed = new List<string>();
+
         public List<CollectedEvidenceData> CollectedEvidence = new List<CollectedEvidenceData>();
         public List<DocumentRequestData> RequestedDocuments = new List<DocumentRequestData>();
 

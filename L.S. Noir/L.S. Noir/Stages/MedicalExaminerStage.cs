@@ -595,6 +595,8 @@ namespace LSNoir.Stages
             data.ParentCase.AddNotesToProgress(data.NotesID);
             data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
             data.ParentCase.AddDialogsToProgress(meData.DialogID);
+
+            data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();
 
             SetScriptFinished(true);

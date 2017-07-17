@@ -63,29 +63,6 @@ namespace LSNoir.Stages
                 documentsToAccept.
                     Select(d => data.ParentCase.GetDocuRequestData(d)).
                     All(r => data.ParentCase.CanDocumentRequestBeAccepted(r.ID) && r.IsConsidered() && r.DecisionSeenByPlayer);
-            //{
-                //return 
-                
-                //foreach (var doc in documentsToAccept)
-                //{
-                //    var req = data.ParentCase.GetDocuRequestData(doc);
-
-                //    if (req == null) return false;
-
-                //    if (!req.IsConsidered())
-                //    {
-                //        return false;
-                //    }
-
-                //    if (!req.DecisionSeenByPlayer)
-                //    {
-                //        return false;
-                //    }
-                //}
-
-                //return true;
-            //}
-            //return false;
         }
 
         private bool AllEvidenceAnalyzedAndReportSeen()
@@ -106,6 +83,7 @@ namespace LSNoir.Stages
         private void SetFinishedSuccessfullyAndSave()
         {
             Game.LogTrivial("WaitForEvent.End()");
+            data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();
             SetScriptFinished(true);
         }

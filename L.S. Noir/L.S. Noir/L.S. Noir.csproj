@@ -190,8 +190,9 @@
     <Compile Include="Stages\NotifyToGo.cs" />
     <Compile Include="Stages\Raid.cs" />
     <Compile Include="Stages\Base\StageCalloutScript.cs" />
-    <Compile Include="Stages\TalkToPed.cs" />
-    <Compile Include="Stages\TalkToPedWithTimeout.cs" />
+    <Compile Include="Stages\DialogWithPed.cs" />
+    <Compile Include="Stages\InterrogatePed.cs" />
+    <Compile Include="Stages\InterrogatePedWithTimeout.cs" />
     <Compile Include="Stages\WaitForEvent.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

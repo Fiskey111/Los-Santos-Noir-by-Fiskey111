@@ -265,6 +265,8 @@ namespace LSNoir.Stages
 
             for (int i = 0; i < drivers.Length; i++)
             {
+                if (!drivers[i]) continue;
+
                 if (i == 0)
                 {
                     drivers[i].Tasks.DriveToPosition(crewDestination, leaderSpeed, VehicleDrivingFlags.Emergency);
@@ -274,7 +276,6 @@ namespace LSNoir.Stages
                     var d = new DriverFollow(drivers[i], drivers[i - 1], leaderSpeed);
                     d.Start();
                     followingVehs.Add(d);
-
                 }
             }
         }
@@ -342,15 +343,40 @@ namespace LSNoir.Stages
 
             if (DistToPlayer(suspect.Position) < 10)
             {
-                if(pedScenarioHelper != null && pedScenarioHelper.IsActive)
+                if (pedScenarioHelper != null && pedScenarioHelper.IsActive)
                 {
                     pedScenarioHelper.IsActive = false;
                 }
 
-                SuspectReaction(suspect);
-
-                SwapStages(Search, CanFinish);
+                SwapStages(Search, SuspectReaction);
             }
+        }
+        private void SuspectReaction()
+        {
+            pursuit = Functions.CreatePursuit();
+            Functions.AddPedToPursuit(pursuit, suspect);
+            scene.Peds.ForEach(cop => Functions.AddCopToPursuit(pursuit, cop));
+
+            SwapStages(SuspectReaction, CanFinish);
+
+            //var rnd = MathHelper.GetRandomInteger(50);
+
+            //if (rnd < 4)
+            //{
+            //    pursuit = Functions.CreatePursuit();
+            //    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
+            //    Functions.AddPedToPursuit(pursuit, s);
+            //}
+            //else if (rnd < 8)
+            //{
+            //    var weapon = new Weapon(new WeaponAsset(suspectsGun), s.Position, 200);
+            //    weapon.GiveTo(s);
+            //    s.KeepTasks = true;
+            //    s.RelationshipGroup = new RelationshipGroup("Suspect");
+            //    s.RelationshipGroup.SetRelationshipWith(Game.LocalPlayer.Character.RelationshipGroup, Relationship.Hate);
+            //    s.RelationshipGroup.SetRelationshipWith(RelationshipGroup.Cop, Relationship.Hate);
+            //    s.Tasks.FightAgainstClosestHatedTarget(50f);
+            //}
         }
 
         private void CanFinish()
@@ -359,12 +385,20 @@ namespace LSNoir.Stages
             {
                 posToCalcLeaveDist = suspect.Position;
 
+                Attributes.NextScripts = suspect.IsAlive ? data.NextScripts[0] : data.NextScripts[1];
+
                 SwapStages(CanFinish, NotifyLeaveTheArea);
             }
 
             if (Functions.IsPedArrested(suspect) || suspect.IsDead)
             {
                 posToCalcLeaveDist = suspect.Position;
+
+                var next = suspect.IsAlive ? data.NextScripts[0] : data.NextScripts[1];
+
+                Attributes.NextScripts = next;
+
+                data.SaveNextScriptsToProgress(next);
 
                 SwapStages(CanFinish, NotifyLeaveTheArea);
             }
@@ -374,31 +408,9 @@ namespace LSNoir.Stages
         {
             Game.DisplaySubtitle(MSG_LEAVE, 100);
 
-            if(DistToPlayer(posToCalcLeaveDist) > 80)
+            if(DistToPlayer(posToCalcLeaveDist) > data.CallAreaRadius)
             {
                 SetScriptFinishedSuccessfulyAndSave();
-            }
-        }
-
-        private void SuspectReaction(Ped s)
-        {
-            var rnd = MathHelper.GetRandomInteger(50);
-
-            if (rnd < 4)
-            {
-                pursuit = Functions.CreatePursuit();
-                Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-                Functions.AddPedToPursuit(pursuit, s);
-            }
-            else if (rnd < 8)
-            {
-                var weapon = new Weapon(new WeaponAsset(suspectsGun), s.Position, 200);
-                weapon.GiveTo(s);
-                s.KeepTasks = true;
-                s.RelationshipGroup = new RelationshipGroup("Suspect");
-                s.RelationshipGroup.SetRelationshipWith(Game.LocalPlayer.Character.RelationshipGroup, Relationship.Hate);
-                s.RelationshipGroup.SetRelationshipWith(RelationshipGroup.Cop, Relationship.Hate);
-                s.Tasks.FightAgainstClosestHatedTarget(50f);
             }
         }
 
@@ -412,6 +424,7 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            DeactivateStage(IsAnySceneItemInvalid);
             if (blipMeetingArea) blipMeetingArea.Delete();
             scene?.Dispose();
             suspect?.Delete();

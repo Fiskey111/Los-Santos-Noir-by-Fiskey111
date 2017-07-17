@@ -9462,6 +9462,9 @@ Gets the owning <see cref="P:Rage.WeaponDescriptor.Ped" /> of this weapon.
         <member name="M:Rage.WeaponAsset.Load">
             <inheritdoc />
         </member>
+        <member name="P:Rage.WeaponAsset.IsValid">
+            <inheritdoc />
+        </member>
         <member name="P:Rage.WeaponAsset.IsLoaded">
             <inheritdoc />
         </member>
@@ -9551,6 +9554,12 @@ Starts loading this asset's collision into memory.
 Gets the emergency lighting settings associated with this model.
 </summary>
             <value>If this model has them, the emergency lighting settings; otherwise <c>null</c>.</value>
+        </member>
+        <member name="P:Rage.Model.NumberOfSeats">
+            <summary>
+If this instance represents a vehicle, gets the number of seats.
+</summary>
+            <value>If this instance represents a vehicle, the number of seats; otherwise zero.</value>
         </member>
         <member name="P:Rage.Model.IsVan">
             <summary>
@@ -13969,6 +13978,7 @@ Gets the current frame rate.
 Gets the total number of frames that's been rendered this session.
 </summary>
             <value>The total number of frames that's been rendered this session.</value>
+            <remarks>The frame count does not increase while the game is paused.</remarks>
         </member>
         <member name="P:Rage.Game.FrameTime">
             <summary>

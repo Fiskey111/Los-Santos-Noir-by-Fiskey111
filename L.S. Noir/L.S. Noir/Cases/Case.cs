@@ -50,7 +50,7 @@ namespace LSNoir.Cases
                 var type = GetStageTypeByName(s.StageType);
                 var ctorParams = new object[] { s };
                 var prior = s.FinishPriorThis ?? new List<List<string>>();
-                var next = s.NextScripts?.ToList() ?? new List<string>();
+                var next = s.NextScripts?[0]?.ToList() ?? new List<string>();
                 var delayMin = s.DelayMinSeconds * 1000;
                 var delayMax = s.DelayMaxSeconds * 1000;
 
@@ -75,11 +75,20 @@ namespace LSNoir.Cases
 
             if (!string.IsNullOrEmpty(caseProgress.LastStageID))
             {
-                //TODO: use CaseProgress.NextScripts?
-                var next = GetNextScriptID(data.Stages, caseProgress.LastStageID);
+                if(caseProgress.NextScripts != null && caseProgress.NextScripts.Count > 0)
+                {
+                    caseProgress.NextScripts.ForEach(s => manager.StartScript(s));
+                }
+                else
+                {
+                    //throw an exception?
+                }
+                
+                ////TODO: use CaseProgress.NextScripts?
+                //var next = GetNextScriptID(data.Stages, caseProgress.LastStageID);
 
-                manager.StartScript(data.Stages[next]);
-                Game.LogTrivial("Start script: " + data.Stages[next]);
+                //manager.StartScript(data.Stages[next]);
+                //Game.LogTrivial("Start script: " + data.Stages[next]);
             }
             else
             {

@@ -51,7 +51,7 @@ namespace LSNoir.Stages
 
         private const float DIST_CLOSE = 150f;
         private const float DIST_OFFICER = 25f;
-        private const float DIST_LEFT = 80f;
+        
         private const string MSG_LEAVE = "Leave the scene.";
         private const string MSG_TALK_TO_PO = "Talk to the ~b~First Officer~w~ at scene to receive a preliminary report.";
         private const string MSG_CSI = "Now that you have checked with the first officer, investigate the crime scene.";
@@ -290,6 +290,8 @@ namespace LSNoir.Stages
                 }
 
                 stageData.SetThisAsLastStage();
+                stageData.SaveNextScriptsToProgress(stageData.NextScripts[0]);
+
                 stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
                 stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
 
@@ -303,7 +305,7 @@ namespace LSNoir.Stages
         {
             Game.DisplaySubtitle(MSG_LEAVE);
 
-            if (DistToPlayer(officer.Ped) > DIST_LEFT)
+            if (DistToPlayer(officer.Ped) > stageData.CallAreaRadius)
             {
                 SetSuccessfulyFinishedAndSave();
             }
