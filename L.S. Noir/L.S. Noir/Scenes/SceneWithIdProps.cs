@@ -71,16 +71,18 @@ namespace LSNoir.Scenes
             return peds.FirstOrDefault(x => x.entity == p).data;
         }
 
-        public void PedsEnterTheirVeh()
+        public void PedsEnterTheirVeh(bool warp = false)
         {
-            peds.ForEach(p => PedEnterHisVeh(p));
+            peds.ForEach(p => PedEnterHisVeh(p, warp));
         }
 
-        private void PedEnterHisVeh(Prop<Ped> p)
+        private void PedEnterHisVeh(Prop<Ped> p, bool warp = false)
         {
             var veh = GetVehById(p.data.VehicleID);
             var seat = p.data.VehicleSeatID;
-            p.entity.Tasks.EnterVehicle(veh, seat);
+
+            if (warp) p.entity.WarpIntoVehicle(veh, seat);
+            else p.entity.Tasks.EnterVehicle(veh, seat);
         }
 
         public void Dispose()

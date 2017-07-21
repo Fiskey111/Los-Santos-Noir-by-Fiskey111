@@ -9,6 +9,7 @@ using Rage.Native;
 using RAGENativeUI.Elements;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -44,10 +45,10 @@ namespace LSNoir.Stages
         private const string MSG_PRESS_TO_PREPARE = "To have your officers prepare for the raid, press ~y~{0}~w~";
         private const string MSG_DECIDE_WHEN_RAID = "~w~Decide when you would like the raid to occur" +
                                                     "\nMorning (0600) ~y~1~w~" +
-                                                    "\nMidday (1200) ~y~2~w~" +
+                                                    "\n~s~Midday (1200) ~y~2~w~" +
                                                     "\nEvening (1800) ~y~3~w~" +
                                                     "\nNight (2300) ~y~4~w~" +
-                                                    "\nCurrent Time {0}00 ~y~5~w~";
+                                                    "\nCurrent Time ({0}00) ~y~5~w~";
 
         private const string MSG_SEARCH = "Search for the ~r~suspect~s~";
 
@@ -63,6 +64,8 @@ namespace LSNoir.Stages
         private Blip blipMeetingArea;
         private Ped suspect;
         private PedScenarioLoop pedScenarioHelper;
+        private Stopwatch areCopsInCars;
+
         private LHandle pursuit;
         private readonly string suspectsGun = MathHelper.Choose("WEAPON_CARBINERIFLE", "WEAPON_PISTOL", "WEAPON_KNIFE");
 
@@ -218,14 +221,24 @@ namespace LSNoir.Stages
             {
                 scene.PedsEnterTheirVeh();
 
+                areCopsInCars = new Stopwatch();
+                areCopsInCars.Start();
+
                 Game.DisplayHelp(MSG_OFFICERS_READY);
 
                 SwapStages(AwaitingAcceptance, AllOfficersAndPlayerInVehicles);
             }
         }
 
+
         private void AllOfficersAndPlayerInVehicles()
         {
+            if(areCopsInCars.ElapsedMilliseconds >= 5000) 
+            {
+                areCopsInCars.Stop();
+                scene.PedsEnterTheirVeh(true);
+            }
+
             if (scene.Peds.All(o => o.IsInAnyVehicle(false)) && Player.IsInAnyVehicle(false))
             {
                 var witId = data.WitnessID[0];

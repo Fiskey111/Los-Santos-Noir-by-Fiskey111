@@ -32,9 +32,9 @@ namespace LSNoir.Stages
         private float EVAC_MIN_DIST = 7f;
 
         //TODO: replace suspect with suspect's name
-        private const string MSG_TALK_TO_PED = "While you don't have enough information to arrest the ~r~suspect~w~ nothing is stopping you from have a conversation!";
-        private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~w~ to ask the ~r~suspect~w~ some questions.";
-        private const string MSG_LEAVE = "It looks like the ~r~suspect~w~ is done talking, leave the scene before you lose the case";
+        private const string MSG_TALK_TO_PED = "Talk to ~y~person~s~ and collect as much information as possible.";
+        private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~w~ to ask the ~y~person~w~ some questions.";
+        private const string MSG_LEAVE = "It looks like the ~y~person~w~ is done talking, leave the scene before you lose the case.";
 
         private const Keys KEY_START_INTERROGATION = Keys.Y;
          

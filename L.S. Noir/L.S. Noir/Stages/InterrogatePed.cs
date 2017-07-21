@@ -25,6 +25,8 @@ namespace LSNoir.Stages
         private float DistToPlayer(Vector3 p) => Vector3.Distance(Player.Position, p);
         private Interrogation interrogation;
 
+        private Scenes.IScene scene;
+
         private const string MSG_TALK = "Go closer to talk.";
         private const string MSG_LEAVE = "Leave the area.";
         private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start the interrogation.";
@@ -85,6 +87,12 @@ namespace LSNoir.Stages
                 var interrogationData = data.ParentCase.GetInterrogationData(witnessData.DialogID);
                 interrogation = new Interrogation(interrogationData.Lines, ped);
 
+                if (!string.IsNullOrEmpty(data.SceneID))
+                {
+                    scene = new Scenes.Scene(data.ParentCase.GetSceneData(data.SceneID));
+                    scene.Create();
+                }
+
                 SwapStages(Away, NotifyToTalk);
             }
         }
@@ -143,14 +151,14 @@ namespace LSNoir.Stages
 
         protected void SetScriptFinishedSuccessfulyAndSave()
         {
-            DisplayMissionPassedScreen();
-
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();
 
             SetScriptFinished(true);
+
+            DisplayMissionPassedScreen();
         }
 
         private void DisplayMissionPassedScreen()
@@ -172,6 +180,7 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            scene?.Dispose();
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
         }

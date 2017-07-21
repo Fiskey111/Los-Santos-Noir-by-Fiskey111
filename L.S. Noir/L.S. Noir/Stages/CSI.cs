@@ -4,6 +4,7 @@ using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary.Evidence;
 using LtFlash.Common.EvidenceLibrary.Services;
 using Rage;
+using RAGENativeUI.Elements;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -33,6 +34,7 @@ namespace LSNoir.Stages
     class CSI : Base.StageCalloutScript
     {
         private FirstOfficer officer;
+        private float heading;
         private DeadBody victim;
         private EMS ems;
         private Coroner coroner;
@@ -96,11 +98,15 @@ namespace LSNoir.Stages
         {
             officer = CreateFirstOfficer(stageData);
 
+            heading = officer.Ped.Heading;
+
             victim = CreateVictim(stageData);
 
             victim.Ped.IsPositionFrozen = true;
 
             witnesses.AddRange(CreateWitnesses(stageData));
+
+            witnesses.ForEach(w => w.CanBeInspected = false);
 
             //CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
             var evd = CreateEvidenceObject(stageData);
@@ -109,6 +115,8 @@ namespace LSNoir.Stages
             {
                 evidenceCtrl.AddEvidence(e);
             }
+            evidenceCtrl.IsActive = false;
+
             Game.LogTrivial("CSI.Accepted.EvidenceCtrl.Count: " + evidenceCtrl.Evidence.Count);
 
             ems = CreateEMS(stageData, victim.Ped);
@@ -174,7 +182,11 @@ namespace LSNoir.Stages
                 stageData.ParentCase.AddReportsToProgress(officerData.ReportsID);
 
                 GameFiber.Sleep(0500);
-                //TODO: reset officer's heading!
+
+                Rage.Native.NativeFunction.Natives.TASK_ACHIEVE_HEADING(officer.Ped, heading, 3000);
+
+                GameFiber.Wait(3000);
+
                 officer.Ped.Tasks.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d", 4, AnimationFlags.Loop);
 
                 victim.CanBeInspected = true;
@@ -196,6 +208,10 @@ namespace LSNoir.Stages
 
                 victim.CanBeInspected = false;
                 victim.PlaySoundPlayerNearby = false;
+
+                evidenceCtrl.IsActive = true;
+
+                witnesses.ForEach(w => w.CanBeInspected = true);
 
                 Game.DisplayHelp(msgCallEms);
 
@@ -313,7 +329,47 @@ namespace LSNoir.Stages
 
         private void SetSuccessfulyFinishedAndSave()
         {
+            DisplayMissionPassedScreen();
+
             SetScriptFinished(true);
+        }
+
+        private void DisplayMissionPassedScreen()
+        {
+            int firstOfficer = 10;
+            int evidencePercent = 40;
+            int bodyPercent = 50;
+
+            int percent = 0;
+
+            float evd = (float)evidenceCtrl.Evidence.Count(e => e.Checked) / (float)evidenceCtrl.Evidence.Count;
+
+            var percentEvd = evd * evidencePercent;
+
+            percent += (int)percentEvd;
+
+            if (victim.Checked) percent += bodyPercent;
+
+            if (officer.Checked) percent += firstOfficer;
+
+            MissionPassedScreen.MedalType medal = percent > 80 ? MissionPassedScreen.MedalType.Gold : 
+                percent > 65 ? MissionPassedScreen.MedalType.Silver : MissionPassedScreen.MedalType.Bronze;
+
+            var screen = new MissionPassedScreen("Crime scene", percent, medal);
+
+            var officerItem = new MissionPassedScreenItem("First Officer", "", officer.Checked ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.None);
+
+            screen.Items.Add(officerItem);
+
+            var body = new MissionPassedScreenItem("Victim", "", victim.Checked ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.None);
+
+            screen.Items.Add(body);
+
+            var evdItem = new MissionPassedScreenItem("Evidence", $"{evidenceCtrl.Evidence.Count(e => e.Checked)}/{evidenceCtrl.Evidence.Count}", evd == 1 ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.Empty);
+
+            screen.Items.Add(evdItem);
+
+            screen.Show();
         }
 
         protected override void End()
