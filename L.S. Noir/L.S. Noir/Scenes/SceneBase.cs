@@ -10,37 +10,19 @@ namespace LSNoir.Scenes
         protected static Entity GenerateItem(SceneItem data)
         {
             Entity result = default(Entity);
+
             switch (data.Type)
             {
                 case "Ped":
-                    result = CreateItem(data, (m, p, h) => new Ped(m, p, h));
-                    (result as Ped).RandomizeVariation();
-
-                    if (!string.IsNullOrEmpty(data.Scenario))
-                    {
-                        var sh = new PedScenarioLoop(result as Ped, data.Scenario);
-                        sh.IsActive = true;
-                    }
-
-                    if(!string.IsNullOrEmpty(data.AnimDictionary) && !string.IsNullOrEmpty(data.AnimName))
-                    {
-                        var ah = new PedAnimationLoop(result as Ped, data.AnimDictionary, data.AnimName);
-                        ah.IsActive = true;
-                    }
-
-                    if(data.EquipWeapon)
-                    {
-                        (result as Ped).Inventory.GiveNewWeapon(data.Weapon, 100, false);
-                    }
-                        
+                    result = GeneratePed(data);
                     break;
 
                 case "Vehicle":
-                    result = CreateItem<Vehicle>(data, (m, p, h) => new Vehicle(m, p, h));
+                    result = GenerateVehicle(data);
                     break;
 
                 case "Object":
-                    result = CreateItem<Rage.Object>(data, (m, p, h) => new Rage.Object(m, p, h));
+                    result = CreateItem(data, (m, p, h) => new Rage.Object(m, p, h));
                     break;
 
                 default:
@@ -49,6 +31,51 @@ namespace LSNoir.Scenes
             }
 
             result.MakePersistent();
+
+            return result;
+        }
+
+        private static Entity GeneratePed(SceneItem data)
+        {
+            Ped result = CreateItem(data, (m, p, h) => new Ped(m, p, h));
+
+            result.RandomizeVariation();
+
+            if (!string.IsNullOrEmpty(data.Scenario))
+            {
+                var sh = new PedScenarioLoop(result, data.Scenario);
+                sh.IsActive = true;
+            }
+
+            if (!string.IsNullOrEmpty(data.AnimDictionary) && !string.IsNullOrEmpty(data.AnimName))
+            {
+                var ah = new PedAnimationLoop(result, data.AnimDictionary, data.AnimName);
+                ah.IsActive = true;
+            }
+
+            if (data.EquipWeapon)
+            {
+                result.Inventory.GiveNewWeapon(data.Weapon, 100, false);
+            }
+
+            return result;
+        }
+
+        private static Entity GenerateVehicle(SceneItem data)
+        {
+            Vehicle result = CreateItem(data, (m, p, h) => new Vehicle(m, p, h));
+
+            if (data.IsSirenOn.GetValueOrDefault(false) && result.Model.IsEmergencyVehicle)
+            {
+                result.IsEngineOn = true;
+                result.IsSirenOn = true;
+
+                if (data.IsSirenSilent.GetValueOrDefault(false))
+                {
+                    result.IsSirenSilent = true;
+                }
+            }
+
             return result;
         }
 

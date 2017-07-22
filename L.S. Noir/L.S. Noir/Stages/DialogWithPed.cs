@@ -9,6 +9,7 @@ using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
+using RAGENativeUI.Elements;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -33,20 +34,6 @@ namespace LSNoir.Stages
 
         private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
 
-        //TODO: use serialized data!
-        private static string[] scenarios =
-        {
-            "WORLD_HUMAN_PICNIC",
-            "WORLD_HUMAN_PUSH_UPS",
-            "WORLD_HUMAN_SMOKING",
-            "WORLD_HUMAN_YOGA",
-            "WORLD_HUMAN_DRINKING",
-            "WORLD_HUMAN_GARDENER_LEAF_BLOWER",
-            "WORLD_HUMAN_PARTYING",
-            "WORLD_HUMAN_SIT_UPS",
-            "WORLD_HUMAN_STAND_MOBILE"
-        };
-
         private Vector3 callPos;
         private Ped ped;
         private PedScenarioLoop pedScenario;
@@ -68,8 +55,7 @@ namespace LSNoir.Stages
                 Name = data.CallBlipName,
             };
 
-            Game.DisplayNotification(data.NotificationTexDic, data.NotificationTexName,
-                                     data.NotificationTitle, data.NotificationSubtitle, data.NotificationText);
+            Base.SharedStageMethods.DisplayNotification(data);
 
             ActivateStage(Away);
 
@@ -81,9 +67,11 @@ namespace LSNoir.Stages
             if(DistToPlayer(data.CallPosition) < 150)
             {
                 var witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+
                 ped = new Ped(witnessData.Model, witnessData.Spawn.Position, witnessData.Spawn.Heading);
                 ped.MakePersistent();
-                pedScenario = new PedScenarioLoop(ped, MathHelper.Choose(scenarios));
+
+                pedScenario = new PedScenarioLoop(ped, witnessData.Scenario);
 
                 var dialogData = data.ParentCase.GetDialogData(witnessData.DialogID);
                 dialogID = dialogData.ID;
@@ -108,7 +96,9 @@ namespace LSNoir.Stages
             if(DistToPlayer(ped.Position) < 6)
             {
                 Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, KEY_START_INTERROGATION), 3000);
+
                 pedScenario.IsActive = false;
+
                 if (blipCallArea) blipCallArea.Delete();
 
                 SwapStages(NotifyPressToStartTalking, CanStartTalking);
@@ -147,8 +137,6 @@ namespace LSNoir.Stages
 
         protected void SetScriptFinishedSuccessfulyAndSave()
         {
-            DisplayMissionPassedScreen();
-
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
 
             data.ParentCase.AddDialogsToProgress(dialogID);
@@ -158,23 +146,19 @@ namespace LSNoir.Stages
             data.SetThisAsLastStage();
 
             SetScriptFinished(true);
+
+            DisplayMissionPassedScreen();
         }
 
         private void DisplayMissionPassedScreen()
         {
-            //var value = interrogation.GoodAnswers / interrogation.Questions * 100;
+            var handler = new MissionPassedScreen(data.Name, 100, MissionPassedScreen.MedalType.Gold);
 
-            //var medal = RAGENativeUI.Elements.MissionPassedScreen.MedalType.Gold;
+            var item = new MissionPassedScreenItem("Spoke to person", "", MissionPassedScreenItem.TickboxState.Tick);
 
-            //if (value >= 80 && value < 100) medal = RAGENativeUI.Elements.MissionPassedScreen.MedalType.Silver;
-            //else if (value < 80) medal = RAGENativeUI.Elements.MissionPassedScreen.MedalType.Bronze;
+            handler.Items.Add(item);
 
-            //var handler = new MissionPassedHandler("Victim Family", value, medal);
-
-            //handler.AddItem("Spoke to Family", "", MissionPassedScreen.TickboxState.Tick);
-            //var num = 0;
-
-            //handler.Show();
+            handler.Show();
         }
 
         protected override void End()

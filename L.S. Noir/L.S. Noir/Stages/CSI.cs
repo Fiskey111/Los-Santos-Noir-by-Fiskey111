@@ -19,6 +19,7 @@ namespace LSNoir.Stages
     //TODO:
     // - witness nor officer does not get deleted on End()
     // - save reports on End to avoid errors caused by crash in the middle of a stage?
+    // - auto-EMS -> coroner -> inspect the body -> evidence -> witness?
 
     /*
     REQUIRED DATA
@@ -66,8 +67,8 @@ namespace LSNoir.Stages
 
         private readonly string msgCallCoroner = $"Press ~y~{KEY_CORONER}~s~ to call coroner.";
         private readonly string msgCallEms = $"Press ~y~{KEY_CALL_EMS}~s~ to call EMS.";
-        private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~";
-        private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~";
+        private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~.";
+        private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~.";
 
         public CSI(StageData sd) : base()
         {
@@ -108,16 +109,9 @@ namespace LSNoir.Stages
 
             witnesses.ForEach(w => w.CanBeInspected = false);
 
-            //CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
-            var evd = CreateEvidenceObject(stageData);
-            Game.LogTrivial("CSI.Accepted.CreatedEvid count: " + evd.Count);
-            foreach (var e in evd)
-            {
-                evidenceCtrl.AddEvidence(e);
-            }
-            evidenceCtrl.IsActive = false;
+            CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
 
-            Game.LogTrivial("CSI.Accepted.EvidenceCtrl.Count: " + evidenceCtrl.Evidence.Count);
+            evidenceCtrl.IsActive = false;
 
             ems = CreateEMS(stageData, victim.Ped);
 
@@ -243,11 +237,13 @@ namespace LSNoir.Stages
                 if (coroner != null)
                 {
                     Game.DisplayHelp(msgCallCoroner);
+
                     SwapStages(WaitEMSFinished, CallCoroner);
                 }
                 else
                 {
                     Game.DisplayNotification(MSG_COLLECT);
+
                     SwapStages(WaitEMSFinished, CollectEvidence);
                 }
             }
@@ -389,12 +385,9 @@ namespace LSNoir.Stages
 
         protected override void Process()
         {
-            if (Game.LocalPlayer.Character.IsDead) SetScriptFinished(false);
-            //TODO: for tests
-            if (Game.IsKeyDown(Keys.End))
+            if (Game.LocalPlayer.Character.IsDead)
             {
-                Game.DisplayNotification("DEBUG: end triggered");
-                ActivateStage(CollectEvidence);//SetSuccessfulyFinishedAndSave();
+                SetScriptFinished(false);
             }
         }
     }

@@ -41,7 +41,7 @@ namespace LSNoir.Stages
         private float DistToPlayer(Vector3 p) => Vector3.Distance(Player.Position, p);
 
         private const string MSG_EXIT_VEH = "Exit your vehicle to continue with the raid setup.";
-        private const string MSG_OFFICERS_READY = "Officers are ready. Enter your vehicle to get directions to location";
+        private const string MSG_OFFICERS_READY = "Officers are ready. Enter your vehicle to get directions to location.";
         private const string MSG_PRESS_TO_PREPARE = "To have your officers prepare for the raid, press ~y~{0}~w~";
         private const string MSG_DECIDE_WHEN_RAID = "~w~Decide when you would like the raid to occur" +
                                                     "\nMorning (0600) ~y~1~w~" +
@@ -50,7 +50,7 @@ namespace LSNoir.Stages
                                                     "\nNight (2300) ~y~4~w~" +
                                                     "\nCurrent Time ({0}00) ~y~5~w~";
 
-        private const string MSG_SEARCH = "Search for the ~r~suspect~s~";
+        private const string MSG_SEARCH = "Search for the ~r~suspect~s~.";
 
         private const string SCANNER_AT_SCENE = "ATTENTION_ALL_UNITS_05 OFFICERS_AT_SCENE";
         private const string SCANNER_ENROUTE = "ATTN_DISPATCH OFFICER EN_ROUTE_CODE2 WARRANT_ISSUED";
@@ -303,6 +303,8 @@ namespace LSNoir.Stages
 
                 Game.DisplayHelp(MSG_SEARCH);
 
+                DeactivateStage(IsAnySceneItemInvalid);
+
                 SwapStages(ClosingIn, AreAtScene);
             }
         }
@@ -328,9 +330,9 @@ namespace LSNoir.Stages
 
         private void AreOfficersOutVehicles()
         {
-            if(!scene.Peds.All(p=>p.IsInAnyVehicle(false)))
+            if(!scene.Peds.Where(p => p).All(p => p.IsInAnyVehicle(false)))
             {
-                scene.Peds.ForEach(p => p.Tasks.GoToWhileAiming(suspect, 3, 15));
+                scene.Peds.Where(p => p).ToList().ForEach(p => p.Tasks.GoToWhileAiming(suspect, 3, 15));
 
                 SwapStages(AreOfficersOutVehicles, Search);
             }
@@ -367,29 +369,12 @@ namespace LSNoir.Stages
         private void SuspectReaction()
         {
             pursuit = Functions.CreatePursuit();
+
             Functions.AddPedToPursuit(pursuit, suspect);
-            scene.Peds.ForEach(cop => Functions.AddCopToPursuit(pursuit, cop));
+
+            scene.Peds.Where(p => p).ToList().ForEach(cop => Functions.AddCopToPursuit(pursuit, cop));
 
             SwapStages(SuspectReaction, CanFinish);
-
-            //var rnd = MathHelper.GetRandomInteger(50);
-
-            //if (rnd < 4)
-            //{
-            //    pursuit = Functions.CreatePursuit();
-            //    Functions.SetPursuitIsActiveForPlayer(pursuit, true);
-            //    Functions.AddPedToPursuit(pursuit, s);
-            //}
-            //else if (rnd < 8)
-            //{
-            //    var weapon = new Weapon(new WeaponAsset(suspectsGun), s.Position, 200);
-            //    weapon.GiveTo(s);
-            //    s.KeepTasks = true;
-            //    s.RelationshipGroup = new RelationshipGroup("Suspect");
-            //    s.RelationshipGroup.SetRelationshipWith(Game.LocalPlayer.Character.RelationshipGroup, Relationship.Hate);
-            //    s.RelationshipGroup.SetRelationshipWith(RelationshipGroup.Cop, Relationship.Hate);
-            //    s.Tasks.FightAgainstClosestHatedTarget(50f);
-            //}
         }
 
         private void CanFinish()

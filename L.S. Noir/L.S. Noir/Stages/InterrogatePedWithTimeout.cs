@@ -3,6 +3,7 @@ using LSNoir.Resources;
 using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
+using RAGENativeUI.Elements;
 using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
@@ -199,25 +200,23 @@ namespace LSNoir.Stages
 
         private void DisplayMissionPassedScreen()
         {
-            //var value = _interrogation.QuestionList.Where(q => q.Value == false)
-            //        .Aggregate(100, (current, q) => current - 15);
+            var percentGoodAnswers = (float)interrogation.GoodAnswers / (float)interrogation.Questions * 100;
 
-            //var medal = MissionPassedScreen.Medal.Gold;
-            //if (value >= 80 && value < 100) medal = MissionPassedScreen.Medal.Silver;
-            //else if (value < 80) medal = MissionPassedScreen.Medal.Bronze;
+            var medal = percentGoodAnswers > 85 ? MissionPassedScreen.MedalType.Gold :
+                        percentGoodAnswers > 70 ? MissionPassedScreen.MedalType.Silver :
+                                                  MissionPassedScreen.MedalType.Bronze;
 
-            //var handler = new MissionPassedHandler("Suspect Interrogation", value, medal);
+            var handler = new MissionPassedScreen(data.Name, (int)percentGoodAnswers, medal);
 
-            //handler.AddItem("Spoke to Suspect", "", MissionPassedScreen.TickboxState.Tick);
-            //var num = 0;
-            //foreach (var q in _interrogation.QuestionList)
-            //{
-            //    num++;
-            //    var correct = q.Value ? "Correct" : "Incorrect";
-            //    handler.AddItem($"Question {num}", correct, MissionPassedScreen.TickboxState.None);
-            //}
+            var item1 = new MissionPassedScreenItem("Person interrogated", "", MissionPassedScreenItem.TickboxState.Tick);
 
-            //handler.Show();
+            handler.Items.Add(item1);
+
+            var questions = new MissionPassedScreenItem($"Good answers/questions", $"{interrogation.GoodAnswers}/{interrogation.Questions}");
+
+            handler.Items.Add(questions);
+
+            handler.Show();
         }
 
         private void CaseLost()

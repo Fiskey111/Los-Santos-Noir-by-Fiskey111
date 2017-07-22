@@ -1,6 +1,4 @@
 ﻿using LSNoir.Data;
-using LSNoir.DataAccess;
-using LSNoir.Settings;
 using LtFlash.Common.ScriptManager.Managers;
 using LtFlash.Common.ScriptManager.Scripts;
 using LtFlash.Common.Serialization;
@@ -38,19 +36,17 @@ namespace LSNoir.Cases
             stages.AddRange(stagesData);
         }
 
-        private static Type GetStageTypeByName(string name)
-        {
-            return Type.GetType($"{NAMESPACE_STAGES}.{name}", true, true);
-        }
-
         private static void RegisterStages(AdvancedScriptManager mgr, ICollection<StageData> data)
         {
             foreach (var s in data)
             {
-                var type = GetStageTypeByName(s.StageType);
+                var type = Type.GetType($"{NAMESPACE_STAGES}.{s.StageType}", true, true);
+
                 var ctorParams = new object[] { s };
+
                 var prior = s.FinishPriorThis ?? new List<List<string>>();
                 var next = s.NextScripts?[0]?.ToList() ?? new List<string>();
+
                 var delayMin = s.DelayMinSeconds * 1000;
                 var delayMax = s.DelayMaxSeconds * 1000;
 
@@ -83,12 +79,6 @@ namespace LSNoir.Cases
                 {
                     //throw an exception?
                 }
-                
-                ////TODO: use CaseProgress.NextScripts?
-                //var next = GetNextScriptID(data.Stages, caseProgress.LastStageID);
-
-                //manager.StartScript(data.Stages[next]);
-                //Game.LogTrivial("Start script: " + data.Stages[next]);
             }
             else
             {
@@ -99,20 +89,7 @@ namespace LSNoir.Cases
 
             return true;
         }
-
-        private static int GetNextScriptID(string[] stages, string lastStage)
-        {
-            var id = stages.ToList().IndexOf(lastStage) + 1;
-
-            if (id >= stages.Length)
-            {
-                var msg = $"{nameof(Case)}.{nameof(Initialize)}: next script id is out of range: {id}/{stages.Length}";
-                throw new IndexOutOfRangeException(msg);
-            }
-
-            return id;
-        }
-
+        
         protected override void Process()
         {
             if(manager.HasFinished)

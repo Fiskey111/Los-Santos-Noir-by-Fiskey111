@@ -187,6 +187,7 @@
     <Compile Include="Stages\Hospital.cs" />
     <Compile Include="Stages\MedicalExaminerStage.cs" />
     <Compile Include="Stages\MedicalExaminerStage_Data.cs" />
+    <Compile Include="Stages\MissionSummaryScreen.cs" />
     <Compile Include="Stages\NotifyToGo.cs" />
     <Compile Include="Stages\Raid.cs" />
     <Compile Include="Stages\Base\StageCalloutScript.cs" />

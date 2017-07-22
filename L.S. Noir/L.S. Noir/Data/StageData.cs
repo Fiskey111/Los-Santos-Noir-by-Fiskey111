@@ -11,9 +11,14 @@ namespace LSNoir.Data
     public class StageData : IIdentifiable
     {
         public string ID { get; set; }
+
+        public string Name;
+
         public string StageType;
+
         [NonSerialized]
         public CaseData ParentCase; //TODO: replace with caseID? + GetParentCase()
+
         public Vector3 CallPosition;
 
         public float CallBlipRad;
