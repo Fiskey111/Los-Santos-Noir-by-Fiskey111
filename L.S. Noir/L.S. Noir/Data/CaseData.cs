@@ -105,7 +105,10 @@ namespace LSNoir.Data
         public StageData[] GetAllStagesData()
         {
             var allStages = DataProvider.Instance.Load<List<StageData>>(StagesPath);
-            allStages.RemoveAll(s => !Stages.Contains(s.ID));
+
+            var result = allStages.Where(s => Stages.Contains(s.ID));
+
+            //allStages.RemoveAll(s => !Stages.Contains(s.ID));
             return allStages.ToArray();
         }
 
@@ -280,6 +283,19 @@ namespace LSNoir.Data
             }
 
             return true;
+        }
+
+        public void SaveWitnessDataToProgress(WitnessData data)
+        {
+            var cp = DataProvider.Instance.Load<CaseProgress>(CaseProgressPath);
+
+            cp.WitnessesInterviewed.Add(data.ID);
+
+            if (!string.IsNullOrEmpty(data.DialogID)) cp.DialogsPassed.Add(data.DialogID);
+            if (data.NotesID != null && data.NotesID.Length > 0) cp.NotesMade.AddRange(data.NotesID);
+            if (data.ReportsID != null && data.ReportsID.Length > 0) cp.ReportsReceived.AddRange(data.ReportsID);
+
+            DataProvider.Instance.Save(CaseProgressPath, cp);
         }
 
         public CaseData()

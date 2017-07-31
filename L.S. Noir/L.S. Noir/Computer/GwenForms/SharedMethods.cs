@@ -2,6 +2,7 @@
 using Rage;
 using System;
 using System.Drawing;
+using System.Linq;
 
 namespace LSNoir.Computer.GwenForms
 {
@@ -9,6 +10,9 @@ namespace LSNoir.Computer.GwenForms
     {
         public static void AddSplittedTxtToMultilineTextBox(string txt, MultilineTextBox tb)
         {
+            //clean textBox
+            Enumerable.Range(0, 19).ToList().ForEach(n => tb.SetTextLine(n, ""));
+
             string[] t = txt.Split(new string[] { "{n}" }, StringSplitOptions.None);
             for (int i = 0; i < t.Length; i++)
             {

@@ -38,17 +38,27 @@ namespace LSNoir.Cases
 
         private static void RegisterStages(AdvancedScriptManager mgr, ICollection<StageData> data)
         {
+            Game.LogExtremelyVerbose($"stageData count: {data.Count}");
             foreach (var s in data)
             {
                 var type = Type.GetType($"{NAMESPACE_STAGES}.{s.StageType}", true, true);
-
+                Game.LogExtremelyVerbose("_1_ " + s.ID);
                 var ctorParams = new object[] { s };
+                Game.LogExtremelyVerbose("_2_");
 
                 var prior = s.FinishPriorThis ?? new List<List<string>>();
-                var next = s.NextScripts?[0]?.ToList() ?? new List<string>();
+                Game.LogExtremelyVerbose("_3_");
+
+                List<string> next = new List<string>();
+                if (s.NextScripts != null && s.NextScripts.Count > 0 && s.NextScripts[0] != null && s.NextScripts[0].Count > 0)
+                {
+                    next = s.NextScripts?[0]?.ToList() ?? new List<string>();
+                }
+                Game.LogExtremelyVerbose("_4_");
 
                 var delayMin = s.DelayMinSeconds * 1000;
                 var delayMax = s.DelayMaxSeconds * 1000;
+                Game.LogExtremelyVerbose("_5_");
 
                 mgr.AddScript(type, ctorParams, s.ID, EInitModels.TimerBased, next, prior, delayMin, delayMax);
             }

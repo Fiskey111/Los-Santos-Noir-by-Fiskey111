@@ -1,8 +1,10 @@
 ﻿using LSNoir.Data;
 using LSNoir.Resources;
+using LSNoir.Scenes;
 using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
+using Rage.Native;
 using RAGENativeUI.Elements;
 using System.Diagnostics;
 using System.Drawing;
@@ -46,6 +48,8 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenario;
         private Interrogation interrogation;
 
+        IScene scene;
+
         public InterrogatePedWithTimeout(StageData stageData)
         {
             data = stageData;
@@ -62,8 +66,16 @@ namespace LSNoir.Stages
                 Name = data.CallBlipName,
             };
 
-            Game.DisplayNotification(data.NotificationTexDic, data.NotificationTexName,
-                data.NotificationTitle, data.NotificationSubtitle, data.NotificationText);
+            string sceneId = data.SceneID;
+            if (!string.IsNullOrEmpty(sceneId))
+            {
+                SceneData sd = data.ParentCase.GetSceneData(sceneId);
+                scene = sd.GetScene();
+            }
+
+            Base.SharedStageMethods.DisplayNotification(data);
+
+            NativeFunction.Natives.FlashMinimapDisplay();
 
             ActivateStage(Away);
 
@@ -82,6 +94,8 @@ namespace LSNoir.Stages
 
         private void Spawn()
         {
+            scene?.Create();
+
             ped = new Ped(pedsData.Model, pedsData.Spawn.Position, pedsData.Spawn.Heading);
             ped.BlockPermanentEvents = true;
             ped.IsPersistent = true;
@@ -121,6 +135,8 @@ namespace LSNoir.Stages
         {
             if (DistToPlayer(ped.Position) < 3 && Game.IsKeyDown(KEY_START_INTERROGATION))
             {
+                Game.HideHelp();
+
                 ped.Tasks.ClearImmediately();
 
                 GameFiber.Sleep(0500);
@@ -171,11 +187,7 @@ namespace LSNoir.Stages
         {
             if (areaBlip) areaBlip.Delete();
             if (ped) ped.Dismiss();
-        }
-
-        ~InterrogatePedWithTimeout()
-        {
-            End();
+            scene?.Dispose();
         }
 
         private void SaveProgress()

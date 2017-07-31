@@ -5,10 +5,12 @@
 
 using LSNoir.Data;
 using LSNoir.Resources;
+using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
+using Rage.Native;
 using RAGENativeUI.Elements;
 using System.Drawing;
 using System.Windows.Forms;
@@ -39,6 +41,8 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
 
+        private IScene scene;
+
         public DialogWithPed(StageData stageData)
         {
             data = stageData;
@@ -51,11 +55,20 @@ namespace LSNoir.Stages
             blipCallArea = new Blip(callPos)
             {
                 Sprite = data.CallBlipSprite,
-                Color = Color.DarkOrange,
+                Color = ColorTranslator.FromHtml(data.CallBlipColor),
                 Name = data.CallBlipName,
             };
 
+            string sceneId = data.SceneID;
+            if (!string.IsNullOrEmpty(sceneId))
+            {
+                SceneData sd = data.ParentCase.GetSceneData(sceneId);
+                scene = sd.GetScene();
+            }
+
             Base.SharedStageMethods.DisplayNotification(data);
+
+            NativeFunction.Natives.FlashMinimapDisplay();
 
             ActivateStage(Away);
 
@@ -64,25 +77,35 @@ namespace LSNoir.Stages
 
         private void Away()
         {
-            if(DistToPlayer(data.CallPosition) < 150)
+            if (DistToPlayer(data.CallPosition) < 150)
             {
-                var witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+                scene?.Create();
 
-                ped = new Ped(witnessData.Model, witnessData.Spawn.Position, witnessData.Spawn.Heading);
-                ped.MakePersistent();
-
-                pedScenario = new PedScenarioLoop(ped, witnessData.Scenario);
-
-                var dialogData = data.ParentCase.GetDialogData(witnessData.DialogID);
-                dialogID = dialogData.ID;
-                dialog = new Dialog(dialogData.Dialog);
+                CreatePed();
 
                 SwapStages(Away, NotifyToTalk);
             }
+
+        }
+
+        private void CreatePed()
+        {
+            var witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+
+            ped = new Ped(witnessData.Model, witnessData.Spawn.Position, witnessData.Spawn.Heading);
+            ped.MakePersistent();
+
+            pedScenario = new PedScenarioLoop(ped, witnessData.Scenario);
+
+            var dialogData = data.ParentCase.GetDialogData(witnessData.DialogID);
+            dialogID = dialogData.ID;
+            dialog = new Dialog(dialogData.Dialog);
         }
 
         private void NotifyToTalk()
         {
+            if (!ped) CreatePed();
+
             if(DistToPlayer(ped.Position) < 15)
             {
                 Game.DisplayHelp(MSG_TALK, 3000);
@@ -165,6 +188,7 @@ namespace LSNoir.Stages
         {
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
+            scene?.Dispose();
         }
     }
 }

@@ -6,7 +6,7 @@
         {
             "============== L.S. Noir ==============",
             "One Callout Loaded Successfully!",
-            "THANK YOU FOR DOWNLOADING L.S. NOIRE v{v}",
+            "THANK YOU FOR DOWNLOADING L.S. NOIRE",
             "",
             "IF YOU ENJOY THIS, PLEASE CONSIDER DONATING TO US!",
             "VISIT 'Fiskey111Mods.com' TO DONATE",

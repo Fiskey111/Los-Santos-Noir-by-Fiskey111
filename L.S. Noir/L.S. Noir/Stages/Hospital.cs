@@ -42,8 +42,6 @@ namespace LSNoir.Stages
 
         private const string MSG_LEAVE = "You may ~r~leave~s~ the hospital";
         private const string MSG_ENTER_HOSPITAL = "Enter the ~g~marker~s~ to talk to a doctor";
-        private const string MSG_FINISHED = "Stage was successfuly fisnished!";
-
 
         public Hospital(StageData stageData)
         {
@@ -55,19 +53,13 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
-            blipHospital = new Blip(data.CallPosition)
-            {
-                Sprite = data.CallBlipSprite,
-                Color = Color.DarkOrange,
-                Name = data.CallBlipName,
-            };
+            blipHospital = Base.SharedStageMethods.CreateBlip(data);
 
             markerEntrance = new Marker(data.CallPosition, Color.Green);
 
             markerEntrance.Visible = true;
 
-            Game.DisplayNotification(data.NotificationTexDic, data.NotificationTexName,
-                data.NotificationTitle, data.NotificationSubtitle, data.NotificationText);
+            Base.SharedStageMethods.DisplayNotification(data);
 
             ActivateStage(NotifyToEnterHospital);
 
@@ -182,8 +174,6 @@ namespace LSNoir.Stages
 
                 Game.LocalPlayer.HasControl = true;
 
-                Game.DisplayNotification(MSG_FINISHED);
-
                 SetScriptFinishedSuccessfulyAndSave();
             }
         }
@@ -194,9 +184,7 @@ namespace LSNoir.Stages
 
         private void SetScriptFinishedSuccessfulyAndSave()
         {
-            data.ParentCase.AddNotesToProgress(data.NotesID);
-            data.ParentCase.AddReportsToProgress(data.ReportsID);
-            data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
+            Base.SharedStageMethods.SaveRepNotEvdToProgress(data);
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();
@@ -211,12 +199,7 @@ namespace LSNoir.Stages
             if (doctor) doctor.Delete();
             if (blipHospital) blipHospital.Delete();
 
-            scene.Dispose();
-        }
-
-        ~Hospital()
-        {
-            End();
+            scene?.Dispose();
         }
     }
 }

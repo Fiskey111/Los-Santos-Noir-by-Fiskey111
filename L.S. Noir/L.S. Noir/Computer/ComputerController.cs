@@ -3,6 +3,7 @@ using LSNoir.Settings;
 using LtFlash.Common.InputHandling;
 using Rage;
 using Rage.Forms;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -42,11 +43,11 @@ namespace LSNoir.Computer
         private readonly ControlSet controlSet = new ControlSet(Controls.KeyActivateComputer, Controls.ModifierActivateComputer, Controls.CtrlButtonActivateComputer);
 
         private readonly List<GwenForm> wnds = new List<GwenForm>();
-        private readonly List<CaseData> activeCasesData;
+        private readonly Func<List<CaseData>> activeCasesData;
         //private Checkpoint
         private Texture computerBackground;
 
-        public ComputerController(List<CaseData> getCaseData)
+        public ComputerController(Func<List<CaseData>> getCaseData)
         {
             activeCasesData = getCaseData;
 
@@ -58,7 +59,7 @@ namespace LSNoir.Computer
             }
             else
             {
-                var msg = $"{nameof(ComputerController)}.{nameof(ComputerController)}(): file with computer positions could not be found: {Paths.PATH_COMPUTER_POSITIONS}";
+                var msg = $"{nameof(ComputerController)}(): file with computer positions could not be found: {Paths.PATH_COMPUTER_POSITIONS}";
                 throw new FileNotFoundException(msg);
             }
         }
@@ -144,7 +145,7 @@ namespace LSNoir.Computer
         {
             GameFiber.StartNew(() =>
             {
-                var mainWnd = new MainForm(this, activeCasesData);
+                var mainWnd = new MainForm(this, activeCasesData());
                 AddWnd(mainWnd);
                 mainWnd.Show();
 

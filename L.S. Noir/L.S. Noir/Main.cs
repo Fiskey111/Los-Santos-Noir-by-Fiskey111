@@ -20,6 +20,8 @@ namespace LSNoir
 
         public override void Initialize()
         {
+            Game.LogVeryVerbose("LS Noir initialized.");
+
             Functions.OnOnDutyStateChanged += Functions_OnOnDutyStateChanged;
         }
 
@@ -27,31 +29,30 @@ namespace LSNoir
         {
             if (onDuty)
             {
-                //if (!RageCheck.RPHCheck(0.46f)) return;
+                //if (!RageProRegistration.RegisterRagePro())
+                //{
+                //    Game.DisplayNotification("~r~LSNoir: obtain a valid license!~s~");
+                //    Game.LogExtremelyVerbose("LS Noir: obtain a valid license!");
+                //    return;
+                //}
 
-                //if (!RageProRegistration.RegisterRagePro()) return;
-
-                //if (!VersionCheck.OldLSNCheck()) return;
-
-                //Settings.IniUpdateCheck();
+                PrintConsoleBanner();
 
                 casesCtrl = new CasesController(Paths.PATH_FOLDER_CASES, Paths.FILENAME_CASEDATA);
 
                 casesCtrl.Start();
 
-                computerCtrl = new ComputerController(casesCtrl.GetActiveCases());
+                computerCtrl = new ComputerController(casesCtrl.GetActiveCases);
 
                 computerCtrl.Start();
 
                 Game.DisplayNotification("Script manager started.");
-
-                //PrintConsoleBanner();
             }
         }
 
         private static void PrintConsoleBanner()
         {
-            string version = GetLSNVersion();
+            string version = "";//GetLSNVersion();
             for (int i = 0; i < Texts.BANNER.Length; i++)
             {
                 Game.Console.Print(Texts.BANNER[i].Replace("{v}", version));

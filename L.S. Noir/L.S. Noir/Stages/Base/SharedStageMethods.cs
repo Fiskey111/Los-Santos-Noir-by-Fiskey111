@@ -1,5 +1,6 @@
 ﻿using LSNoir.Data;
 using Rage;
+using System.Drawing;
 
 namespace LSNoir.Stages.Base
 {
@@ -13,19 +14,21 @@ namespace LSNoir.Stages.Base
 
         public static Blip CreateBlip(StageData data)
         {
-            Blip b;
-            if (data.CallBlipRad == 0)
-            {
-                b = new Blip(data.CallPosition);
-            }
-            else
-            {
-                b = new Blip(data.CallPosition, data.CallBlipRad);
-            }
+            Blip b = data.CallBlipRad == 0 ? new Blip(data.CallPosition) : 
+                                             new Blip(data.CallPosition, data.CallBlipRad);
+            
             b.Sprite = data.CallBlipSprite;
             b.Name = data.CallBlipName;
-            //b.Color
+            b.Color = ColorTranslator.FromHtml(data.CallBlipColor);
+
             return b;
+        }
+
+        public static void SaveRepNotEvdToProgress(StageData data)
+        {
+            data.ParentCase.AddNotesToProgress(data.NotesID);
+            data.ParentCase.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
         }
     }
 }

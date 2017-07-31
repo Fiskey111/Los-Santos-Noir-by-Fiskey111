@@ -6,8 +6,10 @@
 using LSNoir.Data;
 using LSNoir.Resources;
 using LSPD_First_Response.Mod.API;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
+using Rage.Native;
 using RAGENativeUI.Elements;
 using System.Drawing;
 using System.Windows.Forms;
@@ -34,10 +36,11 @@ namespace LSNoir.Stages
         private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start the interrogation.";
 
         private const float DIST_NOTIFY_TALK = 15;
-        private const float DIST_AWAY = 150;
-        private const float DIST_CLOSE_START_TALK = 7;
+        private const float DIST_AWAY = 90;
+        private const float DIST_CLOSE_START_TALK = 6.5f;
 
         private Vector3 callPos;
+        private WitnessData witnessData;
         private Ped ped;
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
@@ -59,6 +62,8 @@ namespace LSNoir.Stages
             };
 
             Base.SharedStageMethods.DisplayNotification(data);
+
+            NativeFunction.Natives.FlashMinimapDisplay();
 
             ActivateStage(Away);
 
@@ -83,7 +88,7 @@ namespace LSNoir.Stages
 
         private void CreatePedToInterrogate()
         {
-            var witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+            witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
 
             ped = new Ped(witnessData.Model, witnessData.Spawn.Position, witnessData.Spawn.Heading);
             ped.MakePersistent();
@@ -96,6 +101,8 @@ namespace LSNoir.Stages
 
         private void NotifyToTalk()
         {
+            if (!ped) CreatePedToInterrogate();
+
             if(DistToPlayer(ped.Position) < DIST_NOTIFY_TALK)
             {
                 Game.DisplayHelp(MSG_TALK, 3000);
@@ -125,6 +132,7 @@ namespace LSNoir.Stages
             if(Game.IsKeyDown(KEY_START_INTERROGATION))
             {
                 interrogation.StartDialog();
+
                 ped.Face(Player);
                 Player.Face(ped);
 
@@ -152,6 +160,8 @@ namespace LSNoir.Stages
         protected void SetScriptFinishedSuccessfulyAndSave()
         {
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
+
+            //data.ParentCase.SaveWitnessDataToProgress(witnessData);
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();

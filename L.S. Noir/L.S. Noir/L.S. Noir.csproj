@@ -74,7 +74,7 @@
     </Reference>
     <Reference Include="RagePROletariat, Version=0.1.6255.4456, Culture=neutral, processorArchitecture=AMD64">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Downloads\ragepro_dev_tools_0.2\RagePROletariat.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\RagePROletariat.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -163,6 +163,7 @@
     <Compile Include="Data\StageData.cs" />
     <Compile Include="Data\SuspectData.cs" />
     <Compile Include="Extensions\Extensions.cs" />
+    <Compile Include="RageProRegistration.cs" />
     <Compile Include="Resources\CameraInterpolator.cs" />
     <Compile Include="Resources\Checkpoint.cs" />
     <Compile Include="Resources\DriverFollow.cs" />
@@ -204,6 +205,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NOTES.txt" />
+    <EmbeddedResource Include="RagePro\PublicKey.xml" />
     <Content Include="TODO.txt" />
     <EmbeddedResource Include="Computer\WinForms\DocumentsList_Form.resx">
       <DependentUpon>DocumentsList_Form.cs</DependentUpon>
@@ -227,9 +229,7 @@
       <DependentUpon>ReportsList_Form.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="RagePro\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>

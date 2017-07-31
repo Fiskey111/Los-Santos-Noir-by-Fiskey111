@@ -36,5 +36,18 @@ namespace LSNoir.Data
         public CaseProgress()
         {
         }
+
+        //IMPROVED ARCHITECTURE - extract a tool class!:
+        //CaseProgressController
+        //public CaseProgress(string path)
+        //{
+        //    Path = path;
+        //}
+
+        //private string Path { get; }
+
+        //public void AddReport(string id)
+        //{
+        //}
     }
 }

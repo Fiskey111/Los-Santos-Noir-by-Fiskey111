@@ -44,11 +44,11 @@ namespace LSNoir.Stages
         private const string MSG_OFFICERS_READY = "Officers are ready. Enter your vehicle to get directions to location.";
         private const string MSG_PRESS_TO_PREPARE = "To have your officers prepare for the raid, press ~y~{0}~w~";
         private const string MSG_DECIDE_WHEN_RAID = "~w~Decide when you would like the raid to occur" +
-                                                    "\nMorning (0600) ~y~1~w~" +
-                                                    "\n~s~Midday (1200) ~y~2~w~" +
-                                                    "\nEvening (1800) ~y~3~w~" +
-                                                    "\nNight (2300) ~y~4~w~" +
-                                                    "\nCurrent Time ({0}00) ~y~5~w~";
+                                                    "\nMorning (0600) ~y~1~s~" +
+                                                    "\nMidday (1200) ~y~2~s~" +
+                                                    "\nEvening (1800) ~y~3~s~" +
+                                                    "\nNight (2300) ~y~4~s~" +
+                                                    "\nCurrent Time ({0}00) ~y~5~s~";
 
         private const string MSG_SEARCH = "Search for the ~r~suspect~s~.";
 
@@ -440,22 +440,24 @@ namespace LSNoir.Stages
         private void DisplayMissionPassedScreen()
         {
             var value = 100;
+            var medal = MissionPassedScreen.MedalType.Gold;
+            var tickPedArrested = Functions.IsPedArrested(suspect) ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.Empty;
 
             if (suspect)
             {
-                if (suspect.IsDead) value = 70;
+                if (suspect.IsDead) value -= 15;
                 else if (Functions.IsPedArrested(suspect)) value = 100;
             }
 
-            //value = scene.Peds.Where(c => c && c.IsDead).Aggregate(value, (current, c) => current - 10);
 
-            var medal = MissionPassedScreen.MedalType.Gold;
-            if (value >= 80 && value < 100) medal = MissionPassedScreen.MedalType.Silver;
+            if (value >= 85 && value < 100) medal = MissionPassedScreen.MedalType.Silver;
             else if (value < 80) medal = MissionPassedScreen.MedalType.Bronze;
 
-            var passed = new MissionPassedScreen("Suspect Raid", value, medal);
 
-            var tickPedArrested = Functions.IsPedArrested(suspect) ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.Empty;
+            //cops survived
+            //value = scene.Peds.Where(c => c && c.IsDead).Aggregate(value, (current, c) => current - 10);
+
+            var passed = new MissionPassedScreen("Suspect Raid", value, medal);
             passed.Items.Add(new MissionPassedScreenItem("Suspect Arrested", "", tickPedArrested));
 
             //passed.AddItem("All Officers Survived", "", scene.Peds.Any(c => c && c.IsDead) ? MissionPassedScreen.TickboxState.Empty : MissionPassedScreen.TickboxState.Tick);

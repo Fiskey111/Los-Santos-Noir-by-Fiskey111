@@ -64,11 +64,14 @@ namespace LSNoir.Stages
         private const string SCANNER_AT_SCENE = "ATTENTION_ALL_UNITS_05 OFFICERS_AT_SCENE NO_FURTHER_UNITS CRIME_AMBULANCE_REQUESTED_02";
         private const string SCANNER_CALL = "ATTN_UNIT_02 DIV_01 ADAM BEAT_12 WE_HAVE AN_ASSAULT OFFICERS_AT_SCENE RESPOND_CODE3";
 
+        private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~.";
+        private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~.";
 
         private readonly string msgCallCoroner = $"Press ~y~{KEY_CORONER}~s~ to call coroner.";
         private readonly string msgCallEms = $"Press ~y~{KEY_CALL_EMS}~s~ to call EMS.";
-        private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~.";
-        private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~.";
+
+        private bool isImportantEvidenceCollected;
+        private bool areImportantWitnessesChecked;
 
         public CSI(StageData sd) : base()
         {
@@ -209,14 +212,23 @@ namespace LSNoir.Stages
 
                 Game.DisplayHelp(msgCallEms);
 
+                ActivateStage(DisplayKeyToCallEMS);
+
                 SwapStages(CheckVictim, WaitForEMSCalled);
             }
+        }
+
+        private void DisplayKeyToCallEMS()
+        {
+            Game.DisplaySubtitle(msgCallEms, 100);
         }
 
         private void WaitForEMSCalled()
         {
             if(Game.IsKeyDown(KEY_CALL_EMS))
             {
+                DeactivateStage(DisplayKeyToCallEMS);
+
                 Game.HideHelp();
 
                 ems.Dispatch();
@@ -238,26 +250,41 @@ namespace LSNoir.Stages
                 {
                     Game.DisplayHelp(msgCallCoroner);
 
+                    ActivateStage(DisplayKeyToCallCoroner);
+
                     SwapStages(WaitEMSFinished, CallCoroner);
                 }
                 else
                 {
                     Game.DisplayNotification(MSG_COLLECT);
 
-                    SwapStages(WaitEMSFinished, CollectEvidence);
+                    DeactivateStage(WaitEMSFinished);
+
+                    ActivateStage(IsEvidenceCollected);
+                    ActivateStage(AreWitnessesChecked);
+                    ActivateStage(CanLeaveTheScene);
                 }
             }
+        }
+
+        private void DisplayKeyToCallCoroner()
+        {
+            Game.DisplaySubtitle(msgCallCoroner, 100);
         }
 
         private void CallCoroner()
         {
             if (Game.IsKeyDown(KEY_CORONER))
             {
+                DeactivateStage(DisplayKeyToCallCoroner);
+
                 Game.HideHelp();
 
                 coroner.Dispatch();
 
-                Game.DisplayNotification(string.Format(MSG_CORONER_DISPATCHED, World.GetStreetName(stageData.CallPosition)));
+                var txtCoronerDisp = string.Format(MSG_CORONER_DISPATCHED, World.GetStreetName(stageData.CallPosition));
+
+                Game.DisplayNotification(txtCoronerDisp);
 
                 SwapStages(CallCoroner, IsCoronerDone);
             }
@@ -272,44 +299,54 @@ namespace LSNoir.Stages
 
                 Game.DisplayNotification(MSG_COLLECT);
 
-                SwapStages(IsCoronerDone, CollectEvidence);
+                DeactivateStage(IsCoronerDone);
+
+                ActivateStage(IsEvidenceCollected);
+                ActivateStage(AreWitnessesChecked);
+                ActivateStage(CanLeaveTheScene);
             }
         }
-        //TODO: high cyclomatic complexity - refactor
-        private void CollectEvidence()
+        
+
+        private void IsEvidenceCollected()
         {
-            if(evidenceCtrl.Evidence.All(e => e.IsImportant && e.IsCollected) &&
-                           witnesses.All(w => w.IsImportant && w.IsCollected))
+            var importantEvidence = evidenceCtrl.Evidence.Where(e => e.IsImportant);
+
+            if (importantEvidence.All(e => e.IsCollected))
             {
-                foreach (var e in evidenceCtrl.Evidence)
-                {
-                    if(e.IsCollected)
-                    {
-                        stageData.ParentCase.AddEvidenceToProgress(e.Id);
-                    }
-                }
+                importantEvidence.ToList().ForEach(e => stageData.ParentCase.AddEvidenceToProgress(e.Id));
 
-                foreach (var wit in witnesses)
-                {
-                    if(wit.Checked)
-                    {
-                        stageData.ParentCase.ModifyCaseProgress(m => m.WitnessesInterviewed.Add(wit.Id));
-                        var wdata = stageData.ParentCase.GetWitnessData(wit.Id);
-                        if(wdata.DialogID != null) stageData.ParentCase.ModifyCaseProgress(m => m.DialogsPassed.Add(wdata.DialogID));
-                        if(wdata.NotesID != null) stageData.ParentCase.ModifyCaseProgress(m => m.NotesMade.AddRange(wdata.NotesID));
-                        if(wdata.ReportsID != null) stageData.ParentCase.ModifyCaseProgress(m => m.ReportsReceived.AddRange(wdata.ReportsID));
-                    }
-                }
+                isImportantEvidenceCollected = true;
 
-                stageData.SetThisAsLastStage();
-                stageData.SaveNextScriptsToProgress(stageData.NextScripts[0]);
+                DeactivateStage(IsEvidenceCollected);
+            }
+        }
 
-                stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
-                stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
+        private void AreWitnessesChecked()
+        {
+            var importantWitnesses = witnesses.Where(w => w.IsImportant);
 
-                Game.DisplayNotification(MSG_LEAVE);
+            if (importantWitnesses.All(w => w.Checked))
+            {
+                importantWitnesses.ToList().ForEach(w => AddToProgress(w));
 
-                SwapStages(CollectEvidence, CheckIfLeftScene);
+                areImportantWitnessesChecked = true;
+
+                DeactivateStage(AreWitnessesChecked);
+            }
+
+            void AddToProgress(Witness wit)
+            {
+                var witnessData = stageData.ParentCase.GetWitnessData(wit.Id);
+                stageData.ParentCase.SaveWitnessDataToProgress(witnessData);
+            }
+        }
+
+        private void CanLeaveTheScene()
+        {
+            if(isImportantEvidenceCollected && areImportantWitnessesChecked)
+            {
+                SwapStages(CanLeaveTheScene, CheckIfLeftScene);
             }
         }
 
@@ -320,14 +357,22 @@ namespace LSNoir.Stages
             if (DistToPlayer(officer.Ped) > stageData.CallAreaRadius)
             {
                 SetSuccessfulyFinishedAndSave();
+
+                DeactivateStage(CheckIfLeftScene);
             }
         }
 
         private void SetSuccessfulyFinishedAndSave()
         {
-            DisplayMissionPassedScreen();
+            stageData.SetThisAsLastStage();
+            stageData.SaveNextScriptsToProgress(stageData.NextScripts.First());
+
+            stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
+            stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
 
             SetScriptFinished(true);
+
+            DisplayMissionPassedScreen();
         }
 
         private void DisplayMissionPassedScreen()
