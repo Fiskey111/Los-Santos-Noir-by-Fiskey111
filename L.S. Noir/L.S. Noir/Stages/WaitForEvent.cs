@@ -53,7 +53,7 @@ namespace LSNoir.Stages
             {
                 return true;
             }
-            if (!documentsToAccept.All(x => data.ParentCase.GetCaseProgress().RequestedDocuments.Select(d => d.ID).Contains(x)))
+            if (!documentsToAccept.All(x => data.ParentCase.Progress.GetCaseProgress().RequestedDocuments.Select(d => d.ID).Contains(x)))
             {
                 return false;
             }
@@ -62,13 +62,13 @@ namespace LSNoir.Stages
             return 
                 documentsToAccept.
                     Select(d => data.ParentCase.GetDocuRequestData(d)).
-                    All(r => data.ParentCase.CanDocumentRequestBeAccepted(r.ID) && r.IsConsidered() && r.DecisionSeenByPlayer);
+                    All(r => r.CanDocumentRequestBeAccepted(data.ParentCase) && r.IsConsidered() && r.DecisionSeenByPlayer);
         }
 
         private bool AllEvidenceAnalyzedAndReportSeen()
         {
             if (evidenceToAnalyze.Length < 1) return true;
-            var collectedIDs = data.ParentCase.GetCaseProgress().CollectedEvidence;
+            var collectedIDs = data.ParentCase.Progress.GetCaseProgress().CollectedEvidence;
             if (collectedIDs == null || collectedIDs.Count < 1) return true;
             var evidToAnalyze = collectedIDs.Where(s => evidenceToAnalyze.Contains(s.ID));
             if (evidToAnalyze == null || evidToAnalyze.Count() < 1) return false;

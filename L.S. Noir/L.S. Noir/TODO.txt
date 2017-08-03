@@ -1,12 +1,8 @@
 ﻿
-1ST RELEASE ROADMAP===========================
+TODO==========================================
 
-[-] mision passed screens for each stage
-[?] case summary stage (mission passed only which ends when player closes it)
-[-] complete SA data
-[-] add RagePro
-[+][Flash] check case behavior when it's finished
-[+][Flash] finish WaitFor stage to start Raid when a warrant is issued
+[] interrogation: hide minimap
+
 [-][Flash] implement closing for all gwen btns
 ===============================================
 
@@ -16,7 +12,6 @@
 
 - stages
 	* handle hour range player can start stage, display "Get back between"
-	* Finish: use TalkToPed to make speak to the Captain when case is finished
 	* add IScene to each stage
 
 - serialization
@@ -26,4 +21,3 @@
 - Documents: warrant, juv detention order, search warrant, restraining order
 
 - Data:
-	* move ME data to xml

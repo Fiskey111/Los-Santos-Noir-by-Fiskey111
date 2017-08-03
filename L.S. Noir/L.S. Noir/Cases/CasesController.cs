@@ -39,7 +39,7 @@ namespace LSNoir.Cases
 
             DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCases.Add(id));
 
-            var caseNo = data.FirstOrDefault(c => c.ID == id).GetCaseProgress().CaseNo;
+            var caseNo = data.FirstOrDefault(c => c.ID == id).Progress.GetCaseProgress().CaseNo;
             DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCaseNo = caseNo);
 
             Start();
@@ -93,7 +93,7 @@ namespace LSNoir.Cases
             //finished can't be restarted!!!
             AddAndStart(notRecentlyUsed);
 
-            data.FirstOrDefault().ModifyCaseProgress(m => m.CaseNo = overallProgress.LastCaseNo + 1);
+            data.FirstOrDefault().Progress.ModifyCaseProgress(m => m.CaseNo = overallProgress.LastCaseNo + 1);
         }
 
         private void AddAndStart(string id)
@@ -126,7 +126,15 @@ namespace LSNoir.Cases
 
         public List<CaseData> GetActiveCases()
         {
-            return data.FindAll(d => !d.GetCaseProgress().Finished && !string.IsNullOrEmpty(d.GetCaseProgress().LastStageID));
+            return data.FindAll(caseData => IsCaseActive(caseData));
+
+            bool IsCaseActive(CaseData cd)
+            {
+                var progress = cd.Progress.GetCaseProgress();
+                if (progress.Finished) return false;
+                if (string.IsNullOrEmpty(progress.LastStageID)) return false;
+                return true;
+            }
         }
     }
 }

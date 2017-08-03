@@ -49,7 +49,7 @@ namespace LSNoir.Computer.GwenForms
 
             DisableTextBoxes();
 
-            var collectedEvidence = data.GetCaseProgress().CollectedEvidence;
+            var collectedEvidence = data.Progress.GetCaseProgress().CollectedEvidence;
 
             if (collectedEvidence.Count < 1) return;
 
@@ -77,7 +77,7 @@ namespace LSNoir.Computer.GwenForms
                 return;
             }
             var minutesToAnalysisDone = MathHelper.GetRandomInteger(Consts.MIN_TIME_EVIDENCE_ANALYSIS, Consts.MAX_TIME_EVIDENCE_ANALYSIS);
-            var progress = data.GetCaseProgress();
+            var progress = data.Progress.GetCaseProgress();
             progress.CollectedEvidence.Find(e => e.ID == selectedEvidence.collected.ID).TimeAnalysisDone = DateTime.Now.AddMinutes(minutesToAnalysisDone);
             DataProvider.Instance.Save(data.CaseProgressPath, progress);
 
@@ -136,10 +136,10 @@ namespace LSNoir.Computer.GwenForms
 
                     analysis.Padding = Gwen.Padding.One;
 
-                    data.ModifyCaseProgress(m => m.CollectedEvidence.Find(e => e.ID == selectedEvidence.collected.ID).ReportSeenByPlayer = true);
+                    data.Progress.ModifyCaseProgress(m => m.CollectedEvidence.Find(e => e.ID == selectedEvidence.collected.ID).ReportSeenByPlayer = true);
 
-                    data.AddReportsToProgress(selectedEvidence.data.ReportsID);
-                    data.AddReportsToProgress(selectedEvidence.data.NotesID);
+                    data.Progress.AddReportsToProgress(selectedEvidence.data.ReportsID);
+                    data.Progress.AddReportsToProgress(selectedEvidence.data.NotesID);
                 }
                 else
                 {

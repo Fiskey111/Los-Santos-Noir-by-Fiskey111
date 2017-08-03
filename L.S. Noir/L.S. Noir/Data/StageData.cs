@@ -73,6 +73,9 @@ namespace LSNoir.Data
         public string CoronerID;
         public string EmsID;
 
+        public string[] SuspectsID;
+        public string[] PersonsID;
+
         public string[] DialogsID;
         public string[] ReportsID;
         public string[] NotesID;
@@ -84,13 +87,13 @@ namespace LSNoir.Data
 
         public void SetThisAsLastStage()
         {
-            ParentCase.ModifyCaseProgress(m => m.LastStageID = ID);
-            ParentCase.ModifyCaseProgress(m => m.StagesPassed.Add(ID));
+            ParentCase.Progress.ModifyCaseProgress(m => m.LastStageID = ID);
+            ParentCase.Progress.ModifyCaseProgress(m => m.StagesPassed.Add(ID));
         }
 
         public void SaveNextScriptsToProgress(List<string> next)
         {
-            ParentCase.ModifyCaseProgress(m => m.NextScripts = next);
+            ParentCase.Progress.ModifyCaseProgress(m => m.NextScripts = next);
         }
     }
 }

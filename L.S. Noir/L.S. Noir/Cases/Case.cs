@@ -18,7 +18,7 @@ namespace LSNoir.Cases
         // - now handles only one-by-one order of execution
         
         private readonly CaseData data;
-        private CaseProgress Progress => data.GetCaseProgress();
+        private CaseProgress Progress => data.Progress.GetCaseProgress();
 
         private readonly List<StageData> stages = new List<StageData>();
         private readonly AdvancedScriptManager manager = new AdvancedScriptManager();
@@ -69,7 +69,7 @@ namespace LSNoir.Cases
             RegisterStages(manager, stages);
 
             //if this case was already finished before start it from the beginning
-            var caseProgress = data.GetCaseProgress();
+            var caseProgress = data.Progress.GetCaseProgress();
 
             Game.LogTrivial("Finished status: " + caseProgress.Finished);
 
@@ -113,7 +113,7 @@ namespace LSNoir.Cases
         {
             Game.LogTrivial($"Case: {data.ID}.End()");
 
-            data.ModifyCaseProgress(p => p.Finished = true);
+            data.Progress.ModifyCaseProgress(p => p.Finished = true);
         }
     }
 }

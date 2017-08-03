@@ -152,12 +152,14 @@
     <Compile Include="DataAccess\XmlDataProvider.cs" />
     <Compile Include="Data\CaseData.cs" />
     <Compile Include="Data\CaseProgress.cs" />
+    <Compile Include="Data\CaseProgressHelper.cs" />
     <Compile Include="Data\CollectedEvidenceData.cs" />
     <Compile Include="Data\DocumentData.cs" />
     <Compile Include="Data\DocumentRequestData.cs" />
     <Compile Include="Data\InterrogationData.cs" />
     <Compile Include="Data\NoteData.cs" />
     <Compile Include="Data\OverallProgress.cs" />
+    <Compile Include="Data\PersonData.cs" />
     <Compile Include="Data\ReportData.cs" />
     <Compile Include="Data\SceneData.cs" />
     <Compile Include="Data\StageData.cs" />

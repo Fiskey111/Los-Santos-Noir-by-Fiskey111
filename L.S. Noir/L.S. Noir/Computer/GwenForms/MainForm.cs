@@ -141,7 +141,7 @@ namespace LSNoir.Computer
         private void ListCases_RowSelected(Gwen.Control.Base sender, Gwen.Control.ItemSelectedEventArgs arguments)
         {
             var cd = (listCases.SelectedRow.UserData as CaseData);
-            var cp = cd.GetCaseProgress();
+            var cp = cd.Progress.GetCaseProgress();
             caseNo.Text = cp.CaseNo.ToString();
 
             if (!string.IsNullOrEmpty(cd.City))
@@ -157,7 +157,7 @@ namespace LSNoir.Computer
             SetButtonsState(true);
 
             //TODO: add proper case data entry
-            var vicsId = cd.GetCaseProgress().Victims;
+            var vicsId = cd.Progress.GetCaseProgress().Victims;
             if (vicsId.Count > 0)
             {
                 List<string> witnessesNames = new List<string>();
@@ -177,7 +177,7 @@ namespace LSNoir.Computer
                 }
             }
 
-            var officers = cd.GetCaseProgress().Officers;
+            var officers = cd.Progress.GetCaseProgress().Officers;
             if (officers.Count > 0)
             {
                 List<string> officersNames = new List<string>();
@@ -211,7 +211,7 @@ namespace LSNoir.Computer
                     return;
                 }
 
-                var r = selectedCase.GetCaseProgress().ReportsReceived ?? new List<string>();
+                var r = selectedCase.Progress.GetCaseProgress().ReportsReceived ?? new List<string>();
 
                 List<ReportData> rd = new List<ReportData>();
                 r.ForEach(k => rd.Add(selectedCase.GetReportData(k)));

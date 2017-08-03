@@ -38,6 +38,7 @@ namespace LSNoir.Stages
 
         private Vector3 callPos;
         private Ped ped;
+        private string personID;
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
 
@@ -52,19 +53,9 @@ namespace LSNoir.Stages
         {
             callPos = data.CallPosition;
 
-            blipCallArea = new Blip(callPos)
-            {
-                Sprite = data.CallBlipSprite,
-                Color = ColorTranslator.FromHtml(data.CallBlipColor),
-                Name = data.CallBlipName,
-            };
+            blipCallArea = Base.SharedStageMethods.CreateBlip(data);
 
-            string sceneId = data.SceneID;
-            if (!string.IsNullOrEmpty(sceneId))
-            {
-                SceneData sd = data.ParentCase.GetSceneData(sceneId);
-                scene = sd.GetScene();
-            }
+            scene = Base.SharedStageMethods.GetScene(data);
 
             Base.SharedStageMethods.DisplayNotification(data);
 
@@ -90,14 +81,16 @@ namespace LSNoir.Stages
 
         private void CreatePed()
         {
-            var witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+            var personData = data.ParentCase.GetPersonData(data.PersonsID[0]);
 
-            ped = new Ped(witnessData.Model, witnessData.Spawn.Position, witnessData.Spawn.Heading);
+            personID = personData.ID;
+
+            ped = new Ped(personData.Model, personData.Spawn.Position, personData.Spawn.Heading);
             ped.MakePersistent();
 
-            pedScenario = new PedScenarioLoop(ped, witnessData.Scenario);
+            pedScenario = new PedScenarioLoop(ped, personData.Scenario);
 
-            var dialogData = data.ParentCase.GetDialogData(witnessData.DialogID);
+            var dialogData = data.ParentCase.GetDialogData(personData.DialogID);
             dialogID = dialogData.ID;
             dialog = new Dialog(dialogData.Dialog);
         }
@@ -162,7 +155,9 @@ namespace LSNoir.Stages
         {
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
 
-            data.ParentCase.AddDialogsToProgress(dialogID);
+            data.ParentCase.Progress.AddDialogsToProgress(dialogID);
+
+            data.ParentCase.Progress.AddPersonsTalkedTo(personID);
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
 

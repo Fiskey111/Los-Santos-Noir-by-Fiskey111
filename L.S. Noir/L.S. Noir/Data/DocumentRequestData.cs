@@ -2,6 +2,7 @@
 using LtFlash.Common.EvidenceLibrary.Serialization;
 using Rage;
 using System;
+using System.Linq;
 
 namespace LSNoir.Data
 {
@@ -26,5 +27,33 @@ namespace LSNoir.Data
         }
 
         public bool IsConsidered() => DateTime.Now > TimeDecision;
+
+        public bool CanDocumentRequestBeAccepted(CaseData caseData)
+        {
+            var caseProgress = caseData.Progress.GetCaseProgress();
+            var docuData = caseData.GetDocumentDataById(ID);
+
+            if (!docuData.DialogIDRequiredToAccept.All(d => caseProgress.DialogsPassed.Contains(d)))
+            {
+                return false;
+            }
+
+            if (!docuData.EvidenceIDRequiredToAccept.All(e => caseProgress.CollectedEvidence.FirstOrDefault(l => l.ID == e) != null))
+            {
+                return false;
+            }
+
+            if (!docuData.ReportIDRequiredToAccept.All(r => caseProgress.ReportsReceived.Contains(r)))
+            {
+                return false;
+            }
+
+            if (!docuData.StageIDRequiredToAccept.All(s => caseProgress.StagesPassed.Contains(s)))
+            {
+                return false;
+            }
+
+            return true;
+        }
     }
 }

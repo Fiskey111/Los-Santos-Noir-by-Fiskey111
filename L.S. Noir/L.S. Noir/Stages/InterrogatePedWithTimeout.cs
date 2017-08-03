@@ -43,7 +43,7 @@ namespace LSNoir.Stages
          
         private Blip areaBlip;
 
-        private readonly WitnessData pedsData;
+        private readonly PersonData pedsData;
         private Ped ped;
         private PedScenarioLoop pedScenario;
         private Interrogation interrogation;
@@ -53,25 +53,14 @@ namespace LSNoir.Stages
         public InterrogatePedWithTimeout(StageData stageData)
         {
             data = stageData;
-            var id = data.WitnessID.FirstOrDefault();
-            pedsData = data.ParentCase.GetWitnessData(id);
+            pedsData = data.ParentCase.GetPersonData(data.PersonsID[0]);
         }
 
         protected override bool Initialize()
         {
-            areaBlip = new Blip(data.CallPosition)
-            {
-                Sprite = data.CallBlipSprite,
-                Color = Color.DarkOrange,
-                Name = data.CallBlipName,
-            };
+            areaBlip = Base.SharedStageMethods.CreateBlip(data);
 
-            string sceneId = data.SceneID;
-            if (!string.IsNullOrEmpty(sceneId))
-            {
-                SceneData sd = data.ParentCase.GetSceneData(sceneId);
-                scene = sd.GetScene();
-            }
+            scene = Base.SharedStageMethods.GetScene(data);
 
             Base.SharedStageMethods.DisplayNotification(data);
 
@@ -104,7 +93,7 @@ namespace LSNoir.Stages
             pedScenario = new PedScenarioLoop(ped, pedsData.Scenario);
             pedScenario.IsActive = true;
 
-            var interrogationData = data.ParentCase.GetInterrogationData(pedsData.DialogID);
+            var interrogationData = data.ParentCase.GetInterrogationData(pedsData.InterrogationID);
             interrogation = new Interrogation(interrogationData.Lines, ped);
         }
 
@@ -192,10 +181,10 @@ namespace LSNoir.Stages
 
         private void SaveProgress()
         {
-            data.ParentCase.AddNotesToProgress(pedsData.NotesID);
-            data.ParentCase.AddNotesToProgress(data.NotesID);
-            data.ParentCase.AddReportsToProgress(data.ReportsID);
-            data.ParentCase.AddDialogsToProgress(pedsData.DialogID);
+            data.ParentCase.Progress.AddNotesToProgress(pedsData.NotesID);
+            data.ParentCase.Progress.AddNotesToProgress(data.NotesID);
+            data.ParentCase.Progress.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.Progress.AddInterrogations(pedsData.InterrogationID);
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();
@@ -235,7 +224,7 @@ namespace LSNoir.Stages
         {
             SaveProgress();
 
-            data.ParentCase.ModifyCaseProgress(c => c.Finished = true);
+            data.ParentCase.Progress.ModifyCaseProgress(c => c.Finished = true);
             Attributes.NextScripts.Clear();
 
             DisplayMissionFailedScreen();

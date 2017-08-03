@@ -175,8 +175,8 @@ namespace LSNoir.Stages
             if (officer.Dialog.HasEnded)
             {
                 var officerData = stageData.ParentCase.GetOfficerData(stageData.OfficerID);
-                stageData.ParentCase.ModifyCaseProgress(m => m.Officers.Add(officerData.ID));
-                stageData.ParentCase.AddReportsToProgress(officerData.ReportsID);
+                stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Officers.Add(officerData.ID));
+                stageData.ParentCase.Progress.AddReportsToProgress(officerData.ReportsID);
 
                 GameFiber.Sleep(0500);
 
@@ -200,8 +200,8 @@ namespace LSNoir.Stages
             if (victim.Checked)
             {
                 var victimData = stageData.ParentCase.GetVictimData(stageData.VictimID);
-                stageData.ParentCase.ModifyCaseProgress(m => m.Victims.Add(victimData.ID));
-                stageData.ParentCase.AddNotesToProgress(victimData.NotesID);
+                stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Victims.Add(victimData.ID));
+                stageData.ParentCase.Progress.AddNotesToProgress(victimData.NotesID);
 
                 victim.CanBeInspected = false;
                 victim.PlaySoundPlayerNearby = false;
@@ -244,7 +244,7 @@ namespace LSNoir.Stages
             if (ems.IsCollected)
             {
                 var emsReport = stageData.ParentCase.GetEMSData(stageData.EmsID).ReportID;
-                stageData.ParentCase.AddReportsToProgress(emsReport);
+                stageData.ParentCase.Progress.AddReportsToProgress(emsReport);
 
                 if (coroner != null)
                 {
@@ -295,7 +295,7 @@ namespace LSNoir.Stages
             if (coroner.IsCollected)
             {
                 var coronerReport = stageData.ParentCase.GetCoronerData(stageData.CoronerID).ReportID;
-                stageData.ParentCase.AddReportsToProgress(coronerReport);
+                stageData.ParentCase.Progress.AddReportsToProgress(coronerReport);
 
                 Game.DisplayNotification(MSG_COLLECT);
 
@@ -314,7 +314,7 @@ namespace LSNoir.Stages
 
             if (importantEvidence.All(e => e.IsCollected))
             {
-                importantEvidence.ToList().ForEach(e => stageData.ParentCase.AddEvidenceToProgress(e.Id));
+                importantEvidence.ToList().ForEach(e => stageData.ParentCase.Progress.AddEvidenceToProgress(e.Id));
 
                 isImportantEvidenceCollected = true;
 
@@ -338,7 +338,7 @@ namespace LSNoir.Stages
             void AddToProgress(Witness wit)
             {
                 var witnessData = stageData.ParentCase.GetWitnessData(wit.Id);
-                stageData.ParentCase.SaveWitnessDataToProgress(witnessData);
+                stageData.ParentCase.Progress.SaveWitnessDataToProgress(witnessData);
             }
         }
 
@@ -367,8 +367,8 @@ namespace LSNoir.Stages
             stageData.SetThisAsLastStage();
             stageData.SaveNextScriptsToProgress(stageData.NextScripts.First());
 
-            stageData.ParentCase.AddReportsToProgress(stageData.ReportsID);
-            stageData.ParentCase.AddNotesToProgress(stageData.NotesID);
+            stageData.ParentCase.Progress.AddReportsToProgress(stageData.ReportsID);
+            stageData.ParentCase.Progress.AddNotesToProgress(stageData.NotesID);
 
             SetScriptFinished(true);
 

@@ -56,7 +56,7 @@ namespace LSNoir.Stages
         private IScene sceneOffice;
 
         private Ped medExaminer;
-        private WitnessData meData;
+        private PersonData meData;
         private Dialog meDialog;
 
         private Ped driver;
@@ -89,7 +89,7 @@ namespace LSNoir.Stages
                 Name = data.CallBlipName,
             };
 
-            meData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+            meData = data.ParentCase.GetPersonData(data.PersonsID[0]);
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -591,10 +591,11 @@ namespace LSNoir.Stages
 
             Functions.PlayScannerAudio(SCANNER_FINISH);
 
-            data.ParentCase.AddReportsToProgress(data.ReportsID);
-            data.ParentCase.AddNotesToProgress(data.NotesID);
-            data.ParentCase.AddEvidenceToProgress(data.EvidenceID);
-            data.ParentCase.AddDialogsToProgress(meData.DialogID);
+            data.ParentCase.Progress.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.Progress.AddNotesToProgress(data.NotesID);
+            data.ParentCase.Progress.AddEvidenceToProgress(data.EvidenceID);
+            data.ParentCase.Progress.AddDialogsToProgress(meData.DialogID);
+            data.ParentCase.Progress.AddPersonsTalkedTo(meData.ID);
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();

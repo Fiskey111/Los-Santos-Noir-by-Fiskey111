@@ -88,10 +88,10 @@ namespace LSNoir.Computer
                     request.Disable();
                     request.KeyboardInputEnabled = false;
 
-                    if (data.CanDocumentRequestBeAccepted(requestData.ID)) status.Text = "Accepted";
+                    if (requestData.CanDocumentRequestBeAccepted(data)) status.Text = "Accepted";
                     else status.Text = "Refused";
 
-                    data.ModifyCaseProgress(m => m.RequestedDocuments.Where(d => d.ID == documentData.ID).FirstOrDefault().DecisionSeenByPlayer = true);
+                    data.Progress.ModifyCaseProgress(m => m.RequestedDocuments.Where(d => d.ID == documentData.ID).FirstOrDefault().DecisionSeenByPlayer = true);
                 }
             }
         }
@@ -108,7 +108,7 @@ namespace LSNoir.Computer
                 return;
             }
 
-            data.ModifyCaseProgress(m => m.RequestedDocuments.Add(new DocumentRequestData(documentData)));
+            data.Progress.ModifyCaseProgress(m => m.RequestedDocuments.Add(new DocumentRequestData(documentData)));
 
             request.Disable();
             request.KeyboardInputEnabled = false;

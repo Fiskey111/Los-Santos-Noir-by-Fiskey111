@@ -20,7 +20,7 @@ namespace LSNoir.Stages
 
             var percentage = 100;
             var medal = MissionPassedScreen.MedalType.Gold;
-            var progress = data.ParentCase.GetCaseProgress();
+            var progress = data.ParentCase.Progress.GetCaseProgress();
 
             var witnesses = new MissionPassedScreenItem("Witnesses interrogated", progress.WitnessesInterviewed?.Count.ToString() ?? "0");
 

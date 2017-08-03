@@ -40,7 +40,7 @@ namespace LSNoir.Stages
         private const float DIST_CLOSE_START_TALK = 6.5f;
 
         private Vector3 callPos;
-        private WitnessData witnessData;
+        private PersonData personData;
         private Ped ped;
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
@@ -54,12 +54,7 @@ namespace LSNoir.Stages
         {
             callPos = data.CallPosition;
 
-            blipCallArea = new Blip(callPos)
-            {
-                Sprite = data.CallBlipSprite,
-                Color = Color.DarkOrange,
-                Name = data.CallBlipName,
-            };
+            blipCallArea = Base.SharedStageMethods.CreateBlip(data);
 
             Base.SharedStageMethods.DisplayNotification(data);
 
@@ -76,11 +71,8 @@ namespace LSNoir.Stages
             {
                 CreatePedToInterrogate();
 
-                if (!string.IsNullOrEmpty(data.SceneID))
-                {
-                    scene = new Scenes.Scene(data.ParentCase.GetSceneData(data.SceneID));
-                    scene.Create();
-                }
+                scene = Base.SharedStageMethods.GetScene(data);
+                scene?.Create();
 
                 SwapStages(Away, NotifyToTalk);
             }
@@ -88,14 +80,14 @@ namespace LSNoir.Stages
 
         private void CreatePedToInterrogate()
         {
-            witnessData = data.ParentCase.GetWitnessData(data.WitnessID[0]);
+            personData = data.ParentCase.GetPersonData(data.PersonsID[0]);
 
-            ped = new Ped(witnessData.Model, witnessData.Spawn.Position, witnessData.Spawn.Heading);
+            ped = new Ped(personData.Model, personData.Spawn.Position, personData.Spawn.Heading);
             ped.MakePersistent();
 
-            pedScenario = new PedScenarioLoop(ped, witnessData.Scenario);
+            pedScenario = new PedScenarioLoop(ped, personData.Scenario);
 
-            var interrogationData = data.ParentCase.GetInterrogationData(witnessData.DialogID);
+            var interrogationData = data.ParentCase.GetInterrogationData(personData.InterrogationID);
             interrogation = new Interrogation(interrogationData.Lines, ped);
         }
 
@@ -161,7 +153,7 @@ namespace LSNoir.Stages
         {
             Functions.PlayScannerAudio("ATTN_DISPATCH CODE_04_PATROL");
 
-            //data.ParentCase.SaveWitnessDataToProgress(witnessData);
+            data.ParentCase.Progress.AddInterrogations(personData.InterrogationID);
 
             data.SaveNextScriptsToProgress(data.NextScripts[0]);
             data.SetThisAsLastStage();

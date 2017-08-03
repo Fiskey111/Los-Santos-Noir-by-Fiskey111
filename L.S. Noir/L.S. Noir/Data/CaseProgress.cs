@@ -1,12 +1,5 @@
 ﻿using LtFlash.Common.EvidenceLibrary.Serialization;
-using LtFlash.Common.Serialization;
-using Rage;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LSNoir.Data
 {
@@ -26,9 +19,17 @@ namespace LSNoir.Data
         public List<string> Victims = new List<string>();
         public List<string> Officers = new List<string>();
         public List<string> WitnessesInterviewed = new List<string>();
+
         public List<string> DialogsPassed = new List<string>();
+        public List<string> InterrogationsPassed = new List<string>();
+
         public List<string> ReportsReceived = new List<string>();
         public List<string> NotesMade = new List<string>();
+
+        public List<string> SuspectsArrested = new List<string>();
+        public List<string> SuspectsKilled = new List<string>();
+
+        public List<string> PersonsTalkedTo = new List<string>();
 
         public List<CollectedEvidenceData> CollectedEvidence = new List<CollectedEvidenceData>();
         public List<DocumentRequestData> RequestedDocuments = new List<DocumentRequestData>();
@@ -36,18 +37,5 @@ namespace LSNoir.Data
         public CaseProgress()
         {
         }
-
-        //IMPROVED ARCHITECTURE - extract a tool class!:
-        //CaseProgressController
-        //public CaseProgress(string path)
-        //{
-        //    Path = path;
-        //}
-
-        //private string Path { get; }
-
-        //public void AddReport(string id)
-        //{
-        //}
     }
 }

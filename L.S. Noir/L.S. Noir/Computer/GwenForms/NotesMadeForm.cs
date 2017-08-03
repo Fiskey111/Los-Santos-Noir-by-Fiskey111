@@ -33,7 +33,7 @@ namespace LSNoir.Computer.GwenForms
 
             Window.DisableResizing();
 
-            var notesMadeIDs = data.GetCaseProgress().NotesMade;
+            var notesMadeIDs = data.Progress.GetCaseProgress().NotesMade;
 
             if (notesMadeIDs == null || notesMadeIDs.Count < 1) return;
 

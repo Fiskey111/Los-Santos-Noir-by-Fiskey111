@@ -85,12 +85,7 @@ namespace LSNoir.Stages
         {
             Base.SharedStageMethods.DisplayNotification(data);
 
-            blipMeetingArea = new Blip(data.CallPosition)
-            {
-                Sprite = data.CallBlipSprite,
-                Color = ColorTranslator.FromHtml(data.CallBlipColor),
-                Name = data.CallBlipName,
-            };
+            blipMeetingArea = Base.SharedStageMethods.CreateBlip(data);
 
             ActivateStage(Away);
 
@@ -241,13 +236,13 @@ namespace LSNoir.Stages
 
             if (scene.Peds.All(o => o.IsInAnyVehicle(false)) && Player.IsInAnyVehicle(false))
             {
-                var witId = data.WitnessID[0];
-                var witData = data.ParentCase.GetWitnessData(witId);
-                crewDestination = World.GetNextPositionOnStreet(witData.Spawn.Position);
+                var suspectID = data.SuspectsID[0];
+                var suspectData = data.ParentCase.GetSuspectData(suspectID);
+                crewDestination = World.GetNextPositionOnStreet(suspectData.Spawn.Position);
                 
-                GameFiber.StartNew(() => SpawnSuspect(witData));
+                GameFiber.StartNew(() => SpawnSuspect(suspectData));
 
-                blipSuspectArea = new Blip(witData.Spawn.Position, 40f)
+                blipSuspectArea = new Blip(suspectData.Spawn.Position, 40f)
                 {
                     Color = Color.Yellow,
                     Alpha = 0.45f,
@@ -255,7 +250,7 @@ namespace LSNoir.Stages
                     IsRouteEnabled = true,
                 };
 
-                Functions.PlayScannerAudioUsingPosition(SCANNER_ENROUTE, witData.Spawn.Position);
+                Functions.PlayScannerAudioUsingPosition(SCANNER_ENROUTE, suspectData.Spawn.Position);
 
                 TaskDriveToDest();
 
@@ -263,11 +258,11 @@ namespace LSNoir.Stages
             }
         }
 
-        private void SpawnSuspect(WitnessData witData)
+        private void SpawnSuspect(SuspectData suspectData)
         {
-            suspect = new Ped(witData.Model, witData.Spawn.Position, witData.Spawn.Heading);
+            suspect = new Ped(suspectData.Model, suspectData.Spawn.Position, suspectData.Spawn.Heading);
             suspect.MakePersistent();
-            pedScenarioHelper = new PedScenarioLoop(suspect, witData.Scenario);
+            pedScenarioHelper = new PedScenarioLoop(suspect, suspectData.Scenario);
             pedScenarioHelper.IsActive = true;
         }
 
@@ -393,6 +388,9 @@ namespace LSNoir.Stages
                 posToCalcLeaveDist = suspect.Position;
 
                 var next = suspect.IsAlive ? data.NextScripts[0] : data.NextScripts[1];
+
+                if (suspect.IsDead) data.ParentCase.Progress.AddSuspectsKilled(data.SuspectsID[0]);
+                else data.ParentCase.Progress.AddSuspectsArrested(data.SuspectsID[0]);
 
                 Attributes.NextScripts = next;
 

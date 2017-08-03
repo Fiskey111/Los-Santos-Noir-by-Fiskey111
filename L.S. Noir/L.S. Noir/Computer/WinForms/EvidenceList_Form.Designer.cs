@@ -72,7 +72,7 @@
             this.description.Name = "description";
             this.description.Size = new System.Drawing.Size(454, 100);
             this.description.TabIndex = 3;
-            this.description.Text = "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n";
+            this.description.Text = "\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n\r\n";
             // 
             // status
             // 
