@@ -5,6 +5,7 @@ namespace LSNoir.Resources
 {
     class CameraInterpolator
     {
+        public bool DoneInterpolating { get; private set; }
         private Camera cam;
         private Camera gameCam;
 
@@ -18,6 +19,23 @@ namespace LSNoir.Resources
 
             cam.Position = camPos;
             cam.Heading = face;
+
+            gameCam = RetrieveGameCam();
+            gameCam.Active = true;
+
+            CamInterpolate(gameCam, cam, 6000, true, true, true);
+
+            cam.Active = true;
+
+            SetLocalPlayerPropertiesWhileCamOn(true);
+        }
+
+        public void Start(Vector3 camPos, Entity pointAt)
+        {
+            cam = new Camera(false);
+
+            cam.Position = camPos;
+            cam.PointAtEntity(pointAt, Vector3.Zero, false);
 
             gameCam = RetrieveGameCam();
             gameCam.Active = true;
@@ -67,7 +85,7 @@ namespace LSNoir.Resources
             Game.LocalPlayer.Character.IsInvincible = on;
         }
 
-        private static void CamInterpolate(
+        private void CamInterpolate(
             Camera camfrom, Camera camto,
             int totaltime,
             bool easeLocation, bool easeRotation, bool waitForCompletion,
@@ -78,6 +96,8 @@ namespace LSNoir.Resources
                 totaltime, easeLocation, easeRotation);
 
             if (waitForCompletion) GameFiber.Sleep(totaltime);
+
+            DoneInterpolating = true;
         }
     }
 }

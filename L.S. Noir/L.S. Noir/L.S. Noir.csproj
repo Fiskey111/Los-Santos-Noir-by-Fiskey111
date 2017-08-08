@@ -91,6 +91,20 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIWrapper.cs" />
+    <Compile Include="Computer\GwenForms\FindPersonForm.cs" />
+    <Compile Include="Computer\GwenForms\FindVehicleForm.cs" />
+    <Compile Include="Computer\WinForms\FindVehicle_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computer\WinForms\FindVehicle_Form.Designer.cs">
+      <DependentUpon>FindVehicle_Form.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Computer\WinForms\FindPerson_Form.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Computer\WinForms\FindPerson_Form.Designer.cs">
+      <DependentUpon>FindPerson_Form.cs</DependentUpon>
+    </Compile>
     <Compile Include="DataValidation\CaseDataValidator.cs" />
     <Compile Include="DataValidation\IValidator.cs" />
     <Compile Include="DataValidation\StageDataValidator.cs" />
@@ -176,6 +190,7 @@
     <Compile Include="Resources\SecurityCamera.cs" />
     <Compile Include="Scenes\IScene.cs" />
     <Compile Include="Scenes\Scene.cs" />
+    <Compile Include="Scenes\Scene2PedsContact.cs" />
     <Compile Include="Scenes\SceneBase.cs" />
     <Compile Include="Scenes\SceneHospitalInterior.cs" />
     <Compile Include="Data\SceneItem.cs" />
@@ -197,6 +212,7 @@
     <Compile Include="Stages\DialogWithPed.cs" />
     <Compile Include="Stages\InterrogatePed.cs" />
     <Compile Include="Stages\InterrogatePedWithTimeout.cs" />
+    <Compile Include="Stages\VantagePointObservation.cs" />
     <Compile Include="Stages\WaitForEvent.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -207,6 +223,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="NOTES.txt" />
+    <EmbeddedResource Include="Computer\WinForms\FindVehicle_Form.resx">
+      <DependentUpon>FindVehicle_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Computer\WinForms\FindPerson_Form.resx">
+      <DependentUpon>FindPerson_Form.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="RagePro\PublicKey.xml" />
     <Content Include="TODO.txt" />
     <EmbeddedResource Include="Computer\WinForms\DocumentsList_Form.resx">

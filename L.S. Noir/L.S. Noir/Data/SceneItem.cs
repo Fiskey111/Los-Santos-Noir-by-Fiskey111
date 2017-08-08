@@ -9,7 +9,12 @@ namespace LSNoir.Data
         public string ID { get; set; }
         public string Type; //Vehicle, Object, Ped
         public SpawnPoint Spawn;
+        public Rotator Rotation;
+        public bool ShouldSerializeRotation() => !Rotation.IsZero();
+
         public string Model;
+
+        public SpawnPoint[] AccessoryPositions;
 
         public string AnimDictionary = null;
         public bool ShouldSerializeAnimDictionary() => !string.IsNullOrEmpty(AnimDictionary);

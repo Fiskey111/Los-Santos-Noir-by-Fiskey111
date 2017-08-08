@@ -7,7 +7,7 @@ namespace LSNoir.Scenes
 {
     class SceneBase
     {
-        protected static Entity GenerateItem(SceneItem data)
+        public static Entity GenerateItem(SceneItem data)
         {
             Entity result = default(Entity);
 
@@ -25,13 +25,27 @@ namespace LSNoir.Scenes
                     result = CreateItem(data, (m, p, h) => new Rage.Object(m, p, h));
                     break;
 
+                case "Camera":
+                    result = GenerateCamera(data);
+                    break;
+
                 default:
                     var msg = $"{nameof(Scene)}.{nameof(GenerateItem)}: SceneItem type could not be recognized: {data.Type}, id: {data.ID}";
                     throw new ArgumentException(msg);
             }
 
-            result.MakePersistent();
+            if(!(result is Camera)) result.MakePersistent();
 
+            return result;
+        }
+
+        private static Entity GenerateCamera(SceneItem data)
+        {
+            Camera result;
+            result = new Camera(false);
+            result.Position = data.Spawn.Position;
+            if(!data.Rotation.IsZero()) result.Rotation = data.Rotation;
+            //result.MakePersistent();
             return result;
         }
 

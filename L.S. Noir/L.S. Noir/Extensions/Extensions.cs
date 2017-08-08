@@ -4,6 +4,9 @@ namespace LSNoir
 {
     static class Extensions
     {
+        public static float DistToPlayer(this ISpatial spatial)
+            => Vector3.Distance(Game.LocalPlayer.Character.Position, spatial.Position);
+
         //TODO: replace with Logger class!
         public static void AddLog(this string text, bool logRelease = false)
         {

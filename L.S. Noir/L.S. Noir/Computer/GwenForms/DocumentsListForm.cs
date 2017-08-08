@@ -115,12 +115,7 @@ namespace LSNoir.Computer
 
             status.Text = "Awaiting decision";
 
-            GameFiber.StartNew(() =>
-            {
-                var progressWnd = new GwenForms.ProgressForm("Sending request");
-                host.AddWnd(progressWnd);
-                progressWnd.Show();
-            });
+            GwenForms.SharedMethods.DisplayProgressWnd(host, "Sending request");
         }
 
         private DocumentData GetSelectedDocData()

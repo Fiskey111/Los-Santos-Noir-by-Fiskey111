@@ -16,7 +16,8 @@ namespace LSNoir.Stages.Base
 
         protected static Ped Player => Game.LocalPlayer.Character;
 
-        protected static float DistToPlayer(Entity e) => Vector3.Distance(Player.Position, e.Position);
+        public static float DistToPlayer(ISpatial e) => Vector3.Distance(Player.Position, e.Position);
+        public static float DistToPlayer(Vector3 e) => Vector3.Distance(Player.Position, e);
 
         protected static FirstOfficer CreateFirstOfficer(StageData stageData)
         {

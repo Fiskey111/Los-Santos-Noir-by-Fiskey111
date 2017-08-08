@@ -27,5 +27,15 @@ namespace LSNoir.Computer.GwenForms
 
             form.Position = new Point(x, y);
         }
+
+        public static void DisplayProgressWnd(ComputerController host, string text)
+        {
+            GameFiber.StartNew(() =>
+            {
+                var progressWnd = new ProgressForm(text);
+                host.AddWnd(progressWnd);
+                progressWnd.Show();
+            });
+        }
     }
 }
