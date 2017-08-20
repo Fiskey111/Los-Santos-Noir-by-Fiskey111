@@ -23,3 +23,4 @@ D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Release\RagePROletariat.dll
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.FindVehicle_Form.resources
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.FindPerson_Form.resources
+D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csproj.CoreCompileInputs.cache

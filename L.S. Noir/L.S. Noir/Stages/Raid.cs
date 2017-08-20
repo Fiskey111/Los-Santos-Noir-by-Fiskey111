@@ -394,7 +394,7 @@ namespace LSNoir.Stages
 
                 Attributes.NextScripts = next;
 
-                data.SaveNextScriptsToProgress(next);
+                data.ParentCase.Progress.SetNextScripts(next);
 
                 SwapStages(CanFinish, NotifyLeaveTheArea);
             }
@@ -430,7 +430,7 @@ namespace LSNoir.Stages
         {
             DisplayMissionPassedScreen();
 
-            data.SetThisAsLastStage();
+            data.ParentCase.Progress.SetLastStage(data.ID);
 
             SetScriptFinished(true);
         }

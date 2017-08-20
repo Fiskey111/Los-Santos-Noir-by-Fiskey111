@@ -597,8 +597,8 @@ namespace LSNoir.Stages
             data.ParentCase.Progress.AddDialogsToProgress(meData.DialogID);
             data.ParentCase.Progress.AddPersonsTalkedTo(meData.ID);
 
-            data.SaveNextScriptsToProgress(data.NextScripts[0]);
-            data.SetThisAsLastStage();
+            data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);
+            data.ParentCase.Progress.SetLastStage(data.ID);
 
             SetScriptFinished(true);
         }

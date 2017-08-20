@@ -8,11 +8,6 @@ using System.Windows.Forms;
 
 namespace LSNoir.Scenes
 {
-    interface ISceneActive : IScene
-    {
-        bool HasFinished { get; }
-    }
-
     class Scene2PedsContact : SceneBase, ISceneActive
     {
         public bool HasFinished { get; private set; }
@@ -21,18 +16,17 @@ namespace LSNoir.Scenes
         private Ped pedWalking;
         private Vector3 pedWalkDest;
         private Ped pedStanding;
-
+        private string pedStandingScenario;
         private Task taskGotoPed;
         private Task taskGetBack;
 
         private Camera cam;
 
         private float defaultFOV;
-        private float minFOV = 8f;
 
         private ProcessHost proc = new ProcessHost();
 
-        private const float PED_WALK_SPEED = 1.5f;
+        private const float PED_WALK_SPEED = 1.4f;
 
         private ControlSet ctrlZoomIn = new ControlSet(Keys.D7, Keys.None, ControllerButtons.None);
         private ControlSet ctrlZoomOut = new ControlSet(Keys.D8, Keys.None, ControllerButtons.None);
@@ -47,6 +41,10 @@ namespace LSNoir.Scenes
         public void Create()
         {
             Spawn();
+        }
+
+        public void Start()
+        {
             PedTasks();
 
             proc[ArePlayersTogether] = true;
@@ -59,6 +57,7 @@ namespace LSNoir.Scenes
         {
             var pedStandingData = data.Items.FirstOrDefault(d => d.ID == "pedStand");
             pedStanding = CreateItem(pedStandingData, (m, p, h) => new Ped(m, p, h));
+            pedStandingScenario = pedStandingData.Scenario;
 
             var pedWalkData = data.Items.FirstOrDefault(d => d.ID == "pedWalk");
             pedWalking = CreateItem(pedWalkData, (m, p, h) => new Ped(m, p, h));
@@ -82,44 +81,59 @@ namespace LSNoir.Scenes
 
             if(ctrlZoomIn.IsActive)
             {
-                for (var i = 0; i < 10; i++)
+                for (var i = 0; i < 100; i++)
                 {
-                    cam.FOV -= 2f;
-                    GameFiber.Wait(100);
+                    cam.FOV -= cam.FOV > 12 ? 0.1f : 0.05f;
+                    GameFiber.Wait(10);
                 }
-
-                Game.LogTrivial("Curr FOV: " + cam.FOV);
             }
 
             if(ctrlZoomOut.IsActive)
             {
-                for (var i = 0; i < 10; i++)
-                {
-                    cam.FOV += 2f;
-                    GameFiber.Wait(100);
-                }
+                if (cam.FOV >= defaultFOV) return;
 
-                Game.LogTrivial("Curr FOV: " + cam.FOV);
+                for (var i = 0; i < 100; i++)
+                {
+                    cam.FOV += 0.1f;
+                    GameFiber.Wait(10);
+                }
             }
         }
         
         private void PedTasks()
         {
-            taskGotoPed = pedWalking.Tasks.FollowNavigationMeshToPosition(pedStanding.GetOffsetPositionRight(2.0f), 0, PED_WALK_SPEED);
+            taskGotoPed = pedWalking.Tasks.FollowNavigationMeshToPosition(pedStanding.GetOffsetPositionRight(0.8f), 0, PED_WALK_SPEED);
+            NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(pedStanding, pedStandingScenario, 0, true);
         }
 
         private void ArePlayersTogether()
         {
             if(taskGotoPed.Status == TaskStatus.None)
             {
+                var initHeading = pedStanding.Heading;
+
                 NativeFunction.Natives.TaskTurnPedToFaceEntity(pedStanding, pedWalking, 3000);
                 NativeFunction.Natives.TaskTurnPedToFaceEntity(pedWalking, pedStanding, 3000);
 
-                // play anim talk
+                GameFiber.Wait(3000);
+
                 //WORLD_HUMAN_DRUG_DEALER
+
+                pedStanding.Tasks.PlayAnimation("missfbi3_party_d", "stand_talk_loop_a_female", 1f, AnimationFlags.Loop);
+                pedWalking.Tasks.PlayAnimation("missfbi3_party_d", "stand_talk_loop_a_male1", 1f, AnimationFlags.Loop);
+
                 GameFiber.Wait(10000);
 
+                pedStanding.Tasks.Clear();
+                pedStanding.Tasks.AchieveHeading(initHeading);
+
+                pedWalking.Tasks.Clear();
+
                 taskGetBack = pedWalking.Tasks.FollowNavigationMeshToPosition(pedWalkDest, 0, PED_WALK_SPEED);
+
+                GameFiber.Wait(2000);
+
+                NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(pedStanding, pedStandingScenario, 0, true);
 
                 proc.SwapProcesses(ArePlayersTogether, CanFinish);
             }

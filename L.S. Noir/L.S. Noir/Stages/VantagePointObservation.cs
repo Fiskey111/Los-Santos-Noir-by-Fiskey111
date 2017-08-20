@@ -24,7 +24,7 @@ namespace LSNoir.Stages
         private const float DIST_AREA_LEFT = 30f; //replace with xml val
 
         private const string MODEL_BINOCULARS = "v_serv_ct_binoculars";
-        //SCENARIO: WORLD_HUMAN_BINOCULARS
+        private const string SCENARIO_BINOCULARS = "WORLD_HUMAN_BINOCULARS";
 
         private const string MODEL_CAMERA = "prop_pap_camera_01";
         //CAMERA:
@@ -35,7 +35,7 @@ namespace LSNoir.Stages
 
         public static float DistToPlayer(Vector3 e) => Vector3.Distance(Game.LocalPlayer.Character.Position, e);
 
-        private CameraInterpolator ci;
+        private CameraInterpolator camInterpolator;
         private Rage.Object optics;
 
         public VantagePointObservation(StageData stageData)
@@ -62,7 +62,7 @@ namespace LSNoir.Stages
         {
             if(DistToPlayer(blipVantagePoint.Position) < DIST_CLOSE)
             {
-                Game.DisplayHelp(MSG_FIND_POINT);
+                //Game.DisplayHelp(MSG_FIND_POINT);
 
                 blipVantagePoint.Delete();
 
@@ -78,6 +78,8 @@ namespace LSNoir.Stages
 
         private void HasPlayerEnterMarker()
         {
+            Game.DisplaySubtitle(MSG_FIND_POINT);
+
             if(DistToPlayer(markerVantagePoint.Position) < DIST_MARKER_ACTIVE)
             {
                 if(blipVantagePoint) blipVantagePoint.Delete();
@@ -105,15 +107,17 @@ namespace LSNoir.Stages
 
             optics.AttachTo(Game.LocalPlayer.Character, (int)PedBoneId.RightHand, Vector3.Zero, Rotator.Zero);
 
-            Game.LocalPlayer.Character.Tasks.PlayAnimation("amb@world_human_binoculars@male@idle_a", "idle_a", 1, AnimationFlags.Loop);
+            //Game.LocalPlayer.Character.Tasks.PlayAnimation("amb@world_human_binoculars@male@idle_a", "idle_a", 1, AnimationFlags.Loop);
+
+            NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(Game.LocalPlayer.Character, SCENARIO_BINOCULARS, 0, true);
 
             ActivateStage(HideHUDAndMap);
 
-            ci = new CameraInterpolator();
+            camInterpolator = new CameraInterpolator();
 
             var camPos = Game.LocalPlayer.Character.GetOffsetPositionFront(6);
 
-            ci.Start(camPos, Game.LocalPlayer.Character);
+            camInterpolator.Start(camPos, Game.LocalPlayer.Character);
 
             SwapStages(AttachProps, IsCamDoneInterpolating);
         }
@@ -125,15 +129,16 @@ namespace LSNoir.Stages
 
         private void IsCamDoneInterpolating()
         {
-            if(ci.DoneInterpolating)
+            if(camInterpolator.DoneInterpolating)
             {
                 Game.FadeScreenOut(2000, true);
 
-                ci.Stop();
+                camInterpolator.Stop();
 
                 Game.LocalPlayer.Character.Tasks.ClearImmediately();
 
                 scene.Create();
+                scene.Start();
 
                 Game.FadeScreenIn(2000, true);
 
@@ -163,8 +168,19 @@ namespace LSNoir.Stages
 
             if(DistToPlayer(data.CallPosition) > DIST_AREA_LEFT)
             {
-                SetScriptFinished(true);
+                SetScriptFinishedAndSave();
             }
+        }
+
+        private void SetScriptFinishedAndSave()
+        {
+            data.ParentCase.Progress.SetLastStage(data.ID);
+            if (data.NextScripts != null && data.NextScripts.Count > 0)
+            {
+                data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);
+            }
+
+            SetScriptFinished(true);
         }
         
         protected override void Process()

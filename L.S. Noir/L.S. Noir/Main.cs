@@ -21,7 +21,6 @@ namespace LSNoir
         public override void Initialize()
         {
             Game.LogVeryVerbose("LS Noir initialized.");
-
             Functions.OnOnDutyStateChanged += Functions_OnOnDutyStateChanged;
         }
 
@@ -29,12 +28,7 @@ namespace LSNoir
         {
             if (onDuty)
             {
-                //if (!RageProRegistration.RegisterRagePro())
-                //{
-                //    Game.DisplayNotification("~r~LSNoir: obtain a valid license!~s~");
-                //    Game.LogExtremelyVerbose("LS Noir: obtain a valid license!");
-                //    return;
-                //}
+                //if (!IsRageProLicenseValid()) return;
 
                 PrintConsoleBanner();
 
@@ -48,6 +42,15 @@ namespace LSNoir
 
                 Game.DisplayNotification("Script manager started.");
             }
+        }
+
+        private bool IsRageProLicenseValid()
+        {
+            if (RageProRegistration.RegisterRagePro()) return true;
+            
+            Game.DisplayNotification("~r~LSNoir: obtain a valid license!~s~");
+            Game.LogTrivial("LS Noir: obtain a valid license!");
+            return false;
         }
 
         private static void PrintConsoleBanner()
@@ -71,19 +74,6 @@ namespace LSNoir
         {
             //cleanup
             computerCtrl.Stop();
-        }
-    }
-
-    internal static class DependencyChecker
-    {
-        public static bool IsBetterEMSUpToDate()
-        {
-            return true;
-        }
-
-        public static bool IsRPHUpToDate()
-        {
-            return true;
         }
     }
 }

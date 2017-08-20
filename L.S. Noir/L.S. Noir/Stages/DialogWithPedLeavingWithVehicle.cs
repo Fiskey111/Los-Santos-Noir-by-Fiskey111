@@ -1,9 +1,4 @@
-﻿//copy the interrogation from here:
-//https://github.com/Fiskey111/Los-Santos-Noir-by-Fiskey111/blob/26da8e2882a5ae313fc2ef7b3d91e5841a4e5b76/L.S.%20Noir/L.S.%20Noir/Callouts/SA/Creators/Interrogation_Creator.cs
-
-//https://github.com/Fiskey111/Los-Santos-Noir-by-Fiskey111/blob/master/L.S.%20Noir/L.S.%20Noir/Callouts/SA/Computer/main_form.Designer.cs
-
-using LSNoir.Data;
+﻿using LSNoir.Data;
 using LSNoir.Resources;
 using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
@@ -12,7 +7,6 @@ using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
 using RAGENativeUI.Elements;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace LSNoir.Stages
@@ -22,7 +16,7 @@ namespace LSNoir.Stages
     //              CallPos defines the call area,
     // - WitnessData: defines ped; Model, Spawn, DialogID?
 
-    public class DialogWithPed : BasicScript
+    public class DialogWithPedLeavingWithVehicle : BasicScript
     {
         private readonly StageData data;
         private Ped Player => Game.LocalPlayer.Character;
@@ -36,26 +30,22 @@ namespace LSNoir.Stages
 
         private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
 
-        private Vector3 callPos;
         private Ped ped;
         private string personID;
-        private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
 
-        private IScene scene;
+        private ISceneActiveWithVehicle scene;
 
-        public DialogWithPed(StageData stageData)
+        public DialogWithPedLeavingWithVehicle(StageData stageData)
         {
             data = stageData;
         }
 
         protected override bool Initialize()
         {
-            callPos = data.CallPosition;
-
             blipCallArea = Base.SharedStageMethods.CreateBlip(data);
 
-            scene = Base.SharedStageMethods.GetScene(data);
+            scene = Base.SharedStageMethods.GetScene(data) as ISceneActiveWithVehicle;
 
             Base.SharedStageMethods.DisplayNotification(data);
 
@@ -76,7 +66,6 @@ namespace LSNoir.Stages
 
                 SwapStages(Away, NotifyToTalk);
             }
-
         }
 
         private void CreatePed()
@@ -88,7 +77,10 @@ namespace LSNoir.Stages
             ped = new Ped(personData.Model, personData.Spawn.Position, personData.Spawn.Heading);
             ped.MakePersistent();
 
-            pedScenario = new PedScenarioLoop(ped, personData.Scenario);
+            if(!string.IsNullOrEmpty(personData.Scenario))
+            {
+                NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(ped, personData.Scenario, 0, true);
+            }
 
             var dialogData = data.ParentCase.GetDialogData(personData.DialogID);
             dialogID = dialogData.ID;
@@ -99,21 +91,19 @@ namespace LSNoir.Stages
         {
             if (!ped) CreatePed();
 
-            if(DistToPlayer(ped.Position) < 15)
+            if (DistToPlayer(ped.Position) < 15)
             {
                 Game.DisplayHelp(MSG_TALK, 3000);
 
                 SwapStages(NotifyToTalk, NotifyPressToStartTalking);
             }
         }
-        
+
         private void NotifyPressToStartTalking()
         {
-            if(DistToPlayer(ped.Position) < 6)
+            if (DistToPlayer(ped.Position) < 6)
             {
                 Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, KEY_START_INTERROGATION), 3000);
-
-                pedScenario.IsActive = false;
 
                 if (blipCallArea) blipCallArea.Delete();
 
@@ -123,7 +113,7 @@ namespace LSNoir.Stages
 
         private void CanStartTalking()
         {
-            if(Game.IsKeyDown(KEY_START_INTERROGATION))
+            if (Game.IsKeyDown(KEY_START_INTERROGATION))
             {
                 dialog.StartDialog();
 
@@ -136,14 +126,39 @@ namespace LSNoir.Stages
 
         private void IsFinished()
         {
-            if(dialog.HasEnded)
+            if (dialog.HasEnded)
             {
-                Game.DisplaySubtitle(MSG_LEAVE, 100);
+                DeactivateStage(IsFinished);
 
-                if(DistToPlayer(callPos) > data.CallAreaRadius)
-                {
-                    SetScriptFinishedSuccessfulyAndSave();
-                }
+                ActivateStage(HasLeft);
+                ActivateStage(PedEntersVeh);
+            }
+        }
+
+        private void HasLeft()
+        {
+            Game.DisplaySubtitle(MSG_LEAVE, 100);
+
+            if (DistToPlayer(data.CallPosition) > data.CallAreaRadius)
+            {
+                SetScriptFinishedSuccessfulyAndSave();
+            }
+        }
+
+        private void PedEntersVeh()
+        {
+            scene.EnterVehicle(ped);
+
+            SwapStages(PedEntersVeh, IsInVehicle);
+        }
+
+        private void IsInVehicle()
+        {
+            if(ped.IsInAnyVehicle(false))
+            {
+                scene.Start();
+
+                DeactivateStage(IsInVehicle);
             }
         }
 

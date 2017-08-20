@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LSNoir.Data;
-using Rage.Native;
+﻿using LSNoir.Data;
 using Rage;
+using Rage.Native;
+using System.Collections.Generic;
 
 namespace LSNoir.Scenes
 {

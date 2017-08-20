@@ -186,8 +186,8 @@ namespace LSNoir.Stages
             data.ParentCase.Progress.AddReportsToProgress(data.ReportsID);
             data.ParentCase.Progress.AddInterrogations(pedsData.InterrogationID);
 
-            data.SaveNextScriptsToProgress(data.NextScripts[0]);
-            data.SetThisAsLastStage();
+            data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);
+            data.ParentCase.Progress.SetLastStage(data.ID);
         }
 
         private void Success()

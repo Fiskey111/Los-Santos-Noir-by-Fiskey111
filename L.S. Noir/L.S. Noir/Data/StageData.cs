@@ -84,16 +84,5 @@ namespace LSNoir.Data
         public StageData()
         {
         }
-
-        public void SetThisAsLastStage()
-        {
-            ParentCase.Progress.ModifyCaseProgress(m => m.LastStageID = ID);
-            ParentCase.Progress.ModifyCaseProgress(m => m.StagesPassed.Add(ID));
-        }
-
-        public void SaveNextScriptsToProgress(List<string> next)
-        {
-            ParentCase.Progress.ModifyCaseProgress(m => m.NextScripts = next);
-        }
     }
 }

@@ -11,16 +11,18 @@ namespace LSNoir.Data
     {
         private string Path { get; }
         private CaseData ParentCase { get; }
+        private IDataProvider Provider { get; }
 
         public CaseProgressHelper(CaseData parent, string progressPath)
         {
             Path = progressPath;
             ParentCase = parent;
+            Provider = DataProvider.Instance;
         }
 
         public void ModifyCaseProgress(Action<CaseProgress> modifier)
         {
-            DataProvider.Instance.Modify(Path, modifier);
+            Provider.Modify(Path, modifier);
         }
 
         public void AddReportsToProgress(params string[] id)
@@ -62,7 +64,7 @@ namespace LSNoir.Data
         {
             if (ids == null || ids.Length < 1) return;
 
-            var progress = DataProvider.Instance.Load<CaseProgress>(Path);
+            var progress = Provider.Load<CaseProgress>(Path);
 
             for (int i = 0; i < ids.Length; i++)
             {
@@ -75,7 +77,7 @@ namespace LSNoir.Data
                 }
             }
 
-            DataProvider.Instance.Save(Path, progress);
+            Provider.Save(Path, progress);
         }
 
 
@@ -83,7 +85,7 @@ namespace LSNoir.Data
         {
             if (ids == null || ids.Length < 1) return;
 
-            var progress = DataProvider.Instance.Load<CaseProgress>(Path);
+            var progress = Provider.Load<CaseProgress>(Path);
 
             for (int i = 0; i < ids.Length; i++)
             {
@@ -95,22 +97,22 @@ namespace LSNoir.Data
                 }
             }
 
-            DataProvider.Instance.Save(Path, progress);
+            Provider.Save(Path, progress);
         }
 
         public CaseProgress GetCaseProgress()
         {
             if (!File.Exists(Path))
             {
-                DataProvider.Instance.Save(Path, new CaseProgress());
+                Provider.Save(Path, new CaseProgress());
             }
 
-            return DataProvider.Instance.Load<CaseProgress>(Path);
+            return Provider.Load<CaseProgress>(Path);
         }
 
         public void SaveWitnessDataToProgress(WitnessData data)
         {
-            var cp = DataProvider.Instance.Load<CaseProgress>(Path);
+            var cp = Provider.Load<CaseProgress>(Path);
 
             cp.WitnessesInterviewed.Add(data.ID);
 
@@ -118,7 +120,18 @@ namespace LSNoir.Data
             if (data.NotesID != null && data.NotesID.Length > 0) cp.NotesMade.AddRange(data.NotesID);
             if (data.ReportsID != null && data.ReportsID.Length > 0) cp.ReportsReceived.AddRange(data.ReportsID);
 
-            DataProvider.Instance.Save(Path, cp);
+            Provider.Save(Path, cp);
+        }
+
+        public void SetLastStage(string id)
+        {
+            Provider.Modify<CaseProgress>(Path, p => p.LastStageID = id);
+            Provider.Modify<CaseProgress>(Path, p => p.StagesPassed.Add(id));
+        }
+
+        public void SetNextScripts(List<string> next)
+        {
+            Provider.Modify<CaseProgress>(Path, p => p.NextScripts = next);
         }
     }
 }

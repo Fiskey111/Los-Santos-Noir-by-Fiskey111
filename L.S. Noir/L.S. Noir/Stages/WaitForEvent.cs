@@ -83,8 +83,8 @@ namespace LSNoir.Stages
         private void SetFinishedSuccessfullyAndSave()
         {
             Game.LogTrivial("WaitForEvent.End()");
-            data.SaveNextScriptsToProgress(data.NextScripts[0]);
-            data.SetThisAsLastStage();
+            data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);
+            data.ParentCase.Progress.SetLastStage(data.ID);
             SetScriptFinished(true);
         }
 

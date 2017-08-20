@@ -186,8 +186,8 @@ namespace LSNoir.Stages
         {
             Base.SharedStageMethods.SaveRepNotEvdToProgress(data);
 
-            data.SaveNextScriptsToProgress(data.NextScripts[0]);
-            data.SetThisAsLastStage();
+            data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);
+            data.ParentCase.Progress.SetLastStage(data.ID);
 
             SetScriptFinished(true);
         }

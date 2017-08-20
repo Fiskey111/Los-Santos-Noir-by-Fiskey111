@@ -364,8 +364,8 @@ namespace LSNoir.Stages
 
         private void SetSuccessfulyFinishedAndSave()
         {
-            stageData.SetThisAsLastStage();
-            stageData.SaveNextScriptsToProgress(stageData.NextScripts.First());
+            stageData.ParentCase.Progress.SetLastStage(stageData.ID);
+            stageData.ParentCase.Progress.SetNextScripts(stageData.NextScripts.First());
 
             stageData.ParentCase.Progress.AddReportsToProgress(stageData.ReportsID);
             stageData.ParentCase.Progress.AddNotesToProgress(stageData.NotesID);

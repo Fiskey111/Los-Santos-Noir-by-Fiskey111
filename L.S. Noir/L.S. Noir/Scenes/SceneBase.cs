@@ -45,7 +45,7 @@ namespace LSNoir.Scenes
             result = new Camera(false);
             result.Position = data.Spawn.Position;
             if(!data.Rotation.IsZero()) result.Rotation = data.Rotation;
-            //result.MakePersistent();
+            //result.MakePersistent(); - calling it on an inactive cam causes a crash
             return result;
         }
 
