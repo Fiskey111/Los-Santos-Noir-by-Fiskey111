@@ -69,6 +69,7 @@ namespace LSNoir.Scenes
             //int height, float p13, int p14)
 
             NativeFunction.Natives.TASK_HELI_MISSION(driver, Veh, 0, 0, pos.X, pos.Y, pos.Z, 4, 10f, -1.0f, -1.0f, 10, 10, 5.0f, 0);
+
             proc[SpawnIfNotExists] = false;
             proc[IsDone] = true;
         }

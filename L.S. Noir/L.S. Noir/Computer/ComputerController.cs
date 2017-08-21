@@ -37,6 +37,9 @@ namespace LSNoir.Computer
         private const float DIST_ACTIVE = 1f;
         private const string MSG_PRESS_TO_OPEN = "Press {0} to open terminal.";
 
+        private const BlipSprite BLIP_SPRITE_COMPUTER = (BlipSprite)407;
+        private readonly Color COLOR_BLIP_COMPUTER = Color.Blue;
+
         private readonly int GameResWidth = Game.Resolution.Width;
         private readonly int GameResHeight = Game.Resolution.Height;
 
@@ -69,31 +72,33 @@ namespace LSNoir.Computer
             canRun = true;
             fiber = GameFiber.StartNew(Process);
 
-            blips.AddRange(CreateBlipsForPositions(positions, (BlipSprite)407, Color.Blue));
+            Array.ForEach(positions, p => blips.Add(CreateBlip(p, BLIP_SPRITE_COMPUTER, COLOR_BLIP_COMPUTER)));
 
-            if (File.Exists(Paths.PATH_COMPUTER_BACKGROUND))
-            {
-                computerBackground = Game.CreateTextureFromFile(Paths.PATH_COMPUTER_BACKGROUND);
-                Game.RawFrameRender += RawRender;
-            }
-            else
+            computerBackground = LoadBackground(Paths.PATH_COMPUTER_BACKGROUND);
+
+            Game.RawFrameRender += RawRender;
+        }
+
+        private static Texture LoadBackground(string path)
+        {
+            if (!File.Exists(Paths.PATH_COMPUTER_BACKGROUND))
             {
                 string msg = $"{nameof(ComputerController)}.{nameof(Start)}(): computer background was not found: {Paths.PATH_COMPUTER_BACKGROUND}";
                 throw new FileNotFoundException(msg);
             }
-        }
 
-        private IEnumerable<Blip> CreateBlipsForPositions(Vector3[] pos, BlipSprite sprite, Color col)
+            return Game.CreateTextureFromFile(path);
+        }
+        
+        private static Blip CreateBlip(Vector3 pos, BlipSprite sprite, Color col)
         {
-            for (int i = 0; i < pos.Length; i++)
+            return new Blip(pos)
             {
-                var blip = new Blip(pos[i]);
-                blip.Sprite = sprite;
-                blip.Color = col;
-                blip.Scale = 0.75f;
-                //TODO: DisplayType: no-minimap, map only
-                yield return blip;
-            }
+                Sprite = sprite,
+                Color = col,
+                Scale = 0.75f,
+            //TODO: DisplayType: no-minimap, map only
+            };
         }
 
         private void RawRender(object sender, GraphicsEventArgs e)

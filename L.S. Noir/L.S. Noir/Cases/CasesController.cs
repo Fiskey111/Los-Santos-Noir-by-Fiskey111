@@ -16,19 +16,15 @@ namespace LSNoir.Cases
         // - make RandomScriptManager accepts ctorParams and use it
         // - additional ctor or method to add only a selected CaseData.xml for tests and shit
 
-        public CaseData CurrentCase { get; private set; }
-
-        private readonly List<CaseData> data = new List<CaseData>();
+        private readonly List<CaseData> casesData = new List<CaseData>();
 
         private ScriptManagerBase manager = new ScriptManagerBase();
 
         public CasesController(string caseFolderPath, string filenameCaseData)
         {
-            Game.LogTrivial("CasesController.Ctor");
+            var casesData = GetAllCasesFromFolder(caseFolderPath, filenameCaseData);
 
-            var allCaseData = GetAllCasesFromFolder(caseFolderPath, filenameCaseData);
-
-            data.AddRange(allCaseData);
+            this.casesData.AddRange(casesData);
 
             manager.OnScriptFinished += OnCaseFinished;
         }
@@ -39,7 +35,8 @@ namespace LSNoir.Cases
 
             DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCases.Add(id));
 
-            var caseNo = data.FirstOrDefault(c => c.ID == id).Progress.GetCaseProgress().CaseNo;
+            var caseNo = casesData.FirstOrDefault(c => c.ID == id).Progress.GetCaseProgress().CaseNo;
+
             DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCaseNo = caseNo);
 
             Start();
@@ -57,16 +54,16 @@ namespace LSNoir.Cases
 
             List<CaseData> cases = new List<CaseData>();
 
-            Array.ForEach(caseDataPaths, path => cases.Add(LoadCaseDataToList(path)));
+            Array.ForEach(caseDataPaths, path => LoadCaseDataSetRootAndAddToList(path, cases));
 
             return cases;
         }
 
-        private static CaseData LoadCaseDataToList(string path)
+        private static void LoadCaseDataSetRootAndAddToList(string path, ICollection<CaseData> col)
         {
-            var p = DataProvider.Instance.Load<CaseData>(path);
-            p.SetRootPath(path);
-            return p;
+            var data = DataProvider.Instance.Load<CaseData>(path);
+            data.SetRootPath(path);
+            col.Add(data);
         }
 
         public void Start()
@@ -88,20 +85,23 @@ namespace LSNoir.Cases
 
             var overallProgress = DataProvider.Instance.Load<OverallProgress>(Paths.PATH_OVERALL_PROGRESS);
 
-            var notRecentlyUsed = GetCaseNotRecenlyUsed(overallProgress.LastCases, data);
+            var notRecentlyUsed = GetCaseNotRecenlyUsed(overallProgress.LastCases, casesData);
 
             //finished can't be restarted!!!
             AddAndStart(notRecentlyUsed);
 
-            data.FirstOrDefault().Progress.ModifyCaseProgress(m => m.CaseNo = overallProgress.LastCaseNo + 1);
+            casesData.FirstOrDefault().Progress.ModifyCaseProgress(m => m.CaseNo = overallProgress.LastCaseNo + 1);
         }
 
         private void AddAndStart(string id)
         {
             manager = new ScriptManagerBase();
+
             manager.OnScriptFinished += OnCaseFinished;
-            var cd = data.FirstOrDefault(s => s.ID == id);
-            manager.AddScript(id, typeof(Case), new object[] { cd });
+
+            var caseData = casesData.FirstOrDefault(s => s.ID == id);
+
+            manager.AddScript(id, typeof(Case), new object[] { caseData });
             manager.StartScriptById(id);
         }
 
@@ -115,18 +115,27 @@ namespace LSNoir.Cases
         private static string GetCaseNotRecenlyUsed(List<string> lastCases, List<CaseData> data)
         {
             var notUsedRecently = data.Select(c => c.ID).Except(lastCases).ToList();
-            //if all cases id are stored in OverallProgress.LastCases
-            if(notUsedRecently.Count < 1)
+
+            if (notUsedRecently.Count < 1)
             {
+                var lastCase = lastCases.Last();
+
                 DataProvider.Instance.Modify<OverallProgress>(Paths.PATH_OVERALL_PROGRESS, (m) => m.LastCases.Clear());
+
                 notUsedRecently = data.Select(s => s.ID).ToList();
+
+                if(data.Count > 1)
+                {
+                    notUsedRecently.Remove(lastCase); //prevents the last passed case from restarting
+                }
             }
+
             return MathHelper.Choose<string>(notUsedRecently);
         }
 
         public List<CaseData> GetActiveCases()
         {
-            return data.FindAll(caseData => IsCaseActive(caseData));
+            return casesData.FindAll(caseData => IsCaseActive(caseData));
 
             bool IsCaseActive(CaseData cd)
             {

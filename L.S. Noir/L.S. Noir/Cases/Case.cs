@@ -11,67 +11,31 @@ namespace LSNoir.Cases
 {
     class Case : BasicScript
     {
-        //TODO:
-        // - start all cases in stageData.NextStages
-
         //NOTES:
         // - now handles only one-by-one order of execution
         
         private readonly CaseData data;
-        private CaseProgress Progress => data.Progress.GetCaseProgress();
 
-        private readonly List<StageData> stages = new List<StageData>();
         private readonly AdvancedScriptManager manager = new AdvancedScriptManager();
 
         private const string NAMESPACE_STAGES = "LSNoir.Stages";
 
-        public Case(CaseData cd)
+        public Case(CaseData caseData)
         {
-            data = cd;
-
-            StageData[] stagesData = data.GetAllStagesData();
-        
-            Array.ForEach(stagesData, s => s.ParentCase = data);
-
-            stages.AddRange(stagesData);
-        }
-
-        private static void RegisterStages(AdvancedScriptManager mgr, ICollection<StageData> data)
-        {
-            Game.LogExtremelyVerbose($"stageData count: {data.Count}");
-            foreach (var s in data)
-            {
-                var type = Type.GetType($"{NAMESPACE_STAGES}.{s.StageType}", true, true);
-                Game.LogExtremelyVerbose("_1_ " + s.ID);
-                var ctorParams = new object[] { s };
-                Game.LogExtremelyVerbose("_2_");
-
-                var prior = s.FinishPriorThis ?? new List<List<string>>();
-                Game.LogExtremelyVerbose("_3_");
-
-                List<string> next = new List<string>();
-                if (s.NextScripts != null && s.NextScripts.Count > 0 && s.NextScripts[0] != null && s.NextScripts[0].Count > 0)
-                {
-                    next = s.NextScripts?[0]?.ToList() ?? new List<string>();
-                }
-                Game.LogExtremelyVerbose("_4_");
-
-                var delayMin = s.DelayMinSeconds * 1000;
-                var delayMax = s.DelayMaxSeconds * 1000;
-                Game.LogExtremelyVerbose("_5_");
-
-                mgr.AddScript(type, ctorParams, s.ID, EInitModels.TimerBased, next, prior, delayMin, delayMax);
-            }
+            data = caseData;
         }
 
         protected override bool Initialize()
         {
-            RegisterStages(manager, stages);
+            var stagesData = data.GetAllStagesData().ToList();
 
-            //if this case was already finished before start it from the beginning
+            stagesData.ForEach(stage =>
+            {
+                stage.ParentCase = data;
+                RegisterStage(manager, stage);
+            });
+
             var caseProgress = data.Progress.GetCaseProgress();
-
-            Game.LogTrivial("Finished status: " + caseProgress.Finished);
 
             if(caseProgress.Finished)
             {
@@ -79,32 +43,54 @@ namespace LSNoir.Cases
                 Serializer.SaveItemToXML(caseProgress, data.CaseProgressPath);
             }
 
-            if (!string.IsNullOrEmpty(caseProgress.LastStageID))
+            var nextScripts = caseProgress.NextScripts ?? new List<string>();
+
+            if(nextScripts.Count == 0)
             {
-                if(caseProgress.NextScripts != null && caseProgress.NextScripts.Count > 0)
-                {
-                    caseProgress.NextScripts.ForEach(s => manager.StartScript(s));
-                }
-                else
-                {
-                    //throw an exception?
-                }
+                manager.Start();
             }
             else
             {
-                Game.LogTrivial("Start script: first");
-
-                manager.Start();
+                nextScripts.ForEach(scriptId => manager.StartScript(scriptId));
             }
 
             return true;
         }
-        
+
+        private static void RegisterStage(AdvancedScriptManager mgr, StageData sdata)
+        {
+            var stageTypeName = $"{NAMESPACE_STAGES}.{sdata.StageType}";
+
+            var stageType = Type.GetType(stageTypeName, true, true);
+
+            var priorScripts = sdata.FinishPriorThis ?? new List<List<string>>();
+
+            var nextScripts = new List<string>();
+
+            if (sdata.NextScripts != null && sdata.NextScripts[0] != null)
+            {
+                nextScripts = sdata.NextScripts[0];
+            }
+
+            var attr = new ScriptAttributes(sdata.ID)
+            {
+                CtorParams = new object[] { sdata },
+                InitModel = EInitModels.TimerBased,
+                ScriptsToFinishPriorThis = priorScripts,
+                NextScripts = nextScripts,
+                TimerIntervalMin = sdata.DelayMinSeconds * 1000,
+                TimerIntervalMax = sdata.DelayMaxSeconds * 1000,
+            };
+
+            mgr.AddScript(stageType, attr);
+        }
+
         protected override void Process()
         {
             if(manager.HasFinished)
             {
                 Game.LogTrivial($"Case: {data.ID} was finished");
+
                 SetScriptFinished(true);
             }
         }
