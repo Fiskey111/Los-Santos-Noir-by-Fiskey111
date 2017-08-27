@@ -42,6 +42,8 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
 
+        private RouteAdvisor ra;
+
         private IScene scene;
 
         public DialogWithPed(StageData stageData)
@@ -61,6 +63,10 @@ namespace LSNoir.Stages
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
+            ra = new RouteAdvisor(data.CallPosition);
+
+            ra.Start(false, true);
+
             ActivateStage(Away);
 
             return true;
@@ -68,7 +74,7 @@ namespace LSNoir.Stages
 
         private void Away()
         {
-            if (DistToPlayer(data.CallPosition) < 150)
+            if (DistToPlayer(data.CallPosition) < 80)
             {
                 scene?.Create();
 
@@ -102,6 +108,8 @@ namespace LSNoir.Stages
             if(DistToPlayer(ped.Position) < 15)
             {
                 Game.DisplayHelp(MSG_TALK, 3000);
+
+                ra.Stop();
 
                 SwapStages(NotifyToTalk, NotifyPressToStartTalking);
             }
@@ -181,6 +189,7 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            ra?.Stop();
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();
             scene?.Dispose();

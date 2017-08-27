@@ -1,4 +1,5 @@
 ﻿using LSNoir.Data;
+using LSNoir.Resources;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
@@ -25,6 +26,8 @@ namespace LSNoir.Stages
         private const string MSG_LEAVE_KILLED = "Leave the area.";
         private string msg_leave;
 
+        private RouteAdvisor ra;
+
         public CanvassAreaAndArrest(StageData stageData)
         {
             data = stageData;
@@ -37,6 +40,10 @@ namespace LSNoir.Stages
             blipCall = Base.SharedStageMethods.CreateBlip(data);
 
             NativeFunction.Natives.FlashMinimapDisplay();
+
+            ra = new RouteAdvisor(data.CallPosition);
+
+            ra.Start(false, true);
 
             ActivateStage(Away);
 
@@ -76,6 +83,8 @@ namespace LSNoir.Stages
 
             if(DistToPlayer(data.CallPosition) < 10f)
             {
+                ra.Stop();
+
                 blipCall.Delete();
 
                 Game.DisplayHelp("Find and arrest the ~r~suspect~s~.");
@@ -157,6 +166,8 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            ra?.Stop();
+
             if (blipSuspect) blipSuspect.Delete();
             if (blipCall) blipCall.Delete();
         }

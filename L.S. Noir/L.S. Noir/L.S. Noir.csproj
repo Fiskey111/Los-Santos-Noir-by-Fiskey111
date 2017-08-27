@@ -187,6 +187,7 @@
     <Compile Include="Resources\Marker.cs" />
     <Compile Include="Resources\PedAnimationLoop.cs" />
     <Compile Include="Resources\PedScenarioLoop.cs" />
+    <Compile Include="Resources\RouteAdvisor.cs" />
     <Compile Include="Resources\SecurityCamera.cs" />
     <Compile Include="Scenes\Interfaces.cs" />
     <Compile Include="Scenes\Scene.cs" />

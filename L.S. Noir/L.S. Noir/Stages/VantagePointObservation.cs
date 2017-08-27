@@ -38,6 +38,8 @@ namespace LSNoir.Stages
         private CameraInterpolator camInterpolator;
         private Rage.Object optics;
 
+        private RouteAdvisor ra;
+
         public VantagePointObservation(StageData stageData)
         {
             data = stageData;
@@ -53,6 +55,10 @@ namespace LSNoir.Stages
 
             scene = Base.SharedStageMethods.GetScene(data) as ISceneActive;
 
+            ra = new RouteAdvisor(data.CallPosition);
+
+            ra.Start(false, true);
+
             ActivateStage(Away);
 
             return true;
@@ -63,6 +69,7 @@ namespace LSNoir.Stages
             if(DistToPlayer(blipVantagePoint.Position) < DIST_CLOSE)
             {
                 //Game.DisplayHelp(MSG_FIND_POINT);
+                ra.Stop();
 
                 blipVantagePoint.Delete();
 
@@ -189,6 +196,8 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            ra?.Stop();
+
             if (optics) optics.Delete();
             if (blipVantagePoint) blipVantagePoint.Delete();
             markerVantagePoint?.Dispose();

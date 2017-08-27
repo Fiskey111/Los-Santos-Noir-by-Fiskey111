@@ -28,7 +28,7 @@ namespace LSNoir
         {
             if (onDuty)
             {
-                //if (!IsRageProLicenseValid()) return;
+                if (!IsRageProLicenseValid()) return;
 
                 PrintConsoleBanner();
 
