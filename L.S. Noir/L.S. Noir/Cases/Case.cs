@@ -67,7 +67,7 @@ namespace LSNoir.Cases
 
             var nextScripts = new List<string>();
 
-            if (sdata.NextScripts != null && sdata.NextScripts.Count > 0)
+            if (sdata.NextScripts?.Count > 0)
             {
                 nextScripts = sdata.NextScripts[0];
             }

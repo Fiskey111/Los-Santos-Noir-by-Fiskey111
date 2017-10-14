@@ -9,19 +9,23 @@ namespace LSNoir.Resources
     {
         public Color RouteColor { get; set; } = Color.Yellow;
         public Vector3 Position { get; }
+        public float DeactivationDistance { get; set; } = 20f;
 
         private Blip blip;
         private GameFiber fiber;
         private bool active;
+        private bool disableOnClose;
 
         private readonly ControlSet activate = new ControlSet(Keys.T, Keys.None, ControllerButtons.None);
 
         public RouteAdvisor(Vector3 pos) => Position = pos;
 
-        public void Start(bool displayHelp = false, bool displayNotification = false)
+        public void Start(bool displayHelp = false, bool displayNotification = false, bool deactivateWhenClose = true)
         {
             if (active) return;
             active = true;
+            disableOnClose = deactivateWhenClose;
+
             fiber = GameFiber.StartNew(Process);
 
             if(displayHelp)
@@ -36,7 +40,11 @@ namespace LSNoir.Resources
             }
         }
 
-        public void Stop() => active = false;
+        public void Stop()
+        {
+            if (blip) blip.Delete();
+            active = false;
+        }
 
         private void Process()
         {
@@ -44,8 +52,6 @@ namespace LSNoir.Resources
             {
                 GameFiber.Yield();
 
-                //if (blip) blip.EnableRoute(RouteColor);
-                
                 if(activate.IsActive)
                 {
                     if (!blip)
@@ -58,6 +64,14 @@ namespace LSNoir.Resources
                         };
                     }
                     else blip.Delete();
+                }
+
+                if(disableOnClose && blip)
+                {
+                    if(Vector3.Distance(Position, Game.LocalPlayer.Character.Position) < DeactivationDistance)
+                    {
+                        Stop();
+                    }
                 }
             }
         }

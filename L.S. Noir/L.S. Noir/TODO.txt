@@ -1,7 +1,15 @@
 ﻿
 TODO==========================================
 
-[] interrogation: hide minimap
+[status](date added) todo
+
+[](2017-10-14) hand-to-hand animation for Scene2PedsContact of the Weazel case
+[?] interrogation: hide minimap
+[?](2017-10-14) review bug reports on RouteAdvisor
+	"moe: I'm doing the drive by case and the GPS marker doesn't disappear after 
+	each part. The yellow line comes back and keeps directing you to the last job 
+	until the new one comes and you press t to update"
+[+](2017-10-14) RouteAdvisor - add removeWhenClose ctor param + mechanism
 
 [-][Flash] implement closing for all gwen btns
 ===============================================

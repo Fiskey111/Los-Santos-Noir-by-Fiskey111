@@ -109,18 +109,19 @@ namespace LSNoir.Stages
             //TODO: set weapon to none
             NativeFunction.Natives.SET_PED_CAN_SWITCH_WEAPON(Interrogator, false);
 
+            var msgPressToTalk = string.Format(MSG_PRESS_TO_TALK, KeyInteract);
+
             while (true)
             {
                 GameFiber.Yield();
 
+                NativeFunction.Natives.HIDE_HUD_AND_RADAR_THIS_FRAME();
+
                 if (currentLineNo > 0)
                 {
-                    Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, KeyInteract));
+                    Game.DisplayHelp(msgPressToTalk);
 
-                    while (!Game.IsKeyDown(KeyInteract))
-                    {
-                        GameFiber.Yield();
-                    }
+                    if (!Game.IsKeyDown(KeyInteract)) continue;
 
                     Game.HideHelp();
                 }
@@ -196,6 +197,8 @@ namespace LSNoir.Stages
             while (true)
             {
                 GameFiber.Yield();
+
+                NativeFunction.Natives.HIDE_HUD_AND_RADAR_THIS_FRAME();
 
                 ResponseType? answer = null;
 

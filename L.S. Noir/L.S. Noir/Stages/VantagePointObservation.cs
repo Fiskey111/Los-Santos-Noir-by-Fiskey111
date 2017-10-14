@@ -68,7 +68,6 @@ namespace LSNoir.Stages
         {
             if(DistToPlayer(blipVantagePoint.Position) < DIST_CLOSE)
             {
-                //Game.DisplayHelp(MSG_FIND_POINT);
                 ra.Stop();
 
                 blipVantagePoint.Delete();
@@ -113,8 +112,6 @@ namespace LSNoir.Stages
             optics = new Rage.Object(MODEL_BINOCULARS, data.CallPosition);
 
             optics.AttachTo(Game.LocalPlayer.Character, (int)PedBoneId.RightHand, Vector3.Zero, Rotator.Zero);
-
-            //Game.LocalPlayer.Character.Tasks.PlayAnimation("amb@world_human_binoculars@male@idle_a", "idle_a", 1, AnimationFlags.Loop);
 
             NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(Game.LocalPlayer.Character, SCENARIO_BINOCULARS, 0, true);
 
