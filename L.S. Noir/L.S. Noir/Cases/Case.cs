@@ -41,6 +41,8 @@ namespace LSNoir.Cases
             Game.LogExtremelyVerbose($"stageData count: {data.Count}");
             foreach (var s in data)
             {
+                while (Game.IsPaused || Game.IsLoading) GameFiber.Yield();
+
                 var type = Type.GetType($"{NAMESPACE_STAGES}.{s.StageType}", true, true);
                 Game.LogExtremelyVerbose("_1_ " + s.ID);
                 var ctorParams = new object[] { s };

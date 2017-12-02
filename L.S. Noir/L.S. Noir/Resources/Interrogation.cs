@@ -142,43 +142,48 @@ namespace LSNoir.Stages
                 PlayFacialAnim(Interrogee);
 
                 DisplayMultipleLinesForPed(Interrogee, current.Answer, camPlayerToPed);
-
-                PlayInterrogeeFacialAnim(current.CorrectAnswer, Interrogee);
-
-                Game.DisplayHelp(Help, true);
-
-                playerResponse = WaitForPlayersResponse();
-
-                Game.HideHelp();
-
-                PlayAnswerSound(current.CorrectAnswer == playerResponse);
-
-                if (playerResponse == current.CorrectAnswer)
+                
+                if (current.IsDiscussion)
                 {
-                    GoodAnswers++;
+                    PlayInterrogeeFacialAnim(current.CorrectAnswer, Interrogee);
+
+                    Game.DisplayHelp(Help, true);
+
+                    playerResponse = WaitForPlayersResponse();
+
+                    Game.HideHelp();
+
+                    PlayAnswerSound(current.CorrectAnswer == playerResponse);
+
+                    if (playerResponse == current.CorrectAnswer)
+                    {
+                        GoodAnswers++;
+                    }
+
+                    Interrogator.IsVisible = true;
+
+                    //TODO: add animations and set visibility
+                    if (playerResponse == ResponseType.Truth)
+                    {
+                        DisplayMultipleLinesForPed(Interrogator, current.PlayerResponseTruth, camPedToPlayer);
+
+                        DisplayMultipleLinesForPed(Interrogee, current.InterrogeeReactionTruth, camPlayerToPed);
+                    }
+                    else if (playerResponse == ResponseType.Doubt)
+                    {
+                        DisplayMultipleLinesForPed(Interrogator, current.PlayerResponseDoubt, camPedToPlayer);
+
+                        DisplayMultipleLinesForPed(Interrogee, current.InterrogeeReactionDoubt, camPlayerToPed);
+                    }
+                    else if (playerResponse == ResponseType.Lie)
+                    {
+                        DisplayMultipleLinesForPed(Interrogator, current.PlayerResponseLie, camPedToPlayer);
+
+                        DisplayMultipleLinesForPed(Interrogee, current.InterrogeeReactionLie, camPlayerToPed);
+                    }
                 }
 
-                Interrogator.IsVisible = true;
-
-                //TODO: add animations and set visibility
-                if(playerResponse == ResponseType.Truth)
-                {
-                    DisplayMultipleLinesForPed(Interrogator, current.PlayerResponseTruth, camPedToPlayer);
-
-                    DisplayMultipleLinesForPed(Interrogee, current.InterrogeeReactionTruth, camPlayerToPed);
-                }
-                else if(playerResponse == ResponseType.Doubt)
-                {
-                    DisplayMultipleLinesForPed(Interrogator, current.PlayerResponseDoubt, camPedToPlayer);
-
-                    DisplayMultipleLinesForPed(Interrogee, current.InterrogeeReactionDoubt, camPlayerToPed);
-                }
-                else if(playerResponse == ResponseType.Lie)
-                {
-                    DisplayMultipleLinesForPed(Interrogator, current.PlayerResponseLie, camPedToPlayer);
-
-                    DisplayMultipleLinesForPed(Interrogee, current.InterrogeeReactionLie, camPlayerToPed);
-                }
+                if (!Interrogator.IsVisible) Interrogator.IsVisible = true;
 
                 Interrogee.Tasks.Clear();
 

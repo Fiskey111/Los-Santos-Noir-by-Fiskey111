@@ -50,31 +50,26 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="BetterEMS">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\BetterEMS.dll</HintPath>
+      <HintPath>..\refs\BetterEMS.dll</HintPath>
     </Reference>
-    <Reference Include="Fiskey111Common, Version=1.12.27.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\Fiskey111Common.dll</HintPath>
+    <Reference Include="Fiskey111Common">
+      <HintPath>..\refs\Fiskey111Common.dll</HintPath>
     </Reference>
     <Reference Include="Gwen">
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\Gwen.dll</HintPath>
+      <HintPath>..\refs\Gwen.dll</HintPath>
     </Reference>
     <Reference Include="LSPD First Response">
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\Plugins\LSPD First Response.dll</HintPath>
+      <HintPath>..\refs\LSPD First Response.dll</HintPath>
     </Reference>
     <Reference Include="LtFlash.Common">
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\LtFlash.Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\LtFlash.Common.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="RAGENativeUI">
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\RAGENativeUI.dll</HintPath>
+      <HintPath>..\refs\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHookSDK">
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\SDK\RagePluginHookSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="RagePROletariat, Version=0.1.6255.4456, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\RagePROletariat.dll</HintPath>
+      <HintPath>..\refs\RagePluginHookSDK.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -179,7 +174,6 @@
     <Compile Include="Data\StageData.cs" />
     <Compile Include="Data\SuspectData.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="RageProRegistration.cs" />
     <Compile Include="Resources\CameraInterpolator.cs" />
     <Compile Include="Resources\Checkpoint.cs" />
     <Compile Include="Resources\DriverFollow.cs" />
@@ -187,6 +181,7 @@
     <Compile Include="Resources\Marker.cs" />
     <Compile Include="Resources\PedAnimationLoop.cs" />
     <Compile Include="Resources\PedScenarioLoop.cs" />
+    <Compile Include="Resources\SceneCamera.cs" />
     <Compile Include="Resources\SecurityCamera.cs" />
     <Compile Include="Scenes\IScene.cs" />
     <Compile Include="Scenes\Scene.cs" />
@@ -212,6 +207,7 @@
     <Compile Include="Stages\DialogWithPed.cs" />
     <Compile Include="Stages\InterrogatePed.cs" />
     <Compile Include="Stages\InterrogatePedWithTimeout.cs" />
+    <Compile Include="Stages\Stakeout.cs" />
     <Compile Include="Stages\VantagePointObservation.cs" />
     <Compile Include="Stages\WaitForEvent.cs" />
     <Compile Include="Main.cs" />

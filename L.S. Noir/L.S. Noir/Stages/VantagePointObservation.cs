@@ -6,6 +6,7 @@ using Rage;
 using Rage.Native;
 using System.Drawing;
 using System.Linq;
+using Gwen.Anim;
 
 namespace LSNoir.Stages
 {
@@ -52,7 +53,7 @@ namespace LSNoir.Stages
             NativeFunction.Natives.FlashMinimapDisplay();
 
             scene = Base.SharedStageMethods.GetScene(data) as ISceneActive;
-
+            
             ActivateStage(Away);
 
             return true;

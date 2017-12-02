@@ -94,7 +94,7 @@ namespace LSNoir.Stages
 
             ShowAreaBlip(stageData.CallPosition, stageData.CallBlipRad, true, true);
             PlaySoundPlayerClosingIn = stageData.PlaySoundClosingIn;
-
+            
             return true;
         }
 
@@ -113,7 +113,7 @@ namespace LSNoir.Stages
             witnesses.ForEach(w => w.CanBeInspected = false);
 
             CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
-
+            
             evidenceCtrl.IsActive = false;
 
             ems = CreateEMS(stageData, victim.Ped);

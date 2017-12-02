@@ -32,6 +32,7 @@ namespace LSNoir.Data
 
     public class InterrogationLineData
     {
+        public bool IsDiscussion;
         public ResponseType CorrectAnswer;
         public string[] Question;
         public string[] Answer;
