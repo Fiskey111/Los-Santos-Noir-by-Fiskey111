@@ -189,6 +189,7 @@
     <Compile Include="Resources\PedScenarioLoop.cs" />
     <Compile Include="Resources\RouteAdvisor.cs" />
     <Compile Include="Resources\SecurityCamera.cs" />
+    <Compile Include="Resources\TextPreproc.cs" />
     <Compile Include="Scenes\Interfaces.cs" />
     <Compile Include="Scenes\Scene.cs" />
     <Compile Include="Scenes\Scene2PedsContact.cs" />

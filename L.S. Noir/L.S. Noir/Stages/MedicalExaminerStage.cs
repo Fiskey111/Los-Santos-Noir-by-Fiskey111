@@ -71,6 +71,8 @@ namespace LSNoir.Stages
 
         private Blip mainBlip;
 
+        private RouteAdvisor ra;
+
         private IMarker markerEntrance;
         private IMarker markerExit;
         private IMarker markerOffice;
@@ -92,6 +94,10 @@ namespace LSNoir.Stages
             meData = data.ParentCase.GetPersonData(data.PersonsID[0]);
 
             NativeFunction.Natives.FlashMinimapDisplay();
+
+            ra = new RouteAdvisor(me.Position);
+
+            ra.Start(false, true, true);
 
             Base.SharedStageMethods.DisplayNotification(data);
 
@@ -443,6 +449,8 @@ namespace LSNoir.Stages
 
                 Game.FadeScreenOut(1000, true);
 
+                Game.HideHelp();
+
                 sceneOffice.Dispose();
 
                 if(medExaminer) medExaminer.Delete();
@@ -617,6 +625,8 @@ namespace LSNoir.Stages
             if(swapCam) swapCam.Delete();
 
             timerTipSkipDrive.Stop();
+
+            ra?.Stop();
 
             if (sceneOffice != null) sceneOffice.Dispose();
         }

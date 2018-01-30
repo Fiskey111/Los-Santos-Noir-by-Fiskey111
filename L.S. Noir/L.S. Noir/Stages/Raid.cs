@@ -66,6 +66,8 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenarioHelper;
         private Stopwatch areCopsInCars;
 
+        private RouteAdvisor ra;
+
         private LHandle pursuit;
         private readonly string suspectsGun = MathHelper.Choose("WEAPON_CARBINERIFLE", "WEAPON_PISTOL", "WEAPON_KNIFE");
 
@@ -86,6 +88,10 @@ namespace LSNoir.Stages
             Base.SharedStageMethods.DisplayNotification(data);
 
             blipMeetingArea = Base.SharedStageMethods.CreateBlip(data);
+
+            ra = new RouteAdvisor(data.CallPosition);
+
+            ra.Start(false, true, true);
 
             ActivateStage(Away);
 
@@ -137,6 +143,8 @@ namespace LSNoir.Stages
             if (DistToPlayer(data.CallPosition) < 15)
             {
                 if (blipMeetingArea) blipMeetingArea.Delete();
+
+                ra.Stop();
 
                 Functions.PlayScannerAudio(SCANNER_AT_SCENE);
 
@@ -262,6 +270,9 @@ namespace LSNoir.Stages
         {
             suspect = new Ped(suspectData.Model, suspectData.Spawn.Position, suspectData.Spawn.Heading);
             suspect.MakePersistent();
+
+            //LSPD_First_Response.Engine.Scripting.Entities.Persona p = new LSPD_First_Response.Engine.Scripting.Entities.Persona(suspect, LSPD_First_Response.Gender.Male, )
+            
             pedScenarioHelper = new PedScenarioLoop(suspect, suspectData.Scenario);
             pedScenarioHelper.IsActive = true;
         }
@@ -424,6 +435,8 @@ namespace LSNoir.Stages
             if (blipMeetingArea) blipMeetingArea.Delete();
             scene?.Dispose();
             suspect?.Delete();
+
+            ra?.Stop();
         }
 
         private void SetScriptFinishedSuccessfulyAndSave()

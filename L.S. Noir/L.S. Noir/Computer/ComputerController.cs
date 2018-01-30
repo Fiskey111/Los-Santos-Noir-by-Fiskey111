@@ -72,7 +72,8 @@ namespace LSNoir.Computer
             canRun = true;
             fiber = GameFiber.StartNew(Process);
 
-            Array.ForEach(positions, p => blips.Add(CreateBlip(p, BLIP_SPRITE_COMPUTER, COLOR_BLIP_COMPUTER)));
+            var pb = positions.Select(p => CreateBlip(p, BLIP_SPRITE_COMPUTER, COLOR_BLIP_COMPUTER));
+            blips.AddRange(pb);
 
             computerBackground = LoadBackground(Paths.PATH_COMPUTER_BACKGROUND);
 

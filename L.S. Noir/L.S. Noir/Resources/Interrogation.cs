@@ -206,15 +206,13 @@ namespace LSNoir.Stages
                 else if (Game.IsKeyDown(KeyDoubt)) answer = ResponseType.Doubt;
                 else if (Game.IsKeyDown(KeyLie)) answer = ResponseType.Lie;
 
-                if (!answer.HasValue) continue;
-                return answer.Value;
+                if (answer.HasValue) return answer.Value;
             }
         }
 
         private void PlayAnswerSound(bool isCorrect)
         {
-            if (isCorrect) soundCorrect.Play();
-            else soundIncorrect.Play();
+            (isCorrect ? soundCorrect : soundIncorrect).Play();
         }
 
         private void DisplayMultipleLinesForPed(Ped p, string[] line, Camera cam)
@@ -327,7 +325,6 @@ namespace LSNoir.Stages
             }
 
             HasEnded = true;
-            lineFiber.Abort();
         }
 
         private static void CamInterpolate(

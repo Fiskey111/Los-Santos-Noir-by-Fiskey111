@@ -1,4 +1,5 @@
 ﻿using LSNoir.Data;
+using LSNoir.Resources;
 using LSNoir.Scenes;
 using LtFlash.Common;
 using LtFlash.Common.EvidenceLibrary;
@@ -37,6 +38,8 @@ namespace LSNoir.Stages
         private Marker markerExit;
         private Marker markerEntrance;
 
+        private RouteAdvisor ra;
+
         private Ped Player => Game.LocalPlayer.Character;
         private float DistToPlayer(Vector3 p) => Vector3.Distance(Player.Position, p);
 
@@ -60,6 +63,10 @@ namespace LSNoir.Stages
             markerEntrance.Visible = true;
 
             Base.SharedStageMethods.DisplayNotification(data);
+
+            ra = new RouteAdvisor(data.CallPosition);
+
+            ra.Start(false, true, true);
 
             ActivateStage(NotifyToEnterHospital);
 
@@ -198,6 +205,8 @@ namespace LSNoir.Stages
             if (markerExit != null) markerExit.Dispose();
             if (doctor) doctor.Delete();
             if (blipHospital) blipHospital.Delete();
+
+            ra?.Stop();
 
             scene?.Dispose();
         }

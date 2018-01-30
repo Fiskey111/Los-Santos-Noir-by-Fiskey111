@@ -3,7 +3,6 @@ using LSNoir.DataAccess;
 using LSNoir.Settings;
 using LtFlash.Common.ScriptManager.Managers;
 using Rage;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -52,18 +51,14 @@ namespace LSNoir.Cases
 
             string[] caseDataPaths = Directory.GetFiles(folderPath, dataFileName, SearchOption.AllDirectories);
 
-            List<CaseData> cases = new List<CaseData>();
-
-            Array.ForEach(caseDataPaths, path => LoadCaseDataSetRootAndAddToList(path, cases));
-
-            return cases;
+            return caseDataPaths.Select(path => LoadCaseDataSetRootAndAddToList(path)).ToList();
         }
 
-        private static void LoadCaseDataSetRootAndAddToList(string path, ICollection<CaseData> col)
+        private static CaseData LoadCaseDataSetRootAndAddToList(string path)
         {
             var data = DataProvider.Instance.Load<CaseData>(path);
             data.SetRootPath(path);
-            col.Add(data);
+            return data;
         }
 
         public void Start()
@@ -135,15 +130,10 @@ namespace LSNoir.Cases
 
         public List<CaseData> GetActiveCases()
         {
-            return casesData.FindAll(caseData => IsCaseActive(caseData));
+            return casesData.FindAll(caseData => IsCaseActive(caseData.Progress.GetCaseProgress()));
 
-            bool IsCaseActive(CaseData cd)
-            {
-                var progress = cd.Progress.GetCaseProgress();
-                if (progress.Finished) return false;
-                if (string.IsNullOrEmpty(progress.LastStageID)) return false;
-                return true;
-            }
+            bool IsCaseActive(CaseProgress cp)
+                => !cp.Finished && !string.IsNullOrEmpty(cp.LastStageID);
         }
     }
 }

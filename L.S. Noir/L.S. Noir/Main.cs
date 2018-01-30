@@ -11,8 +11,9 @@ namespace LSNoir
 {
     public class Main : Plugin
     {
-        private CasesController casesCtrl;
-        private ComputerController computerCtrl;
+        private static CasesController casesCtrl;
+        private static ComputerController computerCtrl;
+        private static bool isStarted;
 
         public Main()
         {
@@ -28,20 +29,35 @@ namespace LSNoir
         {
             if (onDuty)
             {
-                if (!IsRageProLicenseValid()) return;
+                //if (!IsRageProLicenseValid()) return;
 
                 PrintConsoleBanner();
 
-                casesCtrl = new CasesController(Paths.PATH_FOLDER_CASES, Paths.FILENAME_CASEDATA);
+                Game.AddConsoleCommands(new[] { ((System.Action)Command_StartLSN).Method });
 
-                casesCtrl.Start();
-
-                computerCtrl = new ComputerController(casesCtrl.GetActiveCases);
-
-                computerCtrl.Start();
-
-                Game.DisplayNotification("Script manager started.");
+                Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "Welcome to LS Noir!", "", "Use command >startlsn to start LS Noir.");
             }
+        }
+
+        [Rage.Attributes.ConsoleCommand(Description = "Start LS Noire", Name = "startlsn")]
+        private static void Command_StartLSN()
+        {
+            if (isStarted) return;
+            StartMod();
+            isStarted = true;
+        }
+
+        private static void StartMod()
+        {
+            casesCtrl = new CasesController(Paths.PATH_FOLDER_CASES, Paths.FILENAME_CASEDATA);
+
+            casesCtrl.Start();
+
+            computerCtrl = new ComputerController(casesCtrl.GetActiveCases);
+
+            computerCtrl.Start();
+
+            Game.DisplayNotification("Welcome to LS Noire!");
         }
 
         private bool IsRageProLicenseValid()

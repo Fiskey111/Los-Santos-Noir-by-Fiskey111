@@ -1,8 +1,9 @@
 ﻿
 TODO==========================================
-
+[-] interrogate suspect: add gps
 [status](date added) todo
-
+[+](2017-10-28) add GPS to the +hospital stage, +me office, raid
+[+] me office hide help when tp outside the bldg
 [](2017-10-14) hand-to-hand animation for Scene2PedsContact of the Weazel case
 [?] interrogation: hide minimap
 [?](2017-10-14) review bug reports on RouteAdvisor

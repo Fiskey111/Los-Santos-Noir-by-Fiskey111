@@ -4,6 +4,118 @@
         <name>RAGENativeUI</name>
     </assembly>
     <members>
+        <member name="E:RAGENativeUI.BaseCollection`1.ItemAdded">
+            <summary>
+            Occurs when an item is added to this <see cref="T:RAGENativeUI.BaseCollection`1"/> using <see cref="M:RAGENativeUI.BaseCollection`1.Add(`0)"/>.
+            </summary>
+        </member>
+        <member name="E:RAGENativeUI.BaseCollection`1.ItemRemoved">
+            <summary>
+            Occurs when an item is removed from this <see cref="T:RAGENativeUI.BaseCollection`1"/> using <see cref="M:RAGENativeUI.BaseCollection`1.Remove(`0)"/> or <see cref="M:RAGENativeUI.BaseCollection`1.RemoveAt(System.Int32)"/>.
+            </summary>
+        </member>
+        <member name="E:RAGENativeUI.BaseCollection`1.ItemModified">
+            <summary>
+            Occurs when an item is modified in this <see cref="T:RAGENativeUI.BaseCollection`1"/> using <see cref="P:RAGENativeUI.BaseCollection`1.Item(System.Int32)"/>.
+            </summary>
+        </member>
+        <member name="E:RAGENativeUI.BaseCollection`1.Cleared">
+            <summary>
+            Occurs when all the items of this <see cref="T:RAGENativeUI.BaseCollection`1"/> are removed using <see cref="M:RAGENativeUI.BaseCollection`1.Clear"/>.
+            </summary>
+        </member>
+        <member name="P:RAGENativeUI.BaseCollection`1.Count">
+            <summary>
+            Gets the number of elements contained in this <see cref="T:RAGENativeUI.BaseCollection`1"/>.
+            </summary>
+        </member>
+        <member name="P:RAGENativeUI.BaseCollection`1.IsReadOnly">
+            <summary>
+            Gets a value indicating whether this <see cref="T:RAGENativeUI.BaseCollection`1"/> is read-only.
+            </summary>
+        </member>
+        <member name="P:RAGENativeUI.BaseCollection`1.Item(System.Int32)">
+            <summary>
+            Gets or sets the element at the specified index.
+            </summary>
+            <value>
+            The item.
+            </value>
+            <param name="index">The index.</param>
+            <returns>
+            The item at the specified index.
+            </returns>
+            <exception cref="T:System.ArgumentOutOfRangeException">
+            </exception>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.BaseCollection`1"/> class that is empty.
+            </summary>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.#ctor(System.Collections.Generic.IEnumerable{`0})">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.BaseCollection`1"/> class that contains elements copied from the specified collection.
+            </summary>
+            <param name="collection">The collection.</param>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.Add(`0)">
+            <summary>
+            Adds an item to this <see cref="T:RAGENativeUI.BaseCollection`1" />.
+            </summary>
+            <param name="item">The item to add to this <see cref="T:RAGENativeUI.BaseCollection`1" />.</param>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.RemoveAt(System.Int32)">
+            <summary>
+            Removes the item at the specified index from this <see cref="T:RAGENativeUI.BaseCollection`1"/>.
+            </summary>
+            <param name="index">The index.</param>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.Remove(`0)">
+            <summary>
+            Removes the first occurrence of the specified item from this <see cref="T:RAGENativeUI.BaseCollection`1"/>.
+            </summary>
+            <param name="item">The item to remove from this <see cref="T:RAGENativeUI.BaseCollection`1"/>.</param>
+            <returns>
+            <c>true</c> if the <paramref name="item"/> was successfully removed from this <see cref="T:RAGENativeUI.BaseCollection`1"/>; otherwise, false. This method also returns false if <paramref name="item"/> is not found in the original <see cref="T:RAGENativeUI.BaseCollection`1"/>.
+            </returns>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.Clear">
+            <summary>
+            Removes all items from this <see cref="T:RAGENativeUI.BaseCollection`1"/>.
+            </summary>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.Contains(`0)">
+            <summary>
+            Determines whether this <see cref="T:RAGENativeUI.BaseCollection`1"/> contains a specific item.
+            </summary>
+            <param name="item">The item to locate in this <see cref="T:RAGENativeUI.BaseCollection`1"/>.</param>
+            <returns>
+            true if <paramref name="item"/> is found in this <see cref="T:RAGENativeUI.BaseCollection`1"/>; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.CopyTo(`0[],System.Int32)">
+            <summary>
+            Copies the elements of this <see cref="T:RAGENativeUI.BaseCollection`1"/> to an <see cref="T:System.Array"/>, starting at a particular <see cref="T:System.Array"/> index.
+            </summary>
+            <param name="array">The one-dimensional <see cref="T:System.Array"/> that is the destination of the elements copied from this <see cref="T:RAGENativeUI.BaseCollection`1"/>. The <see cref="T:System.Array" /> must have zero-based indexing.</param>
+            <param name="arrayIndex">The zero-based index in <paramref name="array"/> at which copying begins.</param>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.IndexOf(`0)">
+            <summary>
+            Searches for the specified item and returns the zero-based index of the first occurrence within the entire <see cref="T:RAGENativeUI.BaseCollection`1"/>.
+            </summary>
+            <param name="item">The item to search for.</param>
+            <returns>The zero-based index of the first occurrence of the item within the entire <see cref="T:RAGENativeUI.BaseCollection`1"/>, if found; otherwise, –1.</returns>
+        </member>
+        <member name="M:RAGENativeUI.BaseCollection`1.GetEnumerator">
+            <summary>
+            Returns an enumerator that iterates through the collection.
+            </summary>
+            <returns>
+            An enumerator that can be used to iterate through the collection.
+            </returns>
+        </member>
         <member name="T:RAGENativeUI.Common.EFont">
             <summary>
             Fonts used by GTA V
@@ -56,25 +168,212 @@
             <param name="savePath">Path to where save the file, including the filename.</param>
             <returns>Absolute path to the written file.</returns>
         </member>
+        <member name="E:RAGENativeUI.Elements.MissionPassedScreen.ContinueHit">
+            <summary>
+            Occurs when the user presses <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.ContinueControl"/> while this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/> is shown.
+            </summary>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.Title">
+            <summary>
+            Gets or sets the title, the big yellow text.
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the text of the title.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.Subtitle">
+            <summary>
+            Gets or sets the subtitle, the text below the <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.Title"/>.
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the text of the subtitle.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.CompletionPercentage">
+            <summary>
+            Gets or sets the value that will be displayed as the completion percentage.
+            </summary>
+            <value>
+            A <see cref="T:System.Int32"/> representing the completion percentage.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.Medal">
+            <summary>
+            Gets or sets the medal displayed next to the completion percentage.
+            </summary>
+            <value>
+            A <see cref="T:RAGENativeUI.Elements.MissionPassedScreen.MedalType"/> representing the medal displayed next to the completion percentage.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.Items">
+            <summary>
+            Gets the <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/>s contained on this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/>.
+            </summary>
+            <value>
+            A <see cref="T:RAGENativeUI.Elements.MissionPassedScreen.MissionPassedScreenItemsCollection"/> instance.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.InstructionalButtons">
+            <summary>
+            Gets the instructional buttons displayed when this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/> is visible.
+            </summary>
+            <value>
+            A <see cref="T:RAGENativeUI.Elements.InstructionalButtons"/> instance.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreen.ContinueControl">
+            <summary>
+            Gets or sets the game control that must be pressed to exit this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/>. By default <see cref="F:Rage.GameControl.FrontendAccept"/>.
+            </summary>
+            <value>
+            A <see cref="T:Rage.GameControl"/>.
+            </value>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreen.#ctor(System.String,System.String,System.Int32,RAGENativeUI.Elements.MissionPassedScreen.MedalType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/> class.
+            </summary>
+            <param name="title">The title, the big yellow text.</param>
+            <param name="subtitle">The subtitle, the text below the <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.Title"/>.</param>
+            <param name="completionPercentage">The value that will be displayed as the completion percentage.</param>
+            <param name="medal">The medal type displayed next to the completion percentage.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreen.#ctor(System.String,System.Int32,RAGENativeUI.Elements.MissionPassedScreen.MedalType)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/> class with the <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.Title"/> set to "mission passed".
+            </summary>
+            <param name="subtitle">The subtitle, the text below the <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.Title"/>.</param>
+            <param name="completionPercentage">The value that will be displayed as the completion percentage.</param>
+            <param name="medal">The medal type displayed next to the completion percentage.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreen.Show">
+            <summary>
+            Shows this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/>. It will be visible until the user presses <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.ContinueControl"/>, or the returned <see cref="T:Rage.GameFiber"/> is aborted.
+            </summary>
+            <returns>The <see cref="T:Rage.GameFiber"/> in which this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/> is drawn.</returns>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreen.OnContinueHit">
+            <summary>
+            Called when this <see cref="T:RAGENativeUI.Elements.MissionPassedScreen"/> is shown and the user presses <see cref="P:RAGENativeUI.Elements.MissionPassedScreen.ContinueControl"/>.
+            </summary>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreenItem.Label">
+            <summary>
+            Gets or sets the label, the text displayed at the left of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/>.
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the text displayed at the left of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/>.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreenItem.Status">
+            <summary>
+            Gets or sets the status, the text displayed at the right of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/>.
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the text displayed at the right of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/>.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.MissionPassedScreenItem.Tickbox">
+            <summary>
+            Gets or sets how the tickbox at the right of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/> is displayed.
+            </summary>
+            <value>
+            A <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem.TickboxState"/> representing how the tickbox at the right of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/> is displayed.
+            </value>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreenItem.#ctor(System.String,System.String,RAGENativeUI.Elements.MissionPassedScreenItem.TickboxState)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/> class.
+            </summary>
+            <param name="label">The label, the text displayed at the left of this item.</param>
+            <param name="status">The status, the text displayed at the right of this item.</param>
+            <param name="tickbox">The <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem.TickboxState"/> representing how the tickbox at the right of this <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/> is displayed.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreenItem.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/> class with <see cref="P:RAGENativeUI.Elements.MissionPassedScreenItem.Tickbox"/> set to <see cref="F:RAGENativeUI.Elements.MissionPassedScreenItem.TickboxState.None"/>.
+            </summary>
+            <param name="label">The label, the text displayed at the left of this item.</param>
+            <param name="status">The status, the text displayed at the right of this item.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.MissionPassedScreenItem.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.MissionPassedScreenItem"/> class with <see cref="P:RAGENativeUI.Elements.MissionPassedScreenItem.Tickbox"/> set to <see cref="F:RAGENativeUI.Elements.MissionPassedScreenItem.TickboxState.None"/> and <see cref="P:RAGENativeUI.Elements.MissionPassedScreenItem.Status"/> set to an empty <see cref="T:System.String"/>.
+            </summary>
+            <param name="label">The label, the text displayed at the left of this item.</param>
+        </member>
         <member name="P:RAGENativeUI.Elements.BarTimerBar.Percentage">
             <summary>
             Bar percentage. Goes from 0 to 1.
             </summary>
         </member>
+        <member name="P:RAGENativeUI.Elements.InstructionalButton.Text">
+            <summary>
+            Gets or sets the text displayed next to the button.
+            <para>
+            If this <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> is contained in a <see cref="T:RAGENativeUI.Elements.InstructionalButtons"/> scaleform, 
+            <see cref="M:RAGENativeUI.Elements.InstructionalButtons.Update"/> needs to be called to reflect the changes made.
+            </para>
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the text displayed next to the button.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.InstructionalButton.ButtonText">
+            <summary>
+            Gets or sets the text displayed inside the button, mainly for displaying custom keyboard bindings, like "I", or "O", or "F5".
+            <para>
+            If <c>null</c>, <see cref="P:RAGENativeUI.Elements.InstructionalButton.ButtonControl"/> is used instead.
+            </para>
+            <para>
+            If this <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> is contained in a <see cref="T:RAGENativeUI.Elements.InstructionalButtons"/> scaleform, 
+            <see cref="M:RAGENativeUI.Elements.InstructionalButtons.Update"/> needs to be called to reflect the changes made.
+            </para>
+            </summary>
+            <value>
+            A <see cref="T:System.String"/> representing the text displayed inside the button.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.InstructionalButton.ButtonControl">
+            <summary>
+            Gets or sets the <see cref="T:Rage.GameControl"/> displayed inside the button, it changes depending on keybinds and whether the user is using the controller or the keyboard and mouse.
+            <para>
+            If <c>null</c> and <see cref="P:RAGENativeUI.Elements.InstructionalButton.ButtonText"/> is also <c>null</c> an empty button is displayed.
+            </para>
+            <para>
+            If this <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> is contained in a <see cref="T:RAGENativeUI.Elements.InstructionalButtons"/> scaleform, 
+            <see cref="M:RAGENativeUI.Elements.InstructionalButtons.Update"/> needs to be called to reflect the changes made.
+            </para>
+            </summary>
+            <value>
+            A <see cref="T:Rage.GameControl"/> representing the binding displayed inside the button.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.InstructionalButton.CanBeDisplayed">
+            <summary>
+            Gets or sets the <see cref="T:System.Predicate`1"/> delegate that defines the conditions for this <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> to be visible.
+            <para>
+            If this <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> is contained in a <see cref="T:RAGENativeUI.Elements.InstructionalButtons"/> scaleform, 
+            this predicate is only evaluated when <see cref="M:RAGENativeUI.Elements.InstructionalButtons.Update"/> is called.
+            </para>
+            </summary>
+            <value>
+            A <see cref="T:System.Predicate`1"/> delegate that defines the conditions for this <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> to be visible.
+            </value>
+        </member>
         <member name="M:RAGENativeUI.Elements.InstructionalButton.#ctor(Rage.GameControl,System.String)">
             <summary>
-            Add a dynamic button to the instructional buttons array.
-            Changes whether the controller is being used and changes depending on keybinds.
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> class.
             </summary>
-            <param name="control">Rage.GameControl that gets converted into a button.</param>
-            <param name="text">Help text that goes with the button.</param>
+            <param name="control">The <see cref="T:Rage.GameControl"/> displayed inside the button, it changes depending on keybinds and whether the user is using the controller or the keyboard and mouse.</param>
+            <param name="text">The text displayed next to the button.</param>
         </member>
         <member name="M:RAGENativeUI.Elements.InstructionalButton.#ctor(System.String,System.String)">
             <summary>
-            Adds a keyboard button to the instructional buttons array.
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.InstructionalButton"/> class.
             </summary>
-            <param name="keystring">Custom keyboard button, like "I", or "O", or "F5".</param>
-            <param name="text">Help text that goes with the button.</param>
+            <param name="buttonText">The text displayed inside the button, mainly for displaying custom keyboard bindings, like "I", or "O", or "F5".</param>
+            <param name="text">The text displayed next to the button.</param>
         </member>
         <member name="M:RAGENativeUI.Elements.InstructionalButton.BindToItem(RAGENativeUI.Elements.UIMenuItem)">
             <summary>
@@ -140,6 +439,50 @@
             <param name="menusNames">List that contains a name for each <see cref="T:RAGENativeUI.UIMenu"/> in the same order</param>
             <param name="index">Index in the list. If unsure user 0.</param>
             <param name="description">Description for this item.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuSwitchMenusItem.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{RAGENativeUI.IDisplayItem})">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuSwitchMenusItem"/> class a list menu item, with left/right arrows that switches the current menu depending on the current <see cref="T:RAGENativeUI.UIMenu"/> item,
+            from a collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s.
+            <para>
+            All <see cref="P:RAGENativeUI.IDisplayItem.Value"/>s need to be <see cref="T:RAGENativeUI.UIMenu"/>s.
+            </para>
+            </summary>
+            <param name="text">The item label.</param>
+            <param name="description">The description for this item.</param>
+            <param name="menusDisplayItems">The collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s with <see cref="T:RAGENativeUI.UIMenu"/>s as <see cref="P:RAGENativeUI.IDisplayItem.Value"/>s.</param>
+            <exception cref="T:System.ArgumentException">Thrown if any <see cref="P:RAGENativeUI.IDisplayItem.Value"/> isn't a <see cref="T:RAGENativeUI.UIMenu"/></exception>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuSwitchMenusItem.#ctor(System.String,System.String,RAGENativeUI.IDisplayItem[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuSwitchMenusItem"/> class a list menu item, with left/right arrows that switches the current menu depending on the current <see cref="T:RAGENativeUI.UIMenu"/> item,
+            from a collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s.
+            <para>
+            All <see cref="P:RAGENativeUI.IDisplayItem.Value"/>s need to be <see cref="T:RAGENativeUI.UIMenu"/>s.
+            </para>
+            </summary>
+            <param name="text">The item label.</param>
+            <param name="description">The description for this item.</param>
+            <param name="menusDisplayItems">The collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s with <see cref="T:RAGENativeUI.UIMenu"/>s as <see cref="P:RAGENativeUI.IDisplayItem.Value"/>s.</param>
+            <exception cref="T:System.ArgumentException">Thrown if any <see cref="P:RAGENativeUI.IDisplayItem.Value"/> isn't a <see cref="T:RAGENativeUI.UIMenu"/></exception>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuSwitchMenusItem.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{RAGENativeUI.UIMenu})">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuSwitchMenusItem"/> class a list menu item, with left/right arrows that switches the current menu depending on the current <see cref="T:RAGENativeUI.UIMenu"/> item,
+            from a collection of <see cref="T:RAGENativeUI.UIMenu"/>s using the default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>, <see cref="T:RAGENativeUI.DisplayItem"/>, and the <see cref="T:RAGENativeUI.UIMenu"/>'s title caption as display text.
+            </summary>
+            <param name="text">The item label.</param>
+            <param name="description">The description for this item.</param>
+            <param name="menus">The collection of <see cref="T:RAGENativeUI.UIMenu"/>s.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuSwitchMenusItem.#ctor(System.String,System.String,RAGENativeUI.UIMenu[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuSwitchMenusItem"/> class a list menu item, with left/right arrows that switches the current menu depending on the current <see cref="T:RAGENativeUI.UIMenu"/> item,
+            from a collection of <see cref="T:RAGENativeUI.UIMenu"/>s using the default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>, <see cref="T:RAGENativeUI.DisplayItem"/>, and the <see cref="T:RAGENativeUI.UIMenu"/>'s title caption as display text.
+            </summary>
+            <param name="text">The item label.</param>
+            <param name="description">The description for this item.</param>
+            <param name="menus">The collection of <see cref="T:RAGENativeUI.UIMenu"/>s.</param>
         </member>
         <member name="M:RAGENativeUI.Elements.UIMenuSwitchMenusItem.MenuToIndex(RAGENativeUI.UIMenu)">
             <summary>
@@ -241,9 +584,15 @@
         </member>
         <member name="M:RAGENativeUI.Elements.UIMenuCheckboxItem.Position(System.Int32)">
             <summary>
-            Change item's position.
+            Set item's position.
             </summary>
-            <param name="y">New Y value.</param>
+            <param name="y"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuCheckboxItem.SetVerticalPosition(System.Int32)">
+            <summary>
+            Set item's vertical position.
+            </summary>
+            <param name="y"></param>
         </member>
         <member name="M:RAGENativeUI.Elements.UIMenuCheckboxItem.Draw">
             <summary>
@@ -296,6 +645,12 @@
         <member name="M:RAGENativeUI.Elements.UIMenuItem.Position(System.Int32)">
             <summary>
             Set item's position.
+            </summary>
+            <param name="y"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuItem.SetVerticalPosition(System.Int32)">
+            <summary>
+            Set item's vertical position.
             </summary>
             <param name="y"></param>
         </member>
@@ -352,6 +707,12 @@
             Returns the menu this item is in.
             </summary>
         </member>
+        <member name="T:RAGENativeUI.Elements.UIMenuListItem">
+            <summary>
+             A list item, with left/right arrows.
+            </summary>
+            <seealso cref="T:RAGENativeUI.Elements.UIMenuItem" />
+        </member>
         <member name="P:RAGENativeUI.Elements.UIMenuListItem.Items">
             <summary>
             Gets or sets the items from this <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/> instance.
@@ -359,6 +720,30 @@
             <remarks>
             For better safety before modifying the items <see cref="T:System.Collections.Generic.List`1"/> set <see cref="P:RAGENativeUI.Elements.UIMenuListItem.Index"/> to 0.
             </remarks>
+        </member>
+        <member name="P:RAGENativeUI.Elements.UIMenuListItem.Collection">
+            <summary>
+            Gets the collection of items of this <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>.
+            </summary>
+            <value>
+            The <see cref="T:RAGENativeUI.DisplayItemsCollection"/> of this <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.UIMenuListItem.SelectedItem">
+            <summary>
+            Gets the current selection.
+            </summary>
+            <value>
+            The current selection's <see cref="T:RAGENativeUI.IDisplayItem"/>.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.Elements.UIMenuListItem.SelectedValue">
+            <summary>
+            Gets the current selection value.
+            </summary>
+            <value>
+            The current selection's <see cref="P:RAGENativeUI.IDisplayItem.Value"/>.
+            </value>
         </member>
         <member name="F:RAGENativeUI.Elements.UIMenuListItem.ScrollingEnabled">
             <summary>
@@ -377,7 +762,7 @@
         </member>
         <member name="P:RAGENativeUI.Elements.UIMenuListItem.Index">
             <summary>
-            Returns the current selected index.
+            Returns the current selected index or -1 if the collection is empty.
             </summary>
         </member>
         <member name="M:RAGENativeUI.Elements.UIMenuListItem.#ctor(System.String,System.Collections.Generic.List{System.Object},System.Int32)">
@@ -397,11 +782,56 @@
             <param name="index">Index in the list. If unsure user 0.</param>
             <param name="description">Description for this item.</param>
         </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuListItem.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{RAGENativeUI.IDisplayItem})">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/> class, from a collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s.
+            </summary>
+            <param name="text">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s label.</param>
+            <param name="description">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s description.</param>
+            <param name="items">The collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuListItem.#ctor(System.String,System.String,RAGENativeUI.IDisplayItem[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/> class, from a collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s.
+            </summary>
+            <param name="text">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s label.</param>
+            <param name="description">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s description.</param>
+            <param name="items">The collection of <see cref="T:RAGENativeUI.IDisplayItem"/>s.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuListItem.#ctor(System.String,System.String,System.Collections.Generic.IEnumerable{System.Object})">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/> class, from a collection of <see cref="T:System.Object"/>s using the default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>, <see cref="T:RAGENativeUI.DisplayItem"/>.
+            </summary>
+            <param name="text">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s label.</param>
+            <param name="description">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s description.</param>
+            <param name="itemsValues">The collection of <see cref="T:System.Object"/>s.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuListItem.#ctor(System.String,System.String,System.Object[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/> class, from a collection of <see cref="T:System.Object"/>s using the default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>, <see cref="T:RAGENativeUI.DisplayItem"/>.
+            </summary>
+            <param name="text">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s label.</param>
+            <param name="description">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s description.</param>
+            <param name="itemsValues">The collection of <see cref="T:System.Object"/>s.</param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuListItem.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/> class with an empty <see cref="P:RAGENativeUI.Elements.UIMenuListItem.Collection"/>.
+            </summary>
+            <param name="text">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s label.</param>
+            <param name="description">The <see cref="T:RAGENativeUI.Elements.UIMenuListItem"/>'s description.</param>
+        </member>
         <member name="M:RAGENativeUI.Elements.UIMenuListItem.Position(System.Int32)">
             <summary>
-            Change item's position.
+            Set item's position.
             </summary>
-            <param name="y">New Y position.</param>
+            <param name="y"></param>
+        </member>
+        <member name="M:RAGENativeUI.Elements.UIMenuListItem.SetVerticalPosition(System.Int32)">
+            <summary>
+            Set item's vertical position.
+            </summary>
+            <param name="y"></param>
         </member>
         <member name="M:RAGENativeUI.Elements.UIMenuListItem.ItemToIndex(System.Object)">
             <summary>
@@ -438,22 +868,151 @@
             </summary>
             <param name="str"></param>
         </member>
+        <member name="T:RAGENativeUI.IDisplayItem">
+            <summary>
+            Represents an object with a value and the text that represents the value.
+            </summary>
+            <seealso cref="T:System.IEquatable`1"/>
+            <seealso cref="T:RAGENativeUI.DisplayItem"/>
+        </member>
+        <member name="P:RAGENativeUI.IDisplayItem.Value">
+            <summary>
+            Gets the value of this <see cref="T:RAGENativeUI.IDisplayItem"/>.
+            </summary>
+            <value>
+            The value.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.IDisplayItem.DisplayText">
+            <summary>
+            Gets the display text of this <see cref="T:RAGENativeUI.IDisplayItem"/>.
+            </summary>
+            <value>
+            The display text.
+            </value>
+        </member>
+        <member name="T:RAGENativeUI.DisplayItem">
+            <summary>
+            Default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>
+            </summary>
+            <seealso cref="T:RAGENativeUI.IDisplayItem" />
+        </member>
+        <member name="P:RAGENativeUI.DisplayItem.NullValueDisplayText">
+            <summary>
+            Gets or sets the <see cref="T:System.String"/> that <see cref="P:RAGENativeUI.DisplayItem.DisplayText"/> would return if <see cref="P:RAGENativeUI.DisplayItem.Value"/> is null.
+            </summary>
+            <value>
+            The null value display text.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.DisplayItem.Value">
+            <summary>
+            Gets the value of this <see cref="T:RAGENativeUI.DisplayItem"/>.
+            </summary>
+            <value>
+            The value.
+            </value>
+        </member>
+        <member name="P:RAGENativeUI.DisplayItem.DisplayText">
+            <summary>
+            Gets the display text of this <see cref="T:RAGENativeUI.DisplayItem"/>.
+            <para>
+            If no display text was specified in the constructor, this will return <see cref="P:RAGENativeUI.DisplayItem.Value"/>'s <see cref="M:System.Object.ToString"/>.
+            </para>
+            <para>
+            If <see cref="P:RAGENativeUI.DisplayItem.Value"/> is null and no display text was specified, this will return <see cref="P:RAGENativeUI.DisplayItem.NullValueDisplayText"/>.
+            </para>
+            </summary>
+            <value>
+            The display text.
+            </value>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItem.#ctor(System.Object,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.DisplayItem"/> struct with the specified value and display text.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="displayText">The display text.</param>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItem.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.DisplayItem"/> struct with the specified value and its <see cref="M:System.Object.ToString"/> implementation as the display text.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItem.Equals(RAGENativeUI.IDisplayItem)">
+            <summary>
+            Indicates whether the current <see cref="T:RAGENativeUI.DisplayItem"/>'s <see cref="P:RAGENativeUI.DisplayItem.Value"/> equals the other <see cref="T:RAGENativeUI.IDisplayItem"/>'s <see cref="P:RAGENativeUI.IDisplayItem.Value"/>.
+            </summary>
+            <param name="other">An <see cref="T:RAGENativeUI.IDisplayItem"/> to compare with this <see cref="T:RAGENativeUI.DisplayItem"/>.</param>
+            <returns>
+            <c>true</c> if the current <see cref="T:RAGENativeUI.DisplayItem"/> has the same <see cref="P:RAGENativeUI.DisplayItem.Value"/> object as the <paramref name="other"/> <see cref="T:RAGENativeUI.IDisplayItem"/> parameter; otherwise, <c>false</c>.
+            </returns>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItem.ToString">
+            <summary>
+            Returns a <see cref="T:System.String"/> that represents this instance.
+            </summary>
+            <returns>
+            A <see cref="T:System.String"/> that represents this instance.
+            </returns>
+        </member>
+        <member name="T:RAGENativeUI.DisplayItemsCollection">
+            <summary>
+            Represents a collection of <see cref="T:RAGENativeUI.IDisplayItem"/>.
+            </summary>
+            <seealso cref="T:RAGENativeUI.BaseCollection`1" />
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.DisplayItemsCollection"/> class that is empty.
+            </summary>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.#ctor(System.Collections.Generic.IEnumerable{RAGENativeUI.IDisplayItem})">
+            <summary>
+            Initializes a new instance of the <see cref="T:RAGENativeUI.DisplayItemsCollection"/> class that contains elements copied from the specified collection.
+            </summary>
+            <param name="collection">The collection.</param>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.Add(System.Object,System.String)">
+            <summary>
+            Adds the specified value and display text using the default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>, <see cref="T:RAGENativeUI.DisplayItem"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <param name="displayText">The display text.</param>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.Add(System.Object)">
+            <summary>
+            Adds the specified value using the default implementation of <see cref="T:RAGENativeUI.IDisplayItem"/>, <see cref="T:RAGENativeUI.DisplayItem"/>.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.Remove(System.Object)">
+            <summary>
+            Removes all the occurrences of <see cref="T:RAGENativeUI.IDisplayItem"/>s which <see cref="P:RAGENativeUI.IDisplayItem.Value"/> equals the specified <paramref name="value"/> from this <see cref="T:RAGENativeUI.DisplayItemsCollection"/>.
+            </summary>
+            <param name="value">The value.</param>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.Contains(System.Object)">
+            <summary>
+            Determines whether this <see cref="T:RAGENativeUI.DisplayItemsCollection"/> contains a <see cref="T:RAGENativeUI.IDisplayItem"/> which <see cref="P:RAGENativeUI.IDisplayItem.Value"/> equals the specified <paramref name="value"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>
+            true if a <see cref="T:RAGENativeUI.IDisplayItem"/> which <see cref="P:RAGENativeUI.IDisplayItem.Value"/> equals the specified <paramref name="value"/> is found in this <see cref="T:RAGENativeUI.DisplayItemsCollection"/>; otherwise, false.
+            </returns>
+        </member>
+        <member name="M:RAGENativeUI.DisplayItemsCollection.IndexOf(System.Object)">
+            <summary>
+            Searches for the <see cref="T:RAGENativeUI.IDisplayItem"/> which <see cref="P:RAGENativeUI.IDisplayItem.Value"/> equals the specified <paramref name="value"/> and returns the zero-based index of the first occurrence within the entire <see cref="T:RAGENativeUI.DisplayItemsCollection"/>.
+            </summary>
+            <param name="value">The value.</param>
+            <returns>The zero-based index of the first occurrence of the <see cref="T:RAGENativeUI.IDisplayItem"/> which <see cref="P:RAGENativeUI.IDisplayItem.Value"/> equals the specified <paramref name="value"/> within the entire <see cref="T:RAGENativeUI.DisplayItemsCollection"/>, if found; otherwise, –1.</returns>
+        </member>
         <member name="T:RAGENativeUI.MenuPool">
             <summary>
             Helper class that handles all of your Menus. After instatiating it, you will have to add your menu by using the Add method.
             </summary>
-        </member>
-        <member name="M:RAGENativeUI.MenuPool.Add(RAGENativeUI.UIMenu)">
-            <summary>
-            Add your menu to the menu pool.
-            </summary>
-            <param name="menu"></param>
-        </member>
-        <member name="M:RAGENativeUI.MenuPool.Remove(RAGENativeUI.UIMenu)">
-            <summary>
-            Removes the specified menu from the pool
-            </summary>
-            <param name="menu"></param>
         </member>
         <member name="M:RAGENativeUI.MenuPool.AddSubMenu(RAGENativeUI.UIMenu,System.String)">
             <summary>
@@ -545,6 +1104,11 @@
             </summary>
             <param name="textureDict">Name of the texture dictionary</param>
             <param name="textureName">Name of the texture.</param>
+        </member>
+        <member name="M:RAGENativeUI.PauseMenu.TabSubmenuItem.Draw">
+            <summary>
+            Draws this instance.
+            </summary>
         </member>
         <member name="M:RAGENativeUI.StringMeasurer.MeasureString(System.String)">
             <summary>
@@ -668,6 +1232,13 @@
             Add an item to the menu.
             </summary>
             <param name="item">Item object to be added. Can be normal item, checkbox or list item.</param>
+        </member>
+        <member name="M:RAGENativeUI.UIMenu.AddItem(RAGENativeUI.Elements.UIMenuItem,System.Int32)">
+            <summary>
+            Add an item to the menu at the specified index.
+            </summary>
+            <param name="item">Item object to be added. Can be normal item, checkbox or list item.</param>
+            <param name="index"></param>
         </member>
         <member name="M:RAGENativeUI.UIMenu.RemoveItemAt(System.Int32)">
             <summary>
@@ -859,11 +1430,6 @@
             </summary>
             <param name="input">String to format.</param>
             <returns></returns>
-        </member>
-        <member name="M:RAGENativeUI.UIMenu.UpdateScaleform">
-            <summary>
-            Manually update the instructional buttons scaleform.
-            </summary>
         </member>
         <member name="M:RAGENativeUI.UIMenu.Reset(System.Boolean,System.Boolean)">
             <summary>
