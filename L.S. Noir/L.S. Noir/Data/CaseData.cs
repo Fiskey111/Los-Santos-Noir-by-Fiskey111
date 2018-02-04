@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using LSNoir.Resources;
 
 namespace LSNoir.Data
 {
@@ -90,10 +91,33 @@ namespace LSNoir.Data
             => DataProvider.Instance.GetIdentifiableData<FirstOfficerData>(OfficersPath, id);
 
         public DialogData GetDialogData(string id)
-            => DataProvider.Instance.GetIdentifiableData<DialogData>(DialogsPath, id);
+        { 
+            var dd = DataProvider.Instance.GetIdentifiableData<DialogData>(DialogsPath, id);
+            dd.Dialog.RevalStrings();
+            return dd;
+        }
 
         public InterrogationData GetInterrogationData(string id)
-            => DataProvider.Instance.GetIdentifiableData<InterrogationData>(InterrogationsPath, id);
+        {
+            var idata = DataProvider.Instance.GetIdentifiableData<InterrogationData>(InterrogationsPath, id);
+
+            for (int i = 0; i < idata.Lines.Length; i++)
+            {
+                var e = idata.Lines[i];
+
+                e.PlayerResponseTruth.RevalStrings();
+                e.Answer.RevalStrings();
+
+                e.InterrogeeReactionDoubt.RevalStrings();
+                e.InterrogeeReactionLie.RevalStrings();
+                e.InterrogeeReactionTruth.RevalStrings();
+
+                e.PlayerResponseDoubt.RevalStrings();
+                e.PlayerResponseLie.RevalStrings();
+                e.Question.RevalStrings();
+            }
+            return idata;
+        }
 
         public CoronerData GetCoronerData(string id)
             => DataProvider.Instance.GetIdentifiableData<CoronerData>(CoronersPath, id);

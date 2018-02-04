@@ -204,6 +204,7 @@
     <Compile Include="Settings\Keys.cs" />
     <Compile Include="Settings\Paths.cs" />
     <Compile Include="Settings\Texts.cs" />
+    <Compile Include="Settings\TextTags.cs" />
     <Compile Include="Stages\Base\SharedStageMethods.cs" />
     <Compile Include="Stages\CanvassAreaAndArrest.cs" />
     <Compile Include="Stages\CSI.cs" />
