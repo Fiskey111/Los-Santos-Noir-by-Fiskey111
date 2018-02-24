@@ -5,14 +5,12 @@
 
 using LSNoir.Data;
 using LSNoir.Resources;
+using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
-using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
 using RAGENativeUI.Elements;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace LSNoir.Stages
 {
@@ -28,9 +26,13 @@ namespace LSNoir.Stages
         private float DistToPlayer(Vector3 p) => Vector3.Distance(Player.Position, p);
         private Interrogation interrogation;
 
+        private const string INTERROGEE = "inter_interrogee";
+
         private Scenes.IScene scene;
 
-        private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
+        //private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
+        private ControlSet CONTROL_START_INTERROGATION = Main.Controls.TalkToPed;
+
         private const string MSG_TALK = "Go closer to talk.";
         private const string MSG_LEAVE = "Leave the area.";
         private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start the interrogation.";
@@ -56,7 +58,7 @@ namespace LSNoir.Stages
 
             blipCallArea = Base.SharedStageMethods.CreateBlip(data);
 
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -80,7 +82,7 @@ namespace LSNoir.Stages
 
         private void CreatePedToInterrogate()
         {
-            personData = data.ParentCase.GetPersonData(data.PersonsID[0]);
+            personData = data.GetPersonData(INTERROGEE);
 
             ped = new Ped(personData.Model, personData.Spawn.Position, personData.Spawn.Heading);
             ped.MakePersistent();
@@ -107,7 +109,7 @@ namespace LSNoir.Stages
         {
             if(DistToPlayer(ped.Position) < DIST_CLOSE_START_TALK)
             {
-                Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, KEY_START_INTERROGATION), 3000);
+                Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, CONTROL_START_INTERROGATION.GetDescription()), 3000);
 
                 pedScenario.IsActive = false;
 
@@ -121,7 +123,7 @@ namespace LSNoir.Stages
 
         private void CanStartTalking()
         {
-            if(Game.IsKeyDown(KEY_START_INTERROGATION))
+            if(CONTROL_START_INTERROGATION.IsActive())
             {
                 interrogation.StartDialog();
 

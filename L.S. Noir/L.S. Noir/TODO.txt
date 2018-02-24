@@ -1,5 +1,8 @@
 ﻿
 TODO==========================================
+[-] Create NotificationData and use in StageData instead of loose NotificationTex etc.
+[-] Use KeyVal {"DialogEMS", "dialogEms_1"} instead of 10000 different fields of StageData?
+
 [-] interrogate suspect: add gps
 [status](date added) todo
 [+](2017-10-28) add GPS to the +hospital stage, +me office, raid

@@ -39,6 +39,8 @@ namespace LSNoir.Stages
         private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~w~ to ask the ~y~person~w~ some questions.";
         private const string MSG_LEAVE = "It looks like the ~y~person~w~ is done talking, leave the scene before you lose the case.";
 
+        private const string INTERROGEE = "inter_interrogee";
+
         private const Keys KEY_START_INTERROGATION = Keys.Y;
          
         private Blip areaBlip;
@@ -53,7 +55,7 @@ namespace LSNoir.Stages
         public InterrogatePedWithTimeout(StageData stageData)
         {
             data = stageData;
-            pedsData = data.ParentCase.GetPersonData(data.PersonsID[0]);
+            pedsData = data.GetPersonData(INTERROGEE);
         }
 
         protected override bool Initialize()
@@ -62,7 +64,7 @@ namespace LSNoir.Stages
 
             scene = Base.SharedStageMethods.GetScene(data);
 
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -182,8 +184,8 @@ namespace LSNoir.Stages
         private void SaveProgress()
         {
             data.ParentCase.Progress.AddNotesToProgress(pedsData.NotesID);
-            data.ParentCase.Progress.AddNotesToProgress(data.NotesID);
-            data.ParentCase.Progress.AddReportsToProgress(data.ReportsID);
+            data.ParentCase.Progress.AddNotesToProgress(data.Notes.Select(n=>n.Value).ToArray());
+            data.ParentCase.Progress.AddReportsToProgress(data.Reports.Select(n => n.Value).ToArray());
             data.ParentCase.Progress.AddInterrogations(pedsData.InterrogationID);
 
             data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);

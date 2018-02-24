@@ -14,5 +14,6 @@
         public const string PATH_OVERALL_PROGRESS = PATH_ROOT + @"Progress\OverallProgress.xml";
 
         public const string PATH_TEXT_TAGS = PATH_ROOT + @"Configuration\TextTags.xml";
+        public const string PATH_CONTROL_CONFIG = PATH_ROOT + @"Configuration\Controls.xml";
     }
 }

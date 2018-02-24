@@ -27,14 +27,20 @@ namespace LSNoir.Stages
         public WaitForEvent(StageData caseData)
         {
             data = caseData;
-            //reports id => when player checks a warrant in a computer!!!
-            documentsToAccept = data.DocumentsID ?? new string[]{ };
-            evidenceToAnalyze = data.EvidenceID ?? new string[]{ };
+            //reports id => when player checks a warrant i a computer!!!
+
+            //TODO: checking for null wont work with linq results?
+
+            var docs = data.Documents ?? new Settings.KeyVal[] { };
+            var evidence = data.Evidence ?? new Settings.KeyVal[] { };
+
+            documentsToAccept = docs.Select(d => d.Value).ToArray();
+            evidenceToAnalyze = evidence.Select(d => d.Value).ToArray();
         }
 
         protected override bool Initialize()
         {
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             return true;
         }

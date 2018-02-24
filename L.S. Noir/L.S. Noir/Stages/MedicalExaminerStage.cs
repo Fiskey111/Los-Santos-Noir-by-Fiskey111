@@ -1,6 +1,7 @@
 ﻿using LSNoir.Data;
 using LSNoir.Resources;
 using LSNoir.Scenes;
+using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.EvidenceLibrary.Serialization;
@@ -10,6 +11,7 @@ using Rage.Native;
 using System;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace LSNoir.Stages
@@ -46,6 +48,8 @@ namespace LSNoir.Stages
         private Keys KeySkipDrive = Keys.D0;
         private Keys KeyWarpPlayerIntoVeh = Keys.F;
 
+        private ControlSet ControlStartTalking = Main.Controls.TalkToPed;
+
         private Camera gameCam;
         private Camera swapCam;
 
@@ -54,6 +58,10 @@ namespace LSNoir.Stages
         private MedicalExaminerData me = MELS;//MEOffices.OrderBy(o => DistToPlayer(o.Position)).FirstOrDefault();
 
         private IScene sceneOffice;
+
+        private const string ME = "me_examiner";
+        private const string DIALOG_DRIVER = "me_dial_driver";
+        // + 1 report
 
         private Ped medExaminer;
         private PersonData meData;
@@ -84,14 +92,15 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
+            Stages.Base.SharedStageMethods.CreateBlip(data);
             mainBlip = new Blip(me.Position)
             {
-                Sprite = data.CallBlipSprite,
-                Color = ColorTranslator.FromHtml(data.CallBlipColor),
-                Name = data.CallBlipName,
+                Sprite = data.CallBlip.Sprite,
+                Color = ColorTranslator.FromHtml(data.CallBlip.Color),
+                Name = data.CallBlip.Name,
             };
 
-            meData = data.ParentCase.GetPersonData(data.PersonsID[0]);
+            meData = data.GetPersonData(ME);
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -99,7 +108,7 @@ namespace LSNoir.Stages
 
             ra.Start(false, true, true);
 
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             var nextStage = me.TransportRequired ? (Action)IsFarAway : IsPlayerCloseToOffice;
             ActivateStage(nextStage);
@@ -162,7 +171,7 @@ namespace LSNoir.Stages
             if(DistToPlayer(driver.Position) < 5f && Player.IsOnFoot)
             {
                 //TODO: [Driver] you can go with me or take your own car, it's up to you
-                var dialog = data.ParentCase.GetDialogData(data.DialogsID[0]);
+                var dialog = data.GetDialogData(DIALOG_DRIVER);
                 driverDialog = new Dialog(dialog.Dialog);
 
                 driverDialog.PedOne = Player;
@@ -399,7 +408,8 @@ namespace LSNoir.Stages
         {
             if (DistToPlayer(MELS.MarkerOffice) < 3f)
             {
-                Game.DisplayHelp(string.Format(MSG_PRESS_TALK_ME, Settings.Controls.KeyTalkToPed));
+                ControlStartTalking.ColorTag = "y";
+                Game.DisplayHelp(string.Format(MSG_PRESS_TALK_ME, ControlStartTalking.GetDescription()));
 
                 markerOffice.Dispose();
 
@@ -409,7 +419,7 @@ namespace LSNoir.Stages
 
         private void CanStartMEDialog()
         {
-            if(Game.IsKeyDown(Settings.Controls.KeyTalkToPed))
+            if(ControlStartTalking.IsActive())
             {
                 var dialogData = data.ParentCase.GetDialogData(meData.DialogID);
                 meDialog = new Dialog(dialogData.Dialog);
@@ -599,9 +609,9 @@ namespace LSNoir.Stages
 
             Functions.PlayScannerAudio(SCANNER_FINISH);
 
-            data.ParentCase.Progress.AddReportsToProgress(data.ReportsID);
-            data.ParentCase.Progress.AddNotesToProgress(data.NotesID);
-            data.ParentCase.Progress.AddEvidenceToProgress(data.EvidenceID);
+            data.ParentCase.Progress.AddReportsToProgress(data.Reports.Select(r=>r.Value).ToArray());
+            data.ParentCase.Progress.AddNotesToProgress(data.Notes.Select(r => r.Value).ToArray());
+            data.ParentCase.Progress.AddEvidenceToProgress(data.Evidence.Select(r => r.Value).ToArray());
             data.ParentCase.Progress.AddDialogsToProgress(meData.DialogID);
             data.ParentCase.Progress.AddPersonsTalkedTo(meData.ID);
 

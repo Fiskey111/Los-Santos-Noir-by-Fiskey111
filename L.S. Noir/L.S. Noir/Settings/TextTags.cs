@@ -7,7 +7,7 @@ namespace LSNoir.Settings
     {
         public string Key;
         public string Value;
-        public string GetTag => $"{{{Key}}}";
+        //public string GetTag => $"{{{Key}}}";
     }
 
     public class TextTags

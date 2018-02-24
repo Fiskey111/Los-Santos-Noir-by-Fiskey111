@@ -46,6 +46,8 @@ namespace LSNoir.Stages
         private const string MSG_LEAVE = "You may ~r~leave~s~ the hospital";
         private const string MSG_ENTER_HOSPITAL = "Enter the ~g~marker~s~ to talk to a doctor";
 
+        private const string DIALOG = "hospital_dialog";
+
         public Hospital(StageData stageData)
         {
             data = stageData;
@@ -62,7 +64,7 @@ namespace LSNoir.Stages
 
             markerEntrance.Visible = true;
 
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             ra = new RouteAdvisor(data.CallPosition);
 
@@ -117,11 +119,9 @@ namespace LSNoir.Stages
 
             doctor = new Ped(MODEL_DOCTOR, posDoctorStart.Position, posDoctorStart.Heading);
 
-            var dialogId = data.DialogsID[0];
+            var dialogLines = data.GetDialogData(DIALOG).Dialog;
 
-            var dialogData = data.ParentCase.GetDialogData(dialogId);
-
-            dialog = new Dialog(dialogData.Dialog);
+            dialog = new Dialog(dialogLines);
 
             Player.Position = spawnInsideHospital.Position;
 

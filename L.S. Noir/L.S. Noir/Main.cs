@@ -4,6 +4,7 @@ using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using System.Diagnostics;
+using System.IO;
 using System.Reflection;
 
 [assembly: Rage.Attributes.Plugin("L.S. Noir", Description = "A detective style plugin for LSPDFR", Author = "Fiskey111", PrefersSingleInstance = true)]
@@ -13,6 +14,22 @@ namespace LSNoir
     {
         private static CasesController casesCtrl;
         private static ComputerController computerCtrl;
+
+        internal static Controls Controls
+        {
+            get
+            {
+                if (controls == null)
+                {
+                    if (!File.Exists(Paths.PATH_CONTROL_CONFIG)) DataAccess.DataProvider.Instance.Save(Paths.PATH_CONTROL_CONFIG, new Controls());
+                    controls = DataAccess.DataProvider.Instance.Load<Controls>(Paths.PATH_CONTROL_CONFIG);
+                }
+                return controls;
+            }
+        }
+
+        private static Controls controls;
+
         private static bool isStarted;
 
         public Main()

@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -29,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
     <DebugSymbols>true</DebugSymbols>
@@ -168,6 +170,7 @@
     <Compile Include="Data\CaseProgress.cs" />
     <Compile Include="Data\CaseProgressHelper.cs" />
     <Compile Include="Data\CollectedEvidenceData.cs" />
+    <Compile Include="Data\DataExtensions.cs" />
     <Compile Include="Data\DocumentData.cs" />
     <Compile Include="Data\DocumentRequestData.cs" />
     <Compile Include="Data\InterrogationData.cs" />
@@ -201,7 +204,7 @@
     <Compile Include="Scenes\SceneMEOffice.cs" />
     <Compile Include="Scenes\SceneWithIdProps.cs" />
     <Compile Include="Settings\Consts.cs" />
-    <Compile Include="Settings\Keys.cs" />
+    <Compile Include="Settings\Controls.cs" />
     <Compile Include="Settings\Paths.cs" />
     <Compile Include="Settings\Texts.cs" />
     <Compile Include="Settings\TextTags.cs" />

@@ -26,6 +26,8 @@ namespace LSNoir.Stages
         private const string MSG_LEAVE_KILLED = "Leave the area.";
         private string msg_leave;
 
+        private const string SUSPECT = "canvass_suspect";
+
         private RouteAdvisor ra;
 
         public CanvassAreaAndArrest(StageData stageData)
@@ -35,7 +37,7 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             blipCall = Base.SharedStageMethods.CreateBlip(data);
 
@@ -62,8 +64,7 @@ namespace LSNoir.Stages
 
         private Ped SpawnSuspect()
         {
-            var pid = data.SuspectsID.First();
-            var pd = data.ParentCase.GetSuspectData(pid);
+            var pd = data.GetSuspectData(SUSPECT);
             suspectId = pd.ID;
 
             var ped = new Ped(pd.Model, pd.Spawn.Position, pd.Spawn.Heading);

@@ -183,4 +183,114 @@ namespace LSNoir.Data
         {
         }
     }
+
+    //=========================================================================
+    
+    public class CaseData_REDUCED : IIdentifiable
+    {
+        //TODO:
+        // - consider storing CaseProgress in a separate folder outside the caseData folder
+        // - extract methods and make 'em extensions to keep CaseData dumb
+
+        //SERIALIZABLE PART
+        public string ID { get; set; }
+        public string Name;
+        public string[] Stages = { };
+        public string City;
+        public string Address;
+
+        //NON SERIALIZABLE PART
+        public CaseProgressHelper Progress => progress;
+        [NonSerialized]
+        private CaseProgressHelper progress;
+
+        [NonSerialized]
+        public ResourceTypes Data;
+
+        public string CaseProgressPath { get; set; }
+
+        public void SetRootPath(string root)
+        {
+            var dir = Path.GetDirectoryName(root);
+
+            Data = new ResourceTypes()
+            {
+                new ResourceTypeDefinition(typeof(WitnessData), Combine(dir, @"\Data\WitnessesData.xml")),
+                new ResourceTypeDefinition(typeof(EvidenceData), Combine(dir, @"\Data\EvidenceData.xml")),
+                new ResourceTypeDefinition(typeof(DeadBodyData), Combine(dir, @"\Data\VictimsData.xml")),
+                new ResourceTypeDefinition(typeof(FirstOfficerData), Combine(dir, @"\Data\OfficersData.xml")),
+                new ResourceTypeDefinition(typeof(DialogData), Combine(dir, @"\Data\DialogsData.xml")),
+                new ResourceTypeDefinition(typeof(ReportData), Combine(dir, @"\Data\ReportsData.xml")),
+                new ResourceTypeDefinition(typeof(InterrogationData), Combine(dir, @"\Data\InterrogationsData.xml")),
+                new ResourceTypeDefinition(typeof(CoronerData), Combine(dir, @"\Data\CoronersData.xml")),
+                new ResourceTypeDefinition(typeof(EMSData), Combine(dir, @"\Data\EMSData.xml")),
+                new ResourceTypeDefinition(typeof(StageData), Combine(dir, @"\Data\StagesData.xml")),
+                new ResourceTypeDefinition(typeof(SceneData), Combine(dir, @"\Data\ScenesData.xml")),
+                new ResourceTypeDefinition(typeof(DocumentData), Combine(dir, @"\Data\DocumentsData.xml")),
+                new ResourceTypeDefinition(typeof(NoteData), Combine(dir, @"\Data\NotesData.xml")),
+                new ResourceTypeDefinition(typeof(PersonData), Combine(dir, @"\Data\PersonsData.xml")),
+                new ResourceTypeDefinition(typeof(SuspectData), Combine(dir, @"\Data\SuspectsData.xml")),
+            };
+
+            CaseProgressPath = Combine(dir, @"\Progress\CaseProgress.xml");
+
+            progress = new CaseProgressHelper(this, CaseProgressPath);
+        }
+
+        private static string Combine(string s1, string s2) => s1 + s2;
+
+        public T GetResourceByID<T>(string id) where T : class, IIdentifiable
+        {
+            var path = Data.GetPath(typeof(T));
+            var x = DataProvider.Instance.GetIdentifiableData<T>(path, id);
+
+            return ProcessResult(x);
+        }
+
+        public T ProcessResult<T>(T x) where T : class, IIdentifiable
+        {
+            if (x is InterrogationData)
+            {
+                for (int i = 0; i < (x as InterrogationData).Lines.Length; i++)
+                {
+                    var e = (x as InterrogationData).Lines[i];
+
+                    e.PlayerResponseTruth.RevalStrings();
+                    e.Answer.RevalStrings();
+
+                    e.InterrogeeReactionDoubt.RevalStrings();
+                    e.InterrogeeReactionLie.RevalStrings();
+                    e.InterrogeeReactionTruth.RevalStrings();
+
+                    e.PlayerResponseDoubt.RevalStrings();
+                    e.PlayerResponseLie.RevalStrings();
+                    e.Question.RevalStrings();
+                }
+            }
+            else if (x is DialogData)
+            {
+                (x as DialogData).Dialog.RevalStrings();
+            }
+            return x;
+        }
+        
+        //STAGE LEVEL =/= CASE LEVEL!!!
+        public IEnumerable<T> GetAllCaseResourcesOfType<T>() where T : class, IIdentifiable
+        {
+            var path = Data.GetPath(typeof(T));
+            var allStages = DataProvider.Instance.Load<List<T>>(path);
+            return allStages;
+        }
+
+        public CaseData_REDUCED()
+        {
+        }
+    }
+
+
+
+
+
+
+
 }

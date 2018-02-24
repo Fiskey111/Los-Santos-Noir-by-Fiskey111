@@ -59,6 +59,10 @@ namespace LSNoir.Stages
         private const string MSG_LEAVE = "Leave the area.";
         private const float DIST_COPS_AT_SCENE = 7;
 
+        //REQUIRED RESOURCES
+        private const string SUSPECT_ID = "raid_suspect_1";
+        //
+
         private const Keys KEY_PREPARE = Keys.Y;
         private Blip blipSuspectArea;
         private Blip blipMeetingArea;
@@ -85,7 +89,7 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             blipMeetingArea = Base.SharedStageMethods.CreateBlip(data);
 
@@ -244,8 +248,7 @@ namespace LSNoir.Stages
 
             if (scene.Peds.All(o => o.IsInAnyVehicle(false)) && Player.IsInAnyVehicle(false))
             {
-                var suspectID = data.SuspectsID[0];
-                var suspectData = data.ParentCase.GetSuspectData(suspectID);
+                var suspectData = data.GetSuspectData(SUSPECT_ID);
                 crewDestination = World.GetNextPositionOnStreet(suspectData.Spawn.Position);
                 
                 GameFiber.StartNew(() => SpawnSuspect(suspectData));
@@ -400,8 +403,9 @@ namespace LSNoir.Stages
 
                 var next = suspect.IsAlive ? data.NextScripts[0] : data.NextScripts[1];
 
-                if (suspect.IsDead) data.ParentCase.Progress.AddSuspectsKilled(data.SuspectsID[0]);
-                else data.ParentCase.Progress.AddSuspectsArrested(data.SuspectsID[0]);
+                var suspectID = data.GetSuspectData(SUSPECT_ID).ID;
+                if (suspect.IsDead) data.ParentCase.Progress.AddSuspectsKilled(suspectID);
+                else data.ParentCase.Progress.AddSuspectsArrested(suspectID);
 
                 Attributes.NextScripts = next;
 

@@ -1,6 +1,5 @@
 ﻿using LSNoir.Data;
 using LSNoir.Settings;
-using LtFlash.Common.InputHandling;
 using Rage;
 using Rage.Forms;
 using System;
@@ -43,7 +42,7 @@ namespace LSNoir.Computer
         private readonly int GameResWidth = Game.Resolution.Width;
         private readonly int GameResHeight = Game.Resolution.Height;
 
-        private readonly ControlSet controlSet = new ControlSet(Controls.KeyActivateComputer, Controls.ModifierActivateComputer, Controls.CtrlButtonActivateComputer);
+        private readonly ControlSet controlSet = Main.Controls.ActivateComputer;
 
         private readonly List<GwenForm> wnds = new List<GwenForm>();
         private readonly Func<List<CaseData>> activeCasesData;
@@ -133,9 +132,9 @@ namespace LSNoir.Computer
 
                 if (!isComputerActive && IsAnyWithinDist())
                 {
-                    Game.DisplaySubtitle(string.Format(MSG_PRESS_TO_OPEN, controlSet.Description), 100);
+                    Game.DisplaySubtitle(string.Format(MSG_PRESS_TO_OPEN, controlSet.GetDescription()), 100);
 
-                    if(controlSet.IsActive)
+                    if(controlSet.IsActive())
                     {
                         DisplayComputer();
                     }

@@ -27,6 +27,8 @@ namespace LSNoir.Stages
         private const string SCENARIO_BINOCULARS = "WORLD_HUMAN_BINOCULARS";
 
         private const string MODEL_CAMERA = "prop_pap_camera_01";
+
+        private const string PLAYER_DATA = "obs_player";
         //CAMERA:
         //ENTITY::ATTACH_ENTITY_TO_ENTITY(l_902, PLAYER::PLAYER_PED_ID(), PED::GET_PED_BONE_INDEX(PLAYER::PLAYER_PED_ID(), 28422), 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1, 1, 0, 0, 2, 1);
 
@@ -47,7 +49,7 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             blipVantagePoint = Base.SharedStageMethods.CreateBlip(data);
 
@@ -93,7 +95,7 @@ namespace LSNoir.Stages
 
                 Game.LocalPlayer.HasControl = false;
 
-                var playerData = data.ParentCase.GetPersonData(data.PersonsID.First());
+                var playerData = data.GetPersonData(PLAYER_DATA);
                 
                 var pos = playerData.Spawn.Position;
 

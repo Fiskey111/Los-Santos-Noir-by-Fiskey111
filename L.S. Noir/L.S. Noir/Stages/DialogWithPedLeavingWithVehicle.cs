@@ -1,6 +1,7 @@
 ﻿using LSNoir.Data;
 using LSNoir.Resources;
 using LSNoir.Scenes;
+using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary;
 using LtFlash.Common.ScriptManager.Scripts;
@@ -28,11 +29,13 @@ namespace LSNoir.Stages
         private const string MSG_LEAVE = "Leave the area.";
         private const string MSG_PRESS_TO_TALK = "Press ~y~{0}~s~ to start talking.";
 
-        private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
+        private ControlSet CONTROL_START_INTERROGATION = Main.Controls.TalkToPed;
 
         private Ped ped;
         private string personID;
         private Blip blipCallArea;
+
+        private const string PED = "dial_ped_leav_ped";
 
         private RouteAdvisor ra;
 
@@ -49,7 +52,7 @@ namespace LSNoir.Stages
 
             scene = Base.SharedStageMethods.GetScene(data) as ISceneActiveWithVehicle;
 
-            Base.SharedStageMethods.DisplayNotification(data);
+            data.CallNotification.DisplayNotification();
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -76,7 +79,7 @@ namespace LSNoir.Stages
 
         private void CreatePed()
         {
-            var personData = data.ParentCase.GetPersonData(data.PersonsID[0]);
+            var personData = data.GetPersonData(PED);
 
             personID = personData.ID;
 
@@ -111,7 +114,8 @@ namespace LSNoir.Stages
         {
             if (DistToPlayer(ped.Position) < 6)
             {
-                Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, KEY_START_INTERROGATION), 3000);
+                CONTROL_START_INTERROGATION.ColorTag = "y";
+                Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, CONTROL_START_INTERROGATION.GetDescription()), 3000);
 
                 if (blipCallArea) blipCallArea.Delete();
 
@@ -121,7 +125,7 @@ namespace LSNoir.Stages
 
         private void CanStartTalking()
         {
-            if (Game.IsKeyDown(KEY_START_INTERROGATION))
+            if (CONTROL_START_INTERROGATION.IsActive())
             {
                 dialog.StartDialog();
 
