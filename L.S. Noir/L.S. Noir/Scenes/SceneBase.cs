@@ -72,6 +72,8 @@ namespace LSNoir.Scenes
                 result.Inventory.GiveNewWeapon(data.Weapon, 100, false);
             }
 
+            "Ped created".AddLog();
+
             return result;
         }
 

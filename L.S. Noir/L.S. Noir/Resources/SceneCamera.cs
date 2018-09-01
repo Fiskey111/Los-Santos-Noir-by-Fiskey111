@@ -35,6 +35,8 @@ namespace LSNoir.Resources
 
         private ProcessHost _p, _p2;
 
+        private Rotator _gameRotation;
+
         internal SceneCamera(string saveLocation)
         {
             SaveLocation = saveLocation;
@@ -59,16 +61,16 @@ namespace LSNoir.Resources
         {
             // Give the player control
             Game.LocalPlayer.HasControl = false;
+            _gameCamera = RetrieveGameCam();
 
             // Create our custom camera
             _adjustableCamera = new Camera(false)
             {
                 Position = Game.LocalPlayer.Character.GetBonePosition(PedBoneId.Head),
-                Rotation = Game.LocalPlayer.Character.Rotation
+                Rotation = _gameCamera.Rotation
             };
 
             Game.LocalPlayer.Character.IsVisible = false;
-            _gameCamera = RetrieveGameCam();
             _adjustableCamera.Active = true;
 
             Game.FadeScreenIn(2000, true);
@@ -167,7 +169,7 @@ namespace LSNoir.Resources
                         Graphics memoryGraphics = Graphics.FromImage(memoryImage);
 
                         memoryGraphics.CopyFromScreen(200, 200, 0, 0, s);
-                        memoryImage.Save(SaveLocation + $"{0000}-{NativeFunction.Natives.GET_CLOCK_HOURS<int>()}{NativeFunction.Natives.GET_CLOCK_MINUTES<int>()}{NativeFunction.Natives.GET_CLOCK_SECONDS<int>()}.png");
+                        memoryImage.Save(SaveLocation + $"/{NativeFunction.Natives.GET_CLOCK_HOURS<int>()}{NativeFunction.Natives.GET_CLOCK_MINUTES<int>()}{NativeFunction.Natives.GET_CLOCK_SECONDS<int>()}.png");
 
                         SoundPlayer soundPlayer = new SoundPlayer(@"Plugins/LSPDFR/LSNoir/Audio/CameraShutter.wav");
                         soundPlayer.Play();
@@ -180,7 +182,8 @@ namespace LSNoir.Resources
                     catch (Exception ex)
                     {
                         Game.DisplayNotification("Error taking screenshot. Check your log and send it to Fiskey111");
-                        $"Error taking screenshot:\n {ex}".AddLog();
+                        $"Directory: {SaveLocation}/{NativeFunction.Natives.GET_CLOCK_HOURS<int>()}{NativeFunction.Natives.GET_CLOCK_MINUTES<int>()}{NativeFunction.Natives.GET_CLOCK_SECONDS<int>()}.png".AddLog(true);
+                        $"Error taking screenshot:\n {ex}".AddLog(true);
                     }
                     break;
                 case CameraExit:

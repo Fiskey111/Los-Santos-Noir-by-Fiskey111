@@ -18,11 +18,11 @@ namespace LSNoir.Stages
     {
         private readonly StageData _data;
 
-        private const float _offLimitsArea = 30f;
+        private const float _offLimitsArea = 45f;
         private Blip _watchAreaBlip, _targetBlip;
         private ISceneActive _scene;
 
-        private const string MSG_PARK_VEHICLE = "Park your vehicle outside the ~y~highlighted area~w~.\nEnsure you still can see the ~o~target~w~ house.\n\nPress ~g~Q~w~ when you are in position.";
+        private string MSG_PARK_VEHICLE = $"Park your vehicle outside the ~y~highlighted area~w~.\nEnsure you still can see the ~o~target~w~ house.\n\nPress ~g~{Settings.Controls.KeyOpenSceneCamera}~w~ when you are in position.";
         private const string LEAVE_AREA = "Leave the area.";
         private const string WARN_SPOTTED = "You may be ~r~spotted~w~ and blow your cover, leave the ~y~highlighted area~w~ now!";
         private const string BEEN_SPOTTED = "~r~You've been spotted. Try again some other time.";
@@ -31,6 +31,7 @@ namespace LSNoir.Stages
         private const float DIST_AREA_LEFT = 30f; // todo -- replace with xml val
 
         private int _enteredAreaCount;
+        private bool _sceneCreated;
         
         public static float DistToPlayer(Vector3 e) => Vector3.Distance(Game.LocalPlayer.Character.Position, e);
         
@@ -53,7 +54,7 @@ namespace LSNoir.Stages
 
             // Set ISceneActive
             _scene = Base.SharedStageMethods.GetScene(_data) as ISceneActive;
-
+            
             // Start checking the position
             ActivateStage(Away);
 
@@ -62,6 +63,13 @@ namespace LSNoir.Stages
 
         private void Away()
         {
+            if (DistToPlayer(_targetBlip.Position) < 70f && !_sceneCreated)
+            {
+                // Create the scene and wait for its completion
+                _scene?.Create();
+                _sceneCreated = true;
+            }
+
             // If the player isn't close, ignore
             if (DistToPlayer(_targetBlip.Position) > DIST_CLOSE) return;
 
@@ -87,18 +95,18 @@ namespace LSNoir.Stages
             if (DistToPlayer(_watchAreaBlip.Position) < _offLimitsArea)
             {
                 // Let the player know, then sleep the fiber and increase the entered count
-                Game.DisplaySubtitle(WARN_SPOTTED);
+                Game.DisplaySubtitle(WARN_SPOTTED, 4000);
                 GameFiber.Sleep(4000);
                 _enteredAreaCount++;
                 
                 // If the entered count is over this random, fail the stage.
                 if (_enteredAreaCount == MathHelper.GetRandomInteger(3, 6))
                 {
-                    Game.DisplaySubtitle(BEEN_SPOTTED);
+                    Game.DisplaySubtitle(BEEN_SPOTTED, 4000);
                     SetScriptFinished(false);
                 }
             }
-            else if (Game.IsKeyDown(Keys.Y) && Game.LocalPlayer.Character.IsInAnyVehicle(false) && Game.LocalPlayer.Character.CurrentVehicle.Speed < 0.5f)
+            else if (Game.IsKeyDown(Settings.Controls.KeyOpenSceneCamera) && Game.LocalPlayer.Character.IsInAnyVehicle(false) && Game.LocalPlayer.Character.CurrentVehicle.Speed < 0.5f)
             {
                 // The player is stopped outside the zone and is ready to start
                 Game.HideHelp();
@@ -111,13 +119,8 @@ namespace LSNoir.Stages
 
         private void StartStakeout()
         {
-            // Create the scene and wait for its completion
-            _scene.Create();
-
-            SceneCamera sceneCamera = new SceneCamera(@"Plugins/LSPDFR/LSNoir/Images/"); // todo -- make dynamic based on case location and number
+            SceneCamera sceneCamera = new SceneCamera($@"Plugins/LSPDFR/LSNoir/Cases/{_data.ParentCase}/Progress/Photos/Current"); // todo -- make dynamic based on case location and number
             sceneCamera.Start();
-
-            while (sceneCamera.IsRunning) GameFiber.Yield();
 
             SwapStages(StartStakeout, IsSceneDone);
         }
@@ -149,6 +152,8 @@ namespace LSNoir.Stages
             if (_targetBlip) _targetBlip.Delete();
             if (_watchAreaBlip) _watchAreaBlip.Delete();
             _scene?.Dispose();
+            MissionSummaryScreen s = new MissionSummaryScreen(_data);
+            s.Start();
         }
     }
 }

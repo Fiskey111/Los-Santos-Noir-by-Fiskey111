@@ -177,6 +177,7 @@
     <Compile Include="Resources\CameraInterpolator.cs" />
     <Compile Include="Resources\Checkpoint.cs" />
     <Compile Include="Resources\DriverFollow.cs" />
+    <Compile Include="Resources\InteractiveDialog.cs" />
     <Compile Include="Resources\Interrogation.cs" />
     <Compile Include="Resources\Marker.cs" />
     <Compile Include="Resources\PedAnimationLoop.cs" />
@@ -252,8 +253,8 @@
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "D:\steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetFileName)"
+copy /Y "$(TargetDir)\$(TargetName).pdb" "D:\steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetName).pdb"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

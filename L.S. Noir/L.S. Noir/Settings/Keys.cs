@@ -22,6 +22,8 @@ namespace LSNoir.Settings
 
         public static Keys KeyTalkToPed = Keys.Y;
 
+        public static Keys KeyOpenSceneCamera = Keys.Q;
+
         //public static Keys KeyCallCoroner = Keys
     }
 }
