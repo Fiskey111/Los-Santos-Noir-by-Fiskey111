@@ -19,22 +19,21 @@ namespace LSNoir.Data.NewData
         public string Traces { get; set; }
         public string DeadBodyObjectAdditionalTextWhileInspecting { get; set; } // DeadBody + Object
 
-        // Int
-        public int[] WitnessIDs { get; set; }
-        public int[] ServiceIDs { get; set; }
+        // String[]
+        public string[] WitnessIDs { get; set; }
+        public string[] ServiceIDs { get; set; }
 
         // Spawnpoint
         public SpawnPoint Spawn { get; set; }
-        public SpawnPoint WitnessPickupPosition { get; set; } // Witness
 
         // Boolean
         public bool IsImportant { get; set; }
         public bool CanBeInspected { get; set; }
         public bool PlaySoundImportantNearby { get; set; }
         public bool PlaySoundImportantCollected { get; set; }
-        
+       
         // Enum
-        public enum CSIDataType { DeadBody, Witness, Object }
+        public enum CSIDataType { DeadBody, Object }
         public CSIDataType Type { get; set; }
     }
 }

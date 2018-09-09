@@ -32,101 +32,101 @@ namespace LSNoir.Stages
     */
     class CSI : Base.StageCalloutScript
     {
-        private FirstOfficer officer;
-        private float officerInitHeading;
-        private DeadBody victim;
-        private EMS ems;
-        private Coroner coroner;
+        private FirstOfficer _officer;
+        private float _officerInitHeading;
+        private DeadBody _victim;
+        private EMS _ems;
+        private Coroner _coroner;
 
-        private readonly List<Witness> witnesses = new List<Witness>();
-        private readonly EvidenceController evidenceCtrl = new EvidenceController();
+        private readonly List<Witness> _witnesses = new List<Witness>();
+        private readonly EvidenceController _evidenceCtrl = new EvidenceController();
 
-        private IScene scene;
+        private IScene _scene;
 
-        private readonly StageData stageData;
+        private readonly StageData _stageData;
 
-        private Settings.ControlSet ControlStartDialog = Main.Controls.TalkToPed;
-        private Settings.ControlSet ControlCallCoroner = Main.Controls.CallCoroner;
-        private Settings.ControlSet ControlCallEMS = Main.Controls.CallEMS;
+        private Settings.ControlSet _controlStartDialog = Main.Controls.TalkToPed;
+        private Settings.ControlSet _controlCallCoroner = Main.Controls.CallCoroner;
+        private Settings.ControlSet _controlCallEms = Main.Controls.CallEMS;
 
-        private const string FIRST_OFFICER = "csi_first_officer";
-        private const string VICTIM = "csi_victim";
-        private const string EMS = "csi_ems";
-        private const string CORONER = "csi_coroner";
+        private const string FirstOfficer = "csi_first_officer";
+        private const string Victim = "csi_victim";
+        private const string Ems = "csi_ems";
+        private const string Coroner = "csi_coroner";
 
-        private const float DIST_CLOSE = 150f;
-        private const float DIST_OFFICER = 25f;
+        private const float DistClose = 150f;
+        private const float DistOfficer = 25f;
         
-        private const string MSG_LEAVE = "Leave the scene.";
-        private const string MSG_TALK_TO_PO = "Talk to the ~b~First Officer~w~ at scene to receive a preliminary report.";
-        private const string MSG_CSI = "Now that you have checked with the first officer, investigate the crime scene.";
-        private const string MSG_COLLECT = "Collect evidence and talk to witnesses.";
+        private const string MsgLeave = "Leave the scene.";
+        private const string MsgTalkToPo = "Talk to the ~b~First Officer~w~ at scene to receive a preliminary report.";
+        private const string MsgCsi = "Now that you have checked with the first officer, investigate the crime scene.";
+        private const string MsgCollect = "Collect evidence and talk to witnesses.";
 
-        private const string SCANNER_NOT_ACCEPTED = "OFFICER_INTRO_01 UNIT_RESPONDING_DISPATCH_04";
-        private const string SCANNER_AT_SCENE = "ATTENTION_ALL_UNITS_05 OFFICERS_AT_SCENE NO_FURTHER_UNITS CRIME_AMBULANCE_REQUESTED_02";
-        private const string SCANNER_CALL = "ATTN_UNIT_02 DIV_01 ADAM BEAT_12 WE_HAVE AN_ASSAULT OFFICERS_AT_SCENE RESPOND_CODE3";
+        private const string ScannerNotAccepted = "OFFICER_INTRO_01 UNIT_RESPONDING_DISPATCH_04";
+        private const string ScannerAtScene = "ATTENTION_ALL_UNITS_05 OFFICERS_AT_SCENE NO_FURTHER_UNITS CRIME_AMBULANCE_REQUESTED_02";
+        private const string ScannerCall = "ATTN_UNIT_02 DIV_01 ADAM BEAT_12 WE_HAVE AN_ASSAULT OFFICERS_AT_SCENE RESPOND_CODE3";
 
-        private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~.";
-        private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~.";
+        private const string MsgCoronerDispatched = "Coroner dispatched to ~y~{0}~s~.";
+        private const string MsgEmsDispatched = "EMS was dispatched to ~y~{0}~s~.";
 
-        private readonly string msgCallCoroner = "Press ~y~{0}~s~ to call coroner.";
-        private readonly string msgCallEms = "Press ~y~{0}~s~ to call EMS.";
+        private readonly string _msgCallCoroner = "Press ~y~{0}~s~ to call coroner.";
+        private readonly string _msgCallEms = "Press ~y~{0}~s~ to call EMS.";
 
-        private bool isImportantEvidenceCollected;
-        private bool areImportantWitnessesChecked;
+        private bool _isImportantEvidenceCollected;
+        private bool _areImportantWitnessesChecked;
 
         public CSI(StageData sd) : base()
         {
             Game.LogTrivial("CSI.Ctor");
 
-            stageData = sd;
+            _stageData = sd;
 
-            var sceneData = stageData.ParentCase.GetSceneData(stageData.SceneID);
-            scene = new Scene(sceneData);
+            var sceneData = _stageData.ParentCase.GetSceneData(_stageData.SceneID);
+            _scene = new Scene(sceneData);
         }
 
         protected override bool Initialize()
         {
             Game.LogTrivial("CSI.Initialize()");
 
-            stageData.CallNotification.DisplayNotification();
+            _stageData.CallNotification.DisplayNotification();
 
-            Functions.PlayScannerAudio(SCANNER_CALL);
+            Functions.PlayScannerAudio(ScannerCall);
 
-            ShowAreaBlip(stageData.CallPosition, stageData.CallBlip.Radius, true, true);
-            PlaySoundPlayerClosingIn = stageData.PlaySoundClosingIn;
+            ShowAreaBlip(_stageData.CallPosition, _stageData.CallBlip.Radius, true, true);
+            PlaySoundPlayerClosingIn = _stageData.PlaySoundClosingIn;
 
             return true;
         }
 
         protected override bool Accepted()
         {
-            officer = stageData.GetOfficerData(FIRST_OFFICER).Create(stageData);
+            _officer = _stageData.GetOfficerData(FirstOfficer).Create(_stageData);
 
-            officerInitHeading = officer.Ped.Heading;
+            _officerInitHeading = _officer.Ped.Heading;
 
-            victim = stageData.GetVictimData(VICTIM).Create();
+            _victim = _stageData.GetVictimData(Victim).Create();
 
-            victim.Ped.IsPositionFrozen = true;
+            _victim.Ped.IsPositionFrozen = true;
 
-            stageData.GetAllWitnesses().ForEach(w => witnesses.Add(w.Create(stageData)));
+            _stageData.GetAllWitnesses().ForEach(w => _witnesses.Add(w.Create(_stageData)));
 
-            witnesses.ForEach(w => w.CanBeInspected = false);
+            _witnesses.ForEach(w => w.CanBeInspected = false);
 
-            CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
+            CreateEvidenceObject(_stageData).ForEach(e => _evidenceCtrl.AddEvidence(e));
 
-            evidenceCtrl.IsActive = false;
+            _evidenceCtrl.IsActive = false;
 
-            ems = stageData.GetEMSData(EMS).Create(stageData, victim.Ped);
+            _ems = _stageData.GetEMSData(Ems).Create(_stageData, _victim.Ped);
 
-            ems.AlwaysNotifyToTeleport = true;
+            _ems.AlwaysNotifyToTeleport = true;
 
-            if (!ems.TakePatientToHospital)
+            if (!_ems.TakePatientToHospital)
             {
-                coroner = stageData.GetCoronerData(CORONER).Create(stageData, victim.Ped);
+                _coroner = _stageData.GetCoronerData(Coroner).Create(_stageData, _victim.Ped);
             }
 
-            ShowAreaWithRoute(stageData.CallPosition, stageData.CallBlip.Radius, ColorTranslator.FromHtml(stageData.CallBlip.Color));
+            ShowAreaWithRoute(_stageData.CallPosition, _stageData.CallBlip.Radius, ColorTranslator.FromHtml(_stageData.CallBlip.Color));
 
             ActivateStage(Close);
 
@@ -135,25 +135,25 @@ namespace LSNoir.Stages
         
         protected override void NotAccepted()
         {
-            Functions.PlayScannerAudio(SCANNER_NOT_ACCEPTED);
+            Functions.PlayScannerAudio(ScannerNotAccepted);
         }
         
         private void Close()
         {
-            if (DistToPlayer(victim.Ped) < DIST_CLOSE)
+            if (DistToPlayer(_victim.Ped) < DistClose)
             {
-                victim.Ped.IsPositionFrozen = false;
+                _victim.Ped.IsPositionFrozen = false;
 
-                victim.Ped.IsRagdoll = true;
+                _victim.Ped.IsRagdoll = true;
 
                 //prevent body movement
                 GameFiber.StartNew(() =>
                 {
                     GameFiber.Wait(3000);
-                    victim.Ped.IsPositionFrozen = true;
+                    _victim.Ped.IsPositionFrozen = true;
                 });
 
-                scene.Create();
+                _scene.Create();
 
                 SwapStages(Close, CheckIfAtScene);
             }
@@ -161,11 +161,11 @@ namespace LSNoir.Stages
 
         private void CheckIfAtScene()
         {
-            if (DistToPlayer(officer.Ped) < DIST_OFFICER)
+            if (DistToPlayer(_officer.Ped) < DistOfficer)
             {
-                Functions.PlayScannerAudioUsingPosition(SCANNER_AT_SCENE, victim.Position);
+                Functions.PlayScannerAudioUsingPosition(ScannerAtScene, _victim.Position);
 
-                Game.DisplayHelp(MSG_TALK_TO_PO);
+                Game.DisplayHelp(MsgTalkToPo);
 
                 SwapStages(CheckIfAtScene, WaitForDialogEnded); 
             }
@@ -173,24 +173,24 @@ namespace LSNoir.Stages
         
         private void WaitForDialogEnded()
         {
-            if (officer.Dialog.HasEnded)
+            if (_officer.Dialog.HasEnded)
             {
-                var officerData = stageData.GetOfficerData(FIRST_OFFICER);
-                stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Officers.Add(officerData.ID));
-                stageData.ParentCase.Progress.AddReportsToProgress(officerData.ReportsID);
+                var officerData = _stageData.GetOfficerData(FirstOfficer);
+                _stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Officers.Add(officerData.ID));
+                _stageData.ParentCase.Progress.AddReportsToProgress(officerData.ReportsID);
 
                 GameFiber.Sleep(0500);
 
-                Rage.Native.NativeFunction.Natives.TASK_ACHIEVE_HEADING(officer.Ped, officerInitHeading, 3000);
+                Rage.Native.NativeFunction.Natives.TASK_ACHIEVE_HEADING(_officer.Ped, _officerInitHeading, 3000);
 
                 GameFiber.Wait(3000);
 
-                officer.Ped.Tasks.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d", 4, AnimationFlags.Loop);
+                _officer.Ped.Tasks.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d", 4, AnimationFlags.Loop);
 
-                victim.CanBeInspected = true;
-                victim.PlaySoundPlayerNearby = true;
+                _victim.CanBeInspected = true;
+                _victim.PlaySoundPlayerNearby = true;
 
-                Game.DisplayHelp(MSG_CSI);
+                Game.DisplayHelp(MsgCsi);
 
                 SwapStages(WaitForDialogEnded, CheckVictim);
             }
@@ -198,70 +198,70 @@ namespace LSNoir.Stages
 
         private void CheckVictim()
         {
-            if (victim.Checked)
+            if (_victim.Checked)
             {
-                var victimData = stageData.GetVictimData(VICTIM);
-                stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Victims.Add(victimData.ID));
-                stageData.ParentCase.Progress.AddNotesToProgress(victimData.NotesID);
+                var victimData = _stageData.GetVictimData(Victim);
+                _stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Victims.Add(victimData.ID));
+                _stageData.ParentCase.Progress.AddNotesToProgress(victimData.NotesID);
 
-                victim.CanBeInspected = false;
-                victim.PlaySoundPlayerNearby = false;
+                _victim.CanBeInspected = false;
+                _victim.PlaySoundPlayerNearby = false;
 
-                evidenceCtrl.IsActive = true;
+                _evidenceCtrl.IsActive = true;
 
-                witnesses.ForEach(w => w.CanBeInspected = true);
+                _witnesses.ForEach(w => w.CanBeInspected = true);
 
-                ControlCallEMS.ColorTag = "y";
-                Game.DisplayHelp(string.Format(msgCallEms, ControlCallEMS.GetDescription()));
+                _controlCallEms.ColorTag = "y";
+                Game.DisplayHelp(string.Format(_msgCallEms, _controlCallEms.GetDescription()));
 
-                ActivateStage(DisplayKeyToCallEMS);
+                ActivateStage(DisplayKeyToCallEms);
 
-                SwapStages(CheckVictim, WaitForEMSCalled);
+                SwapStages(CheckVictim, WaitForEmsCalled);
             }
         }
 
-        private void DisplayKeyToCallEMS()
+        private void DisplayKeyToCallEms()
         {
-            Game.DisplaySubtitle(string.Format(msgCallEms, ControlCallEMS.GetDescription()), 100);
+            Game.DisplaySubtitle(string.Format(_msgCallEms, _controlCallEms.GetDescription()), 100);
         }
 
-        private void WaitForEMSCalled()
+        private void WaitForEmsCalled()
         {
-            if(ControlCallEMS.IsActive())
+            if(_controlCallEms.IsActive())
             {
-                DeactivateStage(DisplayKeyToCallEMS);
+                DeactivateStage(DisplayKeyToCallEms);
 
                 Game.HideHelp();
 
-                ems.Dispatch();
+                _ems.Dispatch();
 
-                Game.DisplayNotification(string.Format(MSG_EMS_DISPATCHED, World.GetStreetName(stageData.CallPosition)));
+                Game.DisplayNotification(string.Format(MsgEmsDispatched, World.GetStreetName(_stageData.CallPosition)));
 
-                SwapStages(WaitForEMSCalled, WaitEMSFinished);
+                SwapStages(WaitForEmsCalled, WaitEmsFinished);
             }
         }
 
-        private void WaitEMSFinished()
+        private void WaitEmsFinished()
         {
-            if (ems.IsCollected)
+            if (_ems.IsCollected)
             {
-                var emsReport = stageData.GetEMSData(EMS);
-                stageData.ParentCase.Progress.AddReportsToProgress(emsReport.ID);
+                var emsReport = _stageData.GetEMSData(Ems);
+                _stageData.ParentCase.Progress.AddReportsToProgress(emsReport.ID);
 
-                if (coroner != null)
+                if (_coroner != null)
                 {
-                    ControlCallCoroner.ColorTag = "~y~";
-                    Game.DisplayHelp(string.Format(msgCallCoroner, ControlCallCoroner.GetDescription()));
+                    _controlCallCoroner.ColorTag = "~y~";
+                    Game.DisplayHelp(string.Format(_msgCallCoroner, _controlCallCoroner.GetDescription()));
 
                     ActivateStage(DisplayKeyToCallCoroner);
 
-                    SwapStages(WaitEMSFinished, CallCoroner);
+                    SwapStages(WaitEmsFinished, CallCoroner);
                 }
                 else
                 {
-                    Game.DisplayNotification(MSG_COLLECT);
+                    Game.DisplayNotification(MsgCollect);
 
-                    DeactivateStage(WaitEMSFinished);
+                    DeactivateStage(WaitEmsFinished);
 
                     ActivateStage(IsEvidenceCollected);
                     ActivateStage(AreWitnessesChecked);
@@ -272,20 +272,20 @@ namespace LSNoir.Stages
 
         private void DisplayKeyToCallCoroner()
         {
-            Game.DisplaySubtitle(msgCallCoroner, 100);
+            Game.DisplaySubtitle(_msgCallCoroner, 100);
         }
 
         private void CallCoroner()
         {
-            if (ControlCallCoroner.IsActive())
+            if (_controlCallCoroner.IsActive())
             {
                 DeactivateStage(DisplayKeyToCallCoroner);
 
                 Game.HideHelp();
 
-                coroner.Dispatch();
+                _coroner.Dispatch();
 
-                var txtCoronerDisp = string.Format(MSG_CORONER_DISPATCHED, World.GetStreetName(stageData.CallPosition));
+                var txtCoronerDisp = string.Format(MsgCoronerDispatched, World.GetStreetName(_stageData.CallPosition));
 
                 Game.DisplayNotification(txtCoronerDisp);
 
@@ -295,12 +295,12 @@ namespace LSNoir.Stages
 
         private void IsCoronerDone()
         {
-            if (coroner.IsCollected)
+            if (_coroner.IsCollected)
             {
-                var coronerReport = stageData.GetCoronerData(CORONER).ReportID;
-                stageData.ParentCase.Progress.AddReportsToProgress(coronerReport);
+                var coronerReport = _stageData.GetCoronerData(Coroner).ReportID;
+                _stageData.ParentCase.Progress.AddReportsToProgress(coronerReport);
 
-                Game.DisplayNotification(MSG_COLLECT);
+                Game.DisplayNotification(MsgCollect);
 
                 DeactivateStage(IsCoronerDone);
 
@@ -313,13 +313,13 @@ namespace LSNoir.Stages
 
         private void IsEvidenceCollected()
         {
-            var importantEvidence = evidenceCtrl.Evidence.Where(e => e.IsImportant);
+            var importantEvidence = _evidenceCtrl.Evidence.Where(e => e.IsImportant);
 
             if (importantEvidence.All(e => e.IsCollected))
             {
-                importantEvidence.ToList().ForEach(e => stageData.ParentCase.Progress.AddEvidenceToProgress(e.Id));
+                importantEvidence.ToList().ForEach(e => _stageData.ParentCase.Progress.AddEvidenceToProgress(e.Id));
 
-                isImportantEvidenceCollected = true;
+                _isImportantEvidenceCollected = true;
 
                 DeactivateStage(IsEvidenceCollected);
             }
@@ -327,27 +327,27 @@ namespace LSNoir.Stages
 
         private void AreWitnessesChecked()
         {
-            var importantWitnesses = witnesses.Where(w => w.IsImportant);
+            var importantWitnesses = _witnesses.Where(w => w.IsImportant);
 
             if (importantWitnesses.All(w => w.Checked))
             {
                 importantWitnesses.ToList().ForEach(w => AddToProgress(w));
 
-                areImportantWitnessesChecked = true;
+                _areImportantWitnessesChecked = true;
 
                 DeactivateStage(AreWitnessesChecked);
             }
 
             void AddToProgress(Witness wit)
             {
-                var witnessData = stageData.ParentCase.GetWitnessData(wit.Id);
-                stageData.ParentCase.Progress.SaveWitnessDataToProgress(witnessData);
+                var witnessData = _stageData.ParentCase.GetWitnessData(wit.Id);
+                _stageData.ParentCase.Progress.SaveWitnessDataToProgress(witnessData);
             }
         }
 
         private void CanLeaveTheScene()
         {
-            if(isImportantEvidenceCollected && areImportantWitnessesChecked)
+            if(_isImportantEvidenceCollected && _areImportantWitnessesChecked)
             {
                 SwapStages(CanLeaveTheScene, CheckIfLeftScene);
             }
@@ -355,9 +355,9 @@ namespace LSNoir.Stages
 
         private void CheckIfLeftScene()
         {
-            Game.DisplaySubtitle(MSG_LEAVE);
+            Game.DisplaySubtitle(MsgLeave);
 
-            if (DistToPlayer(officer.Ped) > stageData.CallAreaRadius)
+            if (DistToPlayer(_officer.Ped) > _stageData.CallAreaRadius)
             {
                 SetSuccessfulyFinishedAndSave();
 
@@ -367,11 +367,11 @@ namespace LSNoir.Stages
 
         private void SetSuccessfulyFinishedAndSave()
         {
-            stageData.ParentCase.Progress.SetLastStage(stageData.ID);
-            stageData.ParentCase.Progress.SetNextScripts(stageData.NextScripts.First());
+            _stageData.ParentCase.Progress.SetLastStage(_stageData.ID);
+            _stageData.ParentCase.Progress.SetNextScripts(_stageData.NextScripts.First());
 
-            stageData.ParentCase.Progress.AddReportsToProgress(stageData.Reports.Select(r => r.Value).ToArray());
-            stageData.ParentCase.Progress.AddNotesToProgress(stageData.Notes.Select(n => n.Value).ToArray());
+            _stageData.ParentCase.Progress.AddReportsToProgress(_stageData.Reports.Select(r => r.Value).ToArray());
+            _stageData.ParentCase.Progress.AddNotesToProgress(_stageData.Notes.Select(n => n.Value).ToArray());
 
             SetScriptFinished(true);
 
@@ -386,30 +386,30 @@ namespace LSNoir.Stages
 
             int percent = 0;
 
-            float evd = (float)evidenceCtrl.Evidence.Count(e => e.Checked) / (float)evidenceCtrl.Evidence.Count;
+            float evd = (float)_evidenceCtrl.Evidence.Count(e => e.Checked) / (float)_evidenceCtrl.Evidence.Count;
 
             var percentEvd = evd * evidencePercent;
 
             percent += (int)percentEvd;
 
-            if (victim.Checked) percent += bodyPercent;
+            if (_victim.Checked) percent += bodyPercent;
 
-            if (officer.Checked) percent += firstOfficer;
+            if (_officer.Checked) percent += firstOfficer;
 
             MissionPassedScreen.MedalType medal = percent > 80 ? MissionPassedScreen.MedalType.Gold : 
                 percent > 65 ? MissionPassedScreen.MedalType.Silver : MissionPassedScreen.MedalType.Bronze;
 
             var screen = new MissionPassedScreen("Crime scene", percent, medal);
 
-            var officerItem = new MissionPassedScreenItem("First Officer", "", officer.Checked ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.None);
+            var officerItem = new MissionPassedScreenItem("First Officer", "", _officer.Checked ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.None);
 
             screen.Items.Add(officerItem);
 
-            var body = new MissionPassedScreenItem("Victim", "", victim.Checked ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.None);
+            var body = new MissionPassedScreenItem("Victim", "", _victim.Checked ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.None);
 
             screen.Items.Add(body);
 
-            var evdItem = new MissionPassedScreenItem("Evidence", $"{evidenceCtrl.Evidence.Count(e => e.Checked)}/{evidenceCtrl.Evidence.Count}", evd == 1 ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.Empty);
+            var evdItem = new MissionPassedScreenItem("Evidence", $"{_evidenceCtrl.Evidence.Count(e => e.Checked)}/{_evidenceCtrl.Evidence.Count}", evd == 1 ? MissionPassedScreenItem.TickboxState.Tick : MissionPassedScreenItem.TickboxState.Empty);
 
             screen.Items.Add(evdItem);
 
@@ -418,17 +418,17 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
-            evidenceCtrl?.Evidence?.ForEach(e => e.Dismiss());
-            ems?.Dispose();
-            coroner?.Dispose();
+            _evidenceCtrl?.Evidence?.ForEach(e => e.Dismiss());
+            _ems?.Dispose();
+            _coroner?.Dispose();
             //officer?.Ped.DeleteValid();
-            officer?.Dismiss();
+            _officer?.Dismiss();
 
-            victim?.Dismiss();
+            _victim?.Dismiss();
 
             //witnesses?.ForEach(w => w.Ped.DeleteValid());
-            witnesses?.ForEach(w => w.Dismiss());
-            scene?.Dispose();
+            _witnesses?.ForEach(w => w.Dismiss());
+            _scene?.Dispose();
         }
 
         protected override void Process()

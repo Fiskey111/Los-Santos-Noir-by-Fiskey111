@@ -28,7 +28,8 @@ namespace LSNoir.Resources
 
     public class Dialogue
     {
-        public bool HasEnded { get; set; }
+        public bool IsStarted { get; private set; }
+        public bool HasEnded { get; private set; }
         public Vector3 Position { get; set; }
         public float DistanceToStop { get; set; }
         public int TimeToDisplay { get; set; } = 3500;
@@ -62,10 +63,17 @@ namespace LSNoir.Resources
         {
             Game.LogTrivial("Total lines: " + _lines.Length);
 
+            IsStarted = true;
+
             PedsFacePlayer();
 
             _lineFiber = new GameFiber(ShowLine);
             _lineFiber.Start();
+        }
+
+        public void Abort()
+        {
+            if (this._lineFiber != null && this._lineFiber.IsAlive) this._lineFiber.Abort();
         }
 
         private void PedsFacePlayer()

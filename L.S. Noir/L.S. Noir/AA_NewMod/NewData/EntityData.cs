@@ -23,9 +23,10 @@ namespace LSNoir.Data.NewData
 
         // Spawnpoint
         public SpawnPoint Spawn { get; set; }
+        public SpawnPoint WitnessPickupPosition { get; set; } // Witness
 
         // Dialogue
-        public Dialogue Dialogue { get; set; }
+        public List<DialogueLine> Dialogue { get; set; }
 
         // Float
         public float SuspectChanceResisting { get; set; } // Suspect
