@@ -1,0 +1,11 @@
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.csprojResolveAssemblyReference.cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.MainMenu.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.Forms.OpenSave.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.Properties.Resources.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.csproj.GenerateResource.Cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.csproj.CoreCompileInputs.cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\bin\Release\LSNCaseCreator.exe.config
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\bin\Release\LSNCaseCreator.exe
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\bin\Release\LSNCaseCreator.pdb
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.exe
+E:\Source\Repos\L.S. Noir\L.S. Noir\LSNCaseCreator\obj\Release\LSNCaseCreator.pdb

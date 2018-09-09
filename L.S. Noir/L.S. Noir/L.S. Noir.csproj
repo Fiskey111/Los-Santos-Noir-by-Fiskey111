@@ -74,10 +74,6 @@
     <Reference Include="RagePluginHookSDK">
       <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\SDK\RagePluginHookSDK.dll</HintPath>
     </Reference>
-    <Reference Include="RagePROletariat, Version=0.1.6255.4456, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\Software\Rockstar Games\Grand Theft Auto V\RagePROletariat.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -174,6 +170,12 @@
     <Compile Include="Data\DocumentData.cs" />
     <Compile Include="Data\DocumentRequestData.cs" />
     <Compile Include="Data\InterrogationData.cs" />
+    <Compile Include="Data\NewData\CSIData.cs" />
+    <Compile Include="Data\NewData\EntityData.cs" />
+    <Compile Include="Data\NewData\IData.cs" />
+    <Compile Include="Data\NewData\SceneData.cs" />
+    <Compile Include="Data\NewData\StageData.cs" />
+    <Compile Include="Data\NewData\WrittenData.cs" />
     <Compile Include="Data\NoteData.cs" />
     <Compile Include="Data\OverallProgress.cs" />
     <Compile Include="Data\PersonData.cs" />
@@ -182,9 +184,10 @@
     <Compile Include="Data\StageData.cs" />
     <Compile Include="Data\SuspectData.cs" />
     <Compile Include="Extensions\Extensions.cs" />
-    <Compile Include="RageProRegistration.cs" />
+    <Compile Include="Resources\Animations.cs" />
     <Compile Include="Resources\CameraInterpolator.cs" />
     <Compile Include="Resources\Checkpoint.cs" />
+    <Compile Include="Resources\Dialogue.cs" />
     <Compile Include="Resources\DriverFollow.cs" />
     <Compile Include="Resources\Interrogation.cs" />
     <Compile Include="Resources\Marker.cs" />

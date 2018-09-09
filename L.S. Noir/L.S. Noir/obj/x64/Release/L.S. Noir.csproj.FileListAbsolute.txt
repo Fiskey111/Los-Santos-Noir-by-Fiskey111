@@ -24,3 +24,17 @@ D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.FindVehicle_Form.resources
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.FindPerson_Form.resources
 D:\Misc\Programming\LSNoir Repository\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csproj.CoreCompileInputs.cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csprojResolveAssemblyReference.cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.FindVehicle_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.FindPerson_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.DocumentsList_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.EvidenceList_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.MainToolbar_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.Main_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.NotesMade_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.WinForms.Progress_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\LSNoir.Computer.ReportsList_Form.resources
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csproj.GenerateResource.Cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.csproj.CoreCompileInputs.cache
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.dll
+E:\Source\Repos\L.S. Noir\L.S. Noir\L.S. Noir\obj\x64\Release\L.S. Noir.pdb
