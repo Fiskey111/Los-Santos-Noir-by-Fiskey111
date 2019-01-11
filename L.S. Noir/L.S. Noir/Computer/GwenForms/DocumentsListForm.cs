@@ -40,7 +40,7 @@ namespace LSNoir.Computer
             text.KeyboardInputEnabled = false;
             text.Disable();
 
-            var requestableDocs = data.GetRequestableDocuments();
+            var requestableDocs = data.GetAllCaseResourcesOfType<DocumentData>().FindAll(d => d.CanDocumentBeRequested(data));
             requestableDocs.ForEach(r => documentsList.AddRow(r.Title, r.ID, r));
 
             documentsList.RowSelected += DocumentsList_RowSelected;

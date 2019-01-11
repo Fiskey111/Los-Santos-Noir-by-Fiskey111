@@ -41,5 +41,10 @@ namespace LSNoir.CaseDataValidation
         {
             Children.Add(child);
         }
+
+        public string GetReport()
+        {
+            return "";
+        }
     }
 }

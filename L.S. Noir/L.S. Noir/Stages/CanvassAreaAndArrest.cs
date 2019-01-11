@@ -64,7 +64,7 @@ namespace LSNoir.Stages
 
         private Ped SpawnSuspect()
         {
-            var pd = data.GetSuspectData(SUSPECT);
+            var pd = data.GetResourceByName<SuspectData>(SUSPECT);
             suspectId = pd.ID;
 
             var ped = new Ped(pd.Model, pd.Spawn.Position, pd.Spawn.Heading);

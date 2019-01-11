@@ -3,6 +3,7 @@ using LSNoir.Resources;
 using LSNoir.Scenes;
 using LtFlash.Common;
 using LtFlash.Common.EvidenceLibrary;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using System.Drawing;
@@ -52,7 +53,7 @@ namespace LSNoir.Stages
         {
             data = stageData;
             var sceneId = data.SceneID;
-            var sceneData = data.ParentCase.GetSceneData(sceneId);
+            var sceneData = data.ParentCase.GetResourceByID<SceneData>(sceneId);
             scene = new SceneHospitalInterior(sceneData);
         }
 
@@ -119,7 +120,7 @@ namespace LSNoir.Stages
 
             doctor = new Ped(MODEL_DOCTOR, posDoctorStart.Position, posDoctorStart.Heading);
 
-            var dialogLines = data.GetDialogData(DIALOG).Dialog;
+            var dialogLines = data.GetResourceByName<DialogData>(DIALOG).Dialog;
 
             dialog = new Dialog(dialogLines);
 

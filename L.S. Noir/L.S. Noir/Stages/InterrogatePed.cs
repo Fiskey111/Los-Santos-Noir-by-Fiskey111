@@ -47,6 +47,8 @@ namespace LSNoir.Stages
         private PedScenarioLoop pedScenario;
         private Blip blipCallArea;
 
+        private RouteAdvisor ra;
+
         public InterrogatePed(StageData stageData)
         {
             data = stageData;
@@ -61,6 +63,10 @@ namespace LSNoir.Stages
             data.CallNotification.DisplayNotification();
 
             NativeFunction.Natives.FlashMinimapDisplay();
+
+            ra = new RouteAdvisor(data.CallPosition);
+
+            ra.Start(false, true, true);
 
             ActivateStage(Away);
 
@@ -82,14 +88,14 @@ namespace LSNoir.Stages
 
         private void CreatePedToInterrogate()
         {
-            personData = data.GetPersonData(INTERROGEE);
+            personData = data.GetResourceByName<PersonData>(INTERROGEE);
 
             ped = new Ped(personData.Model, personData.Spawn.Position, personData.Spawn.Heading);
             ped.MakePersistent();
 
             pedScenario = new PedScenarioLoop(ped, personData.Scenario);
 
-            var interrogationData = data.ParentCase.GetInterrogationData(personData.InterrogationID);
+            var interrogationData = data.ParentCase.GetResourceByID<InterrogationData>(personData.InterrogationID);
             interrogation = new Interrogation(interrogationData.Lines, ped);
         }
 
@@ -188,6 +194,7 @@ namespace LSNoir.Stages
 
         protected override void End()
         {
+            ra?.Stop();
             scene?.Dispose();
             if (ped) ped.Delete();
             if (blipCallArea) blipCallArea.Delete();

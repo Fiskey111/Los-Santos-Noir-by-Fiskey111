@@ -92,7 +92,7 @@ namespace LSNoir.Stages
 
         protected override bool Initialize()
         {
-            Stages.Base.SharedStageMethods.CreateBlip(data);
+            //Stages.Base.SharedStageMethods.CreateBlip(data);
             mainBlip = new Blip(me.Position)
             {
                 Sprite = data.CallBlip.Sprite,
@@ -100,7 +100,7 @@ namespace LSNoir.Stages
                 Name = data.CallBlip.Name,
             };
 
-            meData = data.GetPersonData(ME);
+            meData = data.GetResourceByName<PersonData>(ME);
 
             NativeFunction.Natives.FlashMinimapDisplay();
 
@@ -171,7 +171,7 @@ namespace LSNoir.Stages
             if(DistToPlayer(driver.Position) < 5f && Player.IsOnFoot)
             {
                 //TODO: [Driver] you can go with me or take your own car, it's up to you
-                var dialog = data.GetDialogData(DIALOG_DRIVER);
+                var dialog = data.GetResourceByName<DialogData>(DIALOG_DRIVER);
                 driverDialog = new Dialog(dialog.Dialog);
 
                 driverDialog.PedOne = Player;
@@ -370,7 +370,7 @@ namespace LSNoir.Stages
 
                 InteriorHelper.IsCoronerInteriorEnabled = true;
 
-                var sceneData = data.ParentCase.GetSceneData(data.SceneID);
+                var sceneData = data.ParentCase.GetResourceByID<SceneData>(data.SceneID);
                 sceneOffice = sceneData.GetScene();
 
                 Player.IsPositionFrozen = true;
@@ -408,7 +408,7 @@ namespace LSNoir.Stages
         {
             if (DistToPlayer(MELS.MarkerOffice) < 3f)
             {
-                ControlStartTalking.ColorTag = "y";
+                ControlStartTalking.ColorLetter = "y";
                 Game.DisplayHelp(string.Format(MSG_PRESS_TALK_ME, ControlStartTalking.GetDescription()));
 
                 markerOffice.Dispose();
@@ -421,7 +421,7 @@ namespace LSNoir.Stages
         {
             if(ControlStartTalking.IsActive())
             {
-                var dialogData = data.ParentCase.GetDialogData(meData.DialogID);
+                var dialogData = data.ParentCase.GetResourceByID<DialogData>(meData.DialogID);
                 meDialog = new Dialog(dialogData.Dialog);
 
                 meDialog.PedOne = Player;
@@ -609,9 +609,9 @@ namespace LSNoir.Stages
 
             Functions.PlayScannerAudio(SCANNER_FINISH);
 
-            data.ParentCase.Progress.AddReportsToProgress(data.Reports.Select(r=>r.Value).ToArray());
-            data.ParentCase.Progress.AddNotesToProgress(data.Notes.Select(r => r.Value).ToArray());
-            data.ParentCase.Progress.AddEvidenceToProgress(data.Evidence.Select(r => r.Value).ToArray());
+            data.ParentCase.Progress.AddReportsToProgress(data.GetAllIDsOfType<ReportData>().ToArray());
+            data.ParentCase.Progress.AddNotesToProgress(data.GetAllIDsOfType<NoteData>().ToArray());
+            data.ParentCase.Progress.AddEvidenceToProgress(data.GetAllIDsOfType<ObjectData>().ToArray());
             data.ParentCase.Progress.AddDialogsToProgress(meData.DialogID);
             data.ParentCase.Progress.AddPersonsTalkedTo(meData.ID);
 

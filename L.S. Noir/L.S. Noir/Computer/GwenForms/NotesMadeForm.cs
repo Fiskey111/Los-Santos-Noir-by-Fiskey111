@@ -75,7 +75,7 @@ namespace LSNoir.Computer.GwenForms
         {
             for (int i = 0; i < ids.Count; i++)
             {
-                yield return data.GetNoteData(ids[i]);
+                yield return data.GetResourceByID<NoteData>(ids[i]);
             }
         }
     }

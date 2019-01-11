@@ -16,17 +16,5 @@ namespace LSNoir.Stages.Base
 
         public static float DistToPlayer(ISpatial e) => Vector3.Distance(Player.Position, e.Position);
         public static float DistToPlayer(Vector3 e) => Vector3.Distance(Player.Position, e);
-
-        protected static List<LtFlash.Common.EvidenceLibrary.Evidence.Object> CreateEvidenceObject(StageData stageData)
-        {
-            var oid = stageData.GetAllEvidenceData();
-            var result = new List<LtFlash.Common.EvidenceLibrary.Evidence.Object>();
-            for (int i = 0; i < oid.Count; i++)
-            {
-                var obj = EvidenceFactory.CreateEvidenceObject(oid[i]);
-                result.Add(obj);
-            }
-            return result;
-        }
     }
 }

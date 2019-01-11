@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace LSNoir.Data
 {
+    //TODO:
+    // ResourceData[] like in StageData?
     public class CaseProgress : IIdentifiable
     {
         public string ID { get; set; }

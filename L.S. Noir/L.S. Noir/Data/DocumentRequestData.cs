@@ -31,7 +31,7 @@ namespace LSNoir.Data
         public bool CanDocumentRequestBeAccepted(CaseData caseData)
         {
             var caseProgress = caseData.Progress.GetCaseProgress();
-            var docuData = caseData.GetDocumentDataById(ID);
+            var docuData = caseData.GetResourceByID<DocumentData>(ID);
 
             if (!docuData.DialogIDRequiredToAccept.All(d => caseProgress.DialogsPassed.Contains(d)))
             {

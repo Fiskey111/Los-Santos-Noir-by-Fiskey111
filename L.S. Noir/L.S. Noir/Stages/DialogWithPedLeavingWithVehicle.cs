@@ -4,6 +4,7 @@ using LSNoir.Scenes;
 using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
@@ -79,7 +80,7 @@ namespace LSNoir.Stages
 
         private void CreatePed()
         {
-            var personData = data.GetPersonData(PED);
+            var personData = data.GetResourceByName<PersonData>(PED);
 
             personID = personData.ID;
 
@@ -91,7 +92,7 @@ namespace LSNoir.Stages
                 NativeFunction.Natives.TASK_START_SCENARIO_IN_PLACE(ped, personData.Scenario, 0, true);
             }
 
-            var dialogData = data.ParentCase.GetDialogData(personData.DialogID);
+            var dialogData = data.ParentCase.GetResourceByID<DialogData>(personData.DialogID);
             dialogID = dialogData.ID;
             dialog = new Dialog(dialogData.Dialog);
         }
@@ -114,7 +115,7 @@ namespace LSNoir.Stages
         {
             if (DistToPlayer(ped.Position) < 6)
             {
-                CONTROL_START_INTERROGATION.ColorTag = "y";
+                CONTROL_START_INTERROGATION.ColorLetter = "y";
                 Game.DisplayHelp(string.Format(MSG_PRESS_TO_TALK, CONTROL_START_INTERROGATION.GetDescription()), 3000);
 
                 if (blipCallArea) blipCallArea.Delete();

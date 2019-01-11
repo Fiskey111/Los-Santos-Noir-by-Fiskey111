@@ -5526,14 +5526,6 @@ Calls a native by its address. This method should not be called directly. Use <s
             <param name="arguments">The arguments to pass to the native.</param>
             <returns>An instance of the specified return type representing the return value of the native.</returns>
             <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
-            <summary>
-Calls a native by its address. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
-</summary>
-            <param name="address">The hash of the native to call.</param>
-            <param name="returnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</param>
-            <param name="arguments">The arguments to pass to the native.</param>
-            <returns>An instance of the specified return type representing the return value of the native.</returns>
-            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
         </member>
         <member name="M:Rage.Native.NativeFunction.CallByAddress``1(System.IntPtr,Rage.Native.NativeArgument[])">
             <summary>
@@ -5554,24 +5546,8 @@ Calls a native by its hash. This method should not be called directly. Use <see 
             <param name="arguments">The arguments to pass to the native.</param>
             <returns>An instance of the specified return type representing the return value of the native.</returns>
             <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
-            <summary>
-Calls a native by its hash. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
-</summary>
-            <param name="nativeHash">The hash of the native to call.</param>
-            <param name="returnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</param>
-            <param name="arguments">The arguments to pass to the native.</param>
-            <returns>An instance of the specified return type representing the return value of the native.</returns>
-            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
         </member>
         <member name="M:Rage.Native.NativeFunction.CallByHash``1(System.UInt64,Rage.Native.NativeArgument[])">
-            <summary>
-Calls a native by its hash. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
-</summary>
-            <typeparam name="ReturnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</typeparam>
-            <param name="nativeHash">The hash of the native to call.</param>
-            <param name="arguments">The arguments to pass to the native.</param>
-            <returns>An instance of <see cref="!:ReturnType" /> representing the return value of the native.</returns>
-            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
             <summary>
 Calls a native by its hash. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
 </summary>
@@ -5590,24 +5566,8 @@ Calls a native by its name. This method should not be called directly. Use <see 
             <param name="arguments">The arguments to pass to the native.</param>
             <returns>An instance of the specified return type representing the return value of the native.</returns>
             <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
-            <summary>
-Calls a native by its name. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
-</summary>
-            <param name="nativeName">The name of the native to call.</param>
-            <param name="returnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</param>
-            <param name="arguments">The arguments to pass to the native.</param>
-            <returns>An instance of the specified return type representing the return value of the native.</returns>
-            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
         </member>
         <member name="M:Rage.Native.NativeFunction.CallByName``1(System.String,Rage.Native.NativeArgument[])">
-            <summary>
-Calls a native by its name. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
-</summary>
-            <typeparam name="ReturnType">The type of the return value. If the native doesn't return a value pass <c>int</c>.</typeparam>
-            <param name="nativeName">The name of the native to call.</param>
-            <param name="arguments">The arguments to pass to the native.</param>
-            <returns>An instance of <see cref="!:ReturnType" /> representing the return value of the native.</returns>
-            <remarks>This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.</remarks>
             <summary>
 Calls a native by its name. This method should not be called directly. Use <see cref="!:Rage::NativeFunction::Natives" /> instead.
 </summary>
@@ -5627,30 +5587,14 @@ Converts the specified name into its native naming style counter part.
                 <code>GetOriginalNativeName("GetGroundZFor3dCoord");</code>
 Will return "GET_GROUND_Z_FOR_3D_COORD".
 </example>
-            <summary>
-Converts the specified name into its native naming style counter part.
-</summary>
-            <param name="niceName">The name of the native in pascal case. Eg. GetGroundZFor3dCoord.</param>
-            <returns>A <see cref="T:System.String" /> representing the original name of the native.</returns>
-            <example>
-                <code>GetOriginalNativeName("GetGroundZFor3dCoord");</code>
-Will return "GET_GROUND_Z_FOR_3D_COORD".
-</example>
         </member>
         <member name="P:Rage.Native.NativeFunction.Natives">
             <summary>
 Gets an object that can be used to invoke natives. See <see cref="T:Rage.Native.DynamicNativeFunction" /> for more information.
 </summary>
             <value>An instance of <see cref="T:Rage.Native.DynamicNativeFunction" />.</value>
-            <summary>
-Gets an object that can be used to invoke natives. See <see cref="T:Rage.Native.DynamicNativeFunction" /> for more information.
-</summary>
-            <value>An instance of <see cref="T:Rage.Native.DynamicNativeFunction" />.</value>
         </member>
         <member name="T:Rage.Native.NativeFunction">
-            <summary>
-A collection of methods for invoking natives.
-</summary>
             <summary>
 A collection of methods for invoking natives.
 </summary>

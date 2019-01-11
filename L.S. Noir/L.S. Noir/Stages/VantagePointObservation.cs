@@ -95,7 +95,7 @@ namespace LSNoir.Stages
 
                 Game.LocalPlayer.HasControl = false;
 
-                var playerData = data.GetPersonData(PLAYER_DATA);
+                var playerData = data.GetResourceByName<PersonData>(PLAYER_DATA);
                 
                 var pos = playerData.Spawn.Position;
 

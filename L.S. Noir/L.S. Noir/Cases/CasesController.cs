@@ -21,9 +21,9 @@ namespace LSNoir.Cases
 
         public CasesController(string caseFolderPath, string filenameCaseData)
         {
-            var casesData = GetAllCasesFromFolder(caseFolderPath, filenameCaseData);
+            var dataFromFolder = GetAllCasesFromFolder(caseFolderPath, filenameCaseData);
 
-            this.casesData.AddRange(casesData);
+            casesData.AddRange(dataFromFolder);
 
             manager.OnScriptFinished += OnCaseFinished;
         }
@@ -41,7 +41,7 @@ namespace LSNoir.Cases
             Start();
         }
 
-        private static List<CaseData> GetAllCasesFromFolder(string folderPath, string dataFileName)
+        internal static List<CaseData> GetAllCasesFromFolder(string folderPath, string dataFileName)
         {
             if (!Directory.Exists(folderPath))
             {
@@ -61,9 +61,14 @@ namespace LSNoir.Cases
             return data;
         }
 
-        public void Start()
+        public void Start(string caseId = "")
         {
             Game.LogTrivial("CasesController.Start()");
+
+            if(!string.IsNullOrEmpty(caseId))
+            {
+                AddAndStart(caseId);
+            }
 
             var anyActive = GetAnyActiveCase();
 
@@ -135,5 +140,7 @@ namespace LSNoir.Cases
             bool IsCaseActive(CaseProgress cp)
                 => !cp.Finished && !string.IsNullOrEmpty(cp.LastStageID);
         }
+
+        public List<CaseData> GetAllCases() => casesData;
     }
 }

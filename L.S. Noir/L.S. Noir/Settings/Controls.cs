@@ -20,7 +20,7 @@ namespace LSNoir.Settings
         public Keys Key { get; set; }
         public Keys Modifier { get; set; }
         public ControllerButtons ControllerBtn { get; set; }
-        public string ColorTag { get; set; } = "~y~";
+        public string ColorLetter { get; set; } = "y";
 
         private const string RTAG = "~s~"; //color reset
 
@@ -36,13 +36,13 @@ namespace LSNoir.Settings
         public string GetDescription()
         {
             string result = Modifier == Keys.None ?
-                $"{ColorTag}{Key.ToString()}{RTAG}" :
-                $"{ColorTag}{Modifier.ToString()}{RTAG} + {ColorTag}{Key.ToString()}{RTAG}";
+                $"~{ColorLetter}~{Key.ToString()}{RTAG}" :
+                $"~{ColorLetter}~{Modifier.ToString()}{RTAG} + ~{ColorLetter}~{Key.ToString()}{RTAG}";
 
 
             if (Game.IsControllerConnected && ControllerBtn != ControllerButtons.None)
             {
-                result += $" or {ColorTag}{ControllerBtn.ToString()}{RTAG}";
+                result += $" or ~{ColorLetter}~{ControllerBtn.ToString()}{RTAG}";
             }
 
             return result;

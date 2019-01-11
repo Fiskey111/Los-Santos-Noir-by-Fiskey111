@@ -58,7 +58,7 @@ namespace LSNoir.Computer.GwenForms
                 var e = new Evidence
                 {
                     collected = collectedEvidence[i],
-                    data = data.GetEvidenceData(collectedEvidence[i].ID),
+                    data = data.GetResourceByID<EvidenceData>(collectedEvidence[i].ID),
                 };
 
                 evidence.AddRow(e.data.Name, e.data.ID, e);
@@ -126,7 +126,7 @@ namespace LSNoir.Computer.GwenForms
 
                     foreach (var r in selectedEvidence.data.ReportsID)
                     {
-                        var rdata = data.GetReportData(r);
+                        var rdata = data.GetResourceByID<ReportData>(r);
                         reports.Add(rdata.Title);
                         reports.Add(rdata.Text);
                         reports.Add("{n}{n}");

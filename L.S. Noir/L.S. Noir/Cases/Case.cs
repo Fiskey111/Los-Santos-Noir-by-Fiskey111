@@ -5,7 +5,6 @@ using LtFlash.Common.Serialization;
 using Rage;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace LSNoir.Cases
 {
@@ -27,7 +26,9 @@ namespace LSNoir.Cases
 
         protected override bool Initialize()
         {
-            var stagesData = data.GetAllStagesData().ToList();
+            var stagesData = data.GetAllCaseResourcesOfType<StageData>();
+
+            //LSNoir.DataValidation.SimpleValidator.Validate(data);
 
             stagesData.ForEach(stage =>
             {

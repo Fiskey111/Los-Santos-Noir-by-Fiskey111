@@ -9,12 +9,11 @@ using LSNoir.Scenes;
 using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using Rage.Native;
 using RAGENativeUI.Elements;
-using System.Drawing;
-using System.Windows.Forms;
 
 namespace LSNoir.Stages
 {
@@ -37,7 +36,6 @@ namespace LSNoir.Stages
 
         private const string PED = "dialog_ped";
 
-        //private Keys KEY_START_INTERROGATION = Settings.Controls.KeyTalkToPed;
         private ControlSet CONTROL_START_INTERROGATION = Main.Controls.TalkToPed;
 
         private Vector3 callPos;
@@ -86,12 +84,11 @@ namespace LSNoir.Stages
 
                 SwapStages(Away, NotifyToTalk);
             }
-
         }
 
         private void CreatePed()
         {
-            var personData = data.GetPersonData(PED);
+            var personData = data.GetResourceByName<PersonData>(PED);
 
             personID = personData.ID;
 
@@ -100,7 +97,7 @@ namespace LSNoir.Stages
 
             pedScenario = new PedScenarioLoop(ped, personData.Scenario);
 
-            var dialogData = data.ParentCase.GetDialogData(personData.DialogID);
+            var dialogData = data.ParentCase.GetResourceByID<DialogData>(personData.DialogID);
             dialogID = dialogData.ID;
             dialog = new Dialog(dialogData.Dialog);
         }

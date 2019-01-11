@@ -1,5 +1,6 @@
 ﻿using LSNoir.Data;
 using LSNoir.Scenes;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using Rage;
 using System.Drawing;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace LSNoir.Stages.Base
             string sceneId = data.SceneID;
             if (string.IsNullOrEmpty(sceneId)) return null;
 
-            SceneData sd = data.ParentCase.GetSceneData(sceneId);
+            SceneData sd = data.ParentCase.GetResourceByID<SceneData>(sceneId);
             return sd.GetScene();
         }
 
@@ -38,9 +39,9 @@ namespace LSNoir.Stages.Base
         //TODO: move to ProgressHelper!
         public static void SaveRepNotEvdToProgress(StageData data)
         {
-            data.ParentCase.Progress.AddNotesToProgress(data.Notes.Select(n =>n.Value).ToArray());
-            data.ParentCase.Progress.AddReportsToProgress(data.Reports.Select(r =>r.Value).ToArray());
-            data.ParentCase.Progress.AddEvidenceToProgress(data.Evidence.Select(e => e.Value).ToArray());
+            data.ParentCase.Progress.AddNotesToProgress(data.GetAllIDsOfType<NoteData>().ToArray());
+            data.ParentCase.Progress.AddReportsToProgress(data.GetAllIDsOfType<ReportData>().ToArray());
+            data.ParentCase.Progress.AddEvidenceToProgress(data.GetAllIDsOfType<ObjectData>().ToArray());
         }
     }
 }

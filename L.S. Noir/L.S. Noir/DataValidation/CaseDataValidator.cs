@@ -1,9 +1,4 @@
 ﻿using LSNoir.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LSNoir.CaseDataValidation
 {
@@ -41,7 +36,7 @@ namespace LSNoir.CaseDataValidation
             {
                 foreach (var stage in data.Stages)
                 {
-                    var stageData = data.GetStageData(stage);
+                    var stageData = data.GetResourceByID<StageData>(stage);
                     if (stageData == null)
                     {
                         result.AddError(data.ID, stage, "", "StageData with given ID could not be found");

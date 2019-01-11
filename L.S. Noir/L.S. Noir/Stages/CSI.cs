@@ -2,6 +2,7 @@
 using LSNoir.Scenes;
 using LSPD_First_Response.Mod.API;
 using LtFlash.Common.EvidenceLibrary.Evidence;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.EvidenceLibrary.Services;
 using Rage;
 using RAGENativeUI.Elements;
@@ -69,8 +70,8 @@ namespace LSNoir.Stages
         private const string MSG_CORONER_DISPATCHED = "Coroner dispatched to ~y~{0}~s~.";
         private const string MSG_EMS_DISPATCHED = "EMS was dispatched to ~y~{0}~s~.";
 
-        private readonly string msgCallCoroner = "Press ~y~{0}~s~ to call coroner.";
-        private readonly string msgCallEms = "Press ~y~{0}~s~ to call EMS.";
+        private readonly string msgCallCoroner = "Press {0} to call coroner.";
+        private readonly string msgCallEms = "Press {0} to call EMS.";
 
         private bool isImportantEvidenceCollected;
         private bool areImportantWitnessesChecked;
@@ -81,7 +82,7 @@ namespace LSNoir.Stages
 
             stageData = sd;
 
-            var sceneData = stageData.ParentCase.GetSceneData(stageData.SceneID);
+            var sceneData = stageData.ParentCase.GetResourceByID<SceneData>(stageData.SceneID);
             scene = new Scene(sceneData);
         }
 
@@ -101,29 +102,30 @@ namespace LSNoir.Stages
 
         protected override bool Accepted()
         {
-            officer = stageData.GetOfficerData(FIRST_OFFICER).Create(stageData);
+            officer = stageData.GetResourceByName<FirstOfficerData>(FIRST_OFFICER).Create(stageData);
 
             officerInitHeading = officer.Ped.Heading;
 
-            victim = stageData.GetVictimData(VICTIM).Create();
+            victim = stageData.GetResourceByName<DeadBodyData>(VICTIM).Create();
 
             victim.Ped.IsPositionFrozen = true;
 
-            stageData.GetAllWitnesses().ForEach(w => witnesses.Add(w.Create(stageData)));
-
+            stageData.GetAllStageResourcesOfType<WitnessData>().ForEach(w => witnesses.Add(w.Create(stageData)));
+            
             witnesses.ForEach(w => w.CanBeInspected = false);
 
-            CreateEvidenceObject(stageData).ForEach(e => evidenceCtrl.AddEvidence(e));
+            stageData.GetAllStageResourcesOfType<ObjectData>().ForEach(e => evidenceCtrl.AddEvidence(e.Create()));
 
             evidenceCtrl.IsActive = false;
 
-            ems = stageData.GetEMSData(EMS).Create(stageData, victim.Ped);
+            ems = stageData.GetResourceByName<EMSData>(EMS).Create(stageData, victim.Ped);
 
             ems.AlwaysNotifyToTeleport = true;
 
             if (!ems.TakePatientToHospital)
             {
-                coroner = stageData.GetCoronerData(CORONER).Create(stageData, victim.Ped);
+                coroner = stageData.GetResourceByName<CoronerData>(CORONER).Create(stageData, victim.Ped);
+                coroner.AlwaysNotifyToTeleport = true;
             }
 
             ShowAreaWithRoute(stageData.CallPosition, stageData.CallBlip.Radius, ColorTranslator.FromHtml(stageData.CallBlip.Color));
@@ -175,7 +177,7 @@ namespace LSNoir.Stages
         {
             if (officer.Dialog.HasEnded)
             {
-                var officerData = stageData.GetOfficerData(FIRST_OFFICER);
+                var officerData = stageData.GetResourceByName<FirstOfficerData>(FIRST_OFFICER);
                 stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Officers.Add(officerData.ID));
                 stageData.ParentCase.Progress.AddReportsToProgress(officerData.ReportsID);
 
@@ -200,7 +202,7 @@ namespace LSNoir.Stages
         {
             if (victim.Checked)
             {
-                var victimData = stageData.GetVictimData(VICTIM);
+                var victimData = stageData.GetResourceByName<DeadBodyData>(VICTIM);
                 stageData.ParentCase.Progress.ModifyCaseProgress(m => m.Victims.Add(victimData.ID));
                 stageData.ParentCase.Progress.AddNotesToProgress(victimData.NotesID);
 
@@ -211,7 +213,7 @@ namespace LSNoir.Stages
 
                 witnesses.ForEach(w => w.CanBeInspected = true);
 
-                ControlCallEMS.ColorTag = "y";
+                ControlCallEMS.ColorLetter = "y";
                 Game.DisplayHelp(string.Format(msgCallEms, ControlCallEMS.GetDescription()));
 
                 ActivateStage(DisplayKeyToCallEMS);
@@ -245,12 +247,12 @@ namespace LSNoir.Stages
         {
             if (ems.IsCollected)
             {
-                var emsReport = stageData.GetEMSData(EMS);
+                var emsReport = stageData.GetResourceByName<EMSData>(EMS);
                 stageData.ParentCase.Progress.AddReportsToProgress(emsReport.ID);
 
                 if (coroner != null)
                 {
-                    ControlCallCoroner.ColorTag = "~y~";
+                    ControlCallCoroner.ColorLetter = "y";
                     Game.DisplayHelp(string.Format(msgCallCoroner, ControlCallCoroner.GetDescription()));
 
                     ActivateStage(DisplayKeyToCallCoroner);
@@ -272,7 +274,7 @@ namespace LSNoir.Stages
 
         private void DisplayKeyToCallCoroner()
         {
-            Game.DisplaySubtitle(msgCallCoroner, 100);
+            Game.DisplaySubtitle(string.Format(msgCallCoroner, ControlCallCoroner.GetDescription()), 100);
         }
 
         private void CallCoroner()
@@ -297,7 +299,7 @@ namespace LSNoir.Stages
         {
             if (coroner.IsCollected)
             {
-                var coronerReport = stageData.GetCoronerData(CORONER).ReportID;
+                var coronerReport = stageData.GetResourceByName<CoronerData>(CORONER).ReportID;
                 stageData.ParentCase.Progress.AddReportsToProgress(coronerReport);
 
                 Game.DisplayNotification(MSG_COLLECT);
@@ -310,7 +312,6 @@ namespace LSNoir.Stages
             }
         }
         
-
         private void IsEvidenceCollected()
         {
             var importantEvidence = evidenceCtrl.Evidence.Where(e => e.IsImportant);
@@ -340,7 +341,7 @@ namespace LSNoir.Stages
 
             void AddToProgress(Witness wit)
             {
-                var witnessData = stageData.ParentCase.GetWitnessData(wit.Id);
+                var witnessData = stageData.ParentCase.GetResourceByID<WitnessData>(wit.Id);
                 stageData.ParentCase.Progress.SaveWitnessDataToProgress(witnessData);
             }
         }
@@ -370,8 +371,8 @@ namespace LSNoir.Stages
             stageData.ParentCase.Progress.SetLastStage(stageData.ID);
             stageData.ParentCase.Progress.SetNextScripts(stageData.NextScripts.First());
 
-            stageData.ParentCase.Progress.AddReportsToProgress(stageData.Reports.Select(r => r.Value).ToArray());
-            stageData.ParentCase.Progress.AddNotesToProgress(stageData.Notes.Select(n => n.Value).ToArray());
+            stageData.ParentCase.Progress.AddReportsToProgress(stageData.GetAllStageResourcesOfType<ReportData>().Select(r => r.ID).ToArray());
+            stageData.ParentCase.Progress.AddNotesToProgress(stageData.GetAllStageResourcesOfType<NoteData>().Select(n => n.ID).ToArray());
 
             SetScriptFinished(true);
 

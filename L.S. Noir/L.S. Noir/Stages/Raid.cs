@@ -83,7 +83,7 @@ namespace LSNoir.Stages
             data = stageData;
 
             var sceneId = data.SceneID;
-            var sceneData = data.ParentCase.GetSceneData(sceneId);
+            var sceneData = data.ParentCase.GetResourceByID<SceneData>(sceneId);
             scene = new SceneWithIdProps(sceneData);
         }
 
@@ -248,7 +248,7 @@ namespace LSNoir.Stages
 
             if (scene.Peds.All(o => o.IsInAnyVehicle(false)) && Player.IsInAnyVehicle(false))
             {
-                var suspectData = data.GetSuspectData(SUSPECT_ID);
+                var suspectData = data.GetResourceByName<SuspectData>(SUSPECT_ID);
                 crewDestination = World.GetNextPositionOnStreet(suspectData.Spawn.Position);
                 
                 GameFiber.StartNew(() => SpawnSuspect(suspectData));
@@ -403,7 +403,7 @@ namespace LSNoir.Stages
 
                 var next = suspect.IsAlive ? data.NextScripts[0] : data.NextScripts[1];
 
-                var suspectID = data.GetSuspectData(SUSPECT_ID).ID;
+                var suspectID = data.GetResourceByName<SuspectData>(SUSPECT_ID).ID;
                 if (suspect.IsDead) data.ParentCase.Progress.AddSuspectsKilled(suspectID);
                 else data.ParentCase.Progress.AddSuspectsArrested(suspectID);
 

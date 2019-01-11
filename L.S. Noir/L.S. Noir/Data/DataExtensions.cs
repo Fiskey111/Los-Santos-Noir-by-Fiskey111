@@ -3,6 +3,7 @@ using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.EvidenceLibrary.Services;
 using Rage;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LSNoir.Data
 {
@@ -10,7 +11,7 @@ namespace LSNoir.Data
     {
         public static FirstOfficer Create(this FirstOfficerData data, StageData ownerStage)
         {
-            var dialog = ownerStage.ParentCase.GetDialogData(data.DialogID);
+            var dialog = ownerStage.ParentCase.GetResourceByID<DialogData>(data.DialogID);
             return EvidenceFactory.CreateFirstOfficer(data, dialog.Dialog);
         }
 
@@ -18,32 +19,30 @@ namespace LSNoir.Data
 
         public static Witness Create(this WitnessData w, StageData stageData)
         {
-            var dialog = stageData.ParentCase.GetDialogData(w.DialogID);
+            var dialog = stageData.ParentCase.GetResourceByID<DialogData>(w.DialogID);
             var wit = EvidenceFactory.CreateWitness(w, dialog.Dialog);
             return wit;
         }
 
-        public static List<LtFlash.Common.EvidenceLibrary.Evidence.Object> CreateEvidenceObject(StageData stageData)
+        public static LtFlash.Common.EvidenceLibrary.Evidence.Object Create(this ObjectData objectData)
         {
-            var oid = stageData.GetAllEvidenceData();
-            var result = new List<LtFlash.Common.EvidenceLibrary.Evidence.Object>();
-            for (int i = 0; i < oid.Count; i++)
-            {
-                var obj = EvidenceFactory.CreateEvidenceObject(oid[i]);
-                result.Add(obj);
-            }
-            return result;
+            return EvidenceFactory.CreateEvidenceObject(objectData);
+        }
+
+        public static List<LtFlash.Common.EvidenceLibrary.Evidence.Object> Create(this List<ObjectData> objectData)
+        {
+            return objectData.Select(o => EvidenceFactory.CreateEvidenceObject(o)).ToList();
         }
 
         public static EMS Create(this EMSData data, StageData stageData, Ped patient)
         {
-            var dialogEms = stageData.ParentCase.GetDialogData(data.DialogID);
+            var dialogEms = stageData.ParentCase.GetResourceByID<DialogData>(data.DialogID);
             return ServiceFactory.CreateEMS(patient, dialogEms.Dialog, data);
         }
 
         public static Coroner Create(this CoronerData data, StageData stageData, Ped victim)
         {
-            var dial = stageData.ParentCase.GetDialogData(data.DialogID);
+            var dial = stageData.ParentCase.GetResourceByID<DialogData>(data.DialogID);
             return ServiceFactory.CreateCoroner(victim, dial.Dialog, data);
         }
     }

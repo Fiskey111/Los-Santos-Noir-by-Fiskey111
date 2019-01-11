@@ -1,4 +1,5 @@
 ﻿using LSNoir.Data;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using Rage;
 using Rage.Forms;
 using System.Collections.Generic;
@@ -163,7 +164,7 @@ namespace LSNoir.Computer
                 List<string> witnessesNames = new List<string>();
                 foreach (var w in vicsId)
                 {
-                    var n = cd.GetVictimData(w);
+                    var n = cd.GetResourceByID<DeadBodyData>(w);
                     witnessesNames.Add(n.Name);
                 }
                 if (witnessesNames.Count < 3)
@@ -183,7 +184,7 @@ namespace LSNoir.Computer
                 List<string> officersNames = new List<string>();
                 foreach (var o in officers)
                 {
-                    var on = cd.GetOfficerData(o);
+                    var on = cd.GetResourceByID<FirstOfficerData>(o);
                     officersNames.Add(on.Name);
                 }
                 if (officersNames.Count < 3)
@@ -214,7 +215,7 @@ namespace LSNoir.Computer
                 var r = selectedCase.Progress.GetCaseProgress().ReportsReceived ?? new List<string>();
 
                 List<ReportData> rd = new List<ReportData>();
-                r.ForEach(k => rd.Add(selectedCase.GetReportData(k)));
+                r.ForEach(k => rd.Add(selectedCase.GetResourceByID<ReportData>(k)));
                 var reportsWnd = new ReportsListForm(rd.ToArray());
                 host.AddWnd(reportsWnd);
                 reportsWnd.Show();

@@ -109,6 +109,7 @@
     </Compile>
     <Compile Include="DataValidation\CaseDataValidator.cs" />
     <Compile Include="DataValidation\IValidator.cs" />
+    <Compile Include="DataValidation\SimpleValidator.cs" />
     <Compile Include="DataValidation\StageDataValidator.cs" />
     <Compile Include="DataValidation\ValidationResult.cs" />
     <Compile Include="Cases\Case.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Data\OverallProgress.cs" />
     <Compile Include="Data\PersonData.cs" />
     <Compile Include="Data\ReportData.cs" />
+    <Compile Include="Data\ResourceTypeDefinition.cs" />
     <Compile Include="Data\SceneData.cs" />
     <Compile Include="Data\StageData.cs" />
     <Compile Include="Data\SuspectData.cs" />
@@ -203,6 +205,34 @@
     <Compile Include="Scenes\SceneLeaveWithHeli.cs" />
     <Compile Include="Scenes\SceneMEOffice.cs" />
     <Compile Include="Scenes\SceneWithIdProps.cs" />
+    <Compile Include="SDK\GwenForms\Case_Main.cs" />
+    <Compile Include="SDK\GwenForms\SDK_Main.cs" />
+    <Compile Include="SDK\GwenForms\Witness_Add.cs" />
+    <Compile Include="SDK\SDK_Host.cs" />
+    <Compile Include="SDK\WinForms\Case_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SDK\WinForms\Case_Main.Designer.cs">
+      <DependentUpon>Case_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SDK\WinForms\CSI_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SDK\WinForms\CSI_Main.Designer.cs">
+      <DependentUpon>CSI_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SDK\WinForms\SDK_Main.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SDK\WinForms\SDK_Main.Designer.cs">
+      <DependentUpon>SDK_Main.cs</DependentUpon>
+    </Compile>
+    <Compile Include="SDK\WinForms\Witness_Add.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SDK\WinForms\Witness_Add.Designer.cs">
+      <DependentUpon>Witness_Add.cs</DependentUpon>
+    </Compile>
     <Compile Include="Settings\Consts.cs" />
     <Compile Include="Settings\Controls.cs" />
     <Compile Include="Settings\Paths.cs" />
@@ -261,6 +291,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Computer\WinForms\ReportsList_Form.resx">
       <DependentUpon>ReportsList_Form.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SDK\WinForms\Case_Main.resx">
+      <DependentUpon>Case_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SDK\WinForms\CSI_Main.resx">
+      <DependentUpon>CSI_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SDK\WinForms\SDK_Main.resx">
+      <DependentUpon>SDK_Main.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SDK\WinForms\Witness_Add.resx">
+      <DependentUpon>Witness_Add.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

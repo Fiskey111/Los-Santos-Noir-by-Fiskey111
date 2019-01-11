@@ -53,7 +53,7 @@ namespace LSNoir.Computer
         {
             activeCasesData = getCaseData;
 
-            controlSet.ColorTag = "~y~";
+            controlSet.ColorLetter = "y";
 
             if (File.Exists(Paths.PATH_COMPUTER_POSITIONS))
             {

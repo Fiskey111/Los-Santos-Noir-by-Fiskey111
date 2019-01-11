@@ -3,17 +3,31 @@ using LSNoir.Computer;
 using LSNoir.Settings;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Rage.Attributes;
+using Rage.ConsoleCommands;
+using Rage.ConsoleCommands.AutoCompleters;
+using System;
+using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Reflection;
 
-[assembly: Rage.Attributes.Plugin("L.S. Noir", Description = "A detective style plugin for LSPDFR", Author = "Fiskey111", PrefersSingleInstance = true)]
+[assembly: Plugin("L.S. Noir", Description = "A detective style plugin for LSPDFR", Author = "Fiskey111", PrefersSingleInstance = true)]
 namespace LSNoir
 {
     public class Main : Plugin
     {
-        private static CasesController casesCtrl;
-        private static ComputerController computerCtrl;
+        internal static CasesController casesCtrl;
+        internal static ComputerController computerCtrl;
+
+        internal CasesController Cases
+        {
+            get
+            {
+                if(Cases == null) casesCtrl = new CasesController(Paths.PATH_FOLDER_CASES, Paths.FILENAME_CASEDATA);
+                return casesCtrl;
+            }
+        }
 
         internal static Controls Controls
         {
@@ -29,11 +43,14 @@ namespace LSNoir
         }
 
         private static Controls controls;
+        private static SDK.SDK_Host SDK;
 
         private static bool isStarted;
+        private static Main ModInstance;
 
         public Main()
         {
+            ModInstance = this;
         }
 
         public override void Initialize()
@@ -50,25 +67,73 @@ namespace LSNoir
 
                 PrintConsoleBanner();
 
-                Game.AddConsoleCommands(new[] { ((System.Action)Command_StartLSN).Method });
+                Game.AddConsoleCommands(new[]
+                {
+                    ((Action<string>)Command_StartLSN).Method,
+                    ((Action)Command_StartLSNSDK).Method,
+                    ((Action)Command_StopLSNSDK).Method
+                });
 
                 Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "Welcome to LS Noir!", "", "Use command >startlsn to start LS Noir.");
             }
         }
 
-        [Rage.Attributes.ConsoleCommand(Description = "Start LS Noire", Name = "startlsn")]
-        private static void Command_StartLSN()
+        [ConsoleCommand(Description = "Start LS Noir.", Name = "startlsn")]
+        private static void Command_StartLSN(
+            [ConsoleCommandParameter(AutoCompleterType = typeof(CmdStartLSNParam), 
+            Description = "Pick a case you want to start.", 
+            Name = "Case to start.", NoAutoCompletion = false)] string caseID = "")
         {
             if (isStarted) return;
-            StartMod();
+            StartMod(caseID);
             isStarted = true;
         }
 
-        private static void StartMod()
+        [ConsoleCommandParameterAutoCompleter(typeof(string))]
+        private class CmdStartLSNParam : ConsoleCommandParameterAutoCompleter
+        {
+            public CmdStartLSNParam(Type type) : base(type) { }
+
+            public override void UpdateOptions()
+            {
+                Options.Clear();
+                var cases = CasesController.GetAllCasesFromFolder(Paths.PATH_FOLDER_CASES, Paths.FILENAME_CASEDATA);
+                cases.ForEach(c => Options.Add(new AutoCompleteOption(c.ID, c.ID, c.Name)));
+            }
+        }
+
+        [ConsoleCommand(Description ="Loads LS Noir SDK", Name = "startlsnsdk")]
+        private static void Command_StartLSNSDK()
+        {
+            if (SDK is null)
+            {
+                SDK = new SDK.SDK_Host(ModInstance);
+            }
+            else
+            {
+                Game.Console.Print("SDK is already running.");
+            }
+        }
+
+        [ConsoleCommand(Description = "Stops LS Noir SDK", Name = "stoplsnsdk")]
+        private static void Command_StopLSNSDK()
+        {
+            if (SDK is null)
+            {
+                Game.Console.Print("SDK is inactive.");
+            }
+            else
+            {
+                SDK.Stop();
+                SDK = null;
+            }
+        }
+
+        private static void StartMod(string caseId)
         {
             casesCtrl = new CasesController(Paths.PATH_FOLDER_CASES, Paths.FILENAME_CASEDATA);
 
-            casesCtrl.Start();
+            casesCtrl.Start(caseId);
 
             computerCtrl = new ComputerController(casesCtrl.GetActiveCases);
 
@@ -107,6 +172,7 @@ namespace LSNoir
         {
             //cleanup
             computerCtrl.Stop();
+            SDK?.Stop();
         }
     }
 }

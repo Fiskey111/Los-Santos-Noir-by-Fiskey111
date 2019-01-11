@@ -55,7 +55,7 @@ namespace LSNoir.Stages
         public InterrogatePedWithTimeout(StageData stageData)
         {
             data = stageData;
-            pedsData = data.GetPersonData(INTERROGEE);
+            pedsData = data.GetResourceByName<PersonData>(INTERROGEE);
         }
 
         protected override bool Initialize()
@@ -95,7 +95,7 @@ namespace LSNoir.Stages
             pedScenario = new PedScenarioLoop(ped, pedsData.Scenario);
             pedScenario.IsActive = true;
 
-            var interrogationData = data.ParentCase.GetInterrogationData(pedsData.InterrogationID);
+            var interrogationData = data.ParentCase.GetResourceByID<InterrogationData>(pedsData.InterrogationID);
             interrogation = new Interrogation(interrogationData.Lines, ped);
         }
 
@@ -184,8 +184,8 @@ namespace LSNoir.Stages
         private void SaveProgress()
         {
             data.ParentCase.Progress.AddNotesToProgress(pedsData.NotesID);
-            data.ParentCase.Progress.AddNotesToProgress(data.Notes.Select(n=>n.Value).ToArray());
-            data.ParentCase.Progress.AddReportsToProgress(data.Reports.Select(n => n.Value).ToArray());
+            data.ParentCase.Progress.AddNotesToProgress(data.GetAllIDsOfType<NoteData>().ToArray());
+            data.ParentCase.Progress.AddReportsToProgress(data.GetAllIDsOfType<ReportData>().ToArray());
             data.ParentCase.Progress.AddInterrogations(pedsData.InterrogationID);
 
             data.ParentCase.Progress.SetNextScripts(data.NextScripts[0]);

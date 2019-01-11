@@ -1,4 +1,5 @@
 ﻿using LSNoir.Data;
+using LtFlash.Common.EvidenceLibrary.Serialization;
 using LtFlash.Common.ScriptManager.Scripts;
 using Rage;
 using System;
@@ -31,11 +32,11 @@ namespace LSNoir.Stages
 
             //TODO: checking for null wont work with linq results?
 
-            var docs = data.Documents ?? new Settings.KeyVal[] { };
-            var evidence = data.Evidence ?? new Settings.KeyVal[] { };
+            var docs = data.GetAllStageResourcesOfType<DocumentData>();
+            var evidence = data.GetAllStageResourcesOfType<ObjectData>();
 
-            documentsToAccept = docs.Select(d => d.Value).ToArray();
-            evidenceToAnalyze = evidence.Select(d => d.Value).ToArray();
+            documentsToAccept = docs.Select(d => d.ID).ToArray();
+            evidenceToAnalyze = evidence.Select(d => d.ID).ToArray();
         }
 
         protected override bool Initialize()
