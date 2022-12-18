@@ -1,27 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Creators;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LSPD_First_Response.Mod.API;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Native;
-
-namespace LSNoir.Callouts.SA.Stages
-{
-    public class SA_3_VictimFamily : BasicScript
+﻿namespace LSNoir.Callouts.SA.Stages
+{/*
+    public class SA_3_VictimFamily : BaseScript
     {
         // System
         private bool _beginDialogue, _interrStarted;
 
         // Locations
-        private SpawnPt _oneSpawn;
+        private SpawnPoint _oneSpawn;
 
         // Entities
         private Ped _one;
@@ -188,5 +173,5 @@ namespace LSNoir.Callouts.SA.Stages
             if (_one) _one.Dismiss();
             SetScriptFinished(true);
         }
-    }
+    }*/
 }

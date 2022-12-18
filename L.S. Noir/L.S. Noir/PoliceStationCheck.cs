@@ -1,15 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Computer;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using Rage;
-using static LtFlash.Common.Serialization.Serializer;
-using Marker = Fiskey111Common.Marker;
-
-namespace LSNoir
-{
+﻿namespace LSNoir
+{/*
     class PoliceStationCheck
     {
         private static bool _shown, _startedComp;
@@ -21,11 +11,7 @@ namespace LSNoir
             {
                 while (true)
                 {
-                    var cData = LoadItemFromXML<CaseData>(Main.CDataPath);
-
-                    if (cData != null)
-                        if (cData.ComputerAccess)
-                            LoadPDComputer();
+                    LoadPDComputer();
                     GameFiber.Yield();
                 }
             });
@@ -38,16 +24,15 @@ namespace LSNoir
             if (_shown == false)
             {
                 _shown = true;
-                _marker = new Marker(closestLoc, Color.Yellow, Marker.MarkerTypes.MarkerTypeUpsideDownCone, true, true,
-                    true);
+                _marker = new LSNoir.Common.UI.Marker(closestLoc, Color.Yellow);
             }
+            _marker?.DrawMarker();
             if (!(Game.LocalPlayer.Character.Position.DistanceTo(closestLoc) < 1.75f)) return;
 
             Game.DisplayHelp($"Press {Settings.Settings.ComputerKey()} to open the computer");
 
             if (!Game.IsKeyDown(Settings.Settings.ComputerKey()) || _startedComp) return;
 
-            _marker.Stop();
             _startedComp = true;
             Game.IsPaused = true;
             Computer.StartComputerHandler();
@@ -81,5 +66,5 @@ namespace LSNoir
             }
             return station;
         }
-    }
+    }*/
 }

@@ -1,12 +1,5 @@
-using System.Drawing;
-using Gwen.Control;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using Rage;
-using Rage.Forms;
-
 namespace LSNoir.Callouts.SA.Computer
-{
+{/*
     public class MessageBoxCode : GwenForm
     {
         private Button return_but;
@@ -52,5 +45,5 @@ namespace LSNoir.Callouts.SA.Computer
             Window.Close();
             Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.MessageBoxFiber, ComputerController.Fibers.MainFiber);
         }
-    }
+    }*/
 }

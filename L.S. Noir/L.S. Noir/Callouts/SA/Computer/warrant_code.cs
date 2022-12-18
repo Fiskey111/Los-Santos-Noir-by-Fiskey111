@@ -1,15 +1,5 @@
-﻿using System.Drawing;
-using System.Linq;
-using Gwen.Control;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Forms;
-
-namespace LSNoir.Callouts.SA.Computer
-{
+﻿namespace LSNoir.Callouts.SA.Computer
+{/*
     public class WarrantCode : GwenForm
     {
         // System
@@ -139,5 +129,5 @@ namespace LSNoir.Callouts.SA.Computer
             Window.Close();
             Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.WarrantFiber, ComputerController.Fibers.MainFiber);
         }
-    }
+    }*/
 }

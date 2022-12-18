@@ -1,20 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-using Rage;
-using Debug = System.Diagnostics.Debug;
-using Marker = Fiskey111Common.Marker;
-
-namespace LSNoir.Callouts.SA.Stages
-{
+﻿namespace LSNoir.Callouts.SA.Stages
+{/*
     public class Sa_2CStation : BasicScript
     {
         private Vector3 _position;
@@ -203,5 +188,5 @@ namespace LSNoir.Callouts.SA.Stages
             Main.CompAccess = true;
             SetScriptFinished(true);
         }
-    }
+    }*/
 }

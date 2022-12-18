@@ -1,4 +1,5 @@
-﻿using Rage;
+﻿using LSNoir.Common.UI;
+using Rage;
 
 namespace LSNoir.Extensions
 {
@@ -6,6 +7,7 @@ namespace LSNoir.Extensions
     {
         public static void AddLog(this string text, bool logRelease = false)
         {
+            DebugText.AddText(text);
             if (logRelease)
                 Game.LogTrivial("[L.S. Noir Log]: " + text);
             else
@@ -16,7 +18,7 @@ namespace LSNoir.Extensions
             }
         }
 
-        public static void DisplayNotification(this string subtitle, string body, int number)
+        public static void DisplayNotification(this string subtitle, string body, string number)
         {
             Game.DisplayNotification("3dtextures", "mpgroundlogo_cops", "~y~Case #: " + number, subtitle, body);
         }

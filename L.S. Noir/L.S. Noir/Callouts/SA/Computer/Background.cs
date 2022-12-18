@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using LSNoir.Extensions;
+﻿using LSNoir.Extensions;
 using Rage;
 
 namespace LSNoir.Callouts.SA.Computer

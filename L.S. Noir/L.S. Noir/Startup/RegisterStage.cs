@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using LSNoir.Common.ScriptHandler;
 using LSNoir.Extensions;
-using LtFlash.Common.ScriptManager.Managers;
-using LtFlash.Common.ScriptManager.Scripts;
 
 namespace LSNoir.Startup
 {
@@ -18,7 +17,7 @@ namespace LSNoir.Startup
         /// <param name="after">The stages to be added after this stage</param>
         /// <param name="noPrior">true=no scripts before will be added; 
         /// false=scripts are required before</param>
-        public static void RegisterStage(AdvancedScriptManager scriptManager, Type classType, string id, List<string> before, List<string> after, bool noPrior = false)
+        public static void RegisterStage(ScriptManager scriptManager, Type classType, string id, List<string> before, List<string> after, bool noPrior = false)
         {
             $"Beginning registration of stage {id}; noPrior={noPrior}".AddLog();
 
@@ -33,7 +32,7 @@ namespace LSNoir.Startup
             }
             
             scriptManager.AddScript(
-                classType, id, EInitModels.TimerBased, afterList, beforeList);
+                classType, id, ScriptAttributes.EStartType.TimerBased, afterList, beforeList);
 
             $"Stage {id} successfully registered".AddLog(true);
         }

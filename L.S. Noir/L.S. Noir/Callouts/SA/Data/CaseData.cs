@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using LtFlash.Common;
+using CaseManager.Resources;
 
 namespace LSNoir.Callouts.SA.Data
 {

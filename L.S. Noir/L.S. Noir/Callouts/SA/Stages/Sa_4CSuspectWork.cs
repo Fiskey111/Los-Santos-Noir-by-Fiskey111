@@ -1,27 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Windows.Forms;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.SA.Objects;
-using LSNoir.Callouts.SA.Services;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LSPD_First_Response.Mod.API;
-using LtFlash.Common.ScriptManager.Scripts;
-using Rage;
-using Rage.Native;
-using Color = System.Drawing.Color;
-
-namespace LSNoir.Callouts.SA.Stages
-{
-    public class Sa_4CSuspectWork : BasicScript
+﻿namespace LSNoir.Callouts.SA.Stages
+{/*
+    public class Sa_4CSuspectWork : ScriptBase 
     {
         // System
         private bool _stageCreated;
@@ -30,7 +9,7 @@ namespace LSNoir.Callouts.SA.Stages
         private List<Cop> _copList = new List<Cop>();
 
         // Positions
-        private SpawnPt _susSpawn;
+        private SpawnPoint _susSpawn;
         private Vector3 _position;
 
         // Entities
@@ -46,15 +25,10 @@ namespace LSNoir.Callouts.SA.Stages
         private LHandle _pursuit;
         private ScenarioHelper _scenario = new ScenarioHelper();
 
-        protected override bool Initialize()
+        protected override void Initialize()
         {
             "Initializing L.S. Noir Callout: Sexual Assault -- Stage 4c [Suspect Work]".AddLog();
-
-            Xml = XDocument.Load(SaPath);
-
-            _sData = LtFlash.Common.Serialization.Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
-                c => c.FirstOrDefault(s => s.Type == PedType.Suspect));
-            _cData = LtFlash.Common.Serialization.Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
+            // todo - implement case data
 
             "Sexual Assault Case Update".DisplayNotification(
                 "Meet with your ~b~team~w~ to perform a raid on the ~r~suspect's~w~ work", _cData.Number);
@@ -302,7 +276,7 @@ namespace LSNoir.Callouts.SA.Stages
             _cData.CompletedStages.Add(CaseData.LastStage.SuspectWork);
             _cData.SajrsUpdates.Add("Case completed!");
             _cData.StartingStage = "Sa1Csi";
-            LtFlash.Common.Serialization.Serializer.SaveItemToXML<CaseData>(_cData, Main.CDataPath);
+            //todo save data
 
             var value = 100;
 
@@ -340,7 +314,7 @@ namespace LSNoir.Callouts.SA.Stages
             foreach (var v in vehs)
             {
                 if (!v || Game.LocalPlayer.Character.CurrentVehicle == v) continue;
-                if (v.DistanceTo(GetLocation("Mortuary", "Meeting", "P2").Spawn) > 35f) continue;
+                if (v.DistanceTo(GetLocation("Mortuary", "Meeting", "P2")) > 35f) continue;
                 v.Delete();
             }
 
@@ -373,7 +347,7 @@ namespace LSNoir.Callouts.SA.Stages
                 name = "Phone";
 
             _susSpawn = GetLocation("Mortuary", "Suspect", name);
-            _sus = new Ped(_sData.Model, _susSpawn.Spawn, _susSpawn.Heading);
+            _sus = new Ped(_sData.Model, _susSpawn.SpawnPoint, _susSpawn.Heading);
             SetAnimation(name);
 
             _stageCreated = true;
@@ -382,19 +356,19 @@ namespace LSNoir.Callouts.SA.Stages
         /// <param name="location">e.g. Mortuary, etc</param>
         /// <param name="type">Location/Meeting/Suspect</param>
         /// <param name="name">P1/T1 or Wall/Clip/Clip2/Tool/Phone</param>
-        private SpawnPt GetLocation(string location, string type, string name)
+        private SpawnPoint GetLocation(string location, string type, string name)
         {
             try
             {
                 var loc = "SusWork/" + location + "/" + type + "/" + name;
 
-                return new SpawnPt(float.Parse(Xml.Root.XPathSelectElement(loc + "/h").Value, CultureInfo.InvariantCulture), float.Parse(Xml.Root.XPathSelectElement(loc + "/x").Value, CultureInfo.InvariantCulture),
+                return new SpawnPoint(float.Parse(Xml.Root.XPathSelectElement(loc + "/h").Value, CultureInfo.InvariantCulture), float.Parse(Xml.Root.XPathSelectElement(loc + "/x").Value, CultureInfo.InvariantCulture),
                     float.Parse(Xml.Root.XPathSelectElement(loc + "/y").Value, CultureInfo.InvariantCulture), float.Parse(Xml.Root.XPathSelectElement(loc + "/z").Value, CultureInfo.InvariantCulture));
             }
             catch (Exception e)
             {
                 Game.LogTrivial("[L.S. Noir ERROR: " + e);
-                return new SpawnPt(0, Vector3.Zero);
+                return new SpawnPoint(0, Vector3.Zero);
             }
         }
 
@@ -414,5 +388,5 @@ namespace LSNoir.Callouts.SA.Stages
             _scenario = new ScenarioHelper(_sus, type);
             _scenario.Start();
         }
-    }
+    }*/
 }

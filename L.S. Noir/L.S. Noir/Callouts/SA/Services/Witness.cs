@@ -1,9 +1,5 @@
-﻿using LSNoir.Callouts.Universal;
-using LSPD_First_Response.Mod.API;
-using Rage;
-
-namespace LSNoir.Callouts.SA.Services
-{
+﻿namespace LSNoir.Callouts.SA.Services
+{/*
     namespace LtFlash.Common.EvidenceLibrary.Evidence
     {
         public class Witness : EvidencePed
@@ -136,5 +132,5 @@ namespace LSNoir.Callouts.SA.Services
                 //if(Ped.Exists()) Ped.Dismiss();
             }
         }
-    }
+    }*/
 }

@@ -1,28 +1,5 @@
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Creators;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.SA.Objects;
-using LSNoir.Callouts.SA.Services;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LSPD_First_Response.Mod.API;
-using LtFlash.Common.EvidenceLibrary.Evidence;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-using Rage;
-using Evid = LtFlash.Common.EvidenceLibrary.Evidence;
-using Marker = Fiskey111Common.Marker;
-using SpawnPoint = LSNoir.Callouts.SA.Services.SpawnPoint;
-
 namespace LSNoir.Callouts.SA.Stages.CSI
-{
+{/*
     public class Sa1Csi : CalloutScript
     {
         // System
@@ -848,5 +825,5 @@ namespace LSNoir.Callouts.SA.Stages.CSI
 
 
         private enum ServiceType { Ems, Coroner }
-    }
+    }*/
 }

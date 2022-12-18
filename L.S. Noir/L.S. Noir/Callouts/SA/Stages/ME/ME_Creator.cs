@@ -1,18 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Objects;
-using LSNoir.Extensions;
-using LtFlash.Common;
-using Rage;
-using Rage.Native;
-
-namespace LSNoir.Callouts.SA.Stages.ME
-{
+﻿namespace LSNoir.Callouts.SA.Stages.ME
+{/*
     public class MeCreator
     {
         internal static StageObject P1 = new StageObject(), P2 = new StageObject(), 
@@ -283,5 +270,5 @@ namespace LSNoir.Callouts.SA.Stages.ME
 
             return sp;
         }
-    }
+    }*/
 }

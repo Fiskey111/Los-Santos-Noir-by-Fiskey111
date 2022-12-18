@@ -1,9 +1,11 @@
-﻿using LSNoir.Callouts.SA.Data;
-using LtFlash.Common.Processes;
-using Rage;
+﻿using Rage;
 using Rage.Native;
-using System.Windows.Forms;
+using CaseManager.Resources;
 using LSNoir.Callouts.Universal;
+using LSNoir.Common.Process;
+using Vector3 = Rage.Vector3;
+using System.Windows.Forms;
+using LSNoir.Callouts.Stages;
 
 namespace LSNoir.Callouts.SA.Services
 {
@@ -53,7 +55,7 @@ namespace LSNoir.Callouts.SA.Services
 
         public void Dispatch()
         {
-            Proc.ActivateProcess(CreateEntities);
+            Proc.StartProcess(CreateEntities);
             Proc.Start();
         }
 
@@ -69,7 +71,7 @@ namespace LSNoir.Callouts.SA.Services
 
         private void CreateEntities()
         {
-            Vehicle = new Vehicle(ModelVehicle, SpawnPosition.Position);
+            Vehicle = new Vehicle(ModelVehicle, new Vector3(SpawnPosition.Position.X, SpawnPosition.Position.Y, SpawnPosition.Position.Z));
             Vehicle.Heading = SpawnPosition.Heading;
             Vehicle.MakePersistent();
             _blipVeh = new Blip(Vehicle);
@@ -91,12 +93,12 @@ namespace LSNoir.Callouts.SA.Services
             PostSpawn();
 
             Proc.SwapProcesses(CreateEntities, DispatchFromSpawnPoint);
-            Proc.ActivateProcess(AntiRollOver);
+            Proc.StartProcess(AntiRollOver);
         }
 
         private void AntiRollOver()
         {
-            if (!Vehicle.Exists()) Proc.DeactivateProcess(AntiRollOver);
+            if (!Vehicle.Exists()) Proc.StopProcess(AntiRollOver);
 
             if (Vehicle.Rotation.Roll > 70f || Vehicle.Rotation.Roll < -70f)
             {
@@ -109,7 +111,7 @@ namespace LSNoir.Callouts.SA.Services
         private void DispatchFromSpawnPoint()
         {
             PedDriver.Tasks.DriveToPosition(
-                Vehicle, _destPoint.Position,
+                Vehicle, new Vector3(_destPoint.Position.X, _destPoint.Position.Y, _destPoint.Position.Z),
                 VehicleDrivingSpeed, VehDrivingFlags, 5f);
 
             Proc.SwapProcesses(DispatchFromSpawnPoint, WaitForArrival);
@@ -117,7 +119,7 @@ namespace LSNoir.Callouts.SA.Services
 
         private void WaitForArrival()
         {
-            if (Vector3.Distance(Vehicle.Position, _destPoint.Position) <= 10f &&
+            if (Vector3.Distance(Vehicle.Position, new Vector3(_destPoint.Position.X, _destPoint.Position.Y, _destPoint.Position.Z)) <= 10f &&
                 Vehicle.Speed == 0f)
             {
                 Proc.SwapProcesses(WaitForArrival, PostArrival);
@@ -135,9 +137,9 @@ namespace LSNoir.Callouts.SA.Services
             PedWorker.Tasks.GoToOffsetFromEntity(Vehicle, 0.1f, 0f, 1f);
             PedDriver.Tasks.GoToOffsetFromEntity(Vehicle, 0.1f, 0f, 1f);
 
-            Proc.DeactivateProcess(BackToVehicle);
-            Proc.ActivateProcess(CheckIfPedDriverCloseToVeh);
-            Proc.ActivateProcess(CheckIfPedWorkerCloseToVeh);
+            Proc.StopProcess(BackToVehicle);
+            Proc.StartProcess(CheckIfPedDriverCloseToVeh);
+            Proc.StartProcess(CheckIfPedWorkerCloseToVeh);
         }
 
         private void DisplayMsgIsCollected()
@@ -177,7 +179,7 @@ namespace LSNoir.Callouts.SA.Services
             if (_blipVeh.IsValid()) _blipVeh.Delete();
 
             PedDriver.Tasks.DriveToPosition(
-                SpawnPosition.Position, VehicleDrivingSpeed, VehDrivingFlags);
+                new Vector3(SpawnPosition.Position.X, SpawnPosition.Position.Y, SpawnPosition.Position.Z), VehicleDrivingSpeed, VehDrivingFlags);
 
             Proc.SwapProcesses(DriveBackToSpawn, CheckIfCanBeDisposed);
         }
@@ -185,10 +187,10 @@ namespace LSNoir.Callouts.SA.Services
         private void CheckIfCanBeDisposed()
         {
             if (Vector3.Distance(PlayerPos, Vehicle.Position) >= DisposeDistance ||
-                Vector3.Distance(Vehicle.Position, SpawnPosition.Position) <= 10f)
+                Vector3.Distance(Vehicle.Position, new Vector3(SpawnPosition.Position.X, SpawnPosition.Position.Y, SpawnPosition.Position.Z)) <= 10f)
             {
-                Proc.DeactivateProcess(CheckIfCanBeDisposed);
-                Proc.DeactivateProcess(AntiRollOver);
+                Proc.StopProcess(CheckIfCanBeDisposed);
+                Proc.StopProcess(AntiRollOver);
                 InternalDispose();
             }
         }

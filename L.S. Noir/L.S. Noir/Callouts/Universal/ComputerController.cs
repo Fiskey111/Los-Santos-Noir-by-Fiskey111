@@ -1,13 +1,6 @@
-﻿using System.Linq;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Computer;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.SA.Interaction;
-using LSNoir.Extensions;
-using Rage;
-
-namespace LSNoir.Callouts.Universal
+﻿namespace LSNoir.Callouts.Universal
 {
+    /*
     internal class ComputerController
     {
         internal bool IsRunning { get; set; }
@@ -164,13 +157,14 @@ namespace LSNoir.Callouts.Universal
 
                 Background.EnableBackground("form_background.jpg");
                 if (!string.IsNullOrWhiteSpace(PlateNumber))
-                {
+                {/*
                     var susData =
                         LtFlash.Common.Serialization.Serializer.GetSelectedListElementFromXml<PedData>(Main.SDataPath,
                             c => c.FirstOrDefault(s => s.IsPerp));
                     MessageBoxCode.Message =
                         $"License Plate Detected: {PlateNumber}\nRegisterd to: {susData.Name}  Gender: {susData.Gender}";
                     Computer.Controller.SwitchFibers(Computer.Controller.SecurityCamFiber, Fibers.MessageBoxFiber);
+                    
                 }
                 else
                 {
@@ -178,5 +172,5 @@ namespace LSNoir.Callouts.Universal
                 }
             });
         }
-    }
+    }*/
 }

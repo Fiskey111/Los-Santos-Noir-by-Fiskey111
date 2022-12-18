@@ -1,7 +1,7 @@
-﻿using System.Drawing;
-using LSNoir.Extensions;
+﻿using LSNoir.Extensions;
 using Rage;
 using RAGENativeUI.Elements;
+using System.Drawing;
 
 namespace LSNoir.Callouts.SA.Interaction
 {

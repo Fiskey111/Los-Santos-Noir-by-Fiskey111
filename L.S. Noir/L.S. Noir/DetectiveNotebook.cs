@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Rage;
+﻿using Rage;
 using Rage.Native;
+using System.Drawing;
 
 namespace LSNoir
 {

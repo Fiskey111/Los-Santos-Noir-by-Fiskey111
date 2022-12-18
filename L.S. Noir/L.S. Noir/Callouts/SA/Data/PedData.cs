@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Fiskey111Common;
 using LSNoir.Extensions;
 using LSPD_First_Response.Engine.Scripting.Entities;
 using LSPD_First_Response.Mod.API;
 using Rage;
+using Random = LSNoir.Common.Random;
 
 namespace LSNoir.Callouts.SA.Data
 {
@@ -58,7 +58,7 @@ namespace LSNoir.Callouts.SA.Data
                 IsPerp = isPerp;
                 Model = ped.Model.Name;
                 var models = Rage.Model.VehicleModels.Where(c => c.IsCar && !c.IsBigVehicle && !c.IsBike && !c.IsEmergencyVehicle).ToList();
-                VehModel = models[Rand.RandomNumber(models.Count)].Name;
+                VehModel = models[Random.RandomInt(models.Count)].Name;
             }
             else if (type == PedType.Victim)
             {

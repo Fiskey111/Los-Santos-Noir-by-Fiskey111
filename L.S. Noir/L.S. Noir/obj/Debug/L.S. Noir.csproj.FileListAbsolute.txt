@@ -30,3 +30,35 @@ C:\Users\cfisk\OneDrive\Documents\GitHub\Los_Santos_Noir\LSNoire\bin\Debug\RageP
 C:\Users\cfisk\OneDrive\Documents\GitHub\Los_Santos_Noir\LSNoire\bin\Debug\RagePROletariat.pdb
 C:\Users\cfisk\OneDrive\Documents\GitHub\Los_Santos_Noir\LSNoire\obj\Debug\L.S. Noir.dll
 C:\Users\cfisk\OneDrive\Documents\GitHub\Los_Santos_Noir\LSNoire\obj\Debug\L.S. Noir.pdb
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\L.S. Noir.csproj.AssemblyReference.cache
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.EvidenceForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.LabForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.MainForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.MessageBoxForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.ReportsForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.VictimForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.WarrantForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.WarrantRequestForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\LSNoir.Callouts.SA.Computer.WitnessForm.resources
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\L.S. Noir.csproj.GenerateResource.cache
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\L.S. Noir.csproj.CoreCompileInputs.cache
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\L.S. Noir.pdb
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\L.S. Noir.dll.config
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\L.S. Noir.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\L.S. Noir.pdb
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\BetterEMS.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\Gwen.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\LSPD First Response.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\Newtonsoft.Json.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\RAGENativeUI.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\RagePluginHook.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\BetterEMS.pdb
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\LSPD First Response.pdb
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\Newtonsoft.Json.xml
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\RAGENativeUI.xml
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\RagePluginHook.xml
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\L.S. Noir.csproj.CopyComplete
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\Debug\L.S. Noir.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\LSNoir_CaseManagerFramework.dll
+C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\Debug\LSNoir_CaseManagerFramework.pdb

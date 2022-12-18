@@ -1,9 +1,5 @@
-﻿using Rage;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace LSNoir.Callouts.SA.Services
-{
+﻿namespace LSNoir.Callouts.SA.Services
+{/*
     internal static class Hospitals
     {
         private static readonly Dictionary<EHospitals, SpawnPoint> _hospitals = new Dictionary<EHospitals, SpawnPoint>
@@ -22,5 +18,5 @@ namespace LSNoir.Callouts.SA.Services
         {
             return _hospitals[station];
         }
-    }
+    }*/
 }

@@ -9,7 +9,6 @@ using Rage.Native;
 using RAGENativeUI;
 using RAGENativeUI.Elements;
 using Font = RAGENativeUI.Common.EFont;
-using Color = System.Drawing.Color;
 
 namespace LSNoir.Callouts.Universal
 {
@@ -50,11 +49,11 @@ namespace LSNoir.Callouts.Universal
             var middle = Convert.ToInt32(res.Width / 2);
 
             new Sprite("mpentry", "mp_modenotselected_gradient", new Point(0, 30), new Size(Convert.ToInt32(res.Width), 300),
-                0f, Color.FromArgb(230, 255, 255, 255)).Draw();
+                0f, System.Drawing.Color.FromArgb(230, 255, 255, 255)).Draw();
 
-            new ResText("mission failed", new Point(middle, 100), 2.5f, Color.FromArgb(255, 148, 27, 46), Font.Pricedown, ResText.Alignment.Centered).Draw();
+            new ResText("mission failed", new Point(middle, 100), 2.5f, System.Drawing.Color.FromArgb(255, 148, 27, 46), Font.Pricedown, ResText.Alignment.Centered).Draw();
 
-            new ResText(Reason, new Point(middle, 230), 0.5f, Color.White, Font.ChaletLondon, ResText.Alignment.Centered).Draw();
+            new ResText(Reason, new Point(middle, 230), 0.5f, System.Drawing.Color.White, Font.ChaletLondon, ResText.Alignment.Centered).Draw();
 
             var scaleform = new Scaleform(0);
             scaleform.Load("instructional_buttons");

@@ -1,11 +1,5 @@
-﻿using System;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Extensions;
-using LSNoir.Startup;
-using Rage;
-
-namespace LSNoir.Callouts.SA.Commons
-{
+﻿namespace LSNoir.Callouts.SA.Commons
+{/*
     internal class WarrantRequestor
     {
         internal static void RequestWarrant(CaseData data)
@@ -20,5 +14,5 @@ namespace LSNoir.Callouts.SA.Commons
                 LtFlash.Common.Serialization.Serializer.SaveItemToXML(data, Main.CDataPath);
             });
         }
-    }
+    }*/
 }

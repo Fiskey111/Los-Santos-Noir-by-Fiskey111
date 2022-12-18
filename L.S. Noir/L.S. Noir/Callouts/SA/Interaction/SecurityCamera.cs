@@ -1,16 +1,5 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Native;
-
-namespace LSNoir.Callouts.SA.Interaction
-{
+﻿namespace LSNoir.Callouts.SA.Interaction
+{/*
     class SecurityCamera
     {
         // System
@@ -278,5 +267,5 @@ namespace LSNoir.Callouts.SA.Interaction
             };
             return secCam;
         }
-    }
+    }*/
 }

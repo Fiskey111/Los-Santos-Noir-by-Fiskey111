@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
-using Fiskey111Common;
 using LSNoir.Startup;
 using Rage;
+using Random = LSNoir.Common.Random;
 
 namespace LSNoir
 {
@@ -34,7 +34,7 @@ namespace LSNoir
         [MethodImpl(MethodImplOptions.NoInlining)]
         private static void VictimData(Ped ped, string injury, string cause, float survivability)
         {
-            int l = Rand.RandomNumber(0100, 2400);
+            int l = Random.RandomInt(100, 2400);
             BetterEMS.API.EMSFunctions.OverridePedDeathDetails(ped, injury, cause, Convert.ToUInt32(l), survivability);
         }
 

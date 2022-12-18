@@ -1,13 +1,5 @@
-﻿using System.Linq;
-using System.Windows.Forms;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LtFlash.Common.ScriptManager.Scripts;
-using Rage;
-
-namespace LSNoir.Callouts.SA.Stages
-{
+﻿namespace LSNoir.Callouts.SA.Stages
+{/*
     public class Sa_4BWait : BasicScript
     {
         // Data
@@ -71,5 +63,5 @@ namespace LSNoir.Callouts.SA.Stages
                 SetScriptFinished();
             }
         }
-    }
+    }*/
 }

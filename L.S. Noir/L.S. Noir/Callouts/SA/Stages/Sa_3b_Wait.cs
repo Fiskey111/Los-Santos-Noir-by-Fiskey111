@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Extensions;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-
-namespace LSNoir.Callouts.SA.Stages
-{
+﻿namespace LSNoir.Callouts.SA.Stages
+{/*
     public class Sa_3b_Wait : BasicScript
     {
         // Data
@@ -53,5 +45,5 @@ namespace LSNoir.Callouts.SA.Stages
 
             SetScriptFinished();
         }
-    }
+    }*/
 }

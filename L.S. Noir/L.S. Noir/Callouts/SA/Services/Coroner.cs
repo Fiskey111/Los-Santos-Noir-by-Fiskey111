@@ -1,7 +1,9 @@
-﻿using LSNoir.Callouts.SA.Data;
+﻿using System.Collections.Generic;
+using CaseManager.Resources;
 using LSNoir.Callouts.Universal;
 using Rage;
 using Rage.Native;
+using Vector3 = Rage.Vector3;
 
 namespace LSNoir.Callouts.SA.Services
 {
@@ -14,8 +16,7 @@ namespace LSNoir.Callouts.SA.Services
             = new SpawnPoint(
                 270.346252f,
                 new Vector3(218.361008f, -1381.16431f, 30.1247978f));
-
-        public Coroner(
+    public Coroner(
             Ped body,
             SpawnPoint dispatchTo,
             Dialog dialogue,
@@ -53,6 +54,7 @@ namespace LSNoir.Callouts.SA.Services
             string[] pedModels = new string[]
             {
                 "s_m_m_paramedic_01",
+                "s_m_m_paramedic_01"
             };
             return pedModels[MathHelper.GetRandomInteger(pedModels.Length - 1)];
         }

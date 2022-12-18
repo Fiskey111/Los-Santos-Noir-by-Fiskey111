@@ -1,7 +1,5 @@
-﻿using LSNoir.Callouts.SA.Computer;
-
-namespace LSNoir.Callouts.Universal
-{
+﻿namespace LSNoir.Callouts.Universal
+{/*
     internal static class Computer
     {
         internal static ComputerController Controller { get; set; }
@@ -21,5 +19,5 @@ namespace LSNoir.Callouts.Universal
             Background.DisableBackground(Background.Type.Computer);
             Controller.AbortFiber(Controller.MainFiber);
         }
-    }
+    }*/
 }

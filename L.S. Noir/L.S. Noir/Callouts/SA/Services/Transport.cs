@@ -1,8 +1,5 @@
-﻿using LtFlash.Common.EvidenceLibrary;
-using Rage;
-
-namespace LSNoir.Callouts.SA.Services
-{
+﻿namespace LSNoir.Callouts.SA.Services
+{/*
     public class Transport
     {
         private Vehicle policeCar;
@@ -172,5 +169,5 @@ namespace LSNoir.Callouts.SA.Services
                 GameFiber.Yield();
             }
         }
-    }
+    }*/
 }

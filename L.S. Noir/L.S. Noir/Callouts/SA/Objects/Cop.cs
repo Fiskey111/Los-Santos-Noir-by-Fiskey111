@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
-using Fiskey111Common;
+using CaseManager.Resources;
+using LSNoir.Callouts.Stages;
 using LSNoir.Extensions;
 using LSPD_First_Response.Mod.API;
 using Rage;
 using Rage.Native;
+using Vector3 = Rage.Vector3;
 
 namespace LSNoir.Callouts.SA.Objects
 {
@@ -17,22 +19,22 @@ namespace LSNoir.Callouts.SA.Objects
             }
             set { Ped.Position = value; }
         }
-        public SpawnPt TargetPosition { get; protected set; }
+        public SpawnPoint TargetPosition { get; protected set; }
         public Vehicle Veh { get; set; }
         public bool IsSecondCop { get; protected set; }
 
         //Primary
-        public Cop(string vehmodel, SpawnPt pos, SpawnPt targetPos, bool isSwat = false, ICollection<Cop> copList = null)
+        public Cop(string vehmodel, SpawnPoint pos, SpawnPoint targetPos, bool isSwat = false, ICollection<Cop> copList = null)
         {
             string copModel = isSwat ? "s_m_y_swat_01" : "s_m_y_cop_01";
-            Veh = new Vehicle(vehmodel, pos.Spawn, pos.Heading);
+            Veh = new Vehicle(vehmodel, new Vector3(pos.Position.X, pos.Position.Y, pos.Position.Z), pos.Heading);
             Ped = new Ped(copModel, Veh.LeftPosition, Veh.Heading);
             Ped.RelationshipGroup = RelationshipGroup.Cop;
             if (isSwat)
             {
                 var w = new Weapon(new WeaponAsset("WEAPON_CARBINERIFLE"), Ped.Position, 120);
                 if (w.Exists()) w.GiveTo(Ped);
-                NativeFunction.Natives.SetPedPropIndex(Ped, 0, 0, 0, true);
+                NativeFunction.Natives.SetPedPropIndex(Ped, 0, 0, 0, true); 
             }
             Functions.SetPedAsCop(Ped);
             Functions.SetCopAsBusy(Ped, true);
@@ -86,7 +88,7 @@ namespace LSNoir.Callouts.SA.Objects
         {
             if (IsSecondCop || !this.Ped) return;
             "Driving to position".AddLog();
-            Ped.Tasks.DriveToPosition(TargetPosition.Spawn, 16f,
+            Ped.Tasks.DriveToPosition(new Vector3(TargetPosition.Position.X, TargetPosition.Position.Y, TargetPosition.Position.Z), 16f,
                 VehicleDrivingFlags.YieldToCrossingPedestrians | VehicleDrivingFlags.DriveAroundObjects, 6f);
         }
 

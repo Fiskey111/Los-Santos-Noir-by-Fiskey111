@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>LSNoir</RootNamespace>
     <AssemblyName>L.S. Noir</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,51 +49,43 @@
     <ErrorReport>prompt</ErrorReport>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="BetterEMS">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\BetterEMS.dll</HintPath>
+    <Reference Include="BetterEMS, Version=4.1.7375.38121, Culture=neutral, PublicKeyToken=null">
+      <HintPath>E:\LS Noir\BetterEMS_by_PNWParksFan_4.1b\GTA V folder\Plugins\LSPDFR\BetterEMS.dll</HintPath>
     </Reference>
-    <Reference Include="Fiskey111Common, Version=1.12.27.0, Culture=neutral, processorArchitecture=AMD64">
+    <Reference Include="Gwen, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>E:\LS Noir\Gwen.dll</HintPath>
+    </Reference>
+    <Reference Include="LSNoir_CaseManagerFramework, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Fiskey111Common.dll</HintPath>
+      <HintPath>..\..\..\..\..\source\repos\CaseManagerFramework\LSNoir_CaseManagerFramework\bin\Debug\LSNoir_CaseManagerFramework.dll</HintPath>
     </Reference>
-    <Reference Include="Gwen">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Gwen.dll</HintPath>
+    <Reference Include="LSPD First Response, Version=0.4.8151.41789, Culture=neutral, PublicKeyToken=null">
+      <HintPath>E:\LS Noir\plugins\LSPD First Response.dll</HintPath>
     </Reference>
-    <Reference Include="LSPD First Response, Version=0.3.38.5436, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPD First Response.dll</HintPath>
-    </Reference>
-    <Reference Include="LtFlash.Common">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\LtFlash.Common.dll</HintPath>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
-    <Reference Include="RAGENativeUI">
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\RAGENativeUI.dll</HintPath>
+    <Reference Include="RAGENativeUI, Version=1.9.0.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>E:\packages\RAGENativeUI.1.9.0\lib\net472\RAGENativeUI.dll</HintPath>
     </Reference>
-    <Reference Include="RagePluginHookSDK, Version=0.0.0.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\..\..\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\SDK\RagePluginHookSDK.dll</HintPath>
-    </Reference>
-    <Reference Include="RagePROletariat, Version=0.1.6255.4456, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Downloads\ragepro_dev_tools_0.2\RagePROletariat.dll</HintPath>
+    <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
+      <HintPath>J:\steam\steamapps\common\Grand Theft Auto V\SDK\RagePluginHook.dll</HintPath>
     </Reference>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Windows" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIWrapper.cs" />
+    <Compile Include="Callouts\GameCaseCreatorUI.cs" />
     <Compile Include="Callouts\GameScript.cs" />
     <Compile Include="Callouts\SA\Commons\ScenarioHelper.cs" />
     <Compile Include="Callouts\SA\Commons\WarrantRequestor.cs" />
@@ -167,8 +160,36 @@
     <Compile Include="Callouts\SA\Data\PedData.cs" />
     <Compile Include="Callouts\SA\Data\ReportData.cs" />
     <Compile Include="Callouts\SA\Data\WitnessData.cs" />
+    <Compile Include="Callouts\Stages\CaseManagerInterface.cs" />
+    <Compile Include="Callouts\Stages\DialogueScene.cs" />
+    <Compile Include="Callouts\Stages\StageBase.cs" />
+    <Compile Include="Common\Ped\PedScenario.cs" />
+    <Compile Include="Common\UI\AudioPlayer.cs" />
+    <Compile Include="Common\UI\OnscreenTextbox.cs" />
+    <Compile Include="Common\UI\MenuExtensions.cs" />
+    <Compile Include="Common\UI\MenuHandler.cs" />
+    <Compile Include="InternalCaseManager.cs" />
     <Compile Include="Commands.cs" />
+    <Compile Include="Common\Logger.cs" />
+    <Compile Include="Common\Process\ProcessHost.cs" />
+    <Compile Include="Common\Random.cs" />
+    <Compile Include="Common\ScriptHandler\BaseScript.cs" />
+    <Compile Include="Common\ScriptHandler\BasicScript.cs" />
+    <Compile Include="Common\ScriptHandler\IScript.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptAttributes.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptBase.cs" />
+    <Compile Include="Common\ScriptHandler\CaseController.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptManager.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptStarters\IScriptStartController.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptStarters\IScriptStarter.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptStarters\ScriptStarterBase.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptStarters\SequentialScriptStarter.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptStarters\TimerControlledScriptStarter.cs" />
+    <Compile Include="Common\ScriptHandler\ScriptStarters\UnconditionalStartController.cs" />
+    <Compile Include="Common\UI\DebugText.cs" />
+    <Compile Include="Common\UI\Marker.cs" />
     <Compile Include="DetectiveNotebook.cs" />
+    <Compile Include="Startup\CaseLoader.cs" />
     <Compile Include="Startup\Evid_War_TimeChecker.cs" />
     <Compile Include="Callouts\SA\Interaction\HelpMenu.cs" />
     <Compile Include="Callouts\SA\Interaction\SecurityCamera.cs" />
@@ -186,7 +207,6 @@
     <Compile Include="Callouts\SA\Services\Interfaces.cs" />
     <Compile Include="Callouts\SA\Services\PoliceStations.cs" />
     <Compile Include="Callouts\SA\Services\ServiceBase.cs" />
-    <Compile Include="Callouts\SA\Services\SpawnPoint.cs" />
     <Compile Include="Callouts\SA\Services\Transport.cs" />
     <Compile Include="Callouts\SA\Services\Witness.cs" />
     <Compile Include="Callouts\SA\SocialMediaDrawer.cs" />
@@ -217,7 +237,6 @@
     <Compile Include="Main.cs" />
     <Compile Include="PoliceStationCheck.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RagePro\Licensing.cs" />
     <Compile Include="Settings\Settings.cs" />
     <Compile Include="Startup\DependencyCheck.cs" />
     <Compile Include="Startup\FileChecker.cs" />
@@ -234,10 +253,6 @@
     <Content Include="Callouts\SA\XMLs\SA_Data.xml" />
     <Content Include="Callouts\SA\XMLs\SceneData.xml" />
     <Content Include="Callouts\SA\XMLs\ServiceCoordinates.xml" />
-    <EmbeddedResource Include="RagePro\PublicKey.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Callouts\Murder\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Callouts\SA\Computer\evidence_form.resx">
@@ -268,10 +283,14 @@
       <DependentUpon>witness_form.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy /Y "$(TargetPath)" "C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetFileName)"
-copy /Y "$(TargetDir)\$(TargetName).pdb" "C:\Program Files (x86)\Steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetName).pdb"</PostBuildEvent>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "J:\steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetFileName)"
+copy /Y "$(TargetDir)\$(TargetName).pdb" "J:\steam\steamapps\common\Grand Theft Auto V\Plugins\LSPDFR\$(TargetName).pdb"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

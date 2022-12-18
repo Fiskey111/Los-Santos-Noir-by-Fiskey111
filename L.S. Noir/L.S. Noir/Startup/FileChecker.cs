@@ -41,7 +41,7 @@ namespace LSNoir.Startup
                     {
                         "~r~L.S. Noir Error".DisplayNotification(
                             $"Please view the {Description} before using this plugin." +
-                            $"\nPress ~y~Y~w~ to open the file now.", 0);
+                            $"\nPress ~y~Y~w~ to open the file now.", "");
 
                         var opened = false;
                         var count = 0;

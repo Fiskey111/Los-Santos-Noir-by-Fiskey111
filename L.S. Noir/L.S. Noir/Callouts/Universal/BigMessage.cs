@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Windows.Media;
-using LSNoir.Callouts.SA.Data;
 using LSNoir.Extensions;
 using Rage;
 using RAGENativeUI.Elements;
@@ -28,8 +27,8 @@ namespace LSNoir.Callouts.Universal
             });
 
             bigMessage = new BigMessageThread(true);
-            var c = LtFlash.Common.Serialization.Serializer.LoadItemFromXML<CaseData>(LSNoir.Main.CDataPath);
-            bigMessage.MessageInstance.ShowMissionPassedMessage("Case #" + c.Number + " Completed!");
+            // todo - implement this case number
+            bigMessage.MessageInstance.ShowMissionPassedMessage("Case #" + 0 + " Completed!");
         }
     }
 }

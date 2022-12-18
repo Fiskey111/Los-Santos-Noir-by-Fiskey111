@@ -1,14 +1,5 @@
-﻿using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Data;
-using LSPD_First_Response.Mod.API;
-using Rage;
-using System.Linq;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using static LtFlash.Common.Serialization.Serializer;
-
-namespace LSNoir.Callouts.SA.Creators
-{
+﻿namespace LSNoir.Callouts.SA.Creators
+{/*
     public static class InterrogationCreator
     {
         public static InterrogationLine[] InterrogationLineCreator(Type type, Ped perp)
@@ -387,5 +378,5 @@ namespace LSNoir.Callouts.SA.Creators
         public enum Type { VictimFamily, Suspect }
 
         public enum QuestionType { Relationships, LastKnownActivity, AnythingStrange }
-    }
+    }*/
 }

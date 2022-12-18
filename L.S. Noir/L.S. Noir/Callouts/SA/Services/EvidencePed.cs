@@ -1,8 +1,5 @@
-﻿using LtFlash.Common.EvidenceLibrary.BaseClasses;
-using Rage;
-
-namespace LSNoir.Callouts.SA.Services
-{
+﻿namespace LSNoir.Callouts.SA.Services
+{/*
     public abstract class EvidencePed : EvidenceBase
     {
         public Ped Ped { get; protected set; }
@@ -37,5 +34,5 @@ namespace LSNoir.Callouts.SA.Services
         }
 
         public override bool IsValid() => Ped;
-    }
+    }*/
 }

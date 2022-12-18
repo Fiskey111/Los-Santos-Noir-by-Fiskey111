@@ -1,25 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.Linq;
-using System.Xml.Linq;
-using System.Xml.XPath;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.SA.Objects;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LSPD_First_Response.Mod.API;
-using LtFlash.Common.EvidenceLibrary.Evidence;
-using Rage;
-using Rage.Native;
-using Animations = LSNoir.Callouts.Universal.Animations;
-using SpawnPoint = LtFlash.Common.SpawnPoint;
-
-namespace LSNoir.Callouts.SA.Stages.CSI
-{
+﻿namespace LSNoir.Callouts.SA.Stages.CSI
+{/*
     class CsiCreator
     {
         internal static DeadBody Victim;
@@ -79,10 +59,6 @@ namespace LSNoir.Callouts.SA.Stages.CSI
 
         internal static SpawnPoint SecCamSpawnPoint, SusSpawnPoint, SusTargetPoint, _W1SpawnPoint, _W2SpawnPoint;
 
-        /*
-        Animations:       
-                _firstOfficer.Ped.Tasks.PlayAnimation("amb@code_human_police_crowd_control@idle_b", "idle_d", 4, AnimationFlags.Loop);
-        */
         /// <summary>
         /// Call this to begin scene creation using SceneData.xml
         /// </summary>
@@ -538,5 +514,5 @@ namespace LSNoir.Callouts.SA.Stages.CSI
         public enum ObjectType { Cop, Witness, Ped, Vehicle, Barrier }
 
         public enum PedType { Cop, Ambient }
-    }
+    }*/
 }

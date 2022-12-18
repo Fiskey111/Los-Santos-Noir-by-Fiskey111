@@ -1,19 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using Fiskey111Common;
-using Gwen.Control;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LSNoir.Startup;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Forms;
-
-namespace LSNoir.Callouts.SA.Computer
-{
+﻿namespace LSNoir.Callouts.SA.Computer
+{/*
     public class LabCode : GwenForm
     {
         // System
@@ -118,5 +104,5 @@ namespace LSNoir.Callouts.SA.Computer
             Window.Close();
             Universal.Computer.Controller.SwitchFibers(Universal.Computer.Controller.LabFiber, ComputerController.Fibers.MainFiber);
         }
-    }
+    }*/
 }

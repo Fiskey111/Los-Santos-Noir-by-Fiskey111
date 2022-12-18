@@ -1,17 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using Gwen.Control;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Forms;
-
-namespace LSNoir.Callouts.SA.Computer
-{
+﻿namespace LSNoir.Callouts.SA.Computer
+{/*
     public class WitnessCode : GwenForm
     {
         // System
@@ -148,5 +136,5 @@ namespace LSNoir.Callouts.SA.Computer
             string dialogue = string.Join("\n", conversation.ToArray());
             return dialogue;
         }
-    }
+    }*/
 }

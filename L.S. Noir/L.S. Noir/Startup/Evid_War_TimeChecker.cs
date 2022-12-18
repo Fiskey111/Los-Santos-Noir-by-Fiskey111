@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Data;
+using System.Linq;
+using LSNoir.Common;
 using LSNoir.Extensions;
-using LtFlash.Common.Serialization;
 using Rage;
+using Random = LSNoir.Common.Random;
 
 namespace LSNoir.Startup
 {
@@ -23,25 +23,39 @@ namespace LSNoir.Startup
 
         internal static void InitialStartup()
         {
-            "Checking for outstanding evidence/warrants".AddLog(true);
-            _objList = new List<TimeCheckObject>();
-
-            var cData = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
-            if (string.IsNullOrEmpty(cData.StartingStage)) return;
-
-            var eList = Serializer.LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
-
-            if (eList.Count > 0)
+            try
             {
-                foreach (var item in eList)
+                "Checking for outstanding evidence/warrants".AddLog(true);
+                _objList = new List<TimeCheckObject>();
+
+                /*
+                foreach (var _case in Main.InternalCaseManager.CaseList)
                 {
-                    if (item.TestingFinishTime == DateTime.MinValue || item.IsTested) continue;
+                    foreach (var stage in _case.LoadedCase.Stages)
+                    {
+                        foreach (var entity in stage.InteractiveEntities.Where(entity =>
+                                     entity.InteractionSettings.Evidence.TestCompletionTime != DateTime.MinValue))
+                        {
+                            AddObject(new TimeCheckObject(TimeCheckObject.Type.Evidence, entity.Description,
+                                entity.InteractionSettings.Evidence.TestCompletionTime));
+                        }
+                    }
 
-                    AddObject(new TimeCheckObject(TimeCheckObject.Type.Evidence, item.Name, item.TestingFinishTime));
-                }
+                    foreach (var document in _case.LoadedCase.Progress.DocumentsRequested)
+                    {
+                        foreach (var doc in _case.LoadedCase.Documents)
+                        {
+                            if (doc.ID != document) continue;
+                            AddObject(new TimeCheckObject(TimeCheckObject.Type.Warrant, doc.Messages.Title,
+                                doc.DocumentCompletionTime));
+                        }
+                    }
+                }*/
             }
-
-            if (cData.WarrantSubmitted && !cData.WarrantHeard) AddObject(new TimeCheckObject(TimeCheckObject.Type.Warrant, "Warrant", cData.WarrantApprovedDate));
+            catch (Exception ex)
+            {
+                Logger.LogDebug(nameof(Evid_War_TimeChecker), nameof(InitialStartup), ex.ToString());
+            }
         }
         
         internal static void AddObject(TimeCheckObject obj)
@@ -98,61 +112,71 @@ namespace LSNoir.Startup
 
             $"{obj.Name} testing completed; datetime.compare = {DateTime.Compare(obj.CompletionTime, DateTime.Now)}".AddLog(true);
 
-            if (obj.CheckType == TimeCheckObject.Type.Evidence)
-            {
-                var eList = Serializer.LoadItemFromXML<List<EvidenceData>>(Main.EDataPath);
-                if (eList.Count < 1) return;
-
-                foreach (var val in eList)
-                {
-                    if (val.Name != obj.Name || !val.IsTested) continue;
-                    val.IsTested = true;
-                    "~b~Police Laboratory".DisplayNotification($"Evidence testing ~g~completed~w~ for ~y~{obj.Name}~w~\nView the details in the ~b~SAJRS ~w~computer", Serializer.LoadItemFromXML<CaseData>(Main.CDataPath).Number);
-                    break;
-                }
-                Serializer.SaveItemToXML(eList, Main.EDataPath);
-            }
-            else
-            {
-                "Hearing warrant".AddLog(true);
-                var data = Serializer.LoadItemFromXML<CaseData>(Main.CDataPath);
-                data.WarrantHeard = true;
-                if (data.WarrantReason == "Gut Feeling" || data.WarrantReason == "None") data.WarrantApproved = MathHelper.GetRandomInteger(10) != 1;
-                else data.WarrantApproved = MathHelper.GetRandomInteger(250) != 1;
-                Serializer.SaveItemToXML<CaseData>(data, Main.CDataPath);
-            }
-            RemoveObject(obj);
-        }
-    }
-
-    internal class TimeCheckObject
+/*
+if (obj.CheckType == TimeCheckObject.Type.Evidence)
+{
+foreach (var _case in Main.InternalCaseManager.CaseList)
+{
+    foreach (var stage in _case.LoadedCase.Stages)
     {
-        internal Type CheckType { get; set; }
-        internal string Name { get; set; }
-        internal DateTime CompletionTime { get; set; }
-        internal bool Exists { get; set; }
-
-        internal TimeCheckObject(Type type, string name, DateTime time)
+        foreach (var entity in stage.InteractiveEntities.Where(entity =>
+                     entity.InteractionSettings.Evidence.TestCompletionTime != DateTime.MinValue))
         {
-            CheckType = type;
-            Name = name;
-            CompletionTime = time;
-            Exists = true;
+            if (obj.Name != entity.Description) continue;
+            entity.InteractionSettings.Evidence.TestCompleted = true;
+            "~b~Police Laboratory".DisplayNotification($"Evidence testing ~g~completed~w~ for ~y~{obj.Name}~w~\nView the details in the ~b~SAJRS ~w~computer", _case.LoadedCase.Progress.CaseNumber);
+            break;
         }
-
-        internal static DateTime RandomTimeCreator()
-        {
-            var testTime = Settings.Settings.TestTimes();
-            var timeSpan = DateTime.Now.Add(new TimeSpan(testTime.Days, testTime.Hours, testTime.Minutes, 0)) - DateTime.Now;
-
-            var newSpan = new TimeSpan(0, Rand.RandomNumber(0, (int)timeSpan.TotalMinutes), 0);
-
-            var finalTime = DateTime.Now + newSpan;
-
-            $"Time for test completion: {finalTime}".AddLog(true);
-            return finalTime;
-        }
-
-        internal enum Type { Evidence, Warrant }
     }
+}
+}
+else
+{
+foreach (var _case in Main.InternalCaseManager.CaseList)
+{
+    foreach (var document in _case.LoadedCase.Progress.DocumentsRequested)
+    {
+        foreach (var doc in _case.LoadedCase.Documents)
+        {
+            if (doc.ID != document) continue;
+            _case.LoadedCase.Progress.DocumentsAccepted.Add(doc.ID);
+            _case.LoadedCase.Progress.DocumentsRequested.Remove(doc.ID);
+        }
+    }
+}
+}*/
+RemoveObject(obj);
+}
+}
+
+internal class TimeCheckObject
+{
+internal Type CheckType { get; set; }
+internal string Name { get; set; }
+internal DateTime CompletionTime { get; set; }
+internal bool Exists { get; set; }
+
+internal TimeCheckObject(Type type, string name, DateTime time)
+{
+CheckType = type;
+Name = name;
+CompletionTime = time;
+Exists = true;
+}
+
+internal static DateTime RandomTimeCreator()
+{
+var testTime = Settings.Settings.TestTimes();
+var timeSpan = DateTime.Now.Add(new TimeSpan(testTime.Days, testTime.Hours, testTime.Minutes, 0)) - DateTime.Now;
+
+var newSpan = new TimeSpan(0, Random.RandomInt(0, (int)timeSpan.TotalMinutes), 0);
+
+var finalTime = DateTime.Now + newSpan;
+
+$"Time for test completion: {finalTime}".AddLog(true);
+return finalTime;
+}
+
+internal enum Type { Evidence, Warrant }
+}
 }

@@ -1,23 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Creators;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.SA.Interaction;
-using LSNoir.Callouts.SA.Services;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LSPD_First_Response.Mod.API;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Native;
-
-namespace LSNoir.Callouts.SA.Stages.ME
-{
+﻿namespace LSNoir.Callouts.SA.Stages.ME
+{/*
     public class Sa_2BMedicalExaminer : BasicScript
     {
         // System
@@ -568,5 +550,5 @@ namespace LSNoir.Callouts.SA.Stages.ME
         {
             Pre, During, Post
         }
-    }
+    }*/
 }

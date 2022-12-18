@@ -1,11 +1,5 @@
-﻿using System.Drawing;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using Rage;
-using Rage.Native;
-
-namespace LSNoir.Callouts.SA.Services
-{
+﻿namespace LSNoir.Callouts.SA.Services
+{/*
     public class Ems : ServiceBase
     {
         private Ped _patient;
@@ -204,5 +198,5 @@ namespace LSNoir.Callouts.SA.Services
         CentralLsmc,
         //add St.Fiacre
         Closest,
-    }
+    }*/
 }

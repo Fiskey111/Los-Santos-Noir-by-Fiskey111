@@ -1,5 +1,5 @@
-﻿using System.Windows.Forms;
-using Rage;
+﻿using Rage;
+using System.Windows.Forms;
 
 namespace LSNoir.Callouts.Universal
 {

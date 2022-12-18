@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using LtFlash.Common.EvidenceLibrary;
-using Rage;
-
-namespace LSNoir.Callouts.SA.Services
-{
+﻿namespace LSNoir.Callouts.SA.Services
+{/*
     internal static class PoliceStations
     {
         private static readonly Dictionary<EPoliceStations, SpawnPoint> _stations = new Dictionary<EPoliceStations, SpawnPoint>
@@ -26,5 +21,5 @@ namespace LSNoir.Callouts.SA.Services
         {
             return _stations[station];
         }
-    }
+    }*/
 }

@@ -1,28 +1,21 @@
-﻿using System.Linq;
-using LSNoir.Callouts.SA.Commons;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.SA.Stages;
-using LSNoir.Callouts.SA.Stages.CSI;
-using LSNoir.Callouts.SA.Stages.ME;
+﻿using LSNoir.Callouts.SA.Data;
+using LSNoir.Common.ScriptHandler;
 using LSNoir.Extensions;
-using LSNoir.Startup;
-using LtFlash.Common.ScriptManager.Managers;
-using Rage;
 
 namespace LSNoir.Callouts.SA
 {
     internal static class RegisterSAStages
     {
-        internal static AdvancedScriptManager Asm;
+        internal static ScriptManager Asm;
         internal static void RegisterStages(CaseData cData)
         {
             $"Started AdvancedScriptManager with min: {Settings.Settings.MinValue()} max: {Settings.Settings.MaxValue()}".AddLog();
-            Asm = new AdvancedScriptManager
+            Asm = new ScriptManager
             {
                 DefaultTimerIntervalMin = Settings.Settings.MinValue(),
                 DefaultTimerIntervalMax = Settings.Settings.MaxValue()
             };
-
+/*
             StageRegister.RegisterStage(Asm, typeof(Sa1Csi), nameof(Sa1Csi), null, StageRegister.CreateList("Sa_2aHospital", "SA_2b_MedicalExaminer"), true);
             //StageRegister.RegisterStage(Asm, typeof(Sa_2aHospital), nameof(Sa_2aHospital), StageRegister.CreateList("Sa1Csi"), StageRegister.CreateList("SA_3_VictimFamily"));
             StageRegister.RegisterStage(Asm, typeof(Sa_2BMedicalExaminer), nameof(Sa_2BMedicalExaminer), StageRegister.CreateList("Sa1Csi"), StageRegister.CreateList("Sa_2CStation"));
@@ -57,7 +50,7 @@ namespace LSNoir.Callouts.SA
                     "Loading L.S. Noir...\n\nLast completed stage: ~y~" + ConvertEnumToReadableString(stage, cData));
 
                 Game.DisplayHelp("You have loaded L.S. Noir!\nI would recommend disabling callouts for now if you're planning on working on the case.\n\nThis is a temporary fix, hopefully a permanent one will be available soon.");
-            });
+            });*/
         }
 
         private static string ConvertEnumToReadableString(CaseData.LastStage stage, CaseData caseData)

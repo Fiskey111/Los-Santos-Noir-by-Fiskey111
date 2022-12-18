@@ -1,21 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Windows.Forms;
-using Fiskey111Common;
-using LSNoir.Callouts.SA.Creators;
-using LSNoir.Callouts.SA.Data;
-using LSNoir.Callouts.Universal;
-using LSNoir.Extensions;
-using LtFlash.Common.ScriptManager.Scripts;
-using LtFlash.Common.Serialization;
-using Rage;
-using Rage.Native;
-
-namespace LSNoir.Callouts.SA.Stages
-{
+﻿namespace LSNoir.Callouts.SA.Stages
+{/*
     public class Sa_4ASuspectHome : BasicScript
     {
         // System
@@ -221,5 +205,5 @@ namespace LSNoir.Callouts.SA.Stages
             }
             this.Attributes.NextScripts.Clear();
         }
-    }
+    }*/
 }
