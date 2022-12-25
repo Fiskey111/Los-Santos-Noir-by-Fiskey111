@@ -6,12 +6,17 @@ using System.Linq;
 using LSNoir.Extensions;
 using LSNoir.Startup;
 using System.Diagnostics;
+using System.Drawing;
+using System.Threading;
+using System.Windows.Forms;
 using CaseManager.NewData;
 using LSNoir.Callouts.Stages;
 using LSNoir.Common;
 using LSNoir.Common.UI;
 using Debug = Rage.Debug;
 using LSNoir.Callouts;
+using Rage.Native;
+using RAGENativeUI.Elements;
 
 [assembly: Rage.Attributes.Plugin("L.S. Noir", Description = "A detective style plugin for LSPDFR", Author = "Fiskey111", PrefersSingleInstance = true)]
 namespace LSNoir
@@ -35,7 +40,7 @@ namespace LSNoir
         private void InitialLoad()
         {
             Logger.LogDebug(nameof(Main), nameof(InitialLoad), $"Initial load");
-            if (!RageCheck.RPHCheck(1.81f)) return;
+            if (!RageCheck.RPHCheck(1.1f)) return;
             Logger.LogDebug(nameof(Main), nameof(InitialLoad), $"RPH check successful");
 
             if (!VersionCheck.OldLSNCheck()) return;
@@ -45,10 +50,8 @@ namespace LSNoir
 
             Settings.Settings.IniUpdateCheck();
             Logger.LogDebug(nameof(Main), nameof(InitialLoad), $"Settings check successful");
-
-            GameCaseCreatorUI.Intialize();
         }
-        
+
         static void Functions_OnOnDutyStateChanged(bool onDuty)
         {
             Logger.LogDebug(nameof(Main), nameof(Functions_OnOnDutyStateChanged), $"Starting duty load: {onDuty}");

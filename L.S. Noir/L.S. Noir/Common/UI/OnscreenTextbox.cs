@@ -14,8 +14,7 @@ namespace LSNoir.Common.UI
         public static string DisplayBox(int maxLength, string windowTitle, string defaultText)
         {
             var value = GetBox(maxLength, windowTitle, defaultText);
-            while (value == null) GameFiber.Yield();
-            return value;
+            return value ?? string.Empty;
         }
 
         private static string GetBox(int maxLength, string windowTitle, string defaultText)
@@ -24,6 +23,7 @@ namespace LSNoir.Common.UI
             var scaleform = new Scaleform();
             scaleform.Load("TEXT_INPUT_BOX");
             scaleform.CallFunction("SET_TEXT_BOX", "", windowTitle, defaultText);
+            scaleform.CallFunction("SET_MULTI_LINE");
 
             var update = 0;
             while (update == 0)

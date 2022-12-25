@@ -1,5 +1,6 @@
 using System;
 using System.Drawing;
+using Gwen;
 using LSNoir.Extensions;
 using Rage;
 
@@ -52,21 +53,22 @@ namespace LSNoir.Common.UI
         {
             try
             {
-                ($"Draw({(int)Type}, {Position}, {Rotate}, {Scale}, {Color.A}:{Color.R}:{Color.G}:{Color.B}, {BobMarker}, {FaceCam}, {Rotate})").AddLog();
-                Rage.Native.NativeFunction.Natives.DRAW_MARKER((int)Type,
-                    Position,
-                    Position,
-                    Rotation,
+                Rage.Native.NativeFunction.Natives.x28477EC23D892089( 
+                    (int)Type,
+                    Position.X, Position.Y, Position.Z,
+                    0f, 0f, 0f,
+                    Rotation.Pitch, Rotation.Roll, Rotation.Yaw,
                     Scale.X, Scale.Y, Scale.Z,
-                    Color.R, Color.G, Color.B, Alpha,
+                    Convert.ToInt32(Color.R), Convert.ToInt32(Color.G), Convert.ToInt32(Color.B), Alpha,
                     BobMarker, FaceCam,
                     2, Rotate,
-                    null, null,
+                    0, 0,
                     false);
             }
             catch (Exception ex)
             {
                 ($"COMMON :: ERROR ||| {ex}").AddLog();
+                ($"COMMON :: ERROR ||| {ex.StackTrace}").AddLog();
             }
         }
 

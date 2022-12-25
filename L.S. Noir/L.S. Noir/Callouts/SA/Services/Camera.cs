@@ -84,7 +84,7 @@ namespace LSNoir.Callouts.SA.Services
             SetLocalPlayerPropertiesWhileCamOn(false);
         }
 
-        private static Camera RetrieveGameCam()
+        internal static Camera RetrieveGameCam()
         {
             Camera gamecam = new Camera(false);
             gamecam.FOV = NativeFunction.Natives.GET_GAMEPLAY_CAM_FOV<float>();

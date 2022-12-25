@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>7</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,7 +69,7 @@
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>..\packages\Newtonsoft.Json.13.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -76,7 +77,8 @@
       <HintPath>E:\packages\RAGENativeUI.1.9.0\lib\net472\RAGENativeUI.dll</HintPath>
     </Reference>
     <Reference Include="RagePluginHook, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>J:\steam\steamapps\common\Grand Theft Auto V\SDK\RagePluginHook.dll</HintPath>
+      <HintPath>..\packages\RagePluginHook.1.98.0\lib\net472\RagePluginHook.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
@@ -163,6 +165,7 @@
     <Compile Include="Callouts\Stages\CaseManagerInterface.cs" />
     <Compile Include="Callouts\Stages\DialogueScene.cs" />
     <Compile Include="Callouts\Stages\StageBase.cs" />
+    <Compile Include="Common\IO\JsonHelper.cs" />
     <Compile Include="Common\Ped\PedScenario.cs" />
     <Compile Include="Common\UI\AudioPlayer.cs" />
     <Compile Include="Common\UI\OnscreenTextbox.cs" />

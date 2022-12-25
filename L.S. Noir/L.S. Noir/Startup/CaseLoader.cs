@@ -1,6 +1,7 @@
 using System.IO;
 using CaseManager.NewData;
 using LSNoir.Common;
+using LSNoir.Common.IO;
 using LSNoir.Extensions;
 using Newtonsoft.Json;
 
@@ -17,7 +18,7 @@ namespace LSNoir.Startup
         public bool LoadCase(string caseLocation)
         {
             Logger.LogDebug(nameof(InternalCaseManager), nameof(LoadedCase), $"Loading case at location: {caseLocation}");
-            var caseLoad = JsonConvert.DeserializeObject<Case>(File.ReadAllText(caseLocation));
+            var caseLoad = JsonHelper.ReadFileJson<Case>(caseLocation);
             if (caseLoad == null)
             {
                 Logger.LogDebug(nameof(InternalCaseManager), nameof(InternalCaseManager), $"caseLoad = null || {caseLocation}");
@@ -32,8 +33,7 @@ namespace LSNoir.Startup
         public void SaveCase()
         {
             $"SaveCase - {_caseLocation}".AddLog(true);
-            var data = JsonConvert.SerializeObject(LoadedCase, Formatting.Indented);
-            File.WriteAllText(_caseLocation, data);
+            var valid = JsonHelper.SaveFileJson(_caseLocation, LoadedCase);
         }
     }
 }
