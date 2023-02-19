@@ -148,3 +148,17 @@ C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S
 C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Debug\LSNoir_CaseManagerFramework.dll
 C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\bin\x64\Debug\LSNoir_CaseManagerFramework.pdb
 C:\Users\Chris Fiske\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csproj.AssemblyReference.cache
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csproj.AssemblyReference.cache
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.EvidenceForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.LabForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.MainForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.MessageBoxForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.ReportsForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.VictimForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.WarrantForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.WarrantRequestForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\LSNoir.Callouts.SA.Computer.WitnessForm.resources
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csproj.GenerateResource.cache
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.csproj.CoreCompileInputs.cache
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.dll
+G:\OneDrive\Documents\GitHub\Los-Santos-Noir-by-Fiskey111\L.S. Noir\L.S. Noir\obj\x64\Debug\L.S. Noir.pdb
