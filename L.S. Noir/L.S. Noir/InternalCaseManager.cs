@@ -24,11 +24,11 @@ namespace LSNoir
                 foreach (var file in files)
                 {
                     Logger.LogDebug(nameof(InternalCaseManager), nameof(InternalCaseManager), $"Initializing CaseLoader: {file}");
-                    var caseLoader = new CaseLoader();
-                    var valid = caseLoader.LoadCase(file);
+                    var loader = new CaseLoader();
+                    var valid = loader.LoadCase(file);
                     if (!valid) continue;
                     Logger.LogDebug(nameof(InternalCaseManager), nameof(InternalCaseManager), $"Case loaded successfully");
-                    _caseController.AddCase(caseLoader.LoadedCase);
+                    _caseController.AddCase(loader);
                 }
             }
             catch (Exception ex)

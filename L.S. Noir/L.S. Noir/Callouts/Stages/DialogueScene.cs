@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using CaseManager.NewData;
 using LSNoir.Common;
 using LSNoir.Common.Process;
@@ -14,7 +15,7 @@ namespace LSNoir.Callouts.Stages
 
         private void DialogueScene_OnArrivedAtScene()
         {
-
+            
         }
 
 
@@ -28,7 +29,13 @@ namespace LSNoir.Callouts.Stages
             return true;
         }
 
-        public override void EnRoute() { }
+        public override void EnRoute()
+        {
+            foreach (var VARIABLE in SceneItems)
+            {
+                
+            }
+        }
 
         protected override void Process()
         {            

@@ -15,6 +15,7 @@ using LSNoir.Common;
 using LSNoir.Common.UI;
 using Debug = Rage.Debug;
 using LSNoir.Callouts;
+using LSNoir.Callouts.Universal;
 using Rage.Native;
 using RAGENativeUI.Elements;
 
@@ -50,6 +51,8 @@ namespace LSNoir
 
             Settings.Settings.IniUpdateCheck();
             Logger.LogDebug(nameof(Main), nameof(InitialLoad), $"Settings check successful");
+
+            StageTypesForCases.Initialize();
         }
 
         static void Functions_OnOnDutyStateChanged(bool onDuty)

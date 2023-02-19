@@ -4,6 +4,7 @@ using CaseManager.NewData;
 using LSNoir.Callouts.Stages;
 using LSNoir.Common.Process;
 using LSNoir.Extensions;
+using LSNoir.Startup;
 using Rage;
 
 namespace LSNoir.Common.ScriptHandler
@@ -12,6 +13,8 @@ namespace LSNoir.Common.ScriptHandler
     {
         private Case _currentCase;
 
+        internal CaseLoader CaseLoader;
+        
         private StageBase _currentStage;
 
         public bool? IsCaseRunning => _currentStage?.IsRunning;
@@ -36,15 +39,15 @@ namespace LSNoir.Common.ScriptHandler
             _processHost = null;
         }
 
-        public void AddCase(Case caseItem)
+        public void AddCase(CaseLoader caseItem)
         {
             if (caseItem == null)
             {
                 Logger.LogDebug(nameof(CaseController), nameof(AddCase), $"Case is null");
                 return;
             }
-            Logger.LogDebug(nameof(CaseController), nameof(AddCase), $"Adding case {caseItem.Name}");
-            _currentCase = caseItem;
+            Logger.LogDebug(nameof(CaseController), nameof(AddCase), $"Adding case {caseItem.LoadedCase.Name}");
+            _currentCase = caseItem.LoadedCase;
         }
 
         private void Process()

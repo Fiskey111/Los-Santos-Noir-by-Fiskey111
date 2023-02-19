@@ -87,7 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="APIWrapper.cs" />
-    <Compile Include="Callouts\GameCaseCreatorUI.cs" />
     <Compile Include="Callouts\GameScript.cs" />
     <Compile Include="Callouts\SA\Commons\ScenarioHelper.cs" />
     <Compile Include="Callouts\SA\Commons\WarrantRequestor.cs" />
@@ -163,8 +162,10 @@
     <Compile Include="Callouts\SA\Data\ReportData.cs" />
     <Compile Include="Callouts\SA\Data\WitnessData.cs" />
     <Compile Include="Callouts\Stages\CaseManagerInterface.cs" />
+    <Compile Include="Callouts\Stages\CrimeSceneInvestigation.cs" />
     <Compile Include="Callouts\Stages\DialogueScene.cs" />
     <Compile Include="Callouts\Stages\StageBase.cs" />
+    <Compile Include="Callouts\Universal\StageTypesForCases.cs" />
     <Compile Include="Common\IO\JsonHelper.cs" />
     <Compile Include="Common\Ped\PedScenario.cs" />
     <Compile Include="Common\UI\AudioPlayer.cs" />
@@ -192,6 +193,8 @@
     <Compile Include="Common\UI\DebugText.cs" />
     <Compile Include="Common\UI\Marker.cs" />
     <Compile Include="DetectiveNotebook.cs" />
+    <Compile Include="Menus\StageEditor.cs" />
+    <Compile Include="Menus\SceneItemEditor.cs" />
     <Compile Include="Startup\CaseLoader.cs" />
     <Compile Include="Startup\Evid_War_TimeChecker.cs" />
     <Compile Include="Callouts\SA\Interaction\HelpMenu.cs" />

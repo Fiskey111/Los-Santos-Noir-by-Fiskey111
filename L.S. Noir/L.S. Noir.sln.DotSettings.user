@@ -1,0 +1,19 @@
+﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CChris_0020Fiske_005Csource_005Crepos_005CCaseManagerFramework_005CLSNoir_005FCaseManagerFramework_005Cbin_005CDebug_005CLSNoir_005FCaseManagerFramework_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CChris_0020Fiske_005Csource_005Crepos_005CCaseManager_005CCaseManager_005Cbin_005CDebug_005Cnet472_005CCaseManager_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=C_003A_005CUsers_005CChris_0020Fiske_005Csource_005Crepos_005CCaseManager_005CCaseManager_005Cbin_005CDebug_005Cnetcoreapp2_002E0_005CCaseManager_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CLS_0020Noir_005CBetterEMS_005Fby_005FPNWParksFan_005F4_002E1b_005Cextras_005CAPI_0020XML_0020documentation_005CBetterEMS_002EXML/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CLS_0020Noir_005CBetterEMS_005Fby_005FPNWParksFan_005F4_002E1b_005CGTA_0020V_0020folder_005CPlugins_005CLSPDFR_005CBetterEMS_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CLS_0020Noir_005CGwen_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CLS_0020Noir_005Cplugins_005CLSPD_0020First_0020Response_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=E_003A_005CLS_0020Noir_005CSDK_005CRagePluginHookSDK_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=J_003A_005Csteam_005Csteamapps_005Ccommon_005CGrand_0020Theft_0020Auto_0020V_005CCaseManager_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=J_003A_005Csteam_005Csteamapps_005Ccommon_005CGrand_0020Theft_0020Auto_0020V_005CPlugins_005CLSPDFR_005CBetterEMS_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=J_003A_005Csteam_005Csteamapps_005Ccommon_005CGrand_0020Theft_0020Auto_0020V_005CPlugins_005CLSPDFR_005CCaseManager_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/AddReferences/RecentPaths/=J_003A_005Csteam_005Csteamapps_005Ccommon_005CGrand_0020Theft_0020Auto_0020V_005CSDK_005CRagePluginHook_002Edll/@EntryIndexedValue">True</s:Boolean>
+	<s:String x:Key="/Default/Environment/AssemblyExplorer/XmlDocument/@EntryValue">&lt;AssemblyExplorer&gt;&#xD;
+  &lt;Assembly Path="E:\LS Noir\Gwen.dll" /&gt;&#xD;
+  &lt;Assembly Path="C:\Users\Chris Fiske\source\repos\CaseManager\CaseManager\bin\Debug\netcoreapp2.0\CaseManager.dll" /&gt;&#xD;
+&lt;/AssemblyExplorer&gt;</s:String>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/CheckedGroups/=L_002ES_002E_0020Noir_002FCallouts_002FSA_002FComputer_002Fevidence_005Fform/@EntryIndexedValue">True</s:Boolean>
+	<s:Boolean x:Key="/Default/ResxEditorPersonal/Initialized/@EntryValue">True</s:Boolean></wpf:ResourceDictionary>

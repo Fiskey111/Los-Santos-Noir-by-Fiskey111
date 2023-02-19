@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
+using CaseManager.Resources;
 using Rage;
 using Rage.Native;
 
@@ -13,6 +14,13 @@ namespace LSNoir.Extensions
         {
             ped.BlockPermanentEvents = true;
             ped.IsPersistent = true;
+        }
+
+        public static SpawnPoint GetPlayerSpawnpoint(this Player player, bool includeRotation = false)
+        {
+            var spawn = new SpawnPoint(Game.LocalPlayer.Character.Heading, Game.LocalPlayer.Character.Position);
+            if (includeRotation) spawn.Rotation = Game.LocalPlayer.Character.Rotation;
+            return spawn;
         }
 
         public static void MakeMissionVehicle(this Vehicle veh) => veh.IsPersistent = true;

@@ -17,6 +17,8 @@ namespace LSNoir.Common.UI
             return value ?? string.Empty;
         }
 
+        public static string GetTextFromTextboxStandard(string header) => OnscreenTextbox.DisplayBox(100, header, "");
+
         private static string GetBox(int maxLength, string windowTitle, string defaultText)
         {
             NativeFunction.Natives.DISPLAY_ONSCREEN_KEYBOARD(true, "", "", defaultText, "", "", "", maxLength + 1);

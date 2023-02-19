@@ -26,10 +26,10 @@ namespace LSNoir.Callouts.Stages
         private readonly Dictionary<SceneItem, Ped> _scenarioList = new Dictionary<SceneItem, Ped>();
 
         public readonly Dictionary<SceneItem, Entity> SceneItems = new Dictionary<SceneItem, Entity>();
-        public readonly Dictionary<InteractiveEntity, Entity> InteractionItems = new Dictionary<InteractiveEntity, Entity>();
+        public readonly Dictionary<SceneItem, Entity> InteractionItems = new Dictionary<SceneItem, Entity>();
 
-        private readonly Dictionary<InteractiveEntity, Entity> _inspectedList = new Dictionary<InteractiveEntity, Entity>();
-        private readonly Dictionary<InteractiveEntity, Entity> _nearbyList = new Dictionary<InteractiveEntity, Entity>();
+        private readonly Dictionary<SceneItem, Entity> _inspectedList = new Dictionary<SceneItem, Entity>();
+        private readonly Dictionary<SceneItem, Entity> _nearbyList = new Dictionary<SceneItem, Entity>();
 
         public bool IsRunning { get; private set; }
         protected StageBase(Case caseRef, Stage stageRef)
@@ -54,9 +54,6 @@ namespace LSNoir.Callouts.Stages
 
             SpawnSceneItems(StageRef.SceneItems);
             Logger.LogDebug(nameof(StageBase), nameof(InternalInitialize), "Scene items spawned");
-
-            SpawnInteractiveEntities();
-            Logger.LogDebug(nameof(StageBase), nameof(InternalInitialize), "Interactive entities items spawned");
 
             _fiber = new ProcessHost();
             _fiber.StartProcess(Handler);
@@ -84,6 +81,9 @@ namespace LSNoir.Callouts.Stages
                 }
 
                 if (sceneItem.Scenarios.Count > 0) _scenarioList.Add(sceneItem, entity as Ped);
+
+                if (sceneItem.IsInteractable) CheckForInteractiveEntity(sceneItem, entity);
+                
                 RootEntityList.Add(entity);
                 SceneItems.Add(sceneItem, entity);
             }
@@ -104,60 +104,22 @@ namespace LSNoir.Callouts.Stages
             }
         }
 
-        private void SpawnInteractiveEntities()
+        private void CheckForInteractiveEntity(SceneItem sceneItem, Entity entity)
         {
-            Logger.LogDebug(nameof(StageBase), nameof(SpawnInteractiveEntities), "Initialize");
-            foreach (var entity in StageRef.InteractiveEntities.ToList())
+            Logger.LogDebug(nameof(StageBase), nameof(CheckForInteractiveEntity), $"Checking entity: {sceneItem.ID}");
+
+            if (sceneItem.InteractionSettings.CanBeInspected)
             {
-                GameFiber.Yield();
-                Logger.LogDebug(nameof(StageBase), nameof(SpawnInteractiveEntities), $"Creating entity: {entity.ID}");
-                Entity ent = null;
-                var model = new Model(entity.Model);
-
-                var position = new Vector3(entity.SpawnPosition.Position.X, entity.SpawnPosition.Position.Y, entity.SpawnPosition.Position.Z);
-                var rotation = new Rotator(entity.SpawnPosition.Rotation.Pitch, entity.SpawnPosition.Rotation.Roll,
-                    entity.SpawnPosition.Rotation.Yaw);
-                if (entity.EntityType == "Evidence")
-                {
-                    var obj = new Object(model, position, entity.SpawnPosition.Heading);
-                    if (rotation != Rotator.Zero) obj.Rotation = rotation;
-                    obj.IsPositionFrozen = true;
-
-                    if (!obj)
-                    {
-                        Logger.LogDebug(nameof(StageBase), nameof(SpawnInteractiveEntities), $"Failed to spawn interactive entity {entity.ID}");
-                        continue;
-                    }
-
-                    ent = obj;
-                }
-                else
-                {
-                    var ped = new Ped(model, position, entity.SpawnPosition.Heading);
-
-                    if (!ped)
-                    {
-                        Logger.LogDebug(nameof(StageBase), nameof(SpawnInteractiveEntities), $"Failed to spawn interactive entity {entity.ID}");
-                        continue;
-                    }
-                    ent = ped;
-                }
-
-                RootEntityList.Add(ent);
-                if (entity.InteractionSettings.CanBeInspected)
-                {
-                    entity.Interacted += EntityOnInteracted;
-                    _inspectedList.Add(entity, ent);
-                }
-
-                if (entity.InteractionSettings.PlaySoundNearby)
-                {
-                    entity.Nearby += EntityOnNearby;
-                    _nearbyList.Add(entity, ent);
-                }
-                InteractionItems.Add(entity, ent);
-                GameFiber.Yield();
+                sceneItem.Interacted += EntityOnInteracted;
+                _inspectedList.Add(sceneItem, entity);
             }
+
+            if (sceneItem.InteractionSettings.PlaySoundNearby)
+            {
+                sceneItem.Nearby += EntityOnNearby;
+                _nearbyList.Add(sceneItem, entity);
+            }
+            InteractionItems.Add(sceneItem, entity);
         }
 
         private void NearbyCheck()
@@ -195,12 +157,12 @@ namespace LSNoir.Callouts.Stages
             }
         }
 
-        private void EntityOnNearby(InteractiveEntity sender)
+        private void EntityOnNearby(SceneItem sender)
         {
             Logger.LogDebug(nameof(StageBase), nameof(EntityOnNearby), $"EntityOnNearby: {sender.ID}");
         }
 
-        private void EntityOnInteracted(InteractiveEntity sender)
+        private void EntityOnInteracted(SceneItem sender)
         {
             Logger.LogDebug(nameof(StageBase), nameof(EntityOnInteracted), $"EntityOnInteracted: {sender.ID}");
         }

@@ -28,7 +28,15 @@ namespace LSNoir.Startup
             _caseLocation = caseLocation;
             LoadedCase = caseLoad;
             return true;
-        } 
+        }
+
+        public bool GetExtraCaseData(string identifier, out string filePath)
+        {
+            filePath = string.Empty;
+            var caseDirectory = Directory.GetDirectoryRoot(_caseLocation);
+            filePath = Path.Combine(caseDirectory, identifier);
+            return File.Exists(filePath);
+        }
 
         public void SaveCase()
         {
